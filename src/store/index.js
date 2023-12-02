@@ -47,7 +47,7 @@ const store = createStore({
                                 })
         },
         logout({commit}){
-            return axiosClient.post('sign-out').then((res=>{
+            return axiosClient.get('sign-out').then((res=>{
                 localStorage.setItem('TOKEN',null)
                 commit('logout');
                 return res
@@ -80,7 +80,6 @@ const store = createStore({
             state.dynamicModal.state = spin;
         },
         setSpinner: (state,spin) =>{
-            alert(spin)
             state.spinnerLoader = spin;
         },
         notify: (state, { message, type }) => {

@@ -80,7 +80,18 @@ const routes = [
             {
                 path:'/tools',name:'ToolsView',component: () => import('@/views/tools/ToolsView.vue')
             },
-
+            {
+                path:'/assemble',name:'AssembleView',component: () => import('@/views/assemble/AssembleView.vue')
+            },
+            
+            // Inventory 
+            {
+                path:'/cr-in',name:'CrInView',component: () => import('@/views/inventory/CrInView.vue')
+            },
+            {
+                path:'/cr-out',name:'CrOutView',component: () => import('@/views/inventory/CrOutView.vue')
+            },
+            
 
             
          ]

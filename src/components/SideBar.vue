@@ -39,6 +39,48 @@
                         <span class="nav-name">Request <i class="arrow bi bi-chevron-compact-down"></i></span>
                 </router-link>
             </li>
+            <li class="nav-item" title="Approve Request" data-bs-toggle="tooltip">
+                 <router-link to="/attendance" class="nav-link"><i class="bi bi-bricks"></i>
+                        <span class="nav-name">attendance <i class="arrow bi bi-chevron-compact-down"></i></span>
+                </router-link>
+            </li>
+            <li class="nav-item" title="Approve Request" data-bs-toggle="tooltip">
+                 <router-link to="/payroll" class="nav-link"><i class="bi bi-bricks"></i>
+                        <span class="nav-name">payroll <i class="arrow bi bi-chevron-compact-down"></i></span>
+                </router-link>
+            </li>
+           
+            <li class="nav-item" title="Approve Request" data-bs-toggle="tooltip">
+                 <router-link to="/schedule" class="nav-link"><i class="bi bi-bricks"></i>
+                        <span class="nav-name">schedule <i class="arrow bi bi-chevron-compact-down"></i></span>
+                </router-link>
+            </li>
+            <li class="nav-item" title="Approve Request" data-bs-toggle="tooltip">
+                 <router-link to="/log" class="nav-link"><i class="bi bi-bricks"></i>
+                        <span class="nav-name">log <i class="arrow bi bi-chevron-compact-down"></i></span>
+                </router-link>
+            </li>
+            <li class="nav-item" title="Approve Request" data-bs-toggle="tooltip">
+                 <router-link to="/anouncement" class="nav-link"><i class="bi bi-bricks"></i>
+                        <span class="nav-name">anouncement <i class="arrow bi bi-chevron-compact-down"></i></span>
+                </router-link>
+            </li>
+            <li class="nav-item" title="Approve Request" data-bs-toggle="tooltip">
+                 <router-link to="/workers" class="nav-link"><i class="bi bi-bricks"></i>
+                        <span class="nav-name">workers <i class="arrow bi bi-chevron-compact-down"></i></span>
+                </router-link>
+            </li>
+
+            <li class="nav-item" title="Approve Request" data-bs-toggle="tooltip">
+                 <router-link to="/tools" class="nav-link"><i class="bi bi-bricks"></i>
+                        <span class="nav-name">tools <i class="arrow bi bi-chevron-compact-down"></i></span>
+                </router-link>
+            </li>
+            <li class="nav-item" title="Approve Request" data-bs-toggle="tooltip">
+                 <router-link to="/assembling" class="nav-link"><i class="bi bi-bricks"></i>
+                        <span class="nav-name">assembling <i class="arrow bi bi-chevron-compact-down"></i></span>
+                </router-link>
+            </li>
 
             <li class="nav-item" title="Item in stock" data-bs-toggle="tooltip">
                  <router-link to="/stock" class="nav-link"><i class="bi bi-tools"></i></router-link>
