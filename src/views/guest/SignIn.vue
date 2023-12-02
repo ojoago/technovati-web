@@ -1,5 +1,3 @@
-
-
 <template>
     <div>
         <div class="form">
@@ -8,9 +6,9 @@
                 <div class="main">
                     <div class="content">
                         <h2>Sign In</h2>
-                        <form action="">
-                            <input type="text" name=""  placeholder="enter emial/username">
-                            <input type="text" name="" placeholder="enter password">
+                        <form  @submit.prevent="login">
+                            <input type="text" v-model="user.email"  placeholder="enter emial/username">
+                            <input type="password" v-model="user.password" name="" placeholder="enter password">
                             <button class="btn">Sign In</button>
                        
                         </form>
@@ -26,7 +24,25 @@
 </template>
 
 <script setup>
-    
+    import { useRouter } from 'vue-router';
+    import store from "../../store";
+    const router = useRouter()
+    const user = {
+        'email': '',
+        'password': '',
+        'remember': false
+    }
+    function login() {
+        store.commit('setSpinner', true)
+        store.dispatch('signIn', user).then(() => {
+            store.commit('setSpinner', false)
+            router.push({ name: 'DashboardView' })
+        }).catch(e => {
+            store.commit('setSpinner', false)
+            console.log(e);
+            alert('weting be this')
+        })
+    }
 </script>
 
 <style scoped>

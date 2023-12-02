@@ -7,17 +7,39 @@
                  <router-link to="/dashboard" class="nav-link"><i class="bi bi-building"></i> <span class="nav-name">Dashboard <i class="arrow bi bi-chevron-compact-down"></i></span>  </router-link>
             </li>
             <li class="nav-item" title="users">
-                 <router-link to="/users" class="nav-link"><i class="bi bi-people-fill"></i></router-link>
+                 <router-link to="/users" class="nav-link"><i class="bi bi-people-fill"></i> <span class="nav-name">Users <i class="arrow bi bi-chevron-compact-down"></i></span>  </router-link>
             </li>
             <li class="nav-item" title="users">
-                 <router-link to="/suppliers" class="nav-link"><i class="bi bi-person-check-fill"></i></router-link>
+                 <router-link to="/department" class="nav-link"><i class="bi bi-person-check-fill"></i>
+                    <span class="nav-name">Department <i class="arrow bi bi-chevron-compact-down"></i></span>  </router-link>
             </li>
             <li class="nav-item" title="Item Request">
-                 <router-link to="/request" class="nav-link"><i class="bi bi-stack"></i></router-link>
+                 <router-link to="/task" class="nav-link"><i class="bi bi-stack"></i>
+                        <span class="nav-name">Task <i class="arrow bi bi-chevron-compact-down"></i></span></router-link>
+            </li>
+
+            <li class="nav-item" title="Approve Request" data-bs-toggle="tooltip">
+                 <router-link to="/appraisal" class="nav-link"><i class="bi bi-bricks"></i>
+                        <span class="nav-name">Appraisal <i class="arrow bi bi-chevron-compact-down"></i></span>
+                </router-link>
+            </li>
+            
+            <li class="nav-item" title="Approve Request" data-bs-toggle="tooltip">
+                 <router-link to="/memo" class="nav-link"><i class="bi bi-bricks"></i>
+                        <span class="nav-name">Memo <i class="arrow bi bi-chevron-compact-down"></i></span>
+                </router-link>
             </li>
             <li class="nav-item" title="Approve Request" data-bs-toggle="tooltip">
-                 <router-link to="/approve-request" class="nav-link"><i class="bi bi-bricks"></i></router-link>
+                 <router-link to="/leave" class="nav-link"><i class="bi bi-bricks"></i>
+                        <span class="nav-name">Leave <i class="arrow bi bi-chevron-compact-down"></i></span>
+                </router-link>
             </li>
+            <li class="nav-item" title="Approve Request" data-bs-toggle="tooltip">
+                 <router-link to="/request" class="nav-link"><i class="bi bi-bricks"></i>
+                        <span class="nav-name">Request <i class="arrow bi bi-chevron-compact-down"></i></span>
+                </router-link>
+            </li>
+
             <li class="nav-item" title="Item in stock" data-bs-toggle="tooltip">
                  <router-link to="/stock" class="nav-link"><i class="bi bi-tools"></i></router-link>
             </li>

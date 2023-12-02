@@ -1,18 +1,6 @@
 <template>
     <div>
-        <!-- <input type="checkbox" name="" id="sidebar-toggle">
-        <header class="header oml-bg-danger">
-            <nav class="">
-                <span class="navbar-brand">
-                    <label for="sidebar-toggle">
-                        <i class="bi bi-list toggle-sidebar-btn pointer"></i>
-                    </label>
-                    <a href="#">Optimal</a></span>
-                <div class="float-end">
-                    <a href="#" id="logout">Logout</a>
-                </div>
-            </nav>
-        </header> -->
+       
          <!-- ======= Header ======= -->
          <header id="header" class="header fixed-top d-flex align-items-center">
 
@@ -20,7 +8,7 @@
             
                  <a href="#" class="logo">
                 
-                     <span class="d-none d-lg-block ellipsis-text" id="storeName">Optimal{{ storeName }}</span>
+                     <span class="d-none d-lg-block ellipsis-text nav-brand" id="storeName">Technovati</span>
                  </a>
                  <!-- <i class="bi bi-list toggle-sidebar-btn"></i> -->
             
@@ -83,7 +71,7 @@
                              </li>
 
                              <li>
-                                 <a class="dropdown-item d-flex align-items-center bg-danger pointer" click="logout">
+                                 <a class="dropdown-item d-flex align-items-center bg-danger pointer" @click="logout">
                                      <i class="bi bi-box-arrow-right"></i><span>Logout</span>
                                  </a>
                              </li>
@@ -103,7 +91,22 @@
 </template>
 
 <script setup>
+import router from "@/router";
+import store from "@/store";
 import SideBar from "./SideBar.vue";
+
+function logout() {
+    store.commit('setSpinner', true)
+    store.dispatch('logout').then(() => {
+        store.commit('setSpinner', false)
+        router.push({ name: 'SignIn' })
+    }).catch(e => {
+        store.commit('setSpinner', false)
+        console.log(e.response);
+        alert('weting be this')
+    })
+}
+
 </script>
 
 <style scoped>

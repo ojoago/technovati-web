@@ -5,7 +5,7 @@
                 <div class="header_left">
                     <div class="d-flex ">
                          <router-link to="/welcome" class="nav-link">
-                            <span class="nav-brand"> technovati </span>
+                            <span class="nav-brand"> Home </span>
                        </router-link>
                     </div>
                 </div>
@@ -39,6 +39,7 @@
 .nav-brand{
     text-transform: uppercase;
     text-decoration: none;
+    color: #fff;
 }
 .header_right{
     display: inline-block;
@@ -46,5 +47,10 @@
 }
 li{
     list-style: none;
+    padding: 0 5px;
+    color: #fff;
+}
+*{
+    background: #000;
 }
 </style>

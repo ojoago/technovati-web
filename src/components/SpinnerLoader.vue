@@ -1,6 +1,6 @@
 <template>
     <div>
-     <div class="overlay" v-if="spin">
+     <div class="overlay" v-if="spinner">
                 <div calss="spinner">
                     <span class="loader"></span>
                     <!-- <div id="spinner-text">loging Out...</div> -->
@@ -15,8 +15,13 @@
 
 <script setup>
     
-    const notification = [];
-    const spin = true;
+import { computed } from "vue";
+import { useStore } from "vuex";
+const store = useStore();
+const spin =  store.state.spinnerLoader;
+const spinner = computed(() => store?.state?.spinnerLoader);
+console.log(spin)
+const notification = computed(() => store.state.notification);
 </script>
 
 <style scoped>

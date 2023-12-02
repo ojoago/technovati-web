@@ -3,13 +3,15 @@
 <template>
     <div>
         <div class="form">
-            <h1>Technovati</h1>
+            <img src="../../assets/images/logo.jpg" class="invite-img" alt="tv Logo" />
             <div class="ctainer">
                 <div class="main">
                     <div class="content">
                         <h2>Sign Up</h2>
                         <form action="">
-                            <input type="text" name="" placeholder="enter emial/username">
+                            <input type="text" name="" placeholder="enter email address">
+                            <input type="text" name="" placeholder="enter username">
+                            <input type="text" name="" placeholder="enter Phone Number">
                             <input type="text" name="" placeholder="enter password">
                             <button class="btn">Sign Up</button>
 
