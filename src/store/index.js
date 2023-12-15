@@ -26,6 +26,7 @@ const store = createStore({
         loadingProcess:false,
     },
     actions:{
+        // auth begin
         signIn({commit},user){
             // return fetch('http://localhost:8000/api/register',{
             //     headers:{
@@ -57,6 +58,43 @@ const store = createStore({
                 commit('logout');
             })
         },
+        // end of auth 
+        // create new department 
+          createDepartment({commit},data){
+            return axiosClient.post('/create-department',data)
+                                .then(({data})=>{
+                                  if(data.status == 201){
+                                    commit('notify',{message:data.message})
+                                }else{
+                                      commit('notify',{message:data.message,type:'danger'})
+                                  }
+                                    return data;  
+                                })
+        },
+        // load departments 
+        loadDepartment(){
+            return axiosClient.get('load-departments')
+                                .then(({data})=>{
+                                    console.log(data);
+                                    return data;  
+                                })
+        },
+
+        // department ends here 
+        // on bowarding start here 
+         createUser({commit},data){
+            return axiosClient.post('/create-staff',data)
+                .then(({data})=>{
+                    if(data.status == 201){
+                    commit('notify',{message:data.message})
+                }else{
+                        commit('notify',{message:data.message,type:'danger'})
+                    }
+                    return data;  
+                })
+            },
+
+            // end of onboarding 
     },
     mutations:{
         setUser:(state,userData)=>{
@@ -82,7 +120,7 @@ const store = createStore({
         setSpinner: (state,spin) =>{
             state.spinnerLoader = spin;
         },
-        notify: (state, { message, type }) => {
+        notify: (state, { message, type='success' }) => {
             state.notification.status = true;
             state.notification.type = type;
             state.notification.message = message;

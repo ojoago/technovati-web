@@ -18,15 +18,22 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
 const store = useStore();
-const spin =  store.state.spinnerLoader;
+// const spin =  store.state.spinnerLoader;
 const spinner = computed(() => store?.state?.spinnerLoader);
-console.log(spin)
 const notification = computed(() => store.state.notification);
 </script>
 
 <style scoped>
 
-
+.notification{
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  top: 65px;
+  right: 0;
+  padding: 10px;
+}
   
 
 .spinner {

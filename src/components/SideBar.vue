@@ -6,8 +6,8 @@
             <li class="nav-item" title="Dashboard">
                  <router-link to="/dashboard" class="nav-link"><i class="bi bi-building"></i> <span class="nav-name">Dashboard <i class="arrow bi bi-chevron-compact-down"></i></span>  </router-link>
             </li>
-            <li class="nav-item" title="users">
-                 <router-link to="/users" class="nav-link"><i class="bi bi-people-fill"></i> <span class="nav-name">Users <i class="arrow bi bi-chevron-compact-down"></i></span>  </router-link>
+            <li class="nav-item" title="staff">
+                 <router-link to="/staff" class="nav-link"><i class="bi bi-people-fill"></i> <span class="nav-name">Staff <i class="arrow bi bi-chevron-compact-down"></i></span>  </router-link>
             </li>
             <li class="nav-item" title="users">
                  <router-link to="/department" class="nav-link"><i class="bi bi-person-check-fill"></i>
@@ -92,10 +92,6 @@
                  <router-link to="/items" class="nav-link"><i class="bi bi-stickies-fill"></i></router-link>
             </li>
             
-            
-            <!-- <li class="nav-item" title="Logout">
-                 <router-link to="/users" class="nav-link"><i class="bi bi-box-seam"></i></router-link>
-            </li> -->
 
             <!-- End Dashboard Nav -->
         </ul>

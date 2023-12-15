@@ -34,7 +34,7 @@ const routes = [
             },
             // HR 
             {
-                path:'/users',name:'UserView',component: () => import('@/views/users/UserView.vue')
+                path:'/staff',name:'StaffView',component: () => import('@/views/users/StaffView.vue')
             },
             {
                 path:'/department',name:'DepartmentView',component: () => import('@/views/department/DepartmentView.vue')
