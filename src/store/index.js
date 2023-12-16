@@ -93,6 +93,17 @@ const store = createStore({
                     return data;  
                 })
             },
+         nextOfKin({commit},data){
+            return axiosClient.post('/staff-next-of-kin',data)
+                .then(({data})=>{
+                    if(data.status == 201){
+                    commit('notify',{message:data.message})
+                }else{
+                        commit('notify',{message:data.message,type:'danger'})
+                    }
+                    return data;  
+                })
+            },
 
             // end of onboarding 
     },
