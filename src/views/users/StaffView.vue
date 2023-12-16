@@ -3,7 +3,7 @@
         <div class="container-fluid mt-2">
            <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title">Staff Onboarding</h5>
+                  <h5 class="card-title">Staff Onboarding    <router-link to="/staff-list" class="nav-link"><i class="bi bi-arrow-down-left-square-fill"></i></router-link></h5>
 
                   <!-- Default Tabs -->
                   <ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">

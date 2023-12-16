@@ -127,7 +127,19 @@ const store = createStore({
                 })
             },
 
-            // end of onboarding 
+            // end of onboarding
+            //load staff  
+             loadStaff({commit}){
+            return axiosClient.get('/load-staff')
+                .then(({data})=>{
+                    if(data.status == 200){
+                    commit('notify',{message:data.message})
+                }else{
+                        commit('notify',{message:data.message,type:'danger'})
+                    }
+                    return data;  
+                })
+            },
     },
     mutations:{
         setUser:(state,userData)=>{

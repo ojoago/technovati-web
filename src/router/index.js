@@ -36,6 +36,11 @@ const routes = [
             {
                 path:'/staff',name:'StaffView',component: () => import('@/views/users/StaffView.vue')
             },
+             
+            {
+                path:'/staff-list',name:'StaffList',component: () => import('@/views/users/StaffList.vue')
+            },
+            // hr end here
             {
                 path:'/department',name:'DepartmentView',component: () => import('@/views/department/DepartmentView.vue')
             },
