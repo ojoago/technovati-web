@@ -33,6 +33,8 @@ const notification = computed(() => store.state.notification);
   top: 65px;
   right: 0;
   padding: 10px;
+  border-radius: 10px;
+  transition: all .5s ease;
 }
   
 

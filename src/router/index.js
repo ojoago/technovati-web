@@ -15,7 +15,7 @@ const routes = [
                 path:'/sign-in',name:'SignIn',component: () => import('@/views/guest/SignIn.vue')
             },
             {
-                path:'/sign-up',name:'SignUn',component: () => import('@/views/guest/SignUp.vue')
+                path:'/sign-up',name:'SignUp',component: () => import('@/views/guest/SignUp.vue')
             },
             {
                 path:'/welcome',name:'Welcome',component: () => import('@/views/guest/WelcomeView.vue')
@@ -46,6 +46,10 @@ const routes = [
             },
             {
                 path:'/task',name:'TaskView',component: () => import('@/views/task/TaskView.vue')
+            },
+            {
+                path: '/task-detail',
+                component: () => import('@/views/task/TaskDetail.vue')
             },
             {
                 path:'/appraisal',name:'AppraisalView',component: () => import('@/views/appraisal/AppraisalView.vue')

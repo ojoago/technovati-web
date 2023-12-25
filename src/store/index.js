@@ -129,17 +129,47 @@ const store = createStore({
 
             // end of onboarding
             //load staff  
-             loadStaff({commit}){
-            return axiosClient.get('/load-staff')
-                .then(({data})=>{
-                    if(data.status == 200){
-                    commit('notify',{message:data.message})
-                }else{
-                        commit('notify',{message:data.message,type:'danger'})
-                    }
-                    return data;  
-                })
+            loadStaff({commit}){
+                return axiosClient.get('/load-staff')
+                    .then(({data})=>{
+                        if(data.status == 200){
+                        commit('notify',{message:data.message})
+                    }else{
+                            commit('notify',{message:data.message,type:'danger'})
+                        }
+                        return data;  
+                    })
             },
+            //load staff  
+            getMethod({commit},{url}){
+                return axiosClient.get(url)
+                    .then(({data})=>{
+                        if(data.status == 200){
+                        commit('notify',{message:data.message})
+                    }else{
+                            commit('notify',{message:data.message,type:'danger'})
+                        }
+                        return data;  
+                    })
+            },
+            //load staff  
+            postMethod({commit},{url,param}){
+                return axiosClient.post(url,param)
+                    .then(({data})=>{
+                        if(data.status == 201){
+                            commit('notify',{message:data.message})
+                        }
+                        else if(data.status == 422){
+                            commit('notify',{message:data.message,type:'warning'})
+                        }else{
+                            commit('notify',{message:data.message,type:'danger'})
+                        }
+                        return data;  
+                    })
+            },
+
+
+            
     },
     mutations:{
         setUser:(state,userData)=>{

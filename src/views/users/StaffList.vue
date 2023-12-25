@@ -37,7 +37,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(user,loop) in users" :key="loop">
+                                        <tr v-for="(user,loop) in users.data" :key="loop">
                                             <td>{{ loop+1 }}</td>
                                             <td>{{ `${user.lastname} ${user.firstname}   ${user.othername}` }}</td>
                                             <td>{{ user.email }}</td>
@@ -59,7 +59,9 @@
                                                 </td>
                                         </tr>
                                     </tbody>
+
                                 </table>
+                                <pagination-links :links="users.links" @next="nextPage(users.links)"></pagination-links>
                             </div>
                         </fieldset>
                       
@@ -91,59 +93,41 @@
 
 <script setup>
     
+    import PaginationLinks from "@/components/PaginationLinks.vue";
     import store from "@/store";
     import {  ref } from "vue";
     import { useRouter } from 'vue-router';
+    
     const router = useRouter()
     let query = {}
     router.push({ query: query })
     const errors = ref({});
-   
+    function nextPage(link) {
+        alert()
+        if (!link.url || link.active) {
+            return;
+        }
+        alert(link.url)
+    }
 
     const users = ref({});
     loadStaff()
-function loadStaff() {
-    store.commit('setSpinner', true)
-    store.dispatch('loadStaff').then((data) => {
-        if (data.status == 422) {
-            console.log(data.data);
-        } else if (data.status == 200) {
-            errors.value = []
-            users.value = data.data.data;
-            console.log(data.data);
-            
-        }
-        store.commit('setSpinner', false)
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
-    })
-}
+    function loadStaff() {
+        store.commit('setSpinner', true)
+        store.dispatch('loadStaff').then((data) => {
+            if (data.status == 422) {
+                console.log(data.data);
+            } else if (data.status == 200) {
+                errors.value = []
+                users.value = data.data;
+            }
+            store.commit('setSpinner', false)
+        }).catch(e => {
+            store.commit('setSpinner', false)
+            console.log(e);
+        })
+    }
     
-   
-
-
-
-
-
-    // const currentTab = ()=>{
-    //   let q = localStorage.getItem('TVATI_ONBOARD_TAB') ? JSON.parse(localStorage.getItem('TVATI_ONBOARD_TAB')) : 'null'
-    //     if(q != 'null'){
-    //         //    var someTabTriggerEl = document.querySelector('#'+q.tab);
-    //         // var tab = new bootstrap.Tab(someTabTriggerEl);
-    //         // tab.show();
-    //         router.push({ query: q })
-    //         let resultsTab = document.getElementById(q.tab);
-           
-    //         //show the results tab:
-    //         resultsTab.click();
-    //     }
-       
-    // }  
-
-    // onMounted(() => {
-    //     currentTab()
-    // })
 
 </script>
 
