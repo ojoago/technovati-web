@@ -142,23 +142,21 @@
                     </li>
 
                     <li>
-                       <div class="icon-link">
-                        <a >
-                            <i class="bi bi-book"></i>
-                            <span class="link-name">Leave</span>
-                        </a>
-                        <i class="bi bi-chevron-down arrow"></i>
-                       </div>
-                        <ul class="sub-menu">
-                            <li class="nav-item" title="staff">
-                                <router-link to="/leave" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Create Staff  </span>  </router-link>
-                            </li>
-                            <li class="nav-item" title="staff">
-                                <router-link to="/staff-list" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Staff List</span>  </router-link>
-                            </li>
-                        
-                        </ul>
-                    </li>
+                            <div class="icon-link">
+                                <a >
+                                    <i class="bi bi-bootstrap-reboot"></i>
+                                    <span class="link-name">
+                                        <router-link to="/leave" class="nav-link"><span class="nav-name">Leave</span></router-link>
+                                    </span>
+                                </a>
+                                <i class="bi bi-chevron-right arrow"></i>
+                            </div>
+                            <ul class="sub-menu blank">
+                                <li class="nav-item" title="leave">
+                                    <router-link to="/leave" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Leave</span>  </router-link>
+                                </li>
+                            </ul>
+                        </li>
                    
                     <li>
                        <div class="icon-link">

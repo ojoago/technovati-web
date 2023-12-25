@@ -58,6 +58,9 @@ const routes = [
                 path:'/leave',name:'LeaveView',component: () => import('@/views/leave/LeaveView.vue')
             },
             {
+                path:'/leave-request',name:'LeaveRequest',component: () => import('@/views/leave/LeaveRequest.vue')
+            },
+            {
                 path:'/request',name:'RequestView',component: () => import('@/views/request/RequestView.vue')
             },
             {

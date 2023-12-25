@@ -61,7 +61,7 @@
                                     </tbody>
 
                                 </table>
-                                <pagination-links :links="users.links" @next="nextPage(users.links)"></pagination-links>
+                                <pagination-links v-for="(link,i) of users.links" :link="link" :key="i" @next="nextPage(link)"></pagination-links>
                             </div>
                         </fieldset>
                       

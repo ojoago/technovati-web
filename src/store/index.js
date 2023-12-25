@@ -167,6 +167,20 @@ const store = createStore({
                         return data;  
                     })
             },
+            deleteMethod({commit},{url,param}){
+                return axiosClient.delete(url,param)
+                    .then(({data})=>{
+                        if(data.status == 201){
+                            commit('notify',{message:data.message})
+                        }
+                        else if(data.status == 422){
+                            commit('notify',{message:data.message,type:'warning'})
+                        }else{
+                            commit('notify',{message:data.message,type:'danger'})
+                        }
+                        return data;  
+                    })
+            },
 
 
             
