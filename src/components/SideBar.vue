@@ -16,21 +16,7 @@
                             <li> <a class="link-name" >Category</a> </li>
                         </ul>
                     </li>
-                    <li>
-                       <div class="icon-link">
-                        <a >
-                            <i class="bi bi-collection"></i>
-                            <span class="link-name">Category</span>
-                        </a>
-                        <i class="bi bi-chevron-down arrow"></i>
-                       </div>
-                       <ul class="sub-menu">
-                        <li> <a class="link-name" >Category</a> </li>
-                        <li> <a >Web Design</a> </li>
-                        <li> <a >Mobile App</a> </li>
-                        <li> <a >UI</a> </li>
-                       </ul>
-                    </li>
+                     
 
                     <li>
                        <div class="icon-link">
@@ -215,24 +201,23 @@
                         </ul>
                     </li>
                    
-                    <li>
-                       <div class="icon-link">
-                        <a >
-                            <i class="bi bi-book"></i>
-                            <span class="link-name">Schedule</span>
-                        </a>
-                        <i class="bi bi-chevron-down arrow"></i>
-                       </div>
-                        <ul class="sub-menu">
-                            <li class="nav-item" title="staff">
-                                <router-link to="/schedule" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Create Staff  </span>  </router-link>
-                            </li>
-                            <li class="nav-item" title="staff">
-                                <router-link to="/staff-list" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Staff List</span>  </router-link>
-                            </li>
-                        
-                        </ul>
-                    </li>
+
+                     <li>
+                            <div class="icon-link">
+                                <a >
+                                    <i class="bi bi-stack"></i>
+                                    <span class="link-name">
+                                        <router-link to="/schedule" class="nav-link"><span class="nav-name">Schedule</span></router-link>
+                                    </span>
+                                </a>
+                                <i class="bi bi-chevron-right arrow"></i>
+                            </div>
+                            <ul class="sub-menu blank">
+                                <li class="nav-item" title="schedule">
+                                    <router-link to="/schedule" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">schedule</span>  </router-link>
+                                </li>
+                            </ul>
+                        </li>
                    
                     <li>
                        <div class="icon-link">
