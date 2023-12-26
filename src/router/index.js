@@ -61,6 +61,9 @@ const routes = [
                 path:'/appraisal-section-kpi',name:'AppraisalSectionKpi',component: () => import('@/views/appraisal/AppraisalSectionKpi.vue')
             },
             {
+                path:'/appraisal-config',name:'AppraisalConfig',component: () => import('@/views/appraisal/AppraisalConfig.vue')
+            },
+            {
                 path:'/appraisal',name:'AppraisalView',component: () => import('@/views/appraisal/AppraisalView.vue')
             },
             // appraisal end here 

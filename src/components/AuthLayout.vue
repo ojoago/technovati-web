@@ -1,14 +1,10 @@
 <template>
     <div>
-
         <side-bar></side-bar> 
-        
         <section class="page-section">
             <auth-header @logout="logout()"></auth-header>
-            
-
             <div id="main">
-                    <router-view></router-view>
+                <router-view></router-view>
             </div>
         </section>
     </div>

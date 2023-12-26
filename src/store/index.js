@@ -182,6 +182,19 @@ const store = createStore({
                     })
             },
 
+            // load dropdown 
+            loadDropdown({_},url){
+            console.log(_);
+            return axiosClient.get('/dropdown-'+url)
+                                .then(({data})=>{
+                                    if(data.status==200){
+                                        return data;
+                                    }else{
+                                        return [];
+                                    }
+                                })
+            
+        },
 
             
     },
