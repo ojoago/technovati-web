@@ -6,41 +6,46 @@
                     <div class="card">
                         <div class="card-body">
                             <fieldset class="border rounded-3 p-2 m-1">
-                                <legend class="float-none w-auto px-2">Create Task</legend>
+                                <legend class="float-none w-auto px-2">Log Visitor</legend>
                                 <form>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label class="form-label">Activity</label>
-                                                <input type="text" v-model="schedule.schedule" class="form-control"
-                                                    placeholder="Name of department">
-                                                <p class="text-danger " v-if="errors?.schedule">{{ errors?.schedule[0] }}
+                                                <label class="form-label">Names</label>
+                                                <input type="text" v-model="log.names" class="form-control"
+                                                    placeholder="Name of visitor">
+                                                <p class="text-danger " v-if="errors?.names">{{ errors?.names[0] }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="form-label">purpose</label>
+                                                <textarea type="text" v-model="log.purpose" class="form-control" placeholder="purpose of visit"></textarea>
+                                                <p class="text-danger " v-if="errors?.purpose">{{ errors?.purpose[0] }}
                                                 </p>
                                             </div>
                                         </div>
 
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label class="form-label">Begin Date</label>
-                                                <input type="date" v-model="schedule.begin_time" class="form-control"
-                                                    placeholder="Name of department">
-                                                <p class="text-danger " v-if="errors?.begin_time">{{ errors?.begin_time[0]
-                                                }}</p>
+                                                <label class="form-label">Phone Numbers</label>
+                                                <input type="text" maxlength="11" v-model="log.gsm" class="form-control"
+                                                    placeholder="gsm">
+                                                <p class="text-danger " v-if="errors?.gsm">{{ errors?.gsm[0]}}</p>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label class="form-label">End Date</label>
-                                                <input type="date" v-model="schedule.end_time" class="form-control"
-                                                    placeholder="Name of department">
-                                                <p class="text-danger " v-if="errors?.end_time">{{ errors?.end_time[0] }}
-                                                </p>
+                                                <label class="form-label">Address</label>
+                                                <textarea type="text" v-model="log.address" class="form-control" placeholder="visitor address"></textarea>
+                                                <p class="text-danger " v-if="errors?.address">{{ errors?.address[0]  }}</p>
                                             </div>
                                         </div>
+                                       
 
                                     </div>
-                                    <button type="button" class="btn btn-success btn-sm mt-2"
-                                        @click="createSchedule">Submit</button>
+                                    <button type="button" class="btn btn-success btn-sm mt-2" @click="logVisitor">Submit</button>
                                 </form>
 
                             </fieldset>
@@ -56,20 +61,24 @@
                                     <thead>
                                         <tr>
                                             <th>SN</th>
-                                            <th>Activity</th>
-                                            <th> Begin</th>
-                                            <th> End</th>
-                                            <th>STATUS</th>
+                                            <th>Names</th>
+                                            <th> Number</th>
+                                            <th> purpose</th>
+                                            <th> Tag</th>
+                                            <th>time in</th>
+                                            <th>time out</th>
                                             <th> <i class="bi bi-pencil-fill"></i> </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(sch, loop) in schedules.data" :key="loop">
+                                        <tr v-for="(lg, loop) in logs.data" :key="loop">
                                             <td>{{ loop + 1 }}</td>
-                                            <td>{{ sch.schedule }}</td>
-                                            <td>{{ sch.begin_time }}</td>
-                                            <td>{{ sch.end_time }}</td>
-                                            <td>{{ sch.status }}</td>
+                                            <td>{{ lg.names }}</td>
+                                            <td>{{ lg.gsm }}</td>
+                                            <td>{{ lg.purpose }}</td>
+                                            <td>{{ lg.tag }}</td>
+                                            <td>{{ lg.time_in }}</td>
+                                            <td>{{ lg.time_out }}</td>
                                             <td>
                                                 <div class="dropdown">
                                                     <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
@@ -78,9 +87,9 @@
                                                     </button>
                                                     <ul class="dropdown-menu">
                                                         <li class="bg-warning"><a class="dropdown-item pointer"
-                                                                @click="editSchedule(sch)">Details</a> </li>
+                                                                @click="editlog(lg)">Details</a> </li>
                                                         <li class="bg-danger"><a class="dropdown-item pointer"
-                                                                @click="deleteSchedule(sch.id)">Delete</a> </li>
+                                                                @click="deleteLog(lg.id)">Delete</a> </li>
                                                     </ul>
                                                 </div>
                                             </td>
@@ -89,7 +98,7 @@
                                 </table>
                                 <div class="flex justify-center mt-4">
                                     <nav class="relative justify-center rounded-md shadow pagination">
-                                        <pagination-links v-for="(link, i) of schedules.links" :link="link" :key="i"
+                                        <pagination-links v-for="(link, i) of logs.links" :link="link" :key="i"
                                             @next="nextPage(link)"></pagination-links>
                                     </nav>
                                 </div>
@@ -108,30 +117,41 @@ import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
 
 const errors = ref({});
-const schedules = ref({});
-const schedule = ref({
-    schedule: '',
-    begin_time: '',
-    end_time: '',
+const logs = ref({});
+const log = ref({
+   'names':'' , 
+   'purpose':'' , 
+   'gsm' :'' , 
+   'address': '', 
+   'tag' : '', 
+   'time_in' : '', 
+   'time_out': ''
 });
 
-const editSchedule = (sch) => {
-    schedule.value = {
-        schedule: sch.schedule,
-        begin_time: sch.begin_time,
-        end_time: sch.end_time,
-        id: sch.id,
+const editlog = (lg) => {
+    log.value = {
+        names : lg.names,
+        purpose : lg.purpose,
+        gsm : lg.gsm,
+        address : lg.address,
+        tag : lg.tag,
+        time_in : lg.time_in,
+        time_out: lg.time_out,
+        id: lg.id,
     }
 }
+const deleteLog = (id) => {
+    alert(id)
+}
 
-function createSchedule() {
+function logVisitor() {
     store.commit('setSpinner', true)
     errors.value = []
-    store.dispatch('postMethod', { url: '/create-md-schedule', param: schedule.value }).then((data) => {
+    store.dispatch('postMethod', { url: '/log-visitor', param: log.value }).then((data) => {
         if (data.status == 422) {
             errors.value = data.data
         } else if (data.status == 201) {
-            schedule.value = [];
+            log.value = [];
         }
         store.commit('setSpinner', false)
     }).catch(e => {
@@ -140,12 +160,12 @@ function createSchedule() {
     })
 }
 
-function loadLeaves() {
+function loadLog() {
     store.commit('setSpinner', true)
-    store.dispatch('getMethod', { url: '/load-md-schedule' }).then((data) => {
+    store.dispatch('getMethod', { url: '/load-visitor-log' }).then((data) => {
         store.commit('setSpinner', false)
         if (data.status == 200) {
-            schedules.value = data.data;
+            logs.value = data.data;
         }
     }).catch(e => {
         store.commit('setSpinner', false)
@@ -154,7 +174,7 @@ function loadLeaves() {
     })
 }
 
-loadLeaves()
+loadLog()
 function nextPage(link) {
     alert()
     if (!link.url || link.active) {
@@ -162,6 +182,7 @@ function nextPage(link) {
     }
     alert(link.url)
 }
+
 </script>
 
 <style scoped></style>

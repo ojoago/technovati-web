@@ -83,6 +83,9 @@ const routes = [
                 path:'/log',name:'VisitorLog',component: () => import('@/views/schedule/VisitorLog.vue')
             },
             {
+                path:'/visitor-out-time',name:'VisitorOutTime',component: () => import('@/views/schedule/VisitorOutTime.vue')
+            },
+            {
                 path:'/anouncement',name:'AnouncementView',component: () => import('@/views/schedule/AnouncementView.vue')
             },
             // engineering 
