@@ -108,7 +108,7 @@
                                 <router-link to="/appraisal-section-kpi" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">appraisal Kpi</span>  </router-link>
                             </li>
                             <li class="nav-item" title="staff">
-                                <router-link to="/appraisal-config" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">appraisal Kpi</span>  </router-link>
+                                <router-link to="/appraisal-config" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">appraisal Config</span>  </router-link>
                             </li>
                         
                         </ul>
