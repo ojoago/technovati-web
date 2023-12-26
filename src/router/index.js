@@ -52,8 +52,18 @@ const routes = [
                 component: () => import('@/views/task/TaskDetail.vue')
             },
             {
+                path:'/appraisal-title',name:'AppraisalTitle',component: () => import('@/views/appraisal/AppraisalTitle.vue')
+            },
+            {
+                path:'/appraisal-section',name:'AppraisalSection',component: () => import('@/views/appraisal/AppraisalSection.vue')
+            },
+            {
+                path:'/appraisal-section-kpi',name:'AppraisalSectionKpi',component: () => import('@/views/appraisal/AppraisalSectionKpi.vue')
+            },
+            {
                 path:'/appraisal',name:'AppraisalView',component: () => import('@/views/appraisal/AppraisalView.vue')
             },
+            // appraisal end here 
             {
                 path:'/leave',name:'LeaveView',component: () => import('@/views/leave/LeaveView.vue')
             },

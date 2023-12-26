@@ -99,10 +99,13 @@
                        </div>
                         <ul class="sub-menu">
                             <li class="nav-item" title="staff">
-                                <router-link to="/staff" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Create Staff  </span>  </router-link>
+                                <router-link to="/appraisal-title" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">appraisal title </span>  </router-link>
                             </li>
                             <li class="nav-item" title="staff">
-                                <router-link to="/staff-list" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Staff List</span>  </router-link>
+                                <router-link to="/appraisal-section" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">appraisal Section</span>  </router-link>
+                            </li>
+                            <li class="nav-item" title="staff">
+                                <router-link to="/appraisal-section" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">appraisal Section</span>  </router-link>
                             </li>
                         
                         </ul>
