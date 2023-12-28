@@ -185,7 +185,7 @@ const configureCycle = (pid) => {
 function configAppraisal() {
     store.commit('setSpinner', true)
     errors.value = []
-    store.dispatch('postMethod', { url: '/create-appraisal-assessment', param: config.value }).then((data) => {
+    store.dispatch('postMethod', { url: '/create-appraisal-cycle', param: config.value }).then((data) => {
         if (data.status == 422) {
             errors.value = data.data
         } else if (data.status == 201) {
@@ -200,7 +200,7 @@ function configAppraisal() {
 loadSectionDetails()
 function loadSectionDetails() {
     store.commit('setSpinner', true)
-    store.dispatch('getMethod', { url: '/load-assessment-appraisal'}).then((data) => {
+    store.dispatch('getMethod', { url: '/load-appraisal-cycle'}).then((data) => {
         store.commit('setSpinner', false)
         if (data.status == 200) {
             apparisals.value = data.data;

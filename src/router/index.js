@@ -61,7 +61,7 @@ const routes = [
                 path:'/appraisal-section-kpi',name:'AppraisalSectionKpi',component: () => import('@/views/appraisal/AppraisalSectionKpi.vue')
             },
             {
-                path:'/appraisal-config',name:'AppraisalConfig',component: () => import('@/views/appraisal/AppraisalConfig.vue')
+                path:'/appraisal-cycle',name:'AppraisalCycle',component: () => import('@/views/appraisal/AppraisalCycle.vue')
             },
             {
                 path:'/appraisal',name:'AppraisalView',component: () => import('@/views/appraisal/AppraisalView.vue')
@@ -79,9 +79,14 @@ const routes = [
             {
                 path:'/memo',name:'MemoView',component: () => import('@/views/memo/MemoView.vue')
             },
+
+            {
+                path:'/shift-config',name:'ShiftConfig',component: () => import('@/views/attendance/ShiftConfig.vue')
+            },
             {
                 path:'/attendance',name:'AttendanceView',component: () => import('@/views/attendance/AttendanceView.vue')
             },
+
             {
                 path:'/payroll',name:'PayrollView',component: () => import('@/views/payroll/PayrollView.vue')
             },
@@ -99,7 +104,7 @@ const routes = [
                 path:'/visitor-out-time',name:'VisitorOutTime',component: () => import('@/views/schedule/VisitorOutTime.vue')
             },
             {
-                path:'/anouncement',name:'AnouncementView',component: () => import('@/views/schedule/AnouncementView.vue')
+                path:'/announcement',name:'AnouncementView',component: () => import('@/views/schedule/AnouncementView.vue')
             },
             // engineering 
             {
