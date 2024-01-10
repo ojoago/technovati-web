@@ -267,8 +267,8 @@ body{
 }
 
 .sidebar.close~.page-section {
-    left: 78px;
-    width: calc(100% - 78px);
+    left: 78px !important;
+    width: calc(100% - 78px) !important;
 }
 
 .page-section .header {

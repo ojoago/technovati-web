@@ -153,8 +153,8 @@ const store = createStore({
                     })
             },
             //load staff  
-            postMethod({commit},{url,param}){
-                return axiosClient.post(url,param)
+            postMethod({commit},{url,param,header={}}){
+                return axiosClient.post(url,param,header)
                     .then(({data})=>{
                         if(data.status == 201){
                             commit('notify',{message:data.message})

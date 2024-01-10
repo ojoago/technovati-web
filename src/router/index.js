@@ -111,6 +111,9 @@ const routes = [
                 path:'/workers',name:'WorkersView',component: () => import('@/views/workers/WorkersView.vue')
             },
             {
+                path:'/team',name:'TeamView',component: () => import('@/views/workers/TeamView.vue')
+            },
+            {
                 path:'/tools',name:'ToolsView',component: () => import('@/views/tools/ToolsView.vue')
             },
             {
