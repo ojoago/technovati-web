@@ -125,6 +125,9 @@ const routes = [
                 path:'/cr-in',name:'CrInView',component: () => import('@/views/inventory/CrInView.vue')
             },
             {
+                path:'/items',name:'ItemView',component: () => import('@/views/inventory/ItemView.vue')
+            },
+            {
                 path:'/cr-out',name:'CrOutView',component: () => import('@/views/inventory/CrOutView.vue')
             },
             

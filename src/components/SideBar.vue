@@ -291,7 +291,7 @@
                        </div>
                         <ul class="sub-menu">
                             <li class="nav-item" title="staff">
-                                <router-link to="/staff" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Create Staff  </span>  </router-link>
+                                <router-link to="/tools" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Tools  </span>  </router-link>
                             </li>
                             <li class="nav-item" title="staff">
                                 <router-link to="/staff-list" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Staff List</span>  </router-link>
@@ -317,6 +317,44 @@
                         
                         </ul>
                     </li>
+
+                    <!-- <li>
+                       <div class="icon-link">
+                        <a >
+                            <i class="bi bi-book"></i>
+                            <span class="link-name">INV</span>
+                        </a>
+                        <i class="bi bi-chevron-down arrow"></i>
+                       </div>
+                        <ul class="sub-menu">
+                            <li class="nav-item" title="staff">
+                                <router-link to="/staff" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Create Staff  </span>  </router-link>
+                            </li>
+                            <li class="nav-item" title="staff">
+                                <router-link to="/staff-list" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Staff List</span>  </router-link>
+                            </li>
+                        
+                        </ul>
+                    </li> -->
+
+                     <li>
+                           <div class="icon-link">
+                            <a >
+                                <i class="bi bi-book"></i>
+                                <span class="link-name">Inventory</span>
+                            </a>
+                            <i class="bi bi-chevron-down arrow"></i>
+                           </div>
+                            <ul class="sub-menu">
+                                <li class="nav-item" title="staff">
+                                    <router-link to="/items" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Items  </span>  </router-link>
+                                </li>
+                                <li class="nav-item" title="staff">
+                                    <router-link to="/staff-list" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Staff List</span>  </router-link>
+                                </li>
+                        
+                            </ul>
+                        </li>
         
 
                     <li>
