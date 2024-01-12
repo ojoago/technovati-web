@@ -24,6 +24,7 @@ const store = createStore({
             message:''
         },
         loadingProcess:false,
+        units:['pieces', 'meters' , 'cartoon' , 'parket'],
     },
     actions:{
         // auth begin
@@ -233,7 +234,12 @@ const store = createStore({
          
          
     },
-    getters:{},
+    getters:{
+         // global functions 
+        numberFormat(number, point = 2) {
+            return number.toFixed(point).replace(/\d(?=(\d{3})+\.)/g, '$&,')
+        }
+    },
     modules:{}
 });
 

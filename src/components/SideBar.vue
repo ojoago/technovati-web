@@ -60,6 +60,32 @@
                         <a >
                             <i class="bi bi-list-task"></i>
                             <span class="link-name">
+                                <router-link to="/suppliers" class="nav-link"><span class="nav-name">Suppliers  </span>  </router-link>
+                            </span>
+                        </a>
+                        <ul class="sub-menu blank">
+                            <li class="nav-item" title="staff">
+                                <router-link to="/suppliers" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Suppliers  </span>  </router-link>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a >
+                            <i class="bi bi-list-task"></i>
+                            <span class="link-name">
+                                <router-link to="/customers" class="nav-link"><span class="nav-name">Customers  </span>  </router-link>
+                            </span>
+                        </a>
+                        <ul class="sub-menu blank">
+                            <li class="nav-item" title="staff">
+                                <router-link to="/customers" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Customers  </span>  </router-link>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a >
+                            <i class="bi bi-list-task"></i>
+                            <span class="link-name">
                                 <router-link to="/task" class="nav-link"><span class="nav-name">Project/Task  </span>  </router-link>
                             </span>
                         </a>
@@ -351,6 +377,27 @@
                                 </li>
                                 <li class="nav-item" title="staff">
                                     <router-link to="/staff-list" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Staff List</span>  </router-link>
+                                </li>
+                        
+                            </ul>
+                        </li>
+                     <li>
+                           <div class="icon-link">
+                            <a >
+                                <i class="bi bi-book"></i>
+                                <span class="link-name">Raw Materials</span>
+                            </a>
+                            <i class="bi bi-chevron-down arrow"></i>
+                           </div>
+                            <ul class="sub-menu">
+                                <li class="nav-item" title="raw materials">
+                                    <router-link to="/raw-material" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Add New  </span>  </router-link>
+                                </li>
+                                <li class="nav-item" title="staff">
+                                    <router-link to="/raw-material-list" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">List</span>  </router-link>
+                                </li>
+                                <li class="nav-item" title="staff">
+                                    <router-link to="/consignments" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Consignments</span>  </router-link>
                                 </li>
                         
                             </ul>

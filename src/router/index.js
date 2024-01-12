@@ -48,8 +48,7 @@ const routes = [
                 path:'/task',name:'TaskView',component: () => import('@/views/task/TaskView.vue')
             },
             {
-                path: '/task-detail',
-                component: () => import('@/views/task/TaskDetail.vue')
+                path: '/task-detail', component: () => import('@/views/task/TaskDetail.vue')
             },
             {
                 path:'/appraisal-title',name:'AppraisalTitle',component: () => import('@/views/appraisal/AppraisalTitle.vue')
@@ -130,7 +129,27 @@ const routes = [
             {
                 path:'/cr-out',name:'CrOutView',component: () => import('@/views/inventory/CrOutView.vue')
             },
-            
+
+            // raw materials 
+            {
+                path:'/raw-material',name:'RawMaterialView',component: () => import('@/views/materials/RawMaterialView.vue')
+            },
+            {
+                path:'/raw-material-list',name:'RawMaterialListView',component: () => import('@/views/materials/RawMaterialListView.vue')
+            },
+            {
+                path:'/consignments',name:'ConsignmentView',component: () => import('@/views/materials/ConsignmentView.vue')
+            },
+            {
+                path:'/cr-out',name:'CrOutView',component: () => import('@/views/inventory/CrOutView.vue')
+            },
+            // suppliers 
+            {
+                path:'/suppliers',name:'SupplierView',component: () => import('@/views/customer/SupplierView.vue')
+            },
+            {
+                path:'/customers',name:'CustomerView',component: () => import('@/views/customer/CustomerView.vue')
+            },
 
             
          ]

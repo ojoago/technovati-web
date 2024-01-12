@@ -124,6 +124,8 @@ function createItem() {
         if (data.status == 422) {
             errors.value = data.data
         } else if (data.status == 201) {
+            let form = document.querySelector('#itemForm');
+            form.reset();
             loadItem()
         }
         store.commit('setSpinner', false)
