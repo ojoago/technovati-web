@@ -381,7 +381,46 @@
                         
                             </ul>
                         </li>
-                     <li>
+
+                        <li>
+                            <div class="icon-link">
+                                <a >
+                                    <i class="bi bi-book"></i>
+                                    <span class="link-name">Weigh Bill</span>
+                                </a>
+                                <i class="bi bi-chevron-down arrow"></i>
+                            </div>
+                                <ul class="sub-menu">
+                                    <li class="nav-item" title="staff">
+                                        <router-link to="/items" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Items  </span>  </router-link>
+                                    </li>
+                                    <li class="nav-item" title="staff">
+                                        <router-link to="/staff-list" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Staff List</span>  </router-link>
+                                    </li>
+                            
+                                </ul>
+                            </li>
+
+                        <li>
+                            <div class="icon-link">
+                                <a >
+                                    <i class="bi bi-book"></i>
+                                    <span class="link-name">Item Request</span>
+                                </a>
+                                <i class="bi bi-chevron-down arrow"></i>
+                            </div>
+                                <ul class="sub-menu">
+                                    <li class="nav-item" title="staff">
+                                        <router-link to="/item-request" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name"> New Request  </span>  </router-link>
+                                    </li>
+                                    <li class="nav-item" title="staff">
+                                        <router-link to="/staff-list" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Staff List</span>  </router-link>
+                                    </li>
+                            
+                                </ul>
+                            </li>
+
+                        <li>
                            <div class="icon-link">
                             <a >
                                 <i class="bi bi-book"></i>

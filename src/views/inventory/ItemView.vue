@@ -78,7 +78,12 @@
                                         </tr>
                                     </tbody>
                                 </table>
-
+                                  <div class="flex justify-center mt-4">
+                                    <nav class="relative justify-center rounded-md shadow pagination">
+                                        <pagination-links v-for="(link, i) of items.links" :link="link" :key="i"
+                                            @next="nextPage(link)"></pagination-links>
+                                    </nav>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -91,6 +96,7 @@
 <script setup>
 import store from "@/store";
 import { ref } from "vue";
+import PaginationLinks from "@/components/PaginationLinks.vue";
 
 const errors = ref({});
 const items = ref({});

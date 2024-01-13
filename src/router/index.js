@@ -129,6 +129,16 @@ const routes = [
             {
                 path:'/cr-out',name:'CrOutView',component: () => import('@/views/inventory/CrOutView.vue')
             },
+            // item request 
+            {
+                path:'/item-request',name:'ItemRequestView',component: () => import('@/views/inventory/ItemRequestView.vue')
+            },
+            {
+                path:'/items',name:'ItemView',component: () => import('@/views/inventory/ItemView.vue')
+            },
+            {
+                path:'/cr-out',name:'CrOutView',component: () => import('@/views/inventory/CrOutView.vue')
+            },
 
             // raw materials 
             {

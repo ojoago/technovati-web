@@ -13,20 +13,23 @@
                                         <tr>
                                             <th>SN</th>
                                             <th>Name</th>
-                                            <!-- <th>Model</th> -->
-                                            <th>Quantity</th>
-                                            <!-- <th>Description</th> -->
+                                            <th>Unit</th>
+                                            <th>Description</th>
                                             <th align="center"> <i class="bi bi-pencil-fill"></i> </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="(item, loop) in items?.data" :key="loop">
                                             <td>{{ loop + 1 }}</td>
+                                            <!-- <td>{{ item.name }}</td>
+                                                <td>{{ item.unit }}</td>
+                                                <td>{{ item.description }}</td> -->
                                             <td>{{ item.name }}</td>
-                                            <!-- <td>{{ item.model }} </td> -->
+                                            <td>{{ item.model }} </td>
                                             <td>{{ item.quantity }} {{ item.unit }}</td>
                                             <td>
-                                                <button @click="addItem(item)" type="button" class="btn btn-primary btn-sm">
+                                                <button v-if="item.quantity > 0" @click="addItem(item)" type="button"
+                                                    class="btn btn-primary btn-sm">
                                                     <i class="bi bi-patch-plus-fill"></i>
                                                 </button>
                                             </td>
@@ -59,10 +62,10 @@
 
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <label class="form-label">Comment</label>
-                                            <textarea type="text" v-model="request.comment"
+                                            <label class="form-label">Note</label>
+                                            <textarea type="text" v-model="request.note"
                                                 class="form-control form-control-sm" placeholder="e.g UIU"></textarea>
-                                            <p class="text-danger " v-if="errors?.comment">{{ errors?.comment[0] }} </p>
+                                            <p class="text-danger " v-if="errors?.note">{{ errors?.note[0] }} </p>
                                         </div>
                                         <div class="col-md-12">
                                             <label class="form-label">Receiver</label>
@@ -97,9 +100,9 @@ const errors = ref({});
 const items = ref({});
 
 const request = ref({
+    note: '',
     reciver: '',
     comment: '',
-    store_pid: '04430511J207011I90N211FR73A5',
     items: [],
 });
 
@@ -133,7 +136,7 @@ const removeitem = (i) => {
 function requestMaterial() {
     store.commit('setSpinner', true)
     errors.value = []
-    store.dispatch('postMethod', { url: '/item-cr-in', param: request.value }).then((data) => {
+    store.dispatch('postMethod', { url: '/request-materials', param: request.value }).then((data) => {
         if (data.status == 422) {
             errors.value = data.data
         } else if (data.status == 201) {
@@ -150,7 +153,7 @@ function requestMaterial() {
 loadItem()
 function loadItem() {
     store.commit('setSpinner', true)
-    store.dispatch('getMethod', { url: '/load-cr-in-items' }).then((data) => {
+    store.dispatch('getMethod', { url: '/load-materials' }).then((data) => {
         store.commit('setSpinner', false)
         if (data.status == 200) {
             items.value = data.data;
