@@ -420,7 +420,7 @@
                                         <router-link to="/my-request" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">My Request</span>  </router-link>
                                     </li>
                                     <li class="nav-item" title="staff">
-                                        <router-link to="/requested-materials" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Request</span>  </router-link>
+                                        <router-link to="/process-raw-material-request" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Request</span>  </router-link>
                                     </li>
                         
                                 </ul>

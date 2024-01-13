@@ -150,7 +150,10 @@ const routes = [
                 path:'/my-request',name:'MyRequestView',component: () => import('@/views/materials/MyRequestView.vue')
             },
             {
-                path:'/requested-materials',name:'RequestMaterialsView',component: () => import('@/views/materials/RequestMaterialsView.vue')
+                path:'/raw-material-request-details',name:'RawMaterialRequestDetails',component: () => import('@/views/materials/RawMaterialRequestDetails.vue')
+            },
+            {
+                path:'/process-raw-material-request',name:'ProcessMaterialRequestView',component: () => import('@/views/materials/ProcessMaterialRequestView.vue')
             },
 
 

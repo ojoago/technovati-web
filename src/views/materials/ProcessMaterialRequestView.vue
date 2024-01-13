@@ -52,7 +52,8 @@
                                         <div class="col-md-12" v-for="(item, loop) in requestDetail?.items" :key="loop">
                                             <label class="form-label">{{item.name}} </label>
                                             <div class="input-group">
-                                                <input type="number" v-model="item.quantity" class="form-control" placeholder="e.g 5">
+                                                <span class="bg-light p-1">#{{ item.quantity }}</span>
+                                                <input type="number" v-model="item.quantity_requested" class="form-control" placeholder="e.g 5">
                                                 <button type="button" class="btn btn-danger btn-sm" @click="removeitem(loop)"> <i class="bi bi-patch-minus"></i> </button>
                                             </div>
                                         </div>
@@ -68,7 +69,7 @@
 
                                     <div class="float-end">
                                         <button type="button" class="btn btn-success btn-sm mt-2"
-                                            @click="requestMaterial">Submit</button>
+                                            @click="processRawMaterialRequest">Submit</button>
                                     </div>
                                 </form>
 
@@ -107,10 +108,10 @@ const removeitem = (i) => {
 }
 
 
-function requestMaterial() {
+function processRawMaterialRequest() {
     store.commit('setSpinner', true)
     errors.value = []
-    store.dispatch('postMethod', { url: '/requested-material-response', param: requestDetail.value }).then((data) => {
+    store.dispatch('postMethod', { url: '/process-raw-material-request', param: requestDetail.value }).then((data) => {
         if (data.status == 422) {
             errors.value = data.data
         } else if (data.status == 201) {
