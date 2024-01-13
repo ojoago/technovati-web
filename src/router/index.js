@@ -140,11 +140,20 @@ const routes = [
             {
                 path:'/consignments',name:'ConsignmentView',component: () => import('@/views/materials/ConsignmentView.vue')
             },
+
             // material request  
 
             {
                 path:'/material-request',name:'MaterialRequestView',component: () => import('@/views/materials/MaterialRequestView.vue')
             },
+            {
+                path:'/my-request',name:'MyRequestView',component: () => import('@/views/materials/MyRequestView.vue')
+            },
+            {
+                path:'/requested-materials',name:'RequestMaterialsView',component: () => import('@/views/materials/RequestMaterialsView.vue')
+            },
+
+
             // suppliers 
             {
                 path:'/suppliers',name:'SupplierView',component: () => import('@/views/customer/SupplierView.vue')

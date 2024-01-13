@@ -403,20 +403,28 @@
                             </ul>
                         </li>
 
-                     <li>
-                            <a >
-                                <i class="bi bi-list-task"></i>
-                                <span class="link-name">
-                                    <router-link to="/material-request" class="nav-link"><span class="nav-name">Material Request  </span>  </router-link>
-                                </span>
-                            </a>
-                            <ul class="sub-menu blank">
-                                <li class="nav-item" title="staff">
-                                    <router-link to="/material-request" class="nav-link"><span class="nav-name">Material Request  </span>  </router-link>
-                                </li>
-                            </ul>
-                        </li>
-        
+                     
+                         <li>
+                               <div class="icon-link">
+                                <a >
+                                    <i class="bi bi-book"></i>
+                                    <span class="link-name">Material Request</span>
+                                </a>
+                                <i class="bi bi-chevron-down arrow"></i>
+                               </div>
+                                <ul class="sub-menu">
+                                    <li class="nav-item" title="raw materials">
+                                        <router-link to="/material-request" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">New Request</span>  </router-link>
+                                    </li>
+                                    <li class="nav-item" title="staff">
+                                        <router-link to="/my-request" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">My Request</span>  </router-link>
+                                    </li>
+                                    <li class="nav-item" title="staff">
+                                        <router-link to="/requested-materials" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Request</span>  </router-link>
+                                    </li>
+                        
+                                </ul>
+                            </li>
 
                     <li>
                     <div class="sidebar-footer">
