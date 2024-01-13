@@ -402,6 +402,20 @@
                         
                             </ul>
                         </li>
+
+                     <li>
+                            <a >
+                                <i class="bi bi-list-task"></i>
+                                <span class="link-name">
+                                    <router-link to="/material-request" class="nav-link"><span class="nav-name">Material Request  </span>  </router-link>
+                                </span>
+                            </a>
+                            <ul class="sub-menu blank">
+                                <li class="nav-item" title="staff">
+                                    <router-link to="/material-request" class="nav-link"><span class="nav-name">Material Request  </span>  </router-link>
+                                </li>
+                            </ul>
+                        </li>
         
 
                     <li>

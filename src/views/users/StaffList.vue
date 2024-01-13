@@ -61,7 +61,12 @@
                                     </tbody>
 
                                 </table>
-                                <pagination-links v-for="(link,i) of users.links" :link="link" :key="i" @next="nextPage(link)"></pagination-links>
+                                 <div class="flex justify-center mt-4">
+                                        <nav class="relative justify-center rounded-md shadow pagination">
+                                            <pagination-links v-for="(link, i) of users.links" :link="link" :key="i"
+                                                @next="nextPage(link)"></pagination-links>
+                                        </nav>
+                                    </div>
                             </div>
                         </fieldset>
                       

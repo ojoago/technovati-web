@@ -140,8 +140,10 @@ const routes = [
             {
                 path:'/consignments',name:'ConsignmentView',component: () => import('@/views/materials/ConsignmentView.vue')
             },
+            // material request  
+
             {
-                path:'/cr-out',name:'CrOutView',component: () => import('@/views/inventory/CrOutView.vue')
+                path:'/material-request',name:'MaterialRequestView',component: () => import('@/views/materials/MaterialRequestView.vue')
             },
             // suppliers 
             {
