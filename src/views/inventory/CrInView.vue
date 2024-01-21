@@ -24,7 +24,7 @@
                                             <td>{{ loop + 1 }}</td>
                                             <td>{{ item.name }}</td>
                                             <!-- <td>{{ item.model }} </td> -->
-                                            <td>{{ item.quantity }} {{ item.unit }}</td>
+                                            <td>{{ item.item?.quantity }} {{ item.unit }}</td>
                                             <td>
                                                 <button @click="addItem(item)" type="button" class="btn btn-primary btn-sm">
                                                     <i class="bi bi-patch-plus-fill"></i>

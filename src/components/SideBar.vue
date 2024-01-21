@@ -223,11 +223,67 @@
                         <i class="bi bi-chevron-down arrow"></i>
                        </div>
                         <ul class="sub-menu">
+                            <!-- <li class="nav-item" title="staff">
+                                <router-link to="/salary-steps" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Salary Steps  </span>  </router-link>
+                            </li> -->
                             <li class="nav-item" title="staff">
-                                <router-link to="/staff" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Create Staff  </span>  </router-link>
+                                <router-link to="/salary-grade" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Salary Grade</span>  </router-link>
                             </li>
                             <li class="nav-item" title="staff">
-                                <router-link to="/staff-list" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Staff List</span>  </router-link>
+                                <router-link to="/salary-structure" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Salary Structure</span>  </router-link>
+                            </li>
+                        
+                        </ul>
+                    </li>
+
+                    <li>
+                       <div class="icon-link">
+                        <a >
+                            <i class="bi bi-book"></i>
+                            <span class="link-name">Allowance</span>
+                        </a>
+                        <i class="bi bi-chevron-down arrow"></i>
+                       </div>
+                        <ul class="sub-menu">
+                            <li class="nav-item" title="staff">
+                                <router-link to="/allowance-name" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Allowance Name</span>  </router-link>
+                            </li>
+                            <li class="nav-item" title="staff">
+                                <router-link to="/unit-allowance" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Unit Allowance</span>  </router-link>
+                            </li>
+                            <li class="nav-item" title="staff">
+                                <router-link to="/allowance-exclusion" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Allowance Exclusion</span>  </router-link>
+                            </li>
+                            <li class="nav-item" title="staff">
+                                <router-link to="/nontaxable-allowance" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Nontaxable Allowance</span>  </router-link>
+                            </li>
+                        
+                        </ul>
+                    </li>
+
+                    <li>
+                       <div class="icon-link">
+                        <a >
+                            <i class="bi bi-book"></i>
+                            <span class="link-name"> Deduction </span>
+                        </a>
+                        <i class="bi bi-chevron-down arrow"></i>
+                       </div>
+                        <ul class="sub-menu">
+                            <li class="nav-item" title="staff">
+                                <router-link to="/deduction-name" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">deduction Name</span>  </router-link>
+                            </li>
+                            <li class="nav-item" title="staff">
+                                <router-link to="/deduction-account" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Deduction Account</span>  </router-link>
+                            </li>
+                            <li class="nav-item" title="staff">
+                                <router-link to="/unit-deduction" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Unit Deduction</span>  </router-link>
+                            </li>
+                            <li class="nav-item" title="staff">
+                                <router-link to="/over-payment" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Over Payment</span>  </router-link>
+                            </li>
+                            <li class="nav-item" title="staff">
+                                <router-link to="/deduction-exclusion" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Deduction Exclusions</span>  </router-link>
                             </li>
                         
                         </ul>
@@ -386,16 +442,19 @@
                             <div class="icon-link">
                                 <a >
                                     <i class="bi bi-book"></i>
-                                    <span class="link-name">Weigh Bill</span>
+                                    <span class="link-name">Way Bill</span>
                                 </a>
                                 <i class="bi bi-chevron-down arrow"></i>
                             </div>
                                 <ul class="sub-menu">
                                     <li class="nav-item" title="staff">
-                                        <router-link to="/items" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Items  </span>  </router-link>
+                                        <router-link to="/cr-in" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Items  </span>  </router-link>
                                     </li>
                                     <li class="nav-item" title="staff">
-                                        <router-link to="/staff-list" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Staff List</span>  </router-link>
+                                        <router-link to="/cr-out" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">New Request</span>  </router-link>
+                                    </li>
+                                    <li class="nav-item" title="staff">
+                                        <router-link to="/cr-out-request" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Request List</span>  </router-link>
                                     </li>
                             
                                 </ul>

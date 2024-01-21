@@ -26,7 +26,7 @@
 
                              <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                                  <!-- <img src="{{asset('themes/img/profile-img.jpg')}}" alt="Profile" class="rounded-circle"> -->
-                                 <span class="d-none d-md-block dropdown-toggle ps-2">['username'] </span>
+                                 <span class="d-none d-md-block dropdown-toggle ps-2">{{username}} </span>
                              </a><!-- End Profile Iamge Icon -->
 
                              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
@@ -34,23 +34,17 @@
                                      <h6 class="ellipsis-text">getAuthFullname</h6>
                                      <!-- <span>Web Designer</span> -->
                                  </li>
-                                 <li>
-                                     <a class="dropdown-item d-flex align-items-center pointer" id="hireMeConfig">
-                                         <i class="bi bi-briefcase-fill"></i>
-                                         <span>Hire Me</span>
-                                     </a>
-                                 </li>
-                                 <li>
-                                     <a class="dropdown-item d-flex align-items-center pointer" href="">
-                                         <i class="bi bi-briefcase-fill"></i>
-                                         <span>Apply for Job</span>
-                                     </a>
-                                 </li>
+                                
                                  <li>
                                      <hr class="dropdown-divider">
                                  </li>
                              
-                                 <li><i class="bi bi-person"></i> profile  </li>
+                                 <li>
+                                    <a class="dropdown-item align-items-center pointer">
+                                             <i class="bi bi-person"></i>
+                                             <span>profile</span>
+                                         </a>
+                                 </li>
                                  <li>
                                      <hr class="dropdown-divider">
                                  </li>
@@ -87,7 +81,11 @@
 
 <script setup>
     import {  defineEmits } from "vue";
+    import store from "@/store";
     defineEmits(['logout'])
+
+
+const username = store?.state?.user?.data?.username;
 </script>
 
 <style scoped>

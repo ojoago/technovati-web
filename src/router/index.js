@@ -139,6 +139,12 @@ const routes = [
             {
                 path:'/cr-out',name:'CrOutView',component: () => import('@/views/inventory/CrOutView.vue')
             },
+            {
+                path:'/cr-out-request',name:'CrOutRequestView',component: () => import('@/views/inventory/CrOutRequestView.vue')
+            },
+            {
+                path:'/weigh-bill-receipt',name:'WeighBillReceiptView',component: () => import('@/views/inventory/WeighBillReceiptView.vue')
+            },
 
             // raw materials 
             {
@@ -173,6 +179,47 @@ const routes = [
             },
             {
                 path:'/customers',name:'CustomerView',component: () => import('@/views/customer/CustomerView.vue')
+            },
+            // payroll 
+            // {
+            //     path:'/salary-steps',name:'SalaryStepView',component: () => import('@/views/payroll/SalaryStepView.vue')
+            // },
+            {
+                path:'/salary-grade',name:'SalaryGradeView',component: () => import('@/views/payroll/SalaryGradeView.vue')
+            },
+            {
+                path:'/salary-structure',name:'SalaryStructureView',component: () => import('@/views/payroll/SalaryStructureView.vue')
+            },
+
+            // allowance 
+            {
+                path:'/allowance-name',name:'AllowanceNameView',component: () => import('@/views/payroll/allowance/AllowanceNameView.vue')
+            },
+            {
+                path:'/unit-allowance',name:'UnitAllowanceView',component: () => import('@/views/payroll/allowance/UnitAllowanceView.vue')
+            },
+            {
+                path:'/allowance-exclusion',name:'AllowanceExclusionView',component: () => import('@/views/payroll/allowance/AllowanceExclusionView.vue')
+            },
+            {
+                path:'/nontaxable-allowance',name:'NontaxableAllowanceView',component: () => import('@/views/payroll/allowance/NontaxableAllowanceView.vue')
+            },
+
+            // deduction 
+            {
+                path:'/deduction-name',name:'DeductionName',component: () => import('@/views/payroll/deduction/DeductionName.vue')
+            },
+            {
+                path:'/deduction-account',name:'DeductionAccount',component: () => import('@/views/payroll/deduction/DeductionAccountView.vue')
+            },
+            {
+                path:'/unit-deduction',name:'UnitDeduction',component: () => import('@/views/payroll/deduction/UnitDeductionView.vue')
+            },
+            {
+                path:'/over-payment',name:'OverPayment',component: () => import('@/views/payroll/deduction/OverPaymentView.vue')
+            },
+            {
+                path:'/deduction-exclusion',name:'DeductionExclusion',component: () => import('@/views/payroll/deduction/DeductionExclusionView.vue')
             },
 
             

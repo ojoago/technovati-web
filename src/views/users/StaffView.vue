@@ -95,9 +95,21 @@
                                             <p class="text-danger " v-if="errors?.marital_status">{{ errors?.marital_status[0] }}</p>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="row">
+                                    <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="form-label">Bload Group <span class="text-danger">*</span></label>
+                                                <input type="text" v-model="user.marital_status" class="form-control" placeholder="e.g 080xxxxxxxx">
+                                                <p class="text-danger " v-if="errors?.marital_status">{{ errors?.marital_status[0] }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="form-label">Geno Type <span class="text-danger">*</span></label>
+                                                <input type="text" v-model="user.marital_status" class="form-control" placeholder="e.g 080xxxxxxxx">
+                                                <p class="text-danger " v-if="errors?.marital_status">{{ errors?.marital_status[0] }}</p>
+                                            </div>
+                                        </div>
+                               
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label">Date Of Birth <span class="text-danger">*</span></label>
@@ -120,11 +132,12 @@
                                         </div>
                                     </div>
                                 </div>
+                                 
 
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="form-label">lga of origin <span class="text-danger">*</span></label>
+                                            <label class="form-label">LGA of Origin <span class="text-danger">*</span></label>
                                             <input type="text" v-model="user.lga_of_origin" class="form-control" placeholder="e.g aminu@technovati.com.ng">
                                             <p class="text-danger " v-if="errors?.lga_of_origin">{{ errors?.lga_of_origin[0] }}</p>
                                         </div>
@@ -138,11 +151,13 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="form-label">lga of residence <span class="text-danger">*</span></label>
+                                            <label class="form-label">LGA of residence <span class="text-danger">*</span></label>
                                             <input type="text" v-model="user.lga_of_residence" class="form-control" placeholder="e.g 080xxxxxxxx">
                                             <p class="text-danger " v-if="errors?.lga_of_residence">{{ errors?.lga_of_residence[0] }}</p>
                                         </div>
                                     </div>
+
+                                  
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="form-label">address <span class="text-danger">*</span> </label>
@@ -150,6 +165,7 @@
                                             <p class="text-danger " v-if="errors?.address">{{ errors?.address[0] }}</p>
                                         </div>
                                     </div>
+
                                 </div>
                                 <button type="button" class="btn btn-success btn-sm mt-2" @click="createStaff">Submit</button>
                             </form>

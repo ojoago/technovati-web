@@ -7,7 +7,6 @@
                     <input type="text" class=" form-control form-control-sm" placeholder="search Item">
                     <div class="table-responsive">
                         <table class="table-hover table-stripped table-bordered table">
-                           
                             <tbody>
                                 <tr>
                                     <td colspan="2">{{ item.note }}</td>

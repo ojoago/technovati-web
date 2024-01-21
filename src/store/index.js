@@ -24,7 +24,7 @@ const store = createStore({
             message:''
         },
         loadingProcess:false,
-        units:['pieces', 'meters' , 'cartoon' , 'parket'],
+        units:['pieces', 'measurement' , 'carton' , 'packet'],
     },
     actions:{
         // auth begin
@@ -159,6 +159,8 @@ const store = createStore({
                     .then(({data})=>{
                         if(data.status == 201){
                             commit('notify',{message:data.message})
+                            // let form = document.querySelector('#form');
+                            // form.reset();
                         }
                         else if(data.status == 422){
                             commit('notify',{message:data.message,type:'warning'})

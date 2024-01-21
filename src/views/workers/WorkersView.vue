@@ -104,7 +104,7 @@
                                  <fieldset class="border rounded-3 p-2 m-1">
                                     <legend class="float-none w-auto px-2">Add Casual Workers</legend>
                                      <form  id="casualForm">
-                               <div class="row">
+                                        <div class="row">
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Firstname <span class="text-danger">*</span></label>
@@ -187,6 +187,20 @@
                                                             <option>Divorce</option>
                                                         </select>
                                                         <!-- <input type="text" v-model="staff.marital_status" class="form-control" placeholder="e.g 080xxxxxxxx"> -->
+                                                        <p class="text-danger " v-if="errors?.marital_status">{{ errors?.marital_status[0] }}</p>
+                                                    </div>
+                                                </div>
+                                                  <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="form-label">Bload Group <span class="text-danger">*</span></label>
+                                                        <input type="text" v-model="user.marital_status" class="form-control" placeholder="e.g 080xxxxxxxx">
+                                                        <p class="text-danger " v-if="errors?.marital_status">{{ errors?.marital_status[0] }}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="form-label">Geno Type <span class="text-danger">*</span></label>
+                                                        <input type="text" v-model="user.marital_status" class="form-control" placeholder="e.g 080xxxxxxxx">
                                                         <p class="text-danger " v-if="errors?.marital_status">{{ errors?.marital_status[0] }}</p>
                                                     </div>
                                                 </div>

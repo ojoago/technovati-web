@@ -18,7 +18,6 @@ import { onMounted } from "vue";
 import AuthHeader from "./AuthHeader.vue";
 
 import SideBar from "./SideBar.vue";
-
 onMounted(() => {
     
     let arrow = document.querySelectorAll(".arrow");
