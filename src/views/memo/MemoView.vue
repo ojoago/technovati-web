@@ -82,10 +82,13 @@
                 </div>
                 <button @click="openModal">Open Modal</button>
     
-                <g-modal :showModal="open" @closeModal="closeModal">
-                <!-- Your modal content goes here -->
-                <p>This is the modal content.</p>
-                </g-modal>
+                <dynamic-modal :isOpen="isModalOpened" @modal-close="closeModal" @submit="submitHandler" name="first-modal">
+                    <template #header>Custom header</template>
+                    <template #content>
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Omnis culpa iusto repellat provident necessitatibus maiores inventore numquam exercitationem quibusdam modi? Reprehenderit aut dolore assumenda id deserunt explicabo ratione facere eius!
+                    </template>
+                    <!-- <template #footer>Custom content</template> -->
+                </dynamic-modal>
             </div>
            </div>
         </div>
@@ -96,20 +99,21 @@
 import { ref } from "vue";
 import store from "@/store";
 import PaginationLinks from "@/components/PaginationLinks.vue";
-import GModal from "@/components/GModal.vue";
+import DynamicModal from "@/components/DynamicModal.vue";
+const isModalOpened = ref(false);
 
+const openModal = () => {
+    isModalOpened.value = true;
+};
+const closeModal = () => {
+    isModalOpened.value = false;
+};
     const memoForm = ref({
             subject : '',
             body : '' , 
             type_pid : '1' 
     });
-    const open = ref(true)
-    const openModal = ()=>{
-        open.value = true
-    }
-    const closeModal = ()=>{
-        open.value = false
-    }
+     
 
     
     // const cast = [
