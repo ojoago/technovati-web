@@ -13,11 +13,10 @@
 <script setup>
 import router from "@/router";
 import store from "@/store";
-
 import { onMounted } from "vue";
 import AuthHeader from "./AuthHeader.vue";
-
 import SideBar from "./SideBar.vue";
+
 onMounted(() => {
     
     let arrow = document.querySelectorAll(".arrow");
@@ -29,15 +28,17 @@ onMounted(() => {
             arrowParent.classList.toggle("showMenu");
         })
         // const element = array[i];
-
-        let sidebar = document.querySelector('.sidebar')
-        console.log(sidebar);
-        let sidebarBtn = document.querySelector('.toggleMenu')
-        // console.log(sidebarBtn);
-        sidebarBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('close')
-        })
     }
+    let sidebar = document.querySelector('.sidebar')
+    let sidebarBtn = document.querySelector('.toggleMenu')
+    let sidebarBtn2 = document.querySelector('#sideToggle')
+    // console.log(sidebarBtn);
+    sidebarBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('close')
+    })
+    sidebarBtn2.addEventListener('click', () => {
+        sidebar.classList.toggle('close')
+    })
 })
 
 

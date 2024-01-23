@@ -1,9 +1,9 @@
 <template>
-    <div>
+    <div class="sidebar " id="sidebar">
 
-        <div class="sidebar" id="sidebar">
+        <div >
                 <div class="brand-details">
-                    <i class="bi bil-c-plus-plus"></i>
+                    <i class="bi bi-list pointer" id="sideToggle"></i>
                     <span class="brand-name">Technovati</span>
                 </div>
                 <ul class="nav-links">

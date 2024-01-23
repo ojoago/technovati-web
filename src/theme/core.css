@@ -15,9 +15,17 @@ body{
     z-index: 100;
     transition: all .5s ease;
 }
+#sideToggle{
+    visibility: hidden;;
+}
 
 .sidebar.sidebar.close {
     width: 78px;
+}
+
+.sidebar.sidebar.close~.page-section {
+    left: 78px !important;
+    width: calc(100% - 78px) !important;
 }
 
 .sidebar .brand-details {
@@ -310,6 +318,9 @@ body{
     .sidebar {
         left: 0px !important;
         display: none;
+    }
+    #sideToggle {
+        visibility: visible;
     }
 
     .page-section {

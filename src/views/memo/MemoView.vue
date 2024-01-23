@@ -80,6 +80,12 @@
                         </div>
                     </div>
                 </div>
+                <button @click="openModal">Open Modal</button>
+    
+                <g-modal :showModal="open" @closeModal="closeModal">
+                <!-- Your modal content goes here -->
+                <p>This is the modal content.</p>
+                </g-modal>
             </div>
            </div>
         </div>
@@ -90,13 +96,29 @@
 import { ref } from "vue";
 import store from "@/store";
 import PaginationLinks from "@/components/PaginationLinks.vue";
+import GModal from "@/components/GModal.vue";
 
     const memoForm = ref({
             subject : '',
             body : '' , 
             type_pid : '1' 
     });
+    const open = ref(true)
+    const openModal = ()=>{
+        open.value = true
+    }
+    const closeModal = ()=>{
+        open.value = false
+    }
+
     
+    // const cast = [
+    //     Request memo,
+    //     Confirmation,
+    //     Periodic,
+    //     Ideas and suggestions,
+    //     Informal study results
+    // ];
 
 
     const errors = ref({})

@@ -1,15 +1,15 @@
 <template>
     <div>
-     <div class="overlay" v-if="spinner">
-                <div calss="spinner">
-                    <span class="loader"></span>
-                    <!-- <div id="spinner-text">loging Out...</div> -->
-                </div>
-            </div>
+      <div class="modal-overlay" v-if="spinner">
+          <div calss="spinner">
+            <span class="loader"></span>
+            <!-- <div id="spinner-text">loging Out...</div> -->
+          </div>
+      </div>
 
-            <div class="notification text-white" v-if="notification?.status" :class="`bg-${notification?.type}`">
-             {{ notification?.message }}
-            </div>
+      <div class="notification text-white" v-if="notification?.status" :class="`bg-${notification?.type}`">
+        {{ notification?.message }}
+      </div>
     </div>
 </template>
 
@@ -24,6 +24,19 @@ const notification = computed(() => store.state.notification);
 </script>
 
 <style scoped>
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100%;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999999;
+}
 
 .notification{
   position: fixed;
@@ -46,6 +59,7 @@ const notification = computed(() => store.state.notification);
     width: 150px;
     background-color: black;
   }
+
 
  /* loader  */
         /* .loader {

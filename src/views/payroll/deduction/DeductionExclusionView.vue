@@ -12,7 +12,9 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label class="form-label">Deduction</label>
-                                                    <div>
+                                                <Select2 v-model="exclusion.deduction" :options="deduction" :settings="{ width: '100%' }"  />
+
+                                                    <!-- <div>
                                                             <Multiselect
                                                                 v-model="exclusion.deduction"
                                                                 :options="deduction"
@@ -22,7 +24,7 @@
                                                                 label="text"
                                                                 track-by="id"
                                                                 />
-                                                    </div>
+                                                    </div> -->
                                                 <p class="text-danger " v-if="errors?.deduction">{{ errors?.deduction[0] }} </p>
                                             </div>
                                         </div>
@@ -132,6 +134,7 @@ import store from "@/store";
 import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
 import { Multiselect } from 'vue-multiselect';
+import Select2 from 'vue3-select2-component';
 
 const errors = ref({});
 const exclusion = ref({
@@ -169,6 +172,7 @@ function createAllowanceExclusion() {
         console.log(e);
     })
 }
+
 const exclusions = ref({});
 
 function loadLog() {
