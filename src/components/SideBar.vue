@@ -1,10 +1,11 @@
 <template>
     <div class="sidebar " id="sidebar">
 
-        <div >
+        <!-- <div class="sidebar " id="sidebar"> -->
                 <div class="brand-details">
-                    <i class="bi bi-list pointer" id="sideToggle"></i>
-                    <span class="brand-name">Technovati</span>
+                    <i class="bi bi-list toggleMenu pointer"></i>
+                    <span class="brand-name">Optimal</span>
+                    <!-- <span class="brand-name">Technovati</span> -->
                 </div>
                 <ul class="nav-links">
                     <li>
@@ -538,7 +539,7 @@
                         </div>
                     </li>
                 </ul>
-            </div>
+            <!-- </div> -->
         
     </div>
 </template>

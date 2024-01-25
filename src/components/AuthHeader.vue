@@ -1,7 +1,6 @@
 <template>
     <div>
         <div class="header">
-                    <i class="bi bi-list toggleMenu pointer"></i>
                     <span class="text">Drop Down Sidebar </span>
                     <nav class="header-nav ms-auto">
                      <ul class="d-flex align-items-center">

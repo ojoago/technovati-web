@@ -11,15 +11,14 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="form-label">subject</label>
-                                        <input type="text" v-model="memoForm.subject" class="form-control"
-                                            placeholder="Name of department">
+                                        <input type="text" v-model="memoForm.subject" class="form-control" placeholder="Enter subject">
                                         <p class="text-danger " v-if="errors?.subject">{{ errors?.subject[0] }}</p>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="form-label">Body</label>
-                                        <textarea type="text" v-model="memoForm.body" class="form-control"  placeholder="Name of department"></textarea>
+                                        <textarea type="text" v-model="memoForm.body" class="form-control"  placeholder="Enter Message"></textarea>
                                         <p class="text-danger " v-if="errors?.body">{{ errors?.body[0] }}</p>
                                     </div>
                                 </div>
@@ -27,9 +26,36 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="form-label">Category</label>
-                                        <input type="text" v-model="memoForm.type_pid" class="form-control"
-                                            placeholder="Name of department">
-                                        <p class="text-danger " v-if="errors?.type_pid">{{ errors?.type_pid[0] }}</p>
+                                             <select v-model="memoForm.category" class="form-control form-control-sm">
+                                                <option disabled selected>Select Section</option>
+                                                <option value="1">General</option>
+                                                <option value="2">Department</option>
+                                                <option value="3">Staff</option>
+                                            </select>
+                                        <p class="text-danger " v-if="errors?.category">{{ errors?.category[0] }}</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-12" v-if="memoForm.category==3">
+                                    <div class="form-group">
+                                         <label class="form-label">Staff</label>
+                                        <div>
+                                            <Multiselect v-model="memoForm.staff" :options="users" :multiple="true"
+                                                :close-on-select="true" placeholder="Pick staff" label="text"
+                                                track-by="id" />
+                                        </div>
+                                        <p class="text-danger " v-if="errors?.staff">{{ errors?.staff[0] }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12" v-if="memoForm.category == 2">
+                                    <div class="form-group">
+                                         <label class="form-label">Departments</label>
+                                        <div>
+                                            <Multiselect v-model="memoForm.departments" :options="departments" :multiple="true"
+                                                :close-on-select="true" placeholder="Pick Department" label="text"
+                                                track-by="id" />
+                                        </div>
+                                        <p class="text-danger " v-if="errors?.departments">{{ errors?.departments[0] }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -49,6 +75,7 @@
                                         <th>SN</th>
                                         <th>Subject</th>
                                         <th>Body</th>
+                                        <th>Category</th>
                                         <th> <i class="bi bi-pencil-fill"></i> </th>
                                     </tr>
                                 </thead>
@@ -57,6 +84,7 @@
                                         <td>{{ loop + 1 }}</td>
                                         <td>{{ memo.subject }}</td>
                                         <td>{{ memo.body }}</td>
+                                        <td>{{ memo.category }}</td>
                                         <td>
                                             <div class="dropdown">
                                                 <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
@@ -100,6 +128,8 @@ import { ref } from "vue";
 import store from "@/store";
 import PaginationLinks from "@/components/PaginationLinks.vue";
 import DynamicModal from "@/components/DynamicModal.vue";
+import { Multiselect } from 'vue-multiselect';
+
 const isModalOpened = ref(false);
 
 const openModal = () => {
@@ -111,7 +141,9 @@ const closeModal = () => {
     const memoForm = ref({
             subject : '',
             body : '' , 
-            type_pid : '1' 
+            category : '' , 
+            staff : '' , 
+            departments : '' , 
     });
      
 
@@ -137,6 +169,7 @@ const closeModal = () => {
             } else if (data.status == 201) {
                 errors.value = [];
                 memoForm.value = [];
+                loadMemo()
             }
         }).catch(e => {
             store.commit('setSpinner', false)
@@ -148,7 +181,9 @@ const closeModal = () => {
         memoForm.value = {
             subject: memo.subject ,
             body: memo.body ,
-            type_pid: memo.type_pid ,
+            category: memo.category ,
+            staff: memo.staff ,
+            departments: memo.departments ,
             pid: memo.pid ,
         }
    }
@@ -169,6 +204,28 @@ const closeModal = () => {
             alert('weting be this')
         })
     }
+    const users = ref([]);
+    function dropdownUser() {
+        store.dispatch('loadDropdown', 'users').then(({ data }) => {
+            users.value = data;
+        }).catch(e => {
+            console.log(e);
+            alert('Something Went Wrong')
+        })
+    }
+    dropdownUser()
+
+    const departments = ref([]);
+    function dropdownDepts() {
+        store.dispatch('loadDropdown', 'departments').then(({ data }) => {
+            departments.value = data;
+        }).catch(e => {
+            console.log(e);
+            alert('Something Went Wrong')
+        })
+    }
+    dropdownDepts()
+
     function nextPage(link) {
         alert()
         if (!link.url || link.active) {

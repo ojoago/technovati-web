@@ -27,6 +27,9 @@ body{
     left: 78px !important;
     width: calc(100% - 78px) !important;
 }
+.sidebar.sidebar.close~#sideBase {
+    width: 78px !important;
+}
 
 .sidebar .brand-details {
     height: 60px;
@@ -319,10 +322,6 @@ body{
         left: 0px !important;
         display: none;
     }
-    #sideToggle {
-        visibility: visible;
-    }
-
     .page-section {
         width: 100% !important;
         left: 0px !important;

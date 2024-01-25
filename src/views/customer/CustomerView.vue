@@ -130,7 +130,6 @@
                                                         <div class="form-group">
                                                             <label class="form-label">Name</label>
                                                             <Select2 v-model="manager.customer_pid" :options="customersDrop" :settings="{ width: '100%' }"  />
-                                                            
                                                             <p class="text-danger " v-if="sub_error?.customer_pid">{{ sub_error?.customer_pid[0] }}</p>
                                                         </div>
                                                     </div>
