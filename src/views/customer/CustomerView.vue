@@ -101,7 +101,7 @@
                                                                 </button>
                                                                 <ul class="dropdown-menu">
                                                                     <li class=""><a class="dropdown-item pointer"
-                                                                            @click="taskDetail(data)">Details</a> </li>
+                                                                            @click="customerDetail(data)">Details</a> </li>
                                                                     <li class="bg-warning"><a class="dropdown-item pointer"
                                                                             @click="editCustomer(data)">Edit</a> </li>
                                                                     <li class="bg-danger"><a class="dropdown-item pointer">Delete</a>
@@ -204,8 +204,7 @@
                                                                         <i class="bi bi-tools"></i>
                                                                     </button>
                                                                     <ul class="dropdown-menu">
-                                                                        <li class=""><a class="dropdown-item pointer"
-                                                                                @click="taskDetail(data)">Details</a> </li>
+                                                                        <!-- <li class=""><a class="dropdown-item pointer" @click="customerDetail(data)">Details</a> </li> -->
                                                                         <li class="bg-warning"><a class="dropdown-item pointer"
                                                                                 @click="editCustomer(data)">Edit</a> </li>
                                                                         <li class="bg-danger"><a class="dropdown-item pointer">Delete</a>
@@ -371,9 +370,9 @@ function dropdownAllow() {
 }
 dropdownAllow()
 
-function taskDetail(task) {
-    localStorage.setItem('TVATI_TASK_DETAIL', JSON.stringify(task, null, 2))
-    router.push({ path: 'task-detail', query: { task: task.pid } })
+function customerDetail(cst) {
+    localStorage.setItem('TVATI_CST_DETAIL', JSON.stringify(cst, null, 2))
+    router.push({ path: 'customer-detail', query: { cst: cst.pid } })
 }
 
 

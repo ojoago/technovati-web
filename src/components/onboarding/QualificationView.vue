@@ -67,7 +67,7 @@
                                             </fieldset>
                                         </template>
                                         <div class="float-end p-2">
-                                            <button type="button" class="btn btn-success btn-sm mt-2" @click="addQualification"> <i class="bi bi-patch-plus-fill"></i> </button>
+                                            <button type="button" class="btn btn-success btn-sm mt-2" @click="addQualification"> <i class="bi bi-plus"></i> </button>
                                         </div>
                                     </fieldset>
                                  
@@ -85,13 +85,13 @@ import {  ref,onMounted } from "vue";
 const q_errors = ref({});
 
 const qualification = ref({
-    'institutions': [{
-        'institution': '',
-        'degree': '',
-        'year': '',
-        'field': '',
-        'grade': '',
-        'address': '',
+    institutions: [{
+        institution: '',
+        degree: '',
+        year: '',
+        field: '',
+        grade: '',
+        address: '',
     }],
     'user_pid': '',
 });
@@ -108,7 +108,7 @@ const addQualification = () => {
 const removeQualification = (i) => {
     let len = qualification.value.institutions.length;
     if (len === 1) {
-        store.commit('notify', { message: 'Qualification requires at least one instituion', type: 'warning' })
+        store.commit('notify', { message: 'One Qualification is required to proceed ', type: 'warning' })
         return;
     }
     qualification.value.institutions.splice(i, 1);
@@ -122,7 +122,7 @@ function staffQualification() {
             q_errors.value = data.data;
         } else if (data.status == 201) {
             q_errors.value = []
-            qualification.value = [];
+            qualification.value.clear();
             query = { tab: 'bank-tab', 'id': data?.data?.user_pid }
             localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
             switchTab()

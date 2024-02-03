@@ -3,7 +3,7 @@
         <div class="container-fluid mt-2">
            <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title">Staff Onboarding    <router-link to="/staff-list" class="nav-link"><i class="bi bi-arrow-down-left-square-fill"></i></router-link></h5>
+                  <h5 class="card-title">Staff Onboarding <label for=""><router-link to="/staff-list" class="nav-link"><i class="bi bi-arrow-down-left-square-fill"></i> Staff list</router-link></label>  </h5>
 
                   <!-- Default Tabs -->
                   <ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
@@ -30,7 +30,7 @@
                     </li>
 
                     <li class="nav-item flex-fill" role="presentation">
-                      <button class="nav-link w-100" id="hobby-tab" data-bs-toggle="tab" data-bs-target="#hobby" type="button" role="tab" aria-controls="hobby" aria-selected="false">Hobbies</button>
+                      <button class="nav-link w-100" id="document-tab" data-bs-toggle="tab" data-bs-target="#document" type="button" role="tab" aria-controls="hobby" aria-selected="false">Documents</button>
                     </li>
 
                   </ul>
@@ -61,7 +61,7 @@
                         <SkillForm  @current-tab="currentTab"  />
                     </div>
 
-                    <div class="tab-pane fade" id="hobby" role="tabpanel" aria-labelledby="hobby-tab">
+                    <div class="tab-pane fade" id="document" role="tabpanel" aria-labelledby="document-tab">
                         <HobbieForm  @current-tab="currentTab"  />
                     </div>
                     
@@ -79,14 +79,14 @@
 <script setup>
     
     // import store from "@/store";
-    import BioData from "@/components/onboarding/BioData.vue"
+    import BioData from "@/components/onboarding/BioDataForm.vue"
     // import PortFolio from "@/components/onboarding/PortFolio.vue"
     import SkillForm from "@/components/onboarding/SkillForm.vue"
     import ExperienceForm from "@/components/onboarding/ExperienceForm.vue"
-    import HobbieForm from "@/components/onboarding/HobbieForm.vue"
-    import NextKin from "@/components/onboarding/NextKin.vue"
+    import HobbieForm from "@/components/onboarding/DocumentForm.vue"
+    import NextKin from "@/components/onboarding/NextKinForm.vue"
     import Qualification from "@/components/onboarding/QualificationView.vue"
-    import BankDetails from "@/components/onboarding/BankDetails.vue"
+    import BankDetails from "@/components/onboarding/BankDetailsForm.vue"
     import { onMounted, ref } from "vue";
     import { useRouter } from 'vue-router';
     

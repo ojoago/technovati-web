@@ -36,7 +36,12 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">religion <span class="text-danger">*</span></label>
-                                                    <input type="text" v-model="next.religion" class="form-control form-control-sm" placeholder="e.g Sanusi ">
+                                                    <select v-model="next.religion" class="form-control form-control-sm">
+                                                        <option value="" selected>Select Religion</option>
+                                                        <option >Muslim</option>
+                                                        <option >Christain</option>
+                                                        <option >Other</option>
+                                                    </select>
                                                     <p class="text-danger " v-if="errors?.religion">{{ errors?.religion[0] }}</p>
                                                 </div>
                                             </div>
@@ -86,6 +91,7 @@ const errors = ref({});
 let query = {}
 function staffNextofKin() {
     store.commit('setSpinner', true)
+    errors.value = []
     store.dispatch('postMethod', { url: '/add-next-of-kin', param: next.value }).then((data) => {
         store.commit('setSpinner', false)
         if (data.status == 422) {

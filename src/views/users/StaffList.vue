@@ -49,6 +49,7 @@
                                                             <i class="bi bi-tools"></i>
                                                         </button>
                                                         <ul class="dropdown-menu">
+                                                            <li><a class="dropdown-item pointer" @click="staffDetail(user)">Detail</a></li>
                                                             <li><a class="dropdown-item pointer" click="editDept(dp)">Edit</a></li>
                                                             <li><a class="dropdown-item pointer" data-bs-target="">Assign Dept</a></li>
                                                             <li><a class="dropdown-item pointer" data-bs-toggle="modal" data-bs-target="">Assign Dept</a></li>
@@ -133,6 +134,11 @@
         })
     }
     
+    
+function staffDetail(staff) {
+    localStorage.setItem('TVATI_STAFF_DETAIL', JSON.stringify(staff, null, 2))
+    router.push({ path: 'staff-detail', query: { staff: staff.pid } })
+}
 
 </script>
 

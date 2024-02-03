@@ -9,7 +9,7 @@ defineProps({
     icon: String,
     modal: {
         type: String,
-        default: 'modal-medium'
+        default: 'small'
     },
     buttonText: {
         type: String,
@@ -29,7 +29,7 @@ onClickOutside(target, () => emit('modal-close'))
 
         <div class="modal-wrapper">
             <div :class="modal" ref="target">
-                <div class="modal-header bg-light">
+                <div class="modal-header">
                     <slot name="header"> default header </slot>
                 </div>
                 <div class="modal-body">
@@ -60,7 +60,7 @@ onClickOutside(target, () => emit('modal-close'))
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.modal-medium {
+.medium {
     width: 500px;
     margin: 150px auto;
     padding: 20px 20px 0 20px;
@@ -68,7 +68,7 @@ onClickOutside(target, () => emit('modal-close'))
     border-radius: 2px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
 }
-.modal-small {
+.small {
     width: 300px;
     margin: 150px auto;
     padding: 20px 20px 0 20px;
@@ -77,9 +77,14 @@ onClickOutside(target, () => emit('modal-close'))
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
 }
 
+.modal-header {
+    /* border-top: 1px solid #000; */
+    font-weight: bold;
+    padding-top: 10px;
+}
 .modal-footer {
     border-top: 1px solid #000;
-    padding-top: 3px;
+    padding-top: 30px;
 }
 
 /* Responsive Styles */

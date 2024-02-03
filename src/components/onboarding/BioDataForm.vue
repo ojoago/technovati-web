@@ -209,9 +209,8 @@
 <script setup>
 import store from "@/store";
 import {  defineEmits } from "vue";
-
-    import Select2 from 'vue3-select2-component';
-    import { ref } from "vue";
+import Select2 from 'vue3-select2-component';
+import { ref } from "vue";
     const errors = ref({});
 const props = defineProps({
     user_pid: String,
@@ -303,6 +302,17 @@ function loadSubDept(event) {
 const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+        var ext = file['name'].substring(file['name'].lastIndexOf('.') + 1);
+        if (!['png', 'jpeg', 'jpg'].includes(ext)) {
+            event.target.value = null;
+            store.commit('notify', { message: 'Only Image is allowed', type: 'warning' })
+            return;
+        }
+        if (file.size > 1024 * 1024) {
+            event.target.value = null;
+            store.commit('notify', { message: 'Image cannot be more 1MB', type: 'warning' })
+            return;
+        }
         const reader = new FileReader();
         reader.onload = () => {
             user.value.image = reader.result;

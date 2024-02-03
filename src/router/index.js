@@ -40,6 +40,9 @@ const routes = [
             {
                 path:'/staff-list',name:'StaffList',component: () => import('@/views/users/StaffList.vue')
             },
+            {
+                path:'/staff-detail',name:'StaffDetails',component: () => import('@/views/users/StaffDetails.vue')
+            },
             // hr end here
             {
                 path:'/department',name:'DepartmentView',component: () => import('@/views/department/DepartmentView.vue')
@@ -143,7 +146,7 @@ const routes = [
                 path:'/cr-out-request',name:'CrOutRequestView',component: () => import('@/views/inventory/CrOutRequestView.vue')
             },
             {
-                path:'/weigh-bill-receipt',name:'WeighBillReceiptView',component: () => import('@/views/inventory/WeighBillReceiptView.vue')
+                path:'/way-bill-receipt',name:'WayBillReceiptView',component: () => import('@/views/inventory/WayBillReceiptView.vue')
             },
 
             // raw materials 
@@ -178,7 +181,13 @@ const routes = [
                 path:'/suppliers',name:'SupplierView',component: () => import('@/views/customer/SupplierView.vue')
             },
             {
+                path:'/supplier-detail',name:'SupplierDetail',component: () => import('@/views/customer/SupplierDetail.vue')
+            },
+            {
                 path:'/customers',name:'CustomerView',component: () => import('@/views/customer/CustomerView.vue')
+            },
+            {
+                path:'/customer-detail',name:'CustomerDetail',component: () => import('@/views/customer/CustomerDetail.vue')
             },
             // payroll 
             // {

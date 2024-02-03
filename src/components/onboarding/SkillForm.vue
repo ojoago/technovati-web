@@ -4,7 +4,7 @@
             <legend class="float-none w-auto px-2">Qualification</legend>
             <form>
                 <fieldset class="border rounded-3">
-                    <template v-for="(inst, loop) in skills.skill" :key="loop">
+                    <template v-for="(inst, loop) in skills.skills" :key="loop">
 
                         <fieldset class="border rounded-3 p-2 m-1">
                             <div class="row">
@@ -47,7 +47,7 @@
                     </template>
                     <div class="float-end p-2">
                         <button type="button" class="btn btn-success btn-sm mt-2" @click="addQualification"> <i
-                                class="bi bi-patch-plus-fill"></i> </button>
+                                class="bi bi-plus"></i> </button>
                     </div>
                 </fieldset>
 
@@ -66,7 +66,7 @@ import { ref,onMounted } from "vue";
 const q_errors = ref({});
 
 const skills = ref({
-    'skill': [{
+    skills: [{
         skill : '' ,
         certification : '' ,
         years : ''
@@ -74,16 +74,16 @@ const skills = ref({
     user_pid: '',
 });
 const addQualification = () => {
-    skills.value.skill.push({
+    skills.value.skills.push({
          skill: '',
         certification: '',
         years: ''
     })
 }
 const removeQualification = (i) => {
-    let len = skills.value.skill.length;
+    let len = skills.value.skills.length;
     if (len === 1) {
-        store.commit('notify', { message: 'Qualification requires at least one instituion', type: 'warning' })
+        store.commit('notify', { message: 'one skill is required to proceed', type: 'warning' })
         return;
     }
     skills.value.skill.splice(i, 1);
@@ -98,7 +98,7 @@ function staffQualification() {
         } else if (data.status == 201) {
             q_errors.value = []
             skills.value = [];
-            query = { tab: 'hobby-tab', 'id': data?.data?.user_pid }
+            query = { tab: 'document-tab', 'id': data?.data?.user_pid }
             localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
             switchTab()
         }

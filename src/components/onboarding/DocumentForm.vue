@@ -4,7 +4,7 @@
             <legend class="float-none w-auto px-2">Qualification</legend>
             <form>
                 <fieldset class="border rounded-3">
-                    <template v-for="(inst, loop) in hobbies.hobby" :key="loop">
+                    <template v-for="(inst, loop) in documents.items" :key="loop">
 
                         <fieldset class="border rounded-3 p-2 m-1">
                             <div class="row">
@@ -17,9 +17,17 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label">Hobby <span class="text-danger">*</span></label>
-                                        <input type="text" v-model="inst.hobby" maxlength="250"
-                                            class="form-control form-control-sm" placeholder="e.g swimming">
+                                        <label class="form-label">Name <span class="text-danger">*</span></label>
+                                        <input type="text" v-model="inst.name" maxlength="250"
+                                            class="form-control form-control-sm" placeholder="e.g WAEC">
+                                        <!-- <p class="text-danger " v-if="q_errors?.institutions?.institution">{{ 'q_errors?.institutions?[loop]?.institution[loop]' }}</p> -->
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">File<span class="text-danger">*</span></label>
+                                        <input type="file" class="form-control form-control-sm" id="image" @change="handleImageChange" accept="image/*,.pdf" required />
+
                                         <!-- <p class="text-danger " v-if="q_errors?.institutions?.institution">{{ 'q_errors?.institutions?[loop]?.institution[loop]' }}</p> -->
                                     </div>
                                 </div>
@@ -30,8 +38,7 @@
                         </fieldset>
                     </template>
                     <div class="float-end p-2">
-                        <button type="button" class="btn btn-success btn-sm mt-2" @click="addQualification"> <i
-                                class="bi bi-patch-plus-fill"></i> </button>
+                        <button type="button" class="btn btn-success btn-sm mt-2" @click="addQualification"> <i class="bi bi-plus"></i> </button>
                     </div>
                 </fieldset>
 
@@ -48,36 +55,38 @@ import { ref,onMounted } from "vue";
 
 const q_errors = ref({});
 
-const hobbies = ref({
-    'hobby': [{
-        hobby:''
+const documents = ref({
+    items: [{
+        name:'',
     }],
-    'user_pid': '',
+    media:[],
+    user_pid: '',
 });
 const addQualification = () => {
-    hobbies.value.hobby.push({
-        hobby: ''
+    documents.value.items.push({
+        name: ''
     })
 }
 const removeQualification = (i) => {
-    let len = hobbies.value.hobby.length;
+    let len = documents.value.items.length;
     if (len === 1) {
-        store.commit('notify', { message: 'hobbies requires at least one instituion', type: 'warning' })
+        store.commit('notify', { message: 'one document is required to proceed', type: 'warning' })
         return;
     }
-    hobbies.value.hobby.splice(i, 1);
+    documents.value.items.splice(i, 1);
+    documents.value.media.splice(i, 1);
 }
 let query = {}
 function staffQualification() {
     store.commit('setSpinner', true)
-    store.dispatch('postMethod', { url: '/add-hobbies', param: hobbies.value }).then((data) => {
+    store.dispatch('postMethod', { url: '/add-documents', param: documents.value }).then((data) => {
         store.commit('setSpinner', false)
         if (data.status == 422) {
             q_errors.value = data.data;
         } else if (data.status == 201) {
             q_errors.value = []
-            hobbies.value = [];
-            // query = { tab: 'bank-tab', 'id': data?.data?.user_pid }
+            documents.value = [];
+            query = { tab: 'personal-tab', 'id': data?.data?.user_pid }
             localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
             switchTab()
         }
@@ -87,7 +96,27 @@ function staffQualification() {
         alert('weting be this')
     })
 }
-
+const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        var ext = file['name'].substring(file['name'].lastIndexOf('.') + 1);
+        if (!['png', 'jpeg', 'jpg','pdf'].includes(ext)) {
+            event.target.value = null;
+            store.commit('notify', { message: 'Only Image/pdf is allowed', type: 'warning' })
+            return;
+        }
+         if (file.size > 1024 * 1024) {
+           event.target.value = null;
+            store.commit('notify', { message: 'File cannot be more 1MB', type: 'warning' })
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = () => {
+            documents.value.media.push(reader.result)
+        };
+        reader.readAsDataURL(file);
+    }
+}
 // function staffQualification() {
 //     store.commit('setSpinner', true)
 //     q_errors.value = []
@@ -118,7 +147,7 @@ function switchTab() {
 onMounted(() => {
     let q = localStorage.getItem('TVATI_ONBOARD_TAB') ? JSON.parse(localStorage.getItem('TVATI_ONBOARD_TAB')) : 'null'
     if (q != 'null') {
-        hobbies.value.user_pid = q.id
+        documents.value.user_pid = q.id
     }
 })
 

@@ -90,7 +90,7 @@
                                                         <i class="bi bi-tools"></i>
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                        <li class=""><a class="dropdown-item pointer" @click="taskDetail(data)">Details</a> </li>
+                                                        <li class=""><a class="dropdown-item pointer" @click="supplierDetail(data)">Details</a> </li>
                                                         <li class="bg-warning"><a class="dropdown-item pointer" @click="editSupplier(data)">Edit</a> </li>
                                                         <li class="bg-danger"><a class="dropdown-item pointer" >Delete</a></li>
                                                     </ul>
@@ -181,9 +181,9 @@ function loadSuppliers() {
         })
 }
 
-function taskDetail(task) {
-    localStorage.setItem('TVATI_TASK_DETAIL', JSON.stringify(task, null, 2))
-    router.push({ path: 'task-detail', query: { task: task.pid } })
+function supplierDetail(supplier) {
+    localStorage.setItem('TVATI_SUP_DETAIL', JSON.stringify(supplier, null, 2))
+    router.push({ path: 'supplier-detail', query: { supplier: supplier.pid } })
 }
 
 

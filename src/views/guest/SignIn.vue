@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="form">
-            <h1>Technovati</h1>
+            <!-- <h1>Technovati</h1> -->
             <div class="ctainer">
                 <div class="main">
                     <div class="content">

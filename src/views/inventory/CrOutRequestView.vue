@@ -10,27 +10,27 @@
                                     <thead>
                                         <tr>
                                             <th>SN</th>
-                                            <th>ID</th>
+                                            <th>#ID</th>
                                             <th>note</th>
                                             <th>Items</th>
-                                            <th>Time</th>
+                                            <th>Date</th>
                                             <th>Receiver</th>
                                             
-                                            <th align="center"> <i class="bi bi-pencil-fill"></i> </th>
+                                            <th align="center"> <i class="bi bi-gear-fill"></i> </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="(item, loop) in items?.data" :key="loop">
                                             <td>{{ loop + 1 }}</td>
-                                            <td>{{ item.weighbill }}</td>
+                                            <td>{{ item.waybill }}</td>
                                             <td>{{ item.comment }}</td>
                                             <td>{{ item.items_count }}</td>
                                             <td>{{ item.request_time }}</td>
-                                            <td>{{ item.receiver_name }}</td>
+                                            <td>{{ item?.customer?.name }}</td>
                                             <td>
                                                 <button @click="requestDetailPage(item)" type="button"
                                                     class="btn btn-primary btn-sm">
-                                                    <i class="bi bi-patch-plus-fill"></i>
+                                                    <i class="bi bi-arrow-right-circle"></i> <small>Details</small>
                                                 </button>
                                             </td>
                                         </tr>
@@ -69,8 +69,8 @@ function loadItem() {
 }
 
 function requestDetailPage(item) {
-    localStorage.setItem('TVATI_WEIGHBILL_DETAIL', JSON.stringify(item, null, 2))
-    router.push({ path: 'weigh-bill-receipt', query: { bill: item.pid } })
+    localStorage.setItem('TVATI_WAYBILL_DETAIL', JSON.stringify(item, null, 2))
+    router.push({ path: 'way-bill-receipt', query: { bill: item.waybill } })
 }
 
 

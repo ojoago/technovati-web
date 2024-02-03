@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-md-7">
                     <div class="card">
-                        <div class="card-header">Company Raw Materials</div>
+                        <div class="card-header">Finished Products</div>
                         <div class="card-body">
                             <input type="text" class=" form-control form-control-sm" placeholder="search Item">
                             <div class="table-responsive">
@@ -27,7 +27,7 @@
                                             <td>{{ item.item?.quantity ?? 0 }} {{ item.unit }}</td>
                                             <td>
                                                 <button v-if="item.item?.quantity > 0" @click="addItem(item)" type="button" class="btn btn-primary btn-sm">
-                                                    <i class="bi bi-patch-plus-fill"></i>
+                                                    <i class="bi bi-plus"></i>
                                                 </button>
                                             </td>
                                         </tr>
@@ -67,8 +67,10 @@
                                         </div>
                                         <div class="col-md-12">
                                             <label class="form-label">Receiver</label>
-                                            <input class="form-control form-control-sm" placeholder="" v-model="request.receiver_name">
-                                            <p class="text-danger " v-if="errors?.receiver_name">{{ errors?.receiver_name[0] }} </p>
+                                            <!-- <input class="form-control form-control-sm" placeholder="" v-model="request.customer_pid"> -->
+                                            <Select2 v-model="request.customer_pid" :options="customerDrop" :settings="{ width: '100%' }"  />
+
+                                            <p class="text-danger " v-if="errors?.customer_pid">{{ errors?.customer_pid[0] }} </p>
                                         </div>
                                     </div>
 
@@ -91,12 +93,13 @@
 <script setup>
 import store from "@/store";
 import { ref } from "vue";
+import Select2 from 'vue3-select2-component';
 
 const errors = ref({});
 const items = ref({});
 
 const request = ref({
-    receiver_name: '',
+    customer_pid: '',
     comment: '',
     store_pid: '04430511J207011I90N211FR73A5',
     items: [],
@@ -161,7 +164,19 @@ function loadItem() {
         alert('weting be this')
     })
 }
+if(request.value.items){
+    loadStateRes()
+}
 
+const customerDrop = ref([]);
+
+function loadStateRes() {
+    store.dispatch('loadDropdown', 'customers' ).then(({ data }) => {
+        customerDrop.value = data;
+    }).catch(e => {
+        console.log(e);
+    })
+}
 
 
 </script>

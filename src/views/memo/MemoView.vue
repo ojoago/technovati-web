@@ -76,7 +76,7 @@
                                         <th>Subject</th>
                                         <th>Body</th>
                                         <th>Category</th>
-                                        <th> <i class="bi bi-pencil-fill"></i> </th>
+                                        <th> <i class="bi bi-gear-fill"></i> </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -84,7 +84,7 @@
                                         <td>{{ loop + 1 }}</td>
                                         <td>{{ memo.subject }}</td>
                                         <td>{{ memo.body }}</td>
-                                        <td>{{ memo.category }}</td>
+                                        <td>{{ status[memo.category] }}</td>
                                         <td>
                                             <div class="dropdown">
                                                 <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
@@ -159,6 +159,7 @@ const closeModal = () => {
 
     const errors = ref({})
     const memos = ref({})
+    const status = store.state.memoStatus;
     
     function createMemo(){
        store.commit('setSpinner', true)

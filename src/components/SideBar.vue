@@ -17,7 +17,19 @@
                             <li> <a class="link-name" >Category</a> </li>
                         </ul>
                     </li>
-                     
+                     <li>
+                            <a >
+                                <i class="bi bi-list-task"></i>
+                                <span class="link-name">
+                                    <router-link to="/department" class="nav-link"><span class="nav-name">Department  </span>  </router-link>
+                                </span>
+                            </a>
+                            <ul class="sub-menu blank">
+                                <li class="nav-item" title="staff">
+                                    <router-link to="/department" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Department  </span>  </router-link>
+                                </li>
+                            </ul>
+                        </li>
 
                     <li>
                        <div class="icon-link">
@@ -39,25 +51,6 @@
                     </li>
 
                     <li>
-                       <div class="icon-link">
-                        <a >
-                            <i class="bi bi-book"></i>
-                            <span class="link-name">Department</span>
-                        </a>
-                        <i class="bi bi-chevron-down arrow"></i>
-                       </div>
-                        <ul class="sub-menu">
-                            <li class="nav-item" title="staff">
-                                <router-link to="/department" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Manage  </span>  </router-link>
-                            </li>
-                            <li class="nav-item" title="staff">
-                                <router-link to="/staff-list" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Staff List</span>  </router-link>
-                            </li>
-                        
-                        </ul>
-                    </li>
-
-                    <li>
                         <a >
                             <i class="bi bi-list-task"></i>
                             <span class="link-name">
@@ -70,6 +63,7 @@
                             </li>
                         </ul>
                     </li>
+
                     <li>
                         <a >
                             <i class="bi bi-list-task"></i>

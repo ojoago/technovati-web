@@ -1,12 +1,8 @@
 <template>
     <div>
         <div class="container mt-2">
-            <div class="card">
-                <div class="card-header">Weigh Bill Details</div>
-                <div class="card-body">
+            {{way}}
                     <div class="table-responsive">
-                       
-
                         <table class="table-hover table-stripped table-bordered table">
                             <thead>
                                 <tr>
@@ -27,8 +23,7 @@
                         </table>
 
                     </div>
-                </div>
-            </div>
+              
         </div>
     </div>
 </template>
@@ -39,12 +34,12 @@ import { onMounted, ref } from "vue";
 import { useRouter } from 'vue-router';
 const router = useRouter()
 
-const weigh = ref({});
+const way = ref({});
 const details = ref({});
 
 function loadRequest() {
     store.commit('setSpinner', true)
-    store.dispatch('getMethod', { url: '/load-weigh-bill-details/'+weigh.value.pid }).then((data) => {
+    store.dispatch('getMethod', { url: '/load-way-bill-details/'+way.value.waybill }).then((data) => {
         store.commit('setSpinner', false)
         if (data.status == 200) {
             details.value = data.data;
@@ -57,13 +52,13 @@ function loadRequest() {
 }
 
 onMounted(() => {
-    weigh.value = localStorage.getItem('TVATI_WEIGHBILL_DETAIL') ? JSON.parse(localStorage.getItem('TVATI_WEIGHBILL_DETAIL')) : 'null'
-    if (weigh.value == 'null') {
+    way.value = localStorage.getItem('TVATI_WAYBILL_DETAIL') ? JSON.parse(localStorage.getItem('TVATI_WAYBILL_DETAIL')) : 'null'
+    if (way.value == 'null') {
         router.push({ path: 'cr-out-request' })
     }
     
     loadRequest()
-    console.log('details',weigh);
+    console.log('details',way);
     getUrlQueryParams()
 });
 

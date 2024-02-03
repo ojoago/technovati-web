@@ -25,6 +25,7 @@ const store = createStore({
         },
         loadingProcess:false,
         units:['pieces', 'measurement' , 'carton' , 'packet'],
+        memoStatus:['','General','Selected Departments','Selected Staff'],
     },
     actions:{
         // auth begin
