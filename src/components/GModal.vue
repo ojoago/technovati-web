@@ -4,50 +4,40 @@
             <Transition enter-active-class="transition ease-out duration-2000 transform" enter-from-class="opacity-0"
                 enter-to-class="opacity-100" leave-active-class="transition ease-in duration-2000 transform"
                 leave-from-class="opacity-100" leave-to-class="opacity-0">
-                <div>
-                    <div class="modal_background" @click="close"></div>
-                    <div class="modal_container ">
-                        <div class="inner_container">
+                <div v-if="true">
+                    <div class="modal-base" >
+                    <div class="modal-container">
+                        <div class="inner-container">
                             <Transition name="slide-fade">
-                                <div v-if="1 == 3" class="modal_card_mobile">
-                                    <div class="modal_header modal_header_mobile">
-                                        <div class="close_mobile">
-                                            <span @click="close"><i icon="fa-solid fa-arrow-left"></i></span>
-                                        </div>
-                                        <h1>{{ title }}</h1>
-                                        <p>{{ subtitle }}</p>
-                                    </div>
-                                    <hr v-if="!row" />
-                                    <div class="modal_body">
-                                        <slot></slot>
-                                    </div>
-                                </div>
-                                <div class="modal_card" :class="w" v-else>
-                                    <div class="modal_header">
-                                        <div class="header_info">
-                                            <div v-if="icon" class="modal_icon">
-                                                <i :class="icon"></i>
-                                            </div>
-                                            <div>
-                                                <h1 class="font-bold">{{ title }}</h1>
+                                <div class="modal-card" :class="w" v-if="true">
+                                    <div class="modal-header">
+                                        <div class="header-info">
+                                            <div v-if="icon" class="icon">  <i :class="icon"></i> </div>
+                                            <slot name="header">
+                                                <h4 class="font-bold">{{ title }}</h4>
                                                 <p class="flex-col">{{ subtitle }}</p>
+                                            </slot>
+                                        </div>
+                                        <div @class="close">
+                                            <span click="close">X</span>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body">
+                                        <slot name="content"></slot>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <slot name="footer">
+                                            <div>
+                                                <button class="btn btn-sm btn-success m-1" @click="submit">Submit</button>
+                                                <button class="btn btn-sm btn-secondary m-1" @click.stop="emit('modal-close')">Cancel</button>
                                             </div>
-                                        </div>
-                                        <div class="close">
-                                            <span @click="close">X</span>
-                                        </div>
+                                        </slot>
                                     </div>
-                                    <div class="modal_body">
-                                        <slot></slot>
-                                    </div>
-                                    <!-- <div class="modal_footer">
-                                    <button @click="submit">Submit</button>
-                                    <button @click="close">Cancel</button>
-                                </div> -->
                                 </div>
                             </Transition>
                         </div>
                     </div>
+                </div>
                 </div>
             </Transition>
         </teleport>
@@ -55,19 +45,24 @@
 </template>
 
 <script setup>
-import { defineEmits, defineProps } from "vue";
-defineProps({
+import { defineEmits,ref } from "vue";
+import { onClickOutside } from '@vueuse/core'
+const emit = defineEmits(["modal-close", 'submit']);
+
+const target = ref(null)
+onClickOutside(target, () => emit('modal-close'))
+ defineProps({
     title: String,
     subtitle: String,
     w: String,
     icon: String,
 });
-const emit = defineEmits(["close"]);
+// const emit = defineEmits(["close"]);
 const close = () => emit("close");
 </script>
 
 <style scoped>
-.modal_background {
+.modal-base {
     height: 100vh;
     width: 100vw;
     background-color: #f7f8f9;
@@ -77,23 +72,25 @@ const close = () => emit("close");
     z-index: 200;
 }
 
-.modal_container {
+.modal-container {
     position: absolute;
     top: 0;
 }
 
-.inner_container {
+.inner-container {
     display: grid;
     place-items: center;
     width: 100vw;
     height: 100vh;
 }
 
-.modal_card {
-    /* / width: 40%;/ max-height: 90%; */
+.modal-card {
+    /* / width: 40%;/  */
+    max-height: 90%;
     background-color: #fff;
     border-radius: 10px;
-    /* / padding: 10px;/ box-shadow: 0px 198px 119px rgba(0, 0, 0, 0.05); */
+    /* / padding: 10px;/  */
+    box-shadow: 0px 198px 119px rgba(0, 0, 0, 0.05);
     z-index: 9999;
     overflow-y: scroll;
     position: relative;
@@ -103,18 +100,18 @@ const close = () => emit("close");
     scrollbar-width: thin;
 }
 
-.modal_card::-webkit-scrollbar {
+.modal-card::-webkit-scrollbar {
     width: 8px !important;
 }
 
-.modal_card_mobile {
+/* .modal_card_mobile {
     width: 100%;
     height: 100%;
     background-color: #fff;
     border-radius: 10px;
     padding: 10px;
     /* / box-shadow: 0px 198px 119px rgba(0, 0, 0, 0.05);/ z-index: 400; */
-}
+/* } */ *
 
 .modal-60 {
     width: 60% !important;
@@ -147,7 +144,7 @@ const close = () => emit("close");
     padding-top: 2px;
 }
 
-.close_mobile {
+.close-mobile {
     text-align: left;
     font-size: 18px;
     justify-self: flex-start;
@@ -156,7 +153,7 @@ const close = () => emit("close");
 }
 
 .close,
-.close_mobile>span {
+.close-mobile>span {
     cursor: pointer;
 }
 
@@ -169,7 +166,7 @@ const close = () => emit("close");
     align-items: center;
 }
 
-.modal_header {
+.modal-header {
     display: flex;
     /* / flex-direction: row-reverse;/ align-items: center; */
     justify-content: space-between;
@@ -177,7 +174,7 @@ const close = () => emit("close");
     padding-bottom: 10px;
 }
 
-.header_info>h1 {
+.header-info>h1 {
     font-size: 19px;
     font-weight: 600;
     text-align: center;
@@ -185,13 +182,13 @@ const close = () => emit("close");
     /* / padding-left: 15px;/ */
 }
 
-.header_info {
+.header-info {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.modal_icon {
+.icon {
     color: #fff;
     background-color: #22c45e;
     width: 32px;

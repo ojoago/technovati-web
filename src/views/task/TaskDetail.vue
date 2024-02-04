@@ -4,7 +4,7 @@
            <div class="card m-2">
             <div class="card-header">
                 <h5 class="card-title"> {{ task.task }}</h5>
-               
+                <p>{{ task.description }}</p>
                 <nav class="d-flex float-start">
                     <ol class="breadcrumb">
                       <li class="breadcrumb-item"> {{ task.from }}</li>
@@ -13,141 +13,144 @@
                     </ol>
                   </nav>
                   <div class="float-end">
-                    <button class="btn btn-sm btn-primary">Add Sub Task</button>
-                    <button class="btn btn-sm btn-primary">Add Team M</button>
+                    <button class="btn btn-sm btn-primary m-2"  @click="addSubTask(task)">Add Sub Task</button>
+                    <button class="btn btn-sm btn-primary m-2" @click="addTeamModal">Add Team M</button>
                   </div>
             </div>
             <div class="card-body">
                 <div class="horizontal-scrollable">
                 <div class="row flex-nowrap">
-                    <div class="col-4" v-for="(sts, lp) in status" :key="lp">
-                            <label class="h3">{{ sts.toUpperCase() }}</label>
-                            <template v-for="task in subtasks.task" :key="task.pid" >
-                                <div class="card mb-2" v-if="lp == task.status">
-                                <div class="card-body">
-                                    <h4 class="card-title">{{ task.name }}</h4>
+                    <div class="col-4" v-for="(heading, lp) in task.headings" :key="lp">
+                        <label class="h3 text-center">{{ heading.toUpperCase() }}</label>
+                           <div class="sub-task-card">
+                                <template v-for="sub in subtasks" :key="sub.pid" >
+                                    <div class="card mb-2 " v-if="lp == task.status">
+                                    <div class="card-body">
+                                        <h4 class="card-title h5">{{ sub.name }}</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <span v-for="team in sub.teams" :key="team.id" class="badge bg-dark p-1 m-1 ellipsis">
+                                            {{ team.text }}
+                                        </span>
+                                    </div>
+                                    <div class="card-footer">
+                                        <i class="bi bi-info-circle-fill pointer" @click="subTaskDetail(sub, heading)"></i> 
+                                        <i class="bi bi-person"></i> <label>{{ sub.user?.username }}</label>
+                                        <span class="float-end small text-danger"><i class="bi bi-calendar-x"></i> <label>{{ sub.to }}</label></span>
+                                    </div>
                                 </div>
-                                <div class="card-body">
-
-                                </div>
-                                <div class="card-footer">
-                                    <i class="bi bi-person"></i> <label>{{ task.username }}</label>
-                                    <span class="float-end"><i class="bi bi-calendar-x"></i> <label>{{ task.to }}</label></span>
-                                </div>
-                            </div>
-                            </template>
+                                </template>
+                           </div>
                     </div>
             
                 </div>
             </div>
-                <!-- <DoModal :is-open="false">
-
-                </DoModal> -->
-                
-                <form>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="form-label">Task</label>
-                                <input type="text" v-model="sub_task.name" class="form-control"
-                                    placeholder="Name of department">
-                                <p class="text-danger " v-if="errors?.name">{{ errors?.name[0] }}</p>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="form-label">Description</label>
-                                <textarea type="text" v-model="sub_task.description" class="form-control"  placeholder="Name of department"></textarea>
-                                <p class="text-danger " v-if="errors?.description">{{ errors?.description[0] }}</p>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                                <div class="form-group">
-                                    <label class="form-label">Begin Date</label>
-                                    <input type="date" v-model="sub_task.from" class="form-control"
-                                        placeholder="Name of department">
-                                    <p class="text-danger " v-if="errors?.from">{{ errors?.from[0] }}</p>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label class="form-label">End Date</label>
-                                    <input type="date" v-model="sub_task.to" class="form-control"
-                                        placeholder="Name of department">
-                                    <p class="text-danger " v-if="errors?.to">{{ errors?.to[0] }}</p>
-                                </div>
-                            </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="form-label">Image</label>
-                                <input type="text" v-model="sub_task.head" class="form-control"
-                                    placeholder="Name of department">
-                                <!-- <p class="text-danger " v-if="errors?.head[0]">{{ errors?.head[0] }}</p> -->
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="form-label">Head of Department</label>
-                                <input type="text" v-model="sub_task.head" class="form-control"
-                                    placeholder="Name of department">
-                                <!-- <p class="text-danger " v-if="errors?.head[0]">{{ errors?.head[0] }}</p> -->
-                            </div>
-                        </div>
-                    </div>
-                    <button type="button" class="btn btn-success btn-sm mt-2"
-                        @click="createSubTask">Submit</button>
-                </form>
+            </div>
+            <div class="card-footer">
+                Team
+                <span v-for="tsk in task.teams" :key="tsk.id" class="badge bg-dark p-1 m-1 ellipsis">
+                    {{ tsk.text }}
+                </span>
+                <i class="bi bi-person"></i> <label>{{ task.user?.username }}</label>
             </div>
            </div>
         </div>
+             <o-modal :isOpen="toggleModal" :modal-class="modal" title="Add Sub Task" subtitle="add sub task to task" @modal-close="closeModal" >
+                        <template #content>
+                            <SubTaskForm :task="task" />
+                        </template>
+                        <template #footer>
+                            <div>
+                            
+                                </div>
+                        </template>
+                    </o-modal>
 
+             <o-modal :isOpen="dtlModal" subtitle="sub task details" @modal-close="closeModal" >
+                        <template #content>
+                             <div class="card mb-2 " >
+                                        <div class="card-body">
+                                            <h4 class="card-title h5">Task: {{ dtlSub.name }}</h4>
+                                            <p>Current Status: <span class="text-info"><i class="bi bi-info-circle"></i> <label>{{ dtlSub.status }}</label></span></p>
+                                            Task Begin: <span class="text-primary"><i class="bi bi-calendar-x"></i> <label>{{ dtlSub.from }}</label></span>
+                                            <span class="float-end">Task End: <span class="text-danger"> <i class="bi bi-calendar-x"></i> <label>{{ dtlSub.to }}</label></span> </span>
+
+                                        </div>
+                                        <div class="card-body">
+                                           Description <p>{{ dtlSub.description }}</p>
+                                            <hr>
+                                            Teams:
+                                            <span v-for="team in dtlSub.teams" :key="team.id" class="badge bg-dark p-1 m-1">
+                                                {{ team.text }}
+                                            </span>
+                                        </div>
+                                        <div class="card-footer">
+                                            <i class="bi bi-person"></i> <label>{{ dtlSub.user?.username }}</label>
+                                        </div>
+                                    </div>
+                        </template>
+                        <template #footer>
+                            <div>
+                            
+                            </div>
+                        </template>
+                    </o-modal>
+
+             <o-modal :isOpen="teamModal" :subtitle="`add staff to ${task.task}`" @modal-close="closeModal" >
+                <template #content>
+                       
+                        <div>
+                            
+                        </div>
+                </template>
+                <template #footer>
+                    <div>
+                        <div class="card" style="width: 100% !important;">
+                            <div class="card-body">
+                                <div>
+                                    <Multiselect v-model="teams" :options="users" :multiple="true"
+                                        :close-on-select="true" placeholder="Pick Staff" label="text"
+                                        track-by="id" style="width: 100% !important;" />
+                                </div>
+                                <p class="text-danger " v-if="errors?.teams">{{ errors?.teams[0] }}</p>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-sm btn-success m-1" @click="updateTask" >Update</button>
+                                <button class="btn btn-sm btn-secondary m-1" @modal-close="closeModal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </o-modal>
         
         
     </div>
 </template>
 
-<script setup>
-// import DynamicModal from "@/components/DynamicModal.vue";
-// import ModalConponent from "@/components/ModalComp.vue";
-// import DoModal from "@/components/DoModal.vue";
-    
+<script setup>    
 import store from "@/store";
 import { onMounted, ref } from "vue";
 import { useRoute,useRouter  } from 'vue-router';
+import SubTaskForm from "@/components/task/forms/SubTaskForm.vue";
+import OModal from "@/components/OModal.vue";
+import { Multiselect } from 'vue-multiselect';
+
 const router = useRouter()
 const route = useRoute()
-const errors = ref({});
-const status = ref(['PENDING','IN PROGRESS','COMPLETED','DAMAGED'])
 const task = ref({});
 const subtasks = ref({});
 const task_pid = ref(null);
-
-const sub_task = ref({
-    'name': '',
-    'description': '',
-    'from': '',
-    'to': '',
-    task_pid: task_pid
-});
-
-
-function createSubTask() {
-    store.commit('setSpinner', true)
-    store.dispatch('postMethod', { url: '/create-sub-task' , param: sub_task.value }).then((data) => {
-        store.commit('setSpinner', false)
-        if (data.status == 422) {
-            errors.value = data.data;
-        } else if(data.status == 201){
-            errors.value = [];
-            sub_task.value = [];
-        }
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
-        alert('weting be this')
-    })
+function addSubTask() {
+    toggleModal.value = true;
 }
 
+
+const toggleModal = ref(false);
+const closeModal = () => {
+    toggleModal.value = false;
+    dtlModal.value = false;
+    teamModal.value = false;
+};
 
 onMounted(() => {
       let tsk = localStorage.getItem('TVATI_TASK_DETAIL') ? JSON.parse(localStorage.getItem('TVATI_TASK_DETAIL')) : 'null'
@@ -155,7 +158,7 @@ onMounted(() => {
             task.value = tsk;
          }
     getUrlQueryParams()
-    loadTaskDetail()
+    loadSubTask()
 });
 
  async function  getUrlQueryParams(){
@@ -163,7 +166,7 @@ onMounted(() => {
      task_pid.value = route.query.task;
 }
 
-function loadTaskDetail() {
+function loadSubTask() {
     store.commit('setSpinner', true)
    store.dispatch('getMethod', {url:'/task-detail/'+ route.query.task }).then(({data}) => {
         subtasks.value = data;
@@ -176,22 +179,87 @@ function loadTaskDetail() {
     })
 }
 
-
-
+// view sub task details on modal 
+const dtlModal = ref(false)
+const dtlSub = ref({})
+const subTaskDetail = (sb,sts)=>{
+    dtlSub.value = sb;
+    dtlSub.value.status = sts
+    dtlModal.value = true
+}
+// view sub task details on modal 
+const teamModal = ref(false)
+const teams = ref({})
+const addTeamModal = ()=>{
+    teams.value = task.value.teams;
+    teamModal.value = true
+}
+const errors = ref({})
+function updateTask() {
+    errors.value = [];
+    task.value.teams = teams.value;
+    store.commit('setSpinner', true)
+    store.dispatch('postMethod', { url: '/update-task', param: task.value }).then((data) => {
+        store.commit('setSpinner', false)
+        if (data.status == 422) {
+            errors.value = data.data;
+        } else if (data.status == 201) {
+            errors.value = [];
+            // memoForm.value = [];
+            // loadTask()
+        }
+    }).catch(e => {
+        store.commit('setSpinner', false)
+        console.log(e);
+        alert('weting be this')
+    })
+}
+const users = ref([]);
+function dropdownUser() {
+    store.dispatch('loadDropdown', 'users').then(({ data }) => {
+        users.value = data;
+    }).catch(e => {
+        console.log(e);
+        alert('Something Went Wrong')
+    })
+}
+dropdownUser()
 
 </script>
 
 <style scoped>
  .horizontal-scrollable  {
         padding: 5px !important;
+        padding-bottom:10px !important ;
     }
  .horizontal-scrollable > .row {
         overflow-x: auto;
         white-space: nowrap;
     }
+.row,.flex-nowrap{
+    margin-bottom: 5px !important;
+    padding-bottom: 10px !important;
+}
+
 
 
 .col-4:nth-child(3n+1) { background: #c69; }
 .col-4:nth-child(3n+2) { background: #9c6; }
 .col-4:nth-child(3n+3) { background: #69c; }
+
+.sub-task-card{
+    overflow-y: scroll;
+    position: relative;
+    max-height: 350px;
+    padding: 5px 10px;
+    justify-content: center;
+}
+/* .sub-task-card {
+    scrollbar-width: thin;
+}
+
+.sub-task-card::-webkit-scrollbar {
+    width: 10px !important;
+} */
+
 </style>

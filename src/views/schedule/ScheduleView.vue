@@ -6,7 +6,7 @@
                     <div class="card">
                         <div class="card-body">
                             <fieldset class="border rounded-3 p-2 m-1">
-                                <legend class="float-none w-auto px-2">Create Task</legend>
+                                <legend class="float-none w-auto px-2">Create Schedule</legend>
                                 <form>
                                     <div class="row">
                                         <div class="col-md-12">
@@ -34,6 +34,13 @@
                                                 <p class="text-danger " v-if="errors?.end_time">{{ errors?.end_time[0] }}</p>
                                             </div>
                                         </div>
+                                        <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">Staff <span class="text-danger">*</span></label>
+                                                    <Select2 v-model="schedule.staff" :options="users" :settings="{ width: '100%' }"  />
+                                                    <p class="text-danger " v-if="errors?.log">{{ errors?.log[0] }}</p>
+                                                </div>
+                                            </div>
                                         
                                     </div>
                                     <button type="button" class="btn btn-success btn-sm mt-2"
@@ -46,7 +53,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card">
-                        <div class="card-header">Departments</div>
+                        <div class="card-header">Md Schedules</div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table-hover table-stripped table-bordered table">
@@ -100,6 +107,7 @@
 import store from "@/store";
 import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
+import Select2 from 'vue3-select2-component';
 
 const errors = ref({});
 const schedules = ref({});
@@ -107,6 +115,7 @@ const schedule = ref({
     schedule : '' ,
     begin_time : '' ,
     end_time : '' ,
+    staff : '' ,
 });
 
 const editSchedule = (sch)=>{
@@ -114,6 +123,7 @@ const editSchedule = (sch)=>{
         schedule: sch.schedule,
         begin_time: sch.begin_time,
         end_time: sch.end_time,
+        staff: sch.staff,
         id: sch.id,
     }
 }
@@ -146,7 +156,16 @@ function loadLeaves() {
         console.log(e);
         alert('weting be this')
     })
+} const users = ref([]);
+function dropdownUser() {
+    store.dispatch('loadDropdown', 'users').then(({ data }) => {
+        users.value = data;
+    }).catch(e => {
+        console.log(e);
+        alert('Something Went Wrong')
+    })
 }
+dropdownUser()
 
 loadLeaves()
 function nextPage(link) {

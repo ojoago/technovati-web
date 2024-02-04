@@ -1,34 +1,10 @@
-<script setup>
-import { defineProps, defineEmits, ref } from "vue";
-import { onClickOutside } from '@vueuse/core'
 
-defineProps({
-    isOpen: Boolean,
-    title: String,
-    subtitle: String,
-    icon: String,
-    modal: {
-        type: String,
-        default: 'small'
-    },
-    buttonText: {
-        type: String,
-        default: 'Submit'
-    },
-});
-
-const emit = defineEmits(["modal-close",'submit']);
-
-const target = ref(null)
-onClickOutside(target, () => emit('modal-close'))
-
-</script>
 
 <template>
     <div v-if="isOpen" class="modal-mask">
 
         <div class="modal-wrapper">
-            <div :class="modal" ref="target">
+            <div :class="modalClass" ref="target">
                 <div class="modal-header">
                     <slot name="header"> default header </slot>
                 </div>
@@ -48,12 +24,36 @@ onClickOutside(target, () => emit('modal-close'))
 
     </div>
 </template>
+<script setup>
+import { defineProps, defineEmits, ref } from "vue";
+import { onClickOutside } from '@vueuse/core'
 
+defineProps({
+    isOpen: Boolean,
+    title: String,
+    subtitle: String,
+    icon: String,
+    modalClass: {
+        type: String,
+        default: 'small'
+    },
+    buttonText: {
+        type: String,
+        default: 'Submit'
+    },
+});
+
+const emit = defineEmits(["modal-close", 'submit']);
+
+const target = ref(null)
+onClickOutside(target, () => emit('modal-close'))
+
+</script>
 <style scoped>
 .modal-mask {
     position: fixed;
     z-index: 9998;
-    top: 0;
+    /* top: -100; */
     left: 0;
     width: 100%;
     height: 100%;

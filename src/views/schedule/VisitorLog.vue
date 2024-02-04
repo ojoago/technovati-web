@@ -37,6 +37,13 @@
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
+                                                <label class="form-label">Staff <span class="text-danger">*</span></label>
+                                                <Select2 v-model="log.staff" :options="users" :settings="{ width: '100%' }"  />
+                                                <p class="text-danger " v-if="errors?.log">{{ errors?.log[0] }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
                                                 <label class="form-label">Address</label>
                                                 <textarea type="text" v-model="log.address" class="form-control" placeholder="visitor address"></textarea>
                                                 <p class="text-danger " v-if="errors?.address">{{ errors?.address[0]  }}</p>
@@ -54,7 +61,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card">
-                        <div class="card-header">Departments</div>
+                        <div class="card-header">Visitor's Log</div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table-hover table-stripped table-bordered table">
@@ -86,10 +93,9 @@
                                                         <i class="bi bi-tools"></i>
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                        <li class="bg-warning"><a class="dropdown-item pointer"
-                                                                @click="editlog(lg)">Details</a> </li>
-                                                        <li class="bg-danger"><a class="dropdown-item pointer"
-                                                                @click="deleteLog(lg.id)">Delete</a> </li>
+                                                        <li class="bg-success"><a class="dropdown-item pointer" @click="editlog(lg)">Clock out</a> </li>
+                                                        <li class="bg-warning"><a class="dropdown-item pointer" @click="editlog(lg)">Details</a> </li>
+                                                        <li class="bg-danger"><a class="dropdown-item pointer" @click="deleteLog(lg.id)">Delete</a> </li>
                                                     </ul>
                                                 </div>
                                             </td>
@@ -115,6 +121,7 @@
 import store from "@/store";
 import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
+import Select2 from 'vue3-select2-component';
 
 const errors = ref({});
 const logs = ref({});
@@ -125,7 +132,8 @@ const log = ref({
    'address': '', 
    'tag' : '', 
    'time_in' : '', 
-   'time_out': ''
+   'time_out': '' ,
+   'staff': ''
 });
 
 const editlog = (lg) => {
@@ -138,6 +146,7 @@ const editlog = (lg) => {
         time_in : lg.time_in,
         time_out: lg.time_out,
         id: lg.id,
+        staff: lg.staff,
     }
 }
 const deleteLog = (id) => {
@@ -173,7 +182,16 @@ function loadLog() {
         alert('weting be this')
     })
 }
-
+const users = ref([]);
+function dropdownUser() {
+    store.dispatch('loadDropdown', 'users').then(({ data }) => {
+        users.value = data;
+    }).catch(e => {
+        console.log(e);
+        alert('Something Went Wrong')
+    })
+}
+dropdownUser()
 loadLog()
 function nextPage(link) {
     alert()
