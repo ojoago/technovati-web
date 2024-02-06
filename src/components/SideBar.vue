@@ -344,7 +344,7 @@
                        <div class="icon-link">
                         <a >
                             <i class="bi bi-book"></i>
-                            <span class="link-name">Workers</span>
+                            <span class="link-name">Engineering</span>
                         </a>
                         <i class="bi bi-chevron-down arrow"></i>
                        </div>
@@ -355,27 +355,13 @@
                             <li class="nav-item" title="team">
                                 <router-link to="/team" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Team</span>  </router-link>
                             </li>
-                        
-                        </ul>
-                    </li>
-                    <li>
-                       <div class="icon-link">
-                        <a >
-                            <i class="bi bi-book"></i>
-                            <span class="link-name">tools</span>
-                        </a>
-                        <i class="bi bi-chevron-down arrow"></i>
-                       </div>
-                        <ul class="sub-menu">
                             <li class="nav-item" title="staff">
                                 <router-link to="/tools" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Tools  </span>  </router-link>
                             </li>
-                            <li class="nav-item" title="staff">
-                                <router-link to="/staff-list" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Staff List</span>  </router-link>
-                            </li>
                         
                         </ul>
                     </li>
+                    
                     <li>
                        <div class="icon-link">
                         <a >

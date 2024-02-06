@@ -164,7 +164,7 @@ body.modal-base {
     font-size: 12px;
     padding-top: 2px;
 }
-.icon:hover{
+.icon:hover,.btn-secondary:hover{
     background-color: brown !important;
 }
 .modal-body{

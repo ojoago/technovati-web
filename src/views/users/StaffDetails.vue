@@ -1,6 +1,8 @@
 <template>
     <div>
+        <!-- {{ staff }} -->
         <div class="container">
+            {{ detail }}
             <div class="flex-row">
                 <div class="personal-detail">
                     <table class="table table-hover table-striped table-bordered">
@@ -43,7 +45,7 @@
                                 Status
                             </td>
                             <td>
-                                {{ staff.marital_status }}
+                                {{ detail.marital_status }}
                             </td>
                         </tr>
                         <tr>
@@ -51,7 +53,7 @@
                                 State
                             </td>
                             <td>
-                                {{ staff.state_origin }}
+                                {{ detail?.origin?.state }}
                             </td>
                         </tr>
                         <tr>
@@ -59,15 +61,15 @@
                                 State LGA
                             </td>
                             <td>
-                                {{ staff.state_origin }}
+                                {{ detail?.origin_lga?.lga }}
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                State
+                                State Of Residence
                             </td>
                             <td>
-                                {{ staff.state_origin }}
+                                {{ detail?.residence?.state }}
                             </td>
                         </tr>
                         <tr>
@@ -75,7 +77,7 @@
                                 State LGA
                             </td>
                             <td>
-                                {{ staff.state_origin }}
+                                {{ detail?.residence_lga?.lga }}
                             </td>
                         </tr>
                     </table>
@@ -100,7 +102,7 @@
                                 Department
                             </td>
                             <td>
-                                {{ staff?.departnemt?.departnemt }}
+                                {{ detail?.department?.department }}
                                 <small>{{ staff?.sub?.name }}</small>
                             </td>
                         </tr>
@@ -125,7 +127,7 @@
                                 Account Status
                             </td>
                             <td>
-                                {{ staff?.designation?.name }}
+                                {{ staff?.status }}
                             </td>
                         </tr>
 
@@ -156,7 +158,7 @@
                 </div>
                 <div class="img img-responsive student-img">
                    
-                    <img src="" alt="" class="img img-responsive" id="student-img">
+                    <img :src="detail?.path" alt="" class="img img-responsive" id="student-img">
                 </div>
             </div>
             <hr>
@@ -179,6 +181,7 @@ import { onMounted,ref } from "vue";
 // import { useRoute, useRouter } from 'vue-router';
 
 const staff = ref({});
+const detail = ref({});
 const staff_pid = ref(null);
 
     
@@ -189,14 +192,14 @@ onMounted(() => {
         staff.value = user;
         staff_pid.value = user.pid 
     }
-    loadTaskDetail()
+    loadStaffDetail()
 });
 
 
-function loadTaskDetail() {
+function loadStaffDetail() {
     store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/ataff-detail/' + staff_pid.value }).then(({ data }) => {
-        staff.value = data;
+        detail.value = data;
         store.commit('setSpinner', false)
 
     }).catch(e => {
