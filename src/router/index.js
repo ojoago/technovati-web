@@ -119,8 +119,20 @@ const routes = [
                 path:'/tools',name:'ToolsView',component: () => import('@/views/tools/ToolsView.vue')
             },
             {
-                path:'/assemble',name:'AssembleView',component: () => import('@/views/assemble/AssembleView.vue')
+                path:'/work-sheet',name:'WorkSheetView',component: () => import('@/views/work-sheet/WorkSheetView.vue')
             },
+            
+            // logistics 
+            {
+                path:'/driver',name:'DriverView',component: () => import('@/views/logistics/WorkersView.vue')
+            },
+            {
+                path:'/vehicle',name:'VehicleView',component: () => import('@/views/logistics/VehicleView.vue')
+            },
+            {
+                path:'/vehicle-detail',name:'VehicleDetailView',component: () => import('@/views/logistics/VehicleDetailView.vue')
+            },
+           
             
             // Inventory 
             {

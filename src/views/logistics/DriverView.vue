@@ -1,50 +1,51 @@
 <template>
     <div>
         <div class="container mt-2">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-header">Engineering Tools</div>
-                        <ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
-                            <li class="nav-item flex-fill" role="presentation">
-                                <button class="nav-link w-100 active" id="worker-tab" data-bs-toggle="tab"
-                                    data-bs-target="#worker" type="button" role="tab" aria-controls="worker"
-                                    aria-selected="true">Tool</button>
-                            </li>
-                            <li class="nav-item flex-fill" role="presentation">
-                                <button class="nav-link w-100" id="casual-tab" data-bs-toggle="tab" data-bs-target="#casual"
-                                    type="button" role="tab" aria-controls="casual" aria-selected="false">Tools History</button>
-                            </li>
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-header">Engineering Tools</div>
+                    <ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
+                        <li class="nav-item flex-fill" role="presentation">
+                            <button class="nav-link w-100 active" id="worker-tab" data-bs-toggle="tab"
+                                data-bs-target="#worker" type="button" role="tab" aria-controls="worker"
+                                aria-selected="true">Tool</button>
+                        </li>
+                        <li class="nav-item flex-fill" role="presentation">
+                            <button class="nav-link w-100" id="casual-tab" data-bs-toggle="tab" data-bs-target="#casual"
+                                type="button" role="tab" aria-controls="casual" aria-selected="false">Tools History</button>
+                        </li>
 
-                        </ul>
-                        <div class="tab-content pt-2" id="myTabjustifiedContent">
-                            <div class="tab-pane fade show active" id="worker" role="tabpanel" aria-labelledby="worker-tab">
-                                    <ItemRequestView/>
-                            </div>
-                            <div class="tab-pane fade" id="casual" role="tabpanel" aria-labelledby="casual-tab">
-                                <fieldset class="border rounded-3 p-2 m-1">
-                                    <legend class="float-none w-auto px-2">Add Casual Workers</legend>
-                                    <worker-form></worker-form>
-                                </fieldset>
-                            </div>
-
+                    </ul>
+                    <div class="tab-content pt-2" id="myTabjustifiedContent">
+                        <div class="tab-pane fade show active" id="worker" role="tabpanel" aria-labelledby="worker-tab">
+                            <ItemRequestView />
                         </div>
+                        <div class="tab-pane fade" id="casual" role="tabpanel" aria-labelledby="casual-tab">
+                            <fieldset class="border rounded-3 p-2 m-1">
+                                <legend class="float-none w-auto px-2">Add Casual Workers</legend>
+                                <worker-form></worker-form>
+                            </fieldset>
+                        </div>
+
                     </div>
                 </div>
+            </div>
         </div>
 
-        <o-modal :isOpen="toolModal" :modal-class="xs" title="Add New Tool" @submit="createTool"
-            @modal-close="closeModal">
+        <o-modal :isOpen="toolModal" :modal-class="xs" title="Add New Tool" @submit="createTool" @modal-close="closeModal">
             <template #content>
                 <form id="toolForm">
                     <div class="row">
                         <div class="col-md-12">
                             <label class="form-label">Tool</label>
-                            <input type="text" v-model="tool.name" placeholder="e.g tape" class="form-control form-control-sm">
+                            <input type="text" v-model="tool.name" placeholder="e.g tape"
+                                class="form-control form-control-sm">
                             <p class="text-danger " v-if="errors?.name">{{ errors?.name[0] }} </p>
                         </div>
                         <div class="col-md-12">
                             <label class="form-label">Description</label>
-                            <textarea type="text" v-model="tool.description" placeholder="e.g for measuring" class="form-control form-control-sm"></textarea>
+                            <textarea type="text" v-model="tool.description" placeholder="e.g for measuring"
+                                class="form-control form-control-sm"></textarea>
                             <p class="text-danger " v-if="errors?.description">{{ errors?.description[0] }} </p>
                         </div>
                     </div>
@@ -102,10 +103,10 @@ function createTool() {
     store.commit('setSpinner', true)
     errors.value = []
     let form = document.querySelector('#toolForm');
-    store.dispatch('postMethod', { url: '/create-tool', param: tool.value,form:form }).then((data) => {
+    store.dispatch('postMethod', { url: '/create-tool', param: tool.value, form: form }).then((data) => {
         if (data.status == 422) {
             errors.value = data.data
-        } 
+        }
         // else if (data.status == 201) {
         //     let form = document.querySelector('#teamForm');
         //     form.reset();

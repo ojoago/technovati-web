@@ -1,48 +1,11 @@
 <template>
     <div>
         <div class="container mt-2">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <fieldset class="border rounded-3 p-2 m-1">
-                                <legend class="float-none w-auto px-2">Create Team</legend>
-                                <form id="teamForm">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">Team</label>
-                                                <input type="text" v-model="team.team" class="form-control"
-                                                    placeholder="e.g Team A">
-                                                <p class="text-danger " v-if="errors?.team">{{ errors?.team[0] }}</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">Description</label>
-                                                <textarea type="text" v-model="team.description" class="form-control" placeholder="Name of department"></textarea>
-                                                <p class="text-danger " v-if="errors?.description">{{ errors?.description[0]
-                                                }}</p>
-                                            </div>
-                                        </div>
-                                         <div class="col-md-12">
-                                            <label class="form-label">Team Lead</label>
-                                            <Select2 v-model="team.team_lead" :options="userDrop"  />
-                                            <p class="text-danger " v-if="errors?.team_lead">{{ errors?.team_lead[0] }} </p>
-                                        </div>
-                                    </div>
-                                    <button type="button" class="btn btn-success btn-sm mt-2"
-                                        @click="createTeam">Submit</button>
-                                </form>
-
-                            </fieldset>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-8">
+          
                     <div class="card">
                         <div class="card-header h3">Teams</div>
                         <div class="card-body">
+                            <button class="btn btn-sm btn-primary m-2" @click="openTeamModal">Add Team</button>
                             <div class="table-responsive">
                                 <table class="table-hover table-stripped table-bordered table">
                                     <thead>
@@ -51,8 +14,8 @@
                                             <th>TASK</th>
                                             <th>DESCRIPTION</th>
                                             <th>TEAM lead</th>
-                                            <th>Count</th>
-                                            <th> <i class="bi bi-pencil-fill"></i> </th>
+                                            <th>Member</th>
+                                            <th> <i class="bi bi-gear"></i> </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -69,11 +32,10 @@
                                                         <i class="bi bi-tools"></i>
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                        <li><a class="dropdown-item pointer" click="editDept(dp)">Asign Member</a> </li>
-                                                        <li><a class="dropdown-item pointer" click="editDept(dp)">Update Team Lead</a> </li>
+                                                        <!-- <li><a class="dropdown-item pointer" click="editDept(dp)">Asign Member</a> </li> -->
                                                         <li><a class="dropdown-item pointer" @click="editTeam(team)">Edit Team</a> </li>
-                                                        <!-- <li><a class="dropdown-item pointer" data-bs-toggle="modal"
-                                                                data-bs-target="">Assign</a></li> -->
+                                                        <li class="bg-danger"><a class="dropdown-item pointer" @click="editTeam(team)">Delete Team</a> </li>
+                                                      
                                                     </ul>
                                                 </div>
                                             </td>
@@ -90,8 +52,36 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+          
+         <o-modal :isOpen="teamModal" :modal-class="xs" title="Create Team" @submit="createTeam" @modal-close="closeModal" >
+                <template #content>
+                    <form id="teamForm">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Team</label>
+                                    <input type="text" v-model="team.team" class="form-control"
+                                        placeholder="e.g Team A">
+                                    <p class="text-danger " v-if="errors?.team">{{ errors?.team[0] }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Description</label>
+                                    <textarea type="text" v-model="team.description" class="form-control" placeholder="describe the team"></textarea>
+                                    <p class="text-danger " v-if="errors?.description">{{ errors?.description[0] }}</p>
+                                </div>
+                            </div>
+                                <div class="col-md-12">
+                                <label class="form-label">Team Lead</label>
+                                <Select2 v-model="team.team_lead" :options="userDrop"  />
+                                <p class="text-danger " v-if="errors?.team_lead">{{ errors?.team_lead[0] }} </p>
+                            </div>
+                        </div>
+                    </form>
+                </template>
+        
+        </o-modal>
     </div>
 </template>
 
@@ -100,7 +90,18 @@ import store from "@/store";
 import { ref } from "vue";
 import Select2 from 'vue3-select2-component';
 import PaginationLinks from "@/components/PaginationLinks.vue";
+import OModal from "@/components/OModal.vue";
 
+
+const xs = 'modal-xs';
+const teamModal = ref(false)
+const openTeamModal = () => {
+    teamModal.value = true;
+};
+
+const closeModal = () => {
+    teamModal.value = false;
+};
 
 const errors = ref({});
 const team_data = ref({});
@@ -118,6 +119,7 @@ const editTeam = (tm)=>{
         'team_lead': tm.team_lead ,
         'pid': tm.pid ,
     }
+    teamModal.value = true;
 }
 // function editDept(data) {
 //     task.value = {

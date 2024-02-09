@@ -358,6 +358,9 @@
                             <li class="nav-item" title="staff">
                                 <router-link to="/tools" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Tools  </span>  </router-link>
                             </li>
+                            <li class="nav-item" title="work">
+                                <router-link to="/work-sheet" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Work Sheet  </span>  </router-link>
+                            </li>
                         
                         </ul>
                     </li>
@@ -366,16 +369,16 @@
                        <div class="icon-link">
                         <a >
                             <i class="bi bi-book"></i>
-                            <span class="link-name">Assembling</span>
+                            <span class="link-name">Logistics</span>
                         </a>
                         <i class="bi bi-chevron-down arrow"></i>
                        </div>
                         <ul class="sub-menu">
                             <li class="nav-item" title="staff">
-                                <router-link to="/staff" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Create Staff  </span>  </router-link>
+                                <router-link to="/vehicle" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Vehicle </span>  </router-link>
                             </li>
                             <li class="nav-item" title="staff">
-                                <router-link to="/staff-list" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Staff List</span>  </router-link>
+                                <router-link to="/driver" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Driver</span>  </router-link>
                             </li>
                         
                         </ul>

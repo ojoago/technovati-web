@@ -126,19 +126,19 @@ body.modal-base {
 
 
 .modal-lg {
-    width: 60% !important;
+    width: 55% !important;
 }
 
 .modal-md {
-    width: 50% !important;
+    width: 45% !important;
 }
 
 .modal-sm {
-    width: 40% !important;
+    width: 30% !important;
 }
 
 .modal-xs {
-    width: 30% !important;
+    width: 25% !important;
 }
 
 .modal-xl {
@@ -151,7 +151,7 @@ body.modal-base {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 10px;
+    padding: 5px 20px;
     /* padding-bottom: 10px; */
 }
 .icon {
@@ -186,6 +186,7 @@ body.modal-base {
 
 .modal-footer{
     border-top: 1px solid #252729;
+    padding: 5px 25px;
 }
 
 @media only screen and (max-width: 600px) {

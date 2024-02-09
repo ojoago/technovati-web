@@ -156,11 +156,14 @@ const store = createStore({
                     })
             },
             //load staff  
-            postMethod({commit},{url,param,header={}}){
-                return axiosClient.post(url,param,header)
+            postMethod({commit},{url,param,form=null}){
+                return axiosClient.post(url,param)
                     .then(({data})=>{
                         if(data.status == 201){
                             commit('notify',{message:data.message})
+                            if(form != null){
+                                form.reset()
+                            }
                             // let form = document.querySelector('#form');
                             // form.reset();
                         }
