@@ -176,7 +176,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Designation <span class="text-danger">*</span></label>
-                                <Select2 v-model="user.designation_pid" :options="sub" :settings="{ width: '100%' }"  />
+                                <Select2 v-model="user.designation_pid" :options="desig" :settings="{ width: '100%' }"  />
                                 <p class="text-danger " v-if="errors?.designation_pid">{{ errors?.designation_pid[0] }}</p>
                             </div>
                         </div>
@@ -242,10 +242,10 @@ const user = ref({
 let query = {}
 
 function createStaff() {
-    store.commit('setSpinner', true)
+    // store.commit('setSpinner', true)
             errors.value = []
     store.dispatch('postMethod', { url: '/create-staff', param: user.value }).then((data) => {
-        store.commit('setSpinner', false)
+        // store.commit('setSpinner', false)
         if (data.status == 422) {
             errors.value = data.data;
         } else if (data.status == 201) {
@@ -255,10 +255,6 @@ function createStaff() {
             user.value = [];
             switchTab()
         }
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
-        alert('weting be this')
     })
 }
 const  emit =  defineEmits(['currentTab'])
@@ -277,6 +273,7 @@ const  emit =  defineEmits(['currentTab'])
             alert('Something Went Wrong')
         })
     }
+
     dropdownUser()
 
     const departments = ref([]);
@@ -287,7 +284,18 @@ const  emit =  defineEmits(['currentTab'])
             console.log(e);
         })
     }
+
     dropdownDpet()
+
+    const desig = ref([]);
+    function dropdownDesig() {
+        store.dispatch('loadDropdown', 'designations').then(({ data }) => {
+            desig.value = data;
+        }).catch(e => {
+            console.log(e);
+        })
+    }
+    dropdownDesig()
 
     
 const sub = ref([]);

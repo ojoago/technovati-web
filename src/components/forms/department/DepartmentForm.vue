@@ -3,6 +3,7 @@
         <fieldset class="border rounded-3 p-2 m-1">
                                             <legend class="float-none w-auto px-2">Create Department</legend>
                                             <form >
+                                                {{ data }}
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group">
@@ -35,18 +36,15 @@
 
 <script setup>
     import store from "@/store";
-    import { ref } from "vue";
+    import { onMounted, ref , defineProps } from "vue";
     import Select2 from 'vue3-select2-component';
-import { defineProps } from "vue";
-defineProps({
+// import { defineProps } from "vue";
+ const props = defineProps({
     data: Object,
 });
+// console.log(data);
 const errors = ref({});
-const dept = ref({
-    'department': '',
-    'description': '',
-    'head': '',
-});
+
 
 function createDepartment() {
     store.commit('setSpinner', true)
@@ -63,7 +61,10 @@ function createDepartment() {
         console.log(e);
     })
 }
-
+const dept = ref({})
+onMounted(()=>{
+    dept.value = props.data.clone();
+})
 
 
 const users = ref([]);

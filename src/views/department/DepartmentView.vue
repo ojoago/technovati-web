@@ -9,8 +9,12 @@
                         <li class="nav-item flex-fill" role="presentation">
                           <button class="nav-link w-100 active" id="department-tab" data-bs-toggle="tab" data-bs-target="#department" type="button" role="tab" aria-controls="department" aria-selected="true">Department</button>
                         </li>
+
                         <li class="nav-item flex-fill" role="presentation">
                           <button class="nav-link w-100" id="sub-tab" data-bs-toggle="tab" data-bs-target="#sub" type="button" role="tab" aria-controls="sub" aria-selected="false">Sub Department</button>
+                        </li>
+                        <li class="nav-item flex-fill" role="presentation">
+                          <button class="nav-link w-100" id="desig-tab" data-bs-toggle="tab" data-bs-target="#desig" type="button" role="tab" aria-controls="desig" aria-selected="false">Designation</button>
                         </li>
                         
                       </ul>
@@ -19,7 +23,36 @@
                          
                             <div class="row">
                                 <div class="col-md-4">
-                                      <DepartmentForm/>
+                                      <fieldset class="border rounded-3 p-2 m-1">
+                                                <legend class="float-none w-auto px-2">Create Department</legend>
+                                                <form >
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="form-label">Department</label>
+                                                                <input type="text" v-model="dept.department" class="form-control" placeholder="Name of department">
+                                                                <p class="text-danger " v-if="errors?.department">{{ errors?.department[0] }}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="form-label">Description</label>
+                                                                <textarea type="text" v-model="dept.description" class="form-control" placeholder="Name of department"></textarea>
+                                                                <p class="text-danger " v-if="errors?.description">{{ errors?.description[0] }}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="form-label">Head of Department</label>
+                                                                <Select2 v-model="dept.head_pid" :options="users" :settings="{ width: '100%' }"  />
+
+                                                                <p class="text-danger " v-if="errors?.head">{{ errors?.head[0] }}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <button type="button" class="btn btn-success btn-sm mt-2" @click="createDepartment">Submit</button>
+                                                </form>
+                                            </fieldset>
                                 </div>
                                 <div class="col-md-8">
                                     <div class="table-responsive">
@@ -60,6 +93,7 @@
                             </div>
                       
                         </div>
+
                         <div class="tab-pane fade" id="sub" role="tabpanel" aria-labelledby="sub-tab">
                             
                             <div class="row">
@@ -139,6 +173,72 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="tab-pane fade" id="desig" role="tabpanel" aria-labelledby="desig-tab">
+                            
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <fieldset class="border rounded-3 p-2 m-1">
+                                    <legend class="float-none w-auto px-2 h5">Create Designation</legend>
+                                <form >
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="form-label">Designation</label>
+                                                <input type="text" v-model="desig.name" class="form-control" placeholder="e.g graduate trainy">
+                                                <p class="text-danger " v-if="desig_error?.name">{{ desig_error?.name[0] }}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label">Description</label>
+                                            <textarea type="text" v-model="desig.description" class="form-control" placeholder="for the drvie force"></textarea>
+                                            <p class="text-danger " v-if="desig_error?.description">{{ desig_error?.description[0] }}</p>
+                                        </div>
+                                    </div>
+
+                                    </div>
+                                    <button type="button" class="btn btn-success btn-sm mt-2" @click="createDesignation">Submit</button>
+                                </form>
+                            </fieldset>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="table-responsive">
+                                    <table class="table-hover table-stripped table-bordered table">
+                                        <thead>
+                                            <tr>
+                                                <th>SN</th>
+                                                <th>DESIGNATION</th>
+                                                <th>STATUS</th>
+                                                <th>DESCRIPTION</th>
+                                                <th> <i class="bi bi-gear-fill"></i> </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="(dp, loop) in designations.data" :key="dp.pid">
+                                                <td>{{ loop + 1 }}</td>
+                                                <td>{{ dp.name }}</td>
+                                                <td>{{ dp.status == 1 ? 'ENABLED' : 'DISABLED' }}</td>
+                                                <td>{{ dp.description }}</td>
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+                                                            <i class="bi bi-tools"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a class="dropdown-item pointer" @click="editDesig(dp)">Edit</a></li>
+                                                            <li><a class="dropdown-item pointer bg-danger" @click="deleteDeisg(dp.pid)">Delete</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -182,9 +282,9 @@
 
 <script setup>
 import store from "@/store";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import Select2 from 'vue3-select2-component';
-import DepartmentForm from "@/components/forms/department/DepartmentForm.vue"
+// import DepartmentForm from "@/components/forms/department/DepartmentForm.vue"
 import DynamicModal from "@/components/DynamicModal.vue";
 
 const isModalOpened = ref(false);
@@ -215,7 +315,7 @@ const showModal = (pid) => {
     const dept = ref({
         'department':'' ,
         'description':'' , 
-        'head':'' , 
+        'head_pid':'' , 
     });
     const assign = ref({
         department_pid: '',
@@ -236,12 +336,27 @@ const showModal = (pid) => {
         dept.value = {
             'department': data.department ,
             'description': data.description,
-            'head': data.head,
+            'head_pid': data.head_pid,
             'pid': data.pid
         }
     }
 
-    
+    const errors = ref({})
+    function createDepartment() {
+    store.commit('setSpinner', true)
+    errors.value = []
+    store.dispatch('postMethod', { url: '/create-department', param: dept.value }).then((data) => {
+        if (data.status == 422) {
+            errors.value = data.data
+        } else if (data.status == 201) {
+            dept.value = [];
+        }
+        store.commit('setSpinner', false)
+    }).catch(e => {
+        store.commit('setSpinner', false)
+        console.log(e);
+    })
+}
 
     const sub_error = ref({})
     function createSubDepartment() {
@@ -300,7 +415,7 @@ const showModal = (pid) => {
 
 
     const sub_depts = ref({})    
-function loadLog() {
+function loadSubDepartment() {
     store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-sub-departments' }).then((data) => {
         store.commit('setSpinner', false)
@@ -314,14 +429,70 @@ function loadLog() {
     })
 }
 
-loadLog()
+const desig = ref({
+    name : '' ,
+    description: '',
+})
+const editDesig = (ds) => {
+    desig.value = {
+        name :ds.name ,
+        description:ds.description ,
+        pid: ds.pid ,
+        status : ds.status
+    }
+}
+const deleteDeisg = (pid) =>{
+    if(confirm('are you sure you want to delete this ?')){
+       store.dispatch('deleteMethod', { url: '/delete-designation/'+pid }).then(() => {
+            loadDesignation()
+        }).catch(e => {
+            store.commit('setSpinner', false)
+            console.log(e);
+        })
+    }
+}
+const desig_error = ref(false)
+function createDesignation(){
+    store.commit('setSpinner', true)
+    desig_error.value = []
+    store.dispatch('postMethod', { url: '/create-designation', param: desig.value }).then((data) => {
+        if (data.status == 422) {
+            desig_error.value = data.data
+        } else if (data.status == 201) {
+            assign_sub.value = [];
+            loadDesignation()
+        }
+        store.commit('setSpinner', false)
+    }).catch(e => {
+        store.commit('setSpinner', false)
+        console.log(e);
+    })
+}
 
     loadDepartment()
+    
     function loadDepartment() {
         store.commit('setSpinner', true)
-        store.dispatch('loadDepartment').then((data) => {
+        store.dispatch('getMethod', { url: '/load-departments' }).then((data) => {
             store.commit('setSpinner', false)
-            departments.value = data.data;
+            if (data.status == 200) {
+                departments.value = data.data;
+            }
+        }).catch(e => {
+            store.commit('setSpinner', false)
+            console.log(e);
+            alert('weting be this')
+        })
+    }
+    // load-designation
+    const designations = ref({});
+    function loadDesignation() {
+        store.commit('setSpinner', true)
+        store.dispatch('getMethod', { url: '/load-designation' }).then((data) => {
+            store.commit('setSpinner', false)
+            if (data.status == 200) {
+                designations.value = data.data;
+            }
         }).catch(e => {
             store.commit('setSpinner', false)
             console.log(e);
@@ -350,6 +521,17 @@ loadLog()
         })
     }
     dropdownDepts()
+
+     onMounted(() => {
+        const subTab = document.querySelector('#sub-tab');
+        const desigTab = document.querySelector('#desig-tab');
+        subTab.addEventListener('click',()=>{
+            loadSubDepartment()
+        })
+        desigTab.addEventListener('click',()=>{
+            loadDesignation()
+        })
+     })
 </script>
 
 <style scoped>

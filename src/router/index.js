@@ -57,13 +57,13 @@ const routes = [
                 path:'/appraisal-title',name:'AppraisalTitle',component: () => import('@/views/appraisal/AppraisalTitle.vue')
             },
             {
-                path:'/appraisal-section',name:'AppraisalSection',component: () => import('@/views/appraisal/AppraisalSection.vue')
+                path:'/appraisal-type',name:'AppraisalTypeView',component: () => import('@/views/appraisal/AppraisalTypeView.vue')
             },
             {
-                path:'/appraisal-section-kpi',name:'AppraisalSectionKpi',component: () => import('@/views/appraisal/AppraisalSectionKpi.vue')
+                path:'/appraisal-kpi',name:'AppraisalKpi',component: () => import('@/views/appraisal/AppraisalKpi.vue')
             },
             {
-                path:'/appraisal-cycle',name:'AppraisalCycle',component: () => import('@/views/appraisal/AppraisalCycle.vue')
+                path:'/initiate-appraisal',name:'InitiateAppraisal',component: () => import('@/views/appraisal/InitiateAppraisal.vue')
             },
             {
                 path:'/appraisal',name:'AppraisalView',component: () => import('@/views/appraisal/AppraisalView.vue')

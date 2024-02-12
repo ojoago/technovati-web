@@ -49,7 +49,7 @@
                                             <th>SN</th>
                                             <th>Names</th>
                                             <th>Description</th>
-                                            <th> <i class="bi bi-pencil-fill"></i> </th>
+                                            <th> <i class="bi bi-gear-fill"></i> </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -104,7 +104,7 @@ const appraisal = ref({
 const editTitle = (apr) => {
     appraisal.value = {
         title: apr.title,
-        description: apr.purpose,
+        description: apr.description,
         pid: apr.pid,
     }
 }

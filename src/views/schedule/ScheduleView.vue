@@ -12,8 +12,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label class="form-label">Activity</label>
-                                                <input type="text" v-model="schedule.schedule" class="form-control"
-                                                    placeholder="Name of department">
+                                                <input type="text" v-model="schedule.schedule" class="form-control" placeholder="e.g meeting by 10am">
                                                 <p class="text-danger " v-if="errors?.schedule">{{ errors?.schedule[0] }}</p>
                                             </div>
                                         </div>
@@ -21,16 +20,14 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label class="form-label">Begin Date</label>
-                                                <input type="date" v-model="schedule.begin_time" class="form-control"
-                                                    placeholder="Name of department">
+                                                <input type="date" v-model="schedule.begin_time" class="form-control" >
                                                 <p class="text-danger " v-if="errors?.begin_time">{{ errors?.begin_time[0] }}</p>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label class="form-label">End Date</label>
-                                                <input type="date" v-model="schedule.end_time" class="form-control"
-                                                    placeholder="Name of department">
+                                                <input type="date" v-model="schedule.end_time" class="form-control" >
                                                 <p class="text-danger " v-if="errors?.end_time">{{ errors?.end_time[0] }}</p>
                                             </div>
                                         </div>
@@ -41,10 +38,8 @@
                                                     <p class="text-danger " v-if="errors?.log">{{ errors?.log[0] }}</p>
                                                 </div>
                                             </div>
-                                        
                                     </div>
-                                    <button type="button" class="btn btn-success btn-sm mt-2"
-                                        @click="createSchedule">Submit</button>
+                                    <button type="button" class="btn btn-success btn-sm mt-2" @click="createSchedule">Submit</button>
                                 </form>
 
                             </fieldset>

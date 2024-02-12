@@ -75,13 +75,7 @@ const store = createStore({
                                 })
         },
         // load departments 
-        loadDepartment(){
-            return axiosClient.get('load-departments')
-                                .then(({data})=>{
-                                    console.log(data);
-                                    return data;  
-                                })
-        },
+      
 
         // department ends here 
         // on bowarding start here 
@@ -157,6 +151,7 @@ const store = createStore({
             },
             //load staff  
             postMethod({commit},{url,param,form=null}){
+                commit('setSpinner', true)
                 return axiosClient.post(url,param)
                     .then(({data})=>{
                         if(data.status == 201){
@@ -164,29 +159,35 @@ const store = createStore({
                             if(form != null){
                                 form.reset()
                             }
-                            // let form = document.querySelector('#form');
-                            // form.reset();
                         }
                         else if(data.status == 422){
                             commit('notify',{message:data.message,type:'warning'})
                         }else{
                             commit('notify',{message:data.message,type:'danger'})
                         }
+                        commit('setSpinner', false)
                         return data;  
+                    }).catch(e => {
+                        commit('setSpinner', false)
+                        console.log(e);
+                        alert('weting be this')
                     })
             },
-            deleteMethod({commit},{url,param}){
+            deleteMethod({commit},{url, param = null}){
+                commit('setSpinner', true)
                 return axiosClient.delete(url,param)
                     .then(({data})=>{
                         if(data.status == 201){
                             commit('notify',{message:data.message})
                         }
-                        else if(data.status == 422){
-                            commit('notify',{message:data.message,type:'warning'})
-                        }else{
+                       else{
                             commit('notify',{message:data.message,type:'danger'})
                         }
+                        commit('setSpinner', true)
                         return data;  
+                    }).catch(e => {
+                        commit('setSpinner', false)
+                        console.log(e);
                     })
             },
 

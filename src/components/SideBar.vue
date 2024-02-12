@@ -123,13 +123,13 @@
                                 <router-link to="/appraisal-title" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">appraisal title </span>  </router-link>
                             </li>
                             <li class="nav-item" title="staff">
-                                <router-link to="/appraisal-section" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">appraisal Section</span>  </router-link>
+                                <router-link to="/appraisal-type" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">appraisal Type</span>  </router-link>
                             </li>
                             <li class="nav-item" title="staff">
-                                <router-link to="/appraisal-section-kpi" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">appraisal Kpi</span>  </router-link>
+                                <router-link to="/appraisal-kpi" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">appraisal Kpi</span>  </router-link>
                             </li>
                             <li class="nav-item" title="staff">
-                                <router-link to="/appraisal-cycle" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">appraisal Cycle</span>  </router-link>
+                                <router-link to="/initiate-appraisal" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Initiate Appraisal</span>  </router-link>
                             </li>
                         
                         </ul>

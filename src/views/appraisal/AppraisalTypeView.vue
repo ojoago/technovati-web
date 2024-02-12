@@ -7,25 +7,27 @@
                         <div class="card-body">
                             <fieldset class="border rounded-3 p-2 m-1">
                                 <legend class="float-none w-auto px-2 h5">Create Appraisal Section</legend>
-                                <form>
+                                <form id="typeForm">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label class="form-label">Section</label>
-                                                <input type="text" v-model="section.name" class="form-control"
-                                                    placeholder="e.g first half apparisal">
-                                                <p class="text-danger " v-if="errors?.name">{{ errors?.name[0] }}
-                                                </p>
+                                                <label class="form-label">Type</label>
+                                                <input type="text" v-model="type.name" class="form-control" placeholder="e.g first half apparisal">
+                                                <p class="text-danger " v-if="errors?.name">{{ errors?.name[0] }} </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="form-label">Obtainable Score</label>
+                                                <input type="number" step="0.1" v-model="type.obtainable" class="form-control" placeholder="e.g 45">
+                                                <p class="text-danger " v-if="errors?.obtainable">{{ errors?.obtainable[0] }} </p>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label class="form-label">Note</label>
-                                                <textarea type="text" v-model="section.note" class="form-control"
-                                                    placeholder="note of visit"></textarea>
-                                                <p class="text-danger " v-if="errors?.note">{{ errors?.note[0]
-                                                }}
-                                                </p>
+                                                <textarea type="text" v-model="type.note" class="form-control" placeholder="enter note"></textarea>
+                                                <p class="text-danger " v-if="errors?.note">{{ errors?.note[0] }}  </p>
                                             </div>
                                         </div>
 
@@ -49,6 +51,7 @@
                                         <tr>
                                             <th>SN</th>
                                             <th>Names</th>
+                                            <th>Obtainable</th>
                                             <th>Description</th>
                                             <th> <i class="bi bi-pencil-fill"></i> </th>
                                         </tr>
@@ -57,7 +60,8 @@
                                         <tr v-for="(data, loop) in sections.data" :key="loop">
                                             <td>{{ loop + 1 }}</td>
                                             <td>{{ data.name }}</td>
-                                            <td>{{ data.description }}</td>
+                                            <td>{{ data.obtainable }}</td>
+                                            <td>{{ data.note }}</td>
                                             <td>
                                                 <div class="dropdown">
                                                     <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
@@ -97,16 +101,18 @@ import PaginationLinks from "@/components/PaginationLinks.vue";
 
 const errors = ref({});
 const sections = ref({});
-const section = ref({
+const type = ref({
     name: '',
     note: '' ,
+    obtainable: 0
 });
 
 const editSection = (sec) => {
-    section.value = {
+    type.value = {
         name: sec.name,
         note: sec.note,
         pid: sec.pid,
+        obtainable: sec.obtainable,
     }
 }
 const deleteLog = (id) => {
@@ -116,11 +122,13 @@ const deleteLog = (id) => {
 function createAppraisalSection() {
     store.commit('setSpinner', true)
     errors.value = []
-    store.dispatch('postMethod', { url: '/create-appraisal-section', param: section.value }).then((data) => {
+    store.dispatch('postMethod', { url: '/create-appraisal-section', param: type.value }).then((data) => {
         if (data.status == 422) {
             errors.value = data.data
         } else if (data.status == 201) {
-            section.value = [];
+            let form = document.querySelector('#typeForm');
+            form.reset() 
+            loadLog()
         }
         store.commit('setSpinner', false)
     }).catch(e => {
