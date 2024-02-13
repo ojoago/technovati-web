@@ -124,7 +124,7 @@ const routes = [
             
             // logistics 
             {
-                path:'/driver',name:'DriverView',component: () => import('@/views/logistics/WorkersView.vue')
+                path:'/driver',name:'DriverView',component: () => import('@/views/logistics/DriverView.vue')
             },
             {
                 path:'/vehicle',name:'VehicleView',component: () => import('@/views/logistics/VehicleView.vue')

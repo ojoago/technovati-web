@@ -123,45 +123,7 @@
                         </div>
 
                         <div class="tab-pane fade" id="shift-holiday" role="tabpanel" aria-labelledby="shift-holiday-tab">
-                            <fieldset class="border rounded-3 p-2 m-1">
-                                <legend class="float-none w-auto px-2">Shift Holidays</legend>
-                                <button class="btn btn-sm btn-primary m-2" @click="openHModal">Add Holiday</button>
-                                  <div class="table-responsive">
-                                            <table class="table-hover table-stripped table-bordered table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>SN</th>
-                                                        <th>Shift</th>
-                                                        <th>Holiday</th>
-                                                        <!-- <th>late</th> -->
-                                                        <th> <i class="bi bi-gear"></i> </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr v-for="(data, loop) in holidays" :key="loop">
-                                                        <td>{{ loop + 1 }}</td>
-                                                        <td>{{ data?.shift?.shift }}</td>
-                                                        <td>{{ data?.holiday }}</td>
-                                                        <td>
-                                                            <div class="dropdown">
-                                                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
-                                                                    data-bs-toggle="dropdown">
-                                                                    <i class="bi bi-tools"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu">
-                                                                    <li class="bg-warning"><a class="dropdown-item pointer"
-                                                                            @click="editShift(data)">Edit</a> </li>
-                                                                    <li class="bg-danger"><a class="dropdown-item pointer"
-                                                                            @click="deleteShift(data.pid)">Delete</a> </li>
-                                                                </ul>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                
-                                        </div>
-                            </fieldset>
+                           <HolidayView/>
                         </div>
                     </div>
                     <!-- End  Tabs -->
@@ -303,48 +265,7 @@
         
         </o-modal>
 
-         <o-modal :isOpen="hModal" :modal-class="xs" title="Add Holiday to Shift" @submit="markShiftHoliday" @modal-close="closeModal" >
-            <template #content>
-                <form>
-                    <div class="row">
-                        <div class="col-md-12">
-                                <label for="">Shift</label>
-                                <div class="form-group">
-                                    <select class="form-control"  v-model="holiday.shift_pid">
-                                        <option value="" selected>Select Shift</option>
-                                        <option v-for="sec in shiftDrop" :key="sec.pid" :value="sec.pid">{{ sec.shift }}</option>
-                                    </select>
-                                    <p class="text-danger " v-if="b_errors?.shift_pid">{{ b_errors?.shift_pid[0] }}</p>
-                                </div>
-                            </div>
-                        <div class="col-md-12">
-                                <label for="">Holiday</label>
-                                <div class="form-group">
-                                    <input class="form-control"  v-model="holiday.holiday" placeholder="e.g burnout holiday">
-                                    <p class="text-danger " v-if="b_errors?.holiday">{{ b_errors?.holiday[0] }}</p>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                            <label for="">Begin</label>
-                                <div class="form-group">
-                                    <input type="date" class="form-control" v-model="holiday.from">
-                                    <p class="text-danger " v-if="b_errors?.from">{{ b_errors?.from[0] }}</p>
-                                </div>
-                        </div>
-                            <div class="col-md-12">
-                            <label for="">End</label>
-                                <div class="form-group">
-                                    <input type="date" class="form-control" v-model="holiday.to">
-                                    <p class="text-danger " v-if="b_errors?.to">{{ b_errors?.to[0] }}</p>
-                                </div>
-                        </div>
-                    
-                    
-                    </div>
-                </form>
-            </template>
         
-        </o-modal>
     </div>
 </template>
 
@@ -353,12 +274,13 @@
 import store from "@/store";
 import { onMounted, ref } from "vue";
 import { useRouter } from 'vue-router';
-import OModal from "@/components/OModal.vue";
 import { Multiselect } from 'vue-multiselect';
-
+import OModal from "@/components/OModal.vue";
+import HolidayView from '@/components/shift/HolidayView.vue'
 const router = useRouter()
 let query = {}
 router.push({ query: query })
+
 
 const lg = 'modal-lg';
 const toggleModal = ref(false)
@@ -371,15 +293,11 @@ const openAlloModal = () => {
     alloModal.value = true;
 };
 
-const hModal = ref(false)
-const openHModal = () => {
-    hModal.value = true;
-};
+
 
 const closeModal = () => {
     toggleModal.value = false;
     alloModal.value = false;
-    hModal.value = false;
 };
 
 const errors = ref({});
@@ -495,46 +413,6 @@ function allocateShift() {
 }
 
 
-const b_errors = ref({});
-const holiday = ref({
-    shif_pid: '',
-    holiday: '',
-    from: '',
-    to: '',
-});
-function markShiftHoliday() {
-    store.commit('setSpinner', true)
-    b_errors.value = []
-    console.log(holiday.value);
-    store.dispatch('postMethod', {param:holiday.value,url:'mark-shift-holiday'}).then((data) => {
-        if (data.status == 422) {
-            b_errors.value = data.data
-        } else if (data.status == 201) {
-            b_errors.value = []
-            holiday.value = [];
-           
-        }
-        store.commit('setSpinner', false)
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
-    })
-}
-
-//
-const holidays = ref({});
-function loadShiftHolidays() {
-    store.commit('setSpinner', true)
-    store.dispatch('getMethod', { url: '/load-shift-holidays' }).then((data) => {
-        if (data.status == 200) {
-            holidays.value = data.data
-        }
-        store.commit('setSpinner', false)
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
-    })
-}
 
 const shiftDrop = ref({});
 function dropdownShifts() {
@@ -573,11 +451,11 @@ onMounted(() => {
         loadShiftAllocation()
     })
 
-    let holidayTab = document.querySelector('#shift-holiday-tab');
+    // let holidayTab = document.querySelector('#shift-holiday-tab');
 
-    holidayTab.addEventListener('click', () => {
-        loadShiftHolidays()
-    })
+    // holidayTab.addEventListener('click', () => {
+    //     loadShiftHolidays()
+    // })
     
 })
 

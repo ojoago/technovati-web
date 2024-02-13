@@ -11,7 +11,9 @@
                     <li>
                         <a >
                             <i class="bi bi-grid"></i>
-                            <span class="link-name">Dashboard</span>
+                            <span class="link-name">
+                                <router-link to="/dashboard" class="nav-link"><span class="nav-name">Dashboard </span>  </router-link>
+                            </span>
                         </a>
                         <ul class="sub-menu blank">
                             <li> <a class="link-name" >Category</a> </li>
