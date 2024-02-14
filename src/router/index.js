@@ -92,8 +92,17 @@ const routes = [
             {
                 path:'/payroll',name:'PayrollView',component: () => import('@/views/payroll/PayrollView.vue')
             },
-            
            
+            // Travel request 
+
+            {
+                path:'/travel-request',name:'TravelRequestView',component: () => import('@/views/travel/TravelRequestView.vue')
+            },
+            {
+                path:'/travel-request-detail',name:'TravelRequestDetailView',component: () => import('@/views/travel/TravelRequestDetailView.vue')
+            },
+
+
             // Receptionisht 
 
             {

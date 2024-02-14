@@ -97,13 +97,13 @@
                        <div class="icon-link">
                         <a >
                             <i class="bi bi-book"></i>
-                            <span class="link-name">Task/Project</span>
+                            <span class="link-name">Travel Request</span>
                         </a>
                         <i class="bi bi-chevron-down arrow"></i>
                        </div>
                         <ul class="sub-menu">
                             <li class="nav-item" title="staff">
-                                <router-link to="/department" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Project  </span>  </router-link>
+                                <router-link to="/travel-request" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name"> Request </span>  </router-link>
                             </li>
                             <li class="nav-item" title="staff">
                                 <router-link to="/staff-list" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Staff List</span>  </router-link>
