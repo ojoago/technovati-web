@@ -7,7 +7,7 @@
                     <div class="card">
                         <div class="card-body">
                             <fieldset class="border rounded-3 p-2 m-1">
-                                <legend class="float-none w-auto px-2 h5">Create Appraisal Section</legend>
+                                <legend class="float-none w-auto px-2 h5">Create Appraisal KPIs</legend>
                                 <div class="col-md-12">
                                     <label class="form-label">Appraisal Type</label>
                                     <select class="form-control" @change="loadSectionDetails($event)">
@@ -30,7 +30,7 @@
                                                 <div class="form-group">
                                                     <label class="form-label">Obtainable Score</label>
                                                     <div class="input-group">
-                                                         <input type="text" v-model="key.obtainable" class="form-control" placeholder="e.g 3">
+                                                         <input type="number" step="0.1" @change="sumVal" v-model="key.obtainable" class="form-control" placeholder="e.g 3">
                                                             <button type="button" class="btn btn-sm btn-warning" @click="removeKey(i)"><i class="bi bi-patch-minus" ></i></button>
                                                     </div>
                                                     <!-- <p class="text-danger " v-if="errors?.note">{{ errors?.note[0] }}       </p> -->
@@ -38,7 +38,7 @@
                                             </div>
                                         </div>
                                     </fieldset>
-                                    {{ keys?.obtainable }}
+                                    {{ obtainable }} /{{ keys?.obtainable }}
                                     <button type="button" class="btn btn-sm btn-primary mt-2"  @click="addKey"><i class="bi bi-plus" ></i></button>
                                     <hr>
                                     <div class="float-end">
@@ -121,6 +121,7 @@ const addKey = () => {
         key: '',
         obtainable: '',
     })
+
 }
 const removeKey = (i) => {
     let len = keys.value.keys.length;
@@ -129,6 +130,7 @@ const removeKey = (i) => {
         return;
     }
     keys.value.keys.splice(i, 1);
+    sumVal()
 }
 const editSection = (sec) => {
    keys.value.keys.push({
@@ -140,7 +142,10 @@ const editSection = (sec) => {
 const deleteLog = (id) => {
     alert(id)
 }
- 
+const obtainable = ref(0)
+ const sumVal = ()=>{
+    obtainable.value = keys.value.keys.reduce((n, { obtainable }) => n + Number(obtainable), 0);
+ }
 
 function createKpi() {
     store.commit('setSpinner', true)
@@ -172,6 +177,8 @@ function loadSectionDetails(event) {
             keys.value.keys = k;
             keys.value.type_pid = event.target.value;
             keys.value.obtainable = data.data.obtainable;
+            sumVal()
+
         }
     }).catch(e => {
         store.commit('setSpinner', false)

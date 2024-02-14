@@ -16,14 +16,14 @@
                         <p class="text-danger " v-if="errors?.description">{{ errors?.description[0] }}</p>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                         <div class="form-group">
                             <label class="form-label">Begin Date</label>
                             <input type="date" v-model="subTask.from" class="form-control">
                             <p class="text-danger " v-if="errors?.from">{{ errors?.from[0] }}</p>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label class="form-label">End Date</label>
                             <input type="date" v-model="subTask.to" class="form-control">
