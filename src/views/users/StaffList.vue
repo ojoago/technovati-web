@@ -49,12 +49,12 @@
                                                             <i class="bi bi-tools"></i>
                                                         </button>
                                                         <ul class="dropdown-menu">
-                                                            <li><a class="dropdown-item pointer" @click="staffDetail(user)">Detail</a></li>
-                                                            <li><a class="dropdown-item pointer" click="editDept(dp)">Edit</a></li>
-                                                            <li><a class="dropdown-item pointer" data-bs-target="">Assign Dept</a></li>
-                                                            <li><a class="dropdown-item pointer" data-bs-toggle="modal" data-bs-target="">Assign Dept</a></li>
-                                                            <li><a class="dropdown-item pointer bg-warning" click="resetLink(user.pid)" data-bs-target="">Reset Password</a></li>
-                                                            <li><a class="dropdown-item pointer bg-danger" click="disable(user.pid)">Disable Account</a></li>
+                                                            <li><a class="dropdown-item pointer bg-info" @click="staffDetail(user)">Detail</a></li>
+                                                            <li><a class="dropdown-item pointer bg-primary" @click="assignDepartment(user.pid)" >Assign Dept</a></li>
+                                                            <li><a class="dropdown-item pointer bg-warning" @click="editStaff(user)">Edit</a></li>
+                                                            <!-- <li><a class="dropdown-item pointer" >Assign Dept</a></li> -->
+                                                            <li><a class="dropdown-item pointer bg-warning" @click="resetLink(user.pid)">Reset Password</a></li>
+                                                            <li><a class="dropdown-item pointer bg-danger" @click="disableStaff(user.pid)">Disable Account</a></li>
                                                         </ul>
                                                     </div>
                                                 </td>
@@ -94,12 +94,25 @@
               </div>
 
         </div>
+        <o-modal :isOpen="assignModal" :modal-class="xs" title="Assign Department" @modal-close="closeModal">
+            <template #content>
+                <div>
+                    <assignDepartmentForm :user_pid="user_pid"/>
+                </div>
+            </template>
+            <template #footer>
+                <div></div>
+            </template>
+        </o-modal>
     </div>
 </template>
 
 <script setup>
     
+    import OModal from "@/components/OModal.vue";
     import PaginationLinks from "@/components/PaginationLinks.vue";
+    import assignDepartmentForm from "@/components/forms/department/AssignDepartmentForm.vue";
+
     import store from "@/store";
     import {  ref } from "vue";
     import { useRouter } from 'vue-router';
@@ -134,10 +147,27 @@
         })
     }
     
-    
+    const user_pid = ref(null)
+    const assignModal = ref(false)
+    const xs = 'modal-xs'
+    const assignDepartment = (pid) => {
+        user_pid.value = pid;
+        assignModal.value = true
+    }
+    const closeModal = () => {
+        assignModal.value = false;
+    };
+
+
 function staffDetail(staff) {
     localStorage.setItem('TVATI_STAFF_DETAIL', JSON.stringify(staff, null, 2))
     router.push({ path: 'staff-detail', query: { staff: staff.pid } })
+}
+function editStaff(staff) {
+    query = { tab: 'personal-tab', 'id': staff?.user_pid }
+    localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
+    localStorage.setItem('TVATI_STAFF_DETAIL', JSON.stringify(staff, null, 2))
+    router.push({ path: 'staff', query: { staff: staff.pid } })
 }
 
 </script>
