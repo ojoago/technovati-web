@@ -268,6 +268,7 @@ function editRequest(data){
         end: data.end,
         crew: data.crew,
         itinerary: data.itinerary,
+        pid: data.pid,
         mode: data.mode
     }
     toggleModal.value = true;

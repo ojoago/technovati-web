@@ -139,6 +139,7 @@ const store = createStore({
             },
             //load staff  
             getMethod({commit},{url}){
+                commit('setSpinner', true)
                 return axiosClient.get(url)
                     .then(({data})=>{
                         if(data.status == 200){
@@ -146,7 +147,12 @@ const store = createStore({
                     }else{
                             commit('notify',{message:data.message,type:'danger'})
                         }
+                        commit('setSpinner', false)
                         return data;  
+                    }).catch(e => {
+                        commit('setSpinner', false)
+                        console.log(e);
+                        alert('weting be this')
                     })
             },
             //load staff  
