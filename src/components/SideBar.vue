@@ -133,6 +133,9 @@
                             <li class="nav-item" title="staff">
                                 <router-link to="/initiate-appraisal" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Initiate Appraisal</span>  </router-link>
                             </li>
+                            <li class="nav-item" title="staff">
+                                <router-link to="/appraisal-list" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Appraisal List</span>  </router-link>
+                            </li>
                         
                         </ul>
                     </li>
@@ -166,9 +169,12 @@
                                 </a>
                                 <i class="bi bi-chevron-right arrow"></i>
                             </div>
-                            <ul class="sub-menu blank">
+                            <ul class="sub-menu">
                                 <li class="nav-item" title="leave">
                                     <router-link to="/leave" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Leave</span>  </router-link>
+                                </li>
+                                <li class="nav-item" title="leave">
+                                    <router-link to="/leave-request" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Request Leave</span>  </router-link>
                                 </li>
                             </ul>
                         </li>
@@ -361,7 +367,13 @@
                                 <router-link to="/tools" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Tools  </span>  </router-link>
                             </li>
                             <li class="nav-item" title="work">
+                                <router-link to="/daily-record" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Daily Record  </span>  </router-link>
+                            </li>
+                            <li class="nav-item" title="work">
                                 <router-link to="/work-sheet" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Work Sheet  </span>  </router-link>
+                            </li>
+                            <li class="nav-item" title="work">
+                                <router-link to="/staff-record" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Staff Record </span>  </router-link>
                             </li>
                         
                         </ul>

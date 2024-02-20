@@ -4,7 +4,19 @@
 body{
     background: #f0f4f7;
     position: relative;
+    /* min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        position: relative; */
 }
+
+/* .page-section{
+    display: flex;
+        min-height: 100vh;
+        flex-direction: column;
+        justify-content: flex-start;
+} */
+
 .sidebar {
     position: fixed;
     top: 0;
@@ -371,9 +383,23 @@ body{
     width: 100% !important;
     z-index: 999;
 }
-
-.ellipsis {
-    overflow: hidden;
+.table,table{
+    width: 100%;
+}
+.text-ellipsis {
+    overflow: hidden !important;
     text-overflow: ellipsis !important;
-    white-space: nowrap;
+    white-space: nowrap !important;
+    /* display: block */
+    position: sticky;
+    width: 20% !important;
+}
+th{
+    text-transform: uppercase;
+}
+form label{
+    text-transform: capitalize;
+}
+.zindex{
+    z-index: 1;
 }

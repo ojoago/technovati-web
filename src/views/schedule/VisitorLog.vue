@@ -1,67 +1,12 @@
 <template>
     <div>
         <div class="container mt-2">
-            <div class="row">
-                <div class="col-md-4">
+            
                     <div class="card">
-                        <div class="card-body">
-                            <fieldset class="border rounded-3 p-2 m-1">
-                                <legend class="float-none w-auto px-2">Log Visitor</legend>
-                                <form>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">Names</label>
-                                                <input type="text" v-model="log.names" class="form-control"
-                                                    placeholder="Name of visitor">
-                                                <p class="text-danger " v-if="errors?.names">{{ errors?.names[0] }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">purpose</label>
-                                                <textarea type="text" v-model="log.purpose" class="form-control" placeholder="purpose of visit"></textarea>
-                                                <p class="text-danger " v-if="errors?.purpose">{{ errors?.purpose[0] }}
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">Phone Numbers</label>
-                                                <input type="text" maxlength="11" v-model="log.gsm" class="form-control"
-                                                    placeholder="gsm">
-                                                <p class="text-danger " v-if="errors?.gsm">{{ errors?.gsm[0]}}</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">Staff <span class="text-danger">*</span></label>
-                                                <Select2 v-model="log.staff" :options="users" :settings="{ width: '100%' }"  />
-                                                <p class="text-danger " v-if="errors?.log">{{ errors?.log[0] }}</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">Address</label>
-                                                <textarea type="text" v-model="log.address" class="form-control" placeholder="visitor address"></textarea>
-                                                <p class="text-danger " v-if="errors?.address">{{ errors?.address[0]  }}</p>
-                                            </div>
-                                        </div>
-                                       
-
-                                    </div>
-                                    <button type="button" class="btn btn-success btn-sm mt-2" @click="logVisitor">Submit</button>
-                                </form>
-
-                            </fieldset>
+                        <div class="card-header">
+                            Visitor's Log
+                            <button class="btn btn-sm btn-primary" @click="openModal">Add New</button>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-8">
-                    <div class="card">
-                        <div class="card-header">Visitor's Log</div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table-hover table-stripped table-bordered table">
@@ -69,12 +14,12 @@
                                         <tr>
                                             <th>SN</th>
                                             <th>Names</th>
-                                            <th> Number</th>
-                                            <th> purpose</th>
-                                            <th> Tag</th>
-                                            <th>time in</th>
-                                            <th>time out</th>
-                                            <th> <i class="bi bi-pencil-fill"></i> </th>
+                                            <th>Phone Number</th>
+                                            <th>Purpose</th>
+                                            <th>Tag</th>
+                                            <th>Time in</th>
+                                            <th>Time out</th>
+                                            <th> <i class="bi bi-gear-fill"></i> </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -84,23 +29,24 @@
                                             <td>{{ lg.gsm }}</td>
                                             <td>{{ lg.purpose }}</td>
                                             <td>{{ lg.tag }}</td>
-                                            <td>{{ lg.time_in }}</td>
-                                            <td>{{ lg.time_out }}</td>
+                                            <td>{{ lg.time }}</td>
+                                            <td>{{ lg.out }}</td>
                                             <td>
-                                                <div class="dropdown">
+                                                <div class="dropdown" v-if="!lg.time_out">
                                                     <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
                                                         data-bs-toggle="dropdown">
                                                         <i class="bi bi-tools"></i>
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                        <li class="bg-success"><a class="dropdown-item pointer" @click="editlog(lg)">Clock out</a> </li>
-                                                        <li class="bg-warning"><a class="dropdown-item pointer" @click="editlog(lg)">Details</a> </li>
-                                                        <li class="bg-danger"><a class="dropdown-item pointer" @click="deleteLog(lg.id)">Delete</a> </li>
+                                                        <li><a class="dropdown-item pointer bg-success"  @click="clockOut(lg.id)">Clock out</a> </li>
+                                                        <li><a class="dropdown-item pointer bg-warning" @click="editlog(lg)">Edit</a> </li>
+                                                        <li><a class="dropdown-item pointer bg-danger" @click="deleteLog(lg.id)">Delete</a> </li>
                                                     </ul>
                                                 </div>
                                             </td>
                                         </tr>
                                     </tbody>
+                                    <tfoot></tfoot>
                                 </table>
                                 <div class="flex justify-center mt-4">
                                     <nav class="relative justify-center rounded-md shadow pagination">
@@ -112,8 +58,67 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+       
+          <o-modal :isOpen="toggleModal" @submit="logVisitor" modal-class="modal-lg" title="Visitor's Log" @modal-close="closeModal">
+                        <template #content>
+                            <div>
+
+                                <form id="logForm">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">Names</label>
+                                                    <input type="text" v-model="log.names" class="form-control"
+                                                        placeholder="Name of visitor">
+                                                    <p class="text-danger " v-if="errors?.names">{{ errors?.names[0] }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                             <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="form-label">Phone Numbers</label>
+                                                        <input type="text" maxlength="11" v-model="log.gsm" class="form-control" placeholder="gsm">
+                                                        <p class="text-danger " v-if="errors?.gsm">{{ errors?.gsm[0] }}</p>
+                                                    </div>
+                                                </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">Purpose of Visit</label>
+                                                    <textarea type="text" v-model="log.purpose" class="form-control" placeholder="purpose of visit"></textarea>
+                                                    <p class="text-danger " v-if="errors?.purpose">{{ errors?.purpose[0] }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                             <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="form-label">Visitor's Address</label>
+                                                        <textarea type="text" v-model="log.address" class="form-control" placeholder="visitor address"></textarea>
+                                                        <p class="text-danger " v-if="errors?.address">{{ errors?.address[0] }}</p>
+                                                    </div>
+                                                </div>
+                                           
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">Tag Number<span class="text-danger">*</span></label>
+                                                    <input type="text" v-model="log.tag" class="form-control form-control-sm" placeholder="e.g TLV 1">
+                                                    <p class="text-danger " v-if="errors?.tag">{{ errors?.tag[0] }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">Staff <span class="text-danger">*</span></label>
+                                                    <Select2 v-model="log.staff_pid" :options="users" :settings="{ width: '100%' }"  />
+                                                    <p class="text-danger " v-if="errors?.staff_pid">{{ errors?.staff_pid[0] }}</p>
+                                                </div>
+                                            </div>
+                                           
+
+                                        </div>
+                                    </form>
+                            </div>
+                        </template>
+               
+            </o-modal>
     </div>
 </template>
 
@@ -122,18 +127,25 @@ import store from "@/store";
 import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
 import Select2 from 'vue3-select2-component';
-
+import OModal from "@/components/OModal.vue";
+const toggleModal = ref(false)
+const openModal = () => {
+    toggleModal.value = true
+}
+const closeModal = () => {
+    toggleModal.value = false;
+};
 const errors = ref({});
 const logs = ref({});
 const log = ref({
-   'names':'' , 
-   'purpose':'' , 
-   'gsm' :'' , 
-   'address': '', 
-   'tag' : '', 
-   'time_in' : '', 
-   'time_out': '' ,
-   'staff': ''
+   names : '' , 
+   purpose : '' , 
+   gsm :'' , 
+   address : '', 
+   tag : '', 
+   time_in : '', 
+   time_out : '' ,
+   staff_pid : ''
 });
 
 const editlog = (lg) => {
@@ -146,40 +158,46 @@ const editlog = (lg) => {
         time_in : lg.time_in,
         time_out: lg.time_out,
         id: lg.id,
-        staff: lg.staff,
+        staff: lg.staff_pid,
     }
+    toggleModal.value = true
+}
+const clockOut = (id) => {
+    store.dispatch('getMethod', { url: '/sign-visitor-out/'+id }).then((data) => {
+         if (data.status == 200) {
+            store.commit('notify', { message: 'Reloading Datas...', type: 'secondary' })
+            loadLog()
+        }
+    })
 }
 const deleteLog = (id) => {
-    alert(id)
+   store.dispatch('deleteMethod', { url: '/delete-visitor-record/' + id }).then((data) => {
+        if (data.status == 200) {
+            store.commit('notify', { message: 'Reloading Datas...', type: 'secondary' })
+            loadLog()
+        }
+    })
 }
 
 function logVisitor() {
-    store.commit('setSpinner', true)
     errors.value = []
     store.dispatch('postMethod', { url: '/log-visitor', param: log.value }).then((data) => {
+        console.log(data);
         if (data.status == 422) {
             errors.value = data.data
         } else if (data.status == 201) {
-            log.value = [];
+            loadLog()
+            let form = document.querySelector('#logForm')
+            form.reset()
         }
-        store.commit('setSpinner', false)
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
     })
 }
 
 function loadLog() {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-visitor-log' }).then((data) => {
-        store.commit('setSpinner', false)
         if (data.status == 200) {
             logs.value = data.data;
         }
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
-        alert('weting be this')
     })
 }
 const users = ref([]);

@@ -134,7 +134,7 @@ body.modal-base {
 }
 
 .modal-sm {
-    width: 30% !important;
+    width: 35% !important;
 }
 
 .modal-xs {
@@ -142,7 +142,12 @@ body.modal-base {
 }
 
 .modal-xl {
+    width: 70% !important;
+    margin: 10px 50px;
+}
+.modal-xxl {
     width: 100% !important;
+    margin: 10px 50px;
 }
 
 
@@ -191,6 +196,9 @@ body.modal-base {
 
 @media only screen and (max-width: 600px) {
     
+.modal-xl {
+    width: 90% !important;
+}
 .modal-lg {
     width: 90% !important;
 }

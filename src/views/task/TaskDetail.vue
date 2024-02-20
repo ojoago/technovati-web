@@ -167,15 +167,8 @@ onMounted(() => {
 }
 
 function loadSubTask() {
-    store.commit('setSpinner', true)
    store.dispatch('getMethod', {url:'/task-detail/'+ route.query.task }).then(({data}) => {
         subtasks.value = data;
-        store.commit('setSpinner', false)
-        
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
-        alert('weting be this')
     })
 }
 

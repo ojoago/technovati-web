@@ -65,9 +65,14 @@ const routes = [
             {
                 path:'/initiate-appraisal',name:'InitiateAppraisal',component: () => import('@/views/appraisal/InitiateAppraisal.vue')
             },
+            
             {
                 path:'/appraisal',name:'AppraisalView',component: () => import('@/views/appraisal/AppraisalView.vue')
             },
+            {
+                path:'/appraisal-list',name:'AppraisalListView',component: () => import('@/views/appraisal/AppraisalListView.vue')
+            },
+
             // appraisal end here 
             {
                 path:'/leave',name:'LeaveView',component: () => import('@/views/leave/LeaveView.vue')
@@ -121,15 +126,16 @@ const routes = [
             {
                 path:'/workers',name:'WorkersView',component: () => import('@/views/workers/WorkersView.vue')
             },
-            {
-                path:'/team',name:'TeamView',component: () => import('@/views/workers/TeamView.vue')
-            },
+
+            {  path:'/team',name:'TeamView',component: () => import('@/views/workers/TeamView.vue') },
+            {  path:'/team-detail',name:'TeamDetail',component: () => import('@/views/workers/TeamDetail.vue') },
+
             {
                 path:'/tools',name:'ToolsView',component: () => import('@/views/tools/ToolsView.vue')
             },
-            {
-                path:'/work-sheet',name:'WorkSheetView',component: () => import('@/views/work-sheet/WorkSheetView.vue')
-            },
+            {   path:'/daily-record',name:'DailyRecordView',component: () => import('@/views/work-sheet/DailyRecordView.vue') },
+            {   path:'/work-sheet',name:'WorkSheetView',component: () => import('@/views/work-sheet/WorkSheetView.vue') },
+            {   path:'/staff-record',name:'StaffRecordView',component: () => import('@/views/work-sheet/StaffRecordView.vue') },
             
             // logistics 
             {

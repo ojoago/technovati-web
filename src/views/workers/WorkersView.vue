@@ -38,8 +38,8 @@
                                                     <th>Email</th>
                                                     <th>Type</th>
                                                     <th>Team</th>
-                                                    <th>Image</th>
-                                                    <th> <i class="bi bi-pencil-fill"></i> </th>
+                                                    <!-- <th>Image</th> -->
+                                                    <th> <i class="bi bi-gear-fill"></i> </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -50,7 +50,7 @@
                                                     <td>{{ data.type == 1 ? data.user.email : data.casual.email }}</td>
                                                     <td>{{ data.cat }}</td>
                                                     <td>{{ data?.team?.team }}</td>
-                                                    <td>{{ data.type == 1 ? data.staff.path : data.casual.path }}</td>
+                                                    <!-- <td>{{ data.type == 1 ? data.staff.path : data.casual.path }}</td> -->
                                                     <td>
                                                         <div class="dropdown">
                                                             <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
@@ -164,7 +164,6 @@ const team = ref({
 const errors = ref({});
 
 function addStaff() {
-    store.commit('setSpinner', true)
     errors.value = []
     // let data = new FormData;
     // const  header = { "Content-Type": "multipart/form-data" };
@@ -174,16 +173,12 @@ function addStaff() {
         } else if (data.status == 201) {
             let form = document.querySelector('#teamForm');
             form.reset();
+            loadWorker()
         }
-        store.commit('setSpinner', false)
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
     })
 
 }
 function addTeam() {
-    store.commit('setSpinner', true)
     errors.value = []
     // let data = new FormData;
     // const  header = { "Content-Type": "multipart/form-data" };
@@ -193,11 +188,8 @@ function addTeam() {
         } else if (data.status == 201) {
             let form = document.querySelector('#assignForm');
             form.reset();
+            loadWorker()
         }
-        store.commit('setSpinner', false)
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
     })
 
 }

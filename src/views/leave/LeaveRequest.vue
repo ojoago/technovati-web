@@ -3,58 +3,10 @@
         <div class="container-fluid mt-2">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Staff Leave </h5>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <fieldset class="border rounded-3 p-2 m-1">
-                                <legend class="float-none w-auto px-2">Request Leave</legend>
-                                <form>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">Leave <span class="text-danger">*</span></label>
-                                                <input type="text" v-model="request.leave_pid" class="form-control"
-                                                    placeholder="e.g annual leave">
-                                                <p class="text-danger " v-if="errors?.leave_pid">{{ errors?.leave_pid[0] }}</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">Begin <span class="text-danger">*</span></label>
-                                                <input type="date" v-model="request.from" class="form-control"
-                                                    placeholder="e.g annual leave">
-                                                <p class="text-danger " v-if="errors?.from">{{ errors?.from[0] }}</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">End</label>
-                                                <input type="date" v-model="request.to" class="form-control" placeholder="e.g 15 ">
-                                                <p class="text-danger " v-if="errors?.to">{{ errors?.to[0] }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">note <span class="text-danger">*</span></label>
-                                                <textarea type="text" v-model="request.note" class="form-control" placeholder="e.g this leave only applies to senior devs"></textarea>
-                                                <p class="text-danger " v-if="errors?.note">{{ errors?.note[0] }}</p>
-                                            </div>
-                                        </div>
-                                         <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="form-label">End</label>
-                                                    <input type="file" class="form-control" placeholder="e.g 15 ">
-                                                    <p class="text-danger " v-if="errors?.to">{{ errors?.to[0] }}</p>
-                                                </div>
-                                            </div>
-                                         
-                                    </div>
-                                    <button type="button" class="btn btn-success btn-sm mt-2" @click="makeRequest">Submit</button>
-                                </form>
-                            </fieldset>
-                            </div>
-                            <div class="col-md-9">
+                    <h5 class="card-title">Staff Leave 
+                        <button class="btn btn-primary btn-sm" @click="openModal">New Leave</button>
+                    </h5>
+                       
                                 <fieldset class="border rounded-3 p-2 m-1">
                                     <legend class="float-none w-auto px-2">Leave Request</legend>
                                     <div class="table-responsive">
@@ -109,8 +61,59 @@
                             </div>
                         </div>
                 </div>
-            </div>
-        </div>
+          
+        <o-modal :isOpen="assignModal" @submit="makeRequest" :modal-class="sm" title="Request Leave" @modal-close="closeModal">
+                <template #content>
+                    <div>
+                                    <form>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">Leave <span class="text-danger">*</span></label>
+                                                    <select v-model="request.leave_pid" class="form-control form-control-sm">
+                                                        <option value="" selected>Make Selection</option>
+                                                        <option v-for="(leave, i) in leaveDrop" :key="i" :value="leave.id">{{ leave.text }} - {{ leave.days }} days</option>
+                                                    </select>
+                                                   
+                                                    <p class="text-danger " v-if="errors?.leave_pid">{{ errors?.leave_pid[0] }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">Begin <span class="text-danger">*</span></label>
+                                                    <input type="date" v-model="request.from" class="form-control  form-control-sm" placeholder="e.g annual leave">
+                                                    <p class="text-danger " v-if="errors?.from">{{ errors?.from[0] }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">End</label>
+                                                    <input type="date" v-model="request.to" class="form-control form-control-sm" placeholder="e.g 15 ">
+                                                    <p class="text-danger " v-if="errors?.to">{{ errors?.to[0] }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">Note </label>
+                                                    <textarea type="text" v-model="request.note" class="form-control form-control-sm" placeholder="e.g this leave only applies to senior devs"></textarea>
+                                                    <p class="text-danger " v-if="errors?.note">{{ errors?.note[0] }}</p>
+                                                </div>
+                                            </div>
+                                             <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="form-label">Image</label>
+                                                        <input type="file" class="form-control form-control-sm" @change="handleImageChange" accept="image/*" placeholder="e.g 15 ">
+                                                        <p class="text-danger " v-if="errors?.image">{{ errors?.image[0] }}</p>
+                                                    </div>
+                                                </div>
+                                         
+                                        </div>
+                                    </form>
+                    </div>
+                </template>
+               
+        </o-modal>
     </div>
 </template>
 
@@ -119,21 +122,26 @@
 import store from "@/store";
 import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
+import OModal from "@/components/OModal.vue";
 
 const errors = ref({});
 
 
-
+const assignModal = ref(false)
+const sm = 'modal-sm'
+const openModal = () => {
+    assignModal.value = true
+}
+const closeModal = () => {
+    assignModal.value = false;
+};
 const request = ref({
     'from' :'' ,
     'to' : '' , 
     'note' : '' , 
     'path' : '' , 
-    'leave_pid' : '027N07C0220OM112414538420ED3' , 
-    'user_pid' : '' , 
-    'hr_comment' : '' , 
-    'line_manager_comment' : '' , 
-    
+    'leave_pid' : '' , 
+    image : ''
 });
 
 const leaves = ref({});
@@ -163,10 +171,11 @@ const editLeave = (lv) =>{
         from: lv.from,
         to: lv.to,
         note: lv.note,
-        path: '',
+        image: '',
         leave_pid: lv.leave_pid,
         pid: lv.pid,
     }
+    assignModal.value = true
 }
 const deleteLeave = (pid) => {
     alert(pid)
@@ -199,8 +208,38 @@ function nextPage(link) {
     alert(link.url)
 }
 
+const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        var ext = file['name'].substring(file['name'].lastIndexOf('.') + 1);
+        if (!['png', 'jpeg', 'jpg'].includes(ext)) {
+            event.target.value = null;
+            store.commit('notify', { message: 'Only Image is allowed', type: 'warning' })
+            return;
+        }
+        if (file.size > 1024 * 1024) {
+            event.target.value = null;
+            store.commit('notify', { message: 'Image cannot be more 1MB', type: 'warning' })
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = () => {
+            request.value.image = reader.result;
+        };
+        reader.readAsDataURL(file);
+    }
+}
 
- 
+const leaveDrop = ref({})
+ function dropdownSection() {
+    store.dispatch('loadDropdown', 'leaves').then(({ data }) => {
+        leaveDrop.value = data;
+    }).catch(e => {
+        console.log(e);
+        alert('Something Went Wrong')
+    })
+}
+dropdownSection()
 
 
 

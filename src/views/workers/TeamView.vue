@@ -5,7 +5,7 @@
                     <div class="card">
                         <div class="card-header h3">Teams</div>
                         <div class="card-body">
-                            <button class="btn btn-sm btn-primary m-2" @click="openTeamModal">Add Team</button>
+                            <button class="btn btn-sm btn-primary m-2" @click="openTeamModal">Add New</button>
                             <div class="table-responsive">
                                 <table class="table-hover table-stripped table-bordered table">
                                     <thead>
@@ -14,8 +14,9 @@
                                             <th>TASK</th>
                                             <th>DESCRIPTION</th>
                                             <th>TEAM lead</th>
+                                            <th>Status</th>
                                             <th>Member</th>
-                                            <th> <i class="bi bi-gear"></i> </th>
+                                            <th> <i class="bi bi-gear-fill"></i> </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -23,7 +24,8 @@
                                             <td>{{ loop + 1 }}</td>
                                             <td>{{ team.team }}</td>
                                             <td>{{ team.description }}</td>
-                                            <td>{{ team.lead.username }}</td>
+                                            <td>{{ team?.lead?.username }}</td>
+                                            <td>{{ team.team_status }}</td>
                                             <td>{{ team.teams_count }}</td>
                                             <td>
                                                 <div class="dropdown">
@@ -32,9 +34,10 @@
                                                         <i class="bi bi-tools"></i>
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                        <!-- <li><a class="dropdown-item pointer" click="editDept(dp)">Asign Member</a> </li> -->
+                                                        <li><a class="dropdown-item pointer" @click="teamDetail(team)">Details</a> </li>
+                                                        <!-- <li><a class="dropdown-item pointer" @click="addMember(team.pid)">Add Member</a> </li> -->
                                                         <li><a class="dropdown-item pointer" @click="editTeam(team)">Edit Team</a> </li>
-                                                        <li class="bg-danger"><a class="dropdown-item pointer" @click="editTeam(team)">Delete Team</a> </li>
+                                                        <li class="bg-danger"><a class="dropdown-item pointer" @click="detletTeam(team.pid)">Delete Team</a> </li>
                                                       
                                                     </ul>
                                                 </div>
@@ -53,7 +56,7 @@
                     </div>
                 </div>
           
-         <o-modal :isOpen="teamModal" :modal-class="xs" title="Create Team" @submit="createTeam" @modal-close="closeModal" >
+         <o-modal :isOpen="teamModal" modal-class="modal-xs" title="Create Team" @submit="createTeam" @modal-close="closeModal" >
                 <template #content>
                     <form id="teamForm">
                         <div class="row">
@@ -82,6 +85,27 @@
                 </template>
         
         </o-modal>
+
+         <o-modal :isOpen="assignModal" modal-class="modal-xs" title="Create Team" @submit="createTeam" @modal-close="closeModal" >
+                <template #content>
+                    <form id="teamForm">
+                        <div class="row">
+                            
+                            <div class="col-md-12">
+                                                <Multiselect class="zindex" :options="userDrop" :multiple="true"
+                                                    :close-on-select="true" placeholder="Pick Department" label="text"
+                                                    track-by="id" />
+                            </div>
+                                <div class="col-md-12">
+                                <label class="form-label">Team Lead</label>
+                                <Select2 v-model="team.team_lead" :options="userDrop"  />
+                                <p class="text-danger " v-if="errors?.team_lead">{{ errors?.team_lead[0] }} </p>
+                            </div>
+                        </div>
+                    </form>
+                </template>
+        
+        </o-modal>
     </div>
 </template>
 
@@ -91,25 +115,29 @@ import { ref } from "vue";
 import Select2 from 'vue3-select2-component';
 import PaginationLinks from "@/components/PaginationLinks.vue";
 import OModal from "@/components/OModal.vue";
+import { Multiselect } from 'vue-multiselect';
 
+import { useRouter } from 'vue-router';
+const router = useRouter()
 
-const xs = 'modal-xs';
 const teamModal = ref(false)
+const assignModal = ref(false)
 const openTeamModal = () => {
     teamModal.value = true;
 };
 
 const closeModal = () => {
     teamModal.value = false;
+    assignModal.value = false;
 };
 
 const errors = ref({});
 const team_data = ref({});
 const team = ref({
-    'team': '',
-    'description': '',
-    'team_lead': '',
-    'pid': '',
+    team : '',
+    description : '',
+    team_lead : '',
+    pid : '',
 });
 
 const editTeam = (tm)=>{
@@ -121,6 +149,15 @@ const editTeam = (tm)=>{
     }
     teamModal.value = true;
 }
+
+const detletTeam = (pid) => {
+      store.dispatch('putMethod', { url: '/toggle-team-status/'+pid }).then((data) => {
+       if (data.status == 201) {
+            let form = document.querySelector('#teamForm');
+            form.reset();
+        }
+    })
+}
 // function editDept(data) {
 //     task.value = {
 //         'department': data.task,
@@ -130,27 +167,27 @@ const editTeam = (tm)=>{
 //         'pid': data.pid
 //     }
 // }
+const teamDetail = (data) =>{
+    localStorage.setItem('TVATI_TEAM_DETAIL', JSON.stringify(data, null, 2))
+    router.push({ path: 'team-detail', query: { team: data.pid } })
+}
 
-
+// const member = ref({})
+// const addMember = (pid) => {
+//     assignModal.value = true;
+//     member.value.team_pid = pid
+// }
 
 function createTeam() {
     errors.value = []
-    store.commit('setSpinner', true)
         store.dispatch('postMethod', { url: '/create-team', param: team.value }).then((data) => {
         if (data.status == 422) {
             errors.value = data.data
-            store.commit('setSpinner', false)
         } else if (data.status == 201) {
             let form = document.querySelector('#teamForm');
             form.reset();
-            store.commit('setSpinner', false)
-        }else{
-            store.commit('setSpinner', false)
+            loadTeam()
         }
-        return data;
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
     })
 }
 

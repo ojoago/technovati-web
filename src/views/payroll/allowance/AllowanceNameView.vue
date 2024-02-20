@@ -23,9 +23,7 @@
                                                 <label class="form-label">Description</label>
                                                 <textarea type="text" v-model="allowance.description" class="form-control"
                                                     placeholder="description of visit"></textarea>
-                                                <p class="text-danger " v-if="errors?.description">{{ errors?.description[0]
-                                                }}
-                                                </p>
+                                                <p class="text-danger " v-if="errors?.description">{{ errors?.description[0] }}  </p>
                                             </div>
                                         </div>
                                     </div>

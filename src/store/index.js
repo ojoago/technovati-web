@@ -142,10 +142,10 @@ const store = createStore({
                 commit('setSpinner', true)
                 return axiosClient.get(url)
                     .then(({data})=>{
-                        if(data.status == 200){
-                        commit('notify',{message:data.message})
+                        if(data?.status == 200){
+                        commit('notify',{message:data?.message})
                     }else{
-                            commit('notify',{message:data.message,type:'danger'})
+                            commit('notify',{message:data?.message,type:'danger'})
                         }
                         commit('setSpinner', false)
                         return data;  
@@ -160,13 +160,13 @@ const store = createStore({
                 commit('setSpinner', true)
                 return axiosClient.post(url,param)
                     .then(({data})=>{
-                        if(data.status == 201){
+                        if(data?.status == 201){
                             commit('notify',{message:data.message})
                             if(form != null){
                                 form.reset()
                             }
                         }
-                        else if(data.status == 422){
+                        else if(data?.status == 422){
                             commit('notify',{message:data.message,type:'warning'})
                         }else{
                             commit('notify',{message:data.message,type:'danger'})
@@ -179,17 +179,37 @@ const store = createStore({
                         alert('weting be this')
                     })
             },
+
             deleteMethod({commit},{url, param = null}){
-                commit('setSpinner', true)
+               if(confirm('are you sure, you want to delete this ?')){
+                 commit('setSpinner', true)
                 return axiosClient.delete(url,param)
                     .then(({data})=>{
-                        if(data.status == 201){
+                        if(data?.status == 201){
                             commit('notify',{message:data.message})
                         }
                        else{
                             commit('notify',{message:data.message,type:'danger'})
                         }
-                        commit('setSpinner', true)
+                        commit('setSpinner', false)
+                        return data;  
+                    }).catch(e => {
+                        commit('setSpinner', false)
+                        console.log(e);
+                    })
+               }
+            },
+            putMethod({commit},{url, param = null}){
+                commit('setSpinner', true)
+                return axiosClient.put(url,param)
+                    .then(({data})=>{
+                        if(data?.status == 201){
+                            commit('notify',{message:data.message})
+                        }
+                       else{
+                            commit('notify',{message:data.message,type:'danger'})
+                        }
+                        commit('setSpinner', false)
                         return data;  
                     }).catch(e => {
                         commit('setSpinner', false)

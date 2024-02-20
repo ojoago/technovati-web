@@ -1,154 +1,145 @@
 <template>
     <div>
         <div class="container mt-2">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <fieldset class="border rounded-3 p-2 m-1">
-                                <legend class="float-none w-auto px-2">Nontaxable Allowance</legend>
-                                <form>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">Allowance</label>
-                                                        <div>
-                                                                <Multiselect
-                                                                    v-model="nontax.allowance"
-                                                                    :options="allowance"
-                                                                    :close-on-select="true"
-                                                                    :clear-on-select="false"
-                                                                    placeholder="Select Option"
-                                                                    label="name"
-                                                                    track-by="pid"
-                                                                    />
-                                                        </div>
-                                                <p class="text-danger " v-if="errors?.allowance">{{ errors?.allowance[0] }} </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="form-label">Value Type</label>
-                                                  <select v-model="nontax.value_type" class="form-control form-control-sm">
-                                                        <option value="" selected>Select Type</option>
-                                                        <option value="1">Fixed</option>
-                                                        <option value="2">Percentage of basic</option>
-                                                    </select>
-                                                <p class="text-danger " v-if="errors?.value_type">{{ errors?.value_type[0] }} </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="form-label">Amount</label>
-                                                <input type="number" v-model="nontax.amount" class="form-control form-control-sm"
-                                                    placeholder="Name of visitor">
-                                                <p class="text-danger " v-if="errors?.amount">{{ errors?.amount[0] }} </p>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">Employee Excluded</label>
-                                                     <div>
-                                                                 <Multiselect
-                                                                        v-model="nontax.employees"
-                                                                        :options="users"
-                                                                        :multiple="true"
-                                                                        :close-on-select="true"
-                                                                        placeholder="Pick staff"
-                                                                        label="text"
-                                                                        track-by="id"
-                                                                        />
-                                                             </div>
-                                                <p class="text-danger " v-if="errors?.employees">{{ errors?.employees[0] }} </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="form-label">Start month</label>
-                                                <input type="date" v-model="nontax.begin" class="form-control form-control-sm"
-                                                    placeholder="Name of visitor">
-                                                <p class="text-danger " v-if="errors?.begin">{{ errors?.begin[0] }} </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="form-label">End Month</label>
-                                                <input type="date" v-model="nontax.end" class="form-control form-control-sm"
-                                                    placeholder="Name of visitor">
-                                                <p class="text-danger " v-if="errors?.end">{{ errors?.end[0] }} </p>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <button type="button" class="btn btn-success btn-sm mt-2"
-                                        @click="createNonTaxableAllowance">Submit</button>
-                                </form>
-                            </fieldset>
-                        </div>
-                    </div>
+            <div class="card">
+                <div class="card-header">Nontaxable Allowance
+                    <button class="btn btn-sm btn-primary" @click="openModal">Add New</button>
                 </div>
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">Nontaxable Allowance</div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table-hover table-stripped table-bordered table">
-                                    <thead>
-                                        <tr>
-                                            <th>SN</th>
-                                            <th>Allowance</th>
-                                            <th>Amount</th>
-                                            <th>Staff</th>
-                                            <th>Start</th>
-                                            <th>End</th>
-                                            <th>Type</th>
-                                            <th> <i class="bi bi-pencil-fill"></i> </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(tx, loop) in nontaxable.data" :key="loop">
-                                            <td>{{ loop + 1 }}</td>
-                                            <td>{{ tx.allowance.name }}</td>
-                                            <td>{{ tx.amount }}</td>
-
-                                            <td>
-                                                    <span v-for="em in tx.employees" :key="em.pid" class="badge bg-dark p-1 m-1">
-                                                        {{ em.text }}
-                                                    </span>
-                                                </td>
-                                            <td>{{ tx.begin }}</td>
-                                            <td>{{ tx.end }}</td>
-                                            <td>{{ tx.value_type == 1 ? 'FIXED' : 'PERCENTAGE OF BASIC' }}</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
-                                                        data-bs-toggle="dropdown">
-                                                        <i class="bi bi-tools"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu">
-                                                        <li class="bg-warning"><a class="dropdown-item pointer"
-                                                                @click="editEntry(tx)">Edit</a> </li>
-                                                        <li class="bg-danger"><a class="dropdown-item pointer"
-                                                                @click="deleteLog(tx.id)">Delete</a> </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <div class="flex justify-center mt-4">
-                                    <nav class="relative justify-center rounded-md shadow pagination">
-                                        <pagination-links v-for="(link, i) of nontaxable.links" :link="link" :key="i"
-                                            @next="nextPage(link)"></pagination-links>
-                                    </nav>
-                                </div>
-                            </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table-hover table-stripped table-bordered table">
+                            <thead>
+                                <tr>
+                                    <th>SN</th>
+                                    <th>Allowance</th>
+                                    <th>Amount</th>
+                                    <th>Staff</th>
+                                    <th>Start</th>
+                                    <th>End</th>
+                                    <th>Type</th>
+                                    <th> <i class="bi bi-pencil-fill"></i> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(tx, loop) in nontaxable.data" :key="loop">
+                                    <td>{{ loop + 1 }}</td>
+                                    <td>{{ tx.allowance.name }}</td>
+                                    <td>{{ tx.amount }}</td>
+                                    <td>
+                                            <span v-for="em in tx.employees" :key="em.pid" class="badge bg-dark p-1 m-1">
+                                                {{ em.text }}
+                                            </span>
+                                        </td>
+                                    <td>{{ tx.begin }}</td>
+                                    <td>{{ tx.end }}</td>
+                                    <td>{{ tx.value_type == 1 ? 'FIXED' : 'PERCENTAGE OF BASIC' }}</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
+                                                data-bs-toggle="dropdown">
+                                                <i class="bi bi-tools"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li class="bg-warning"><a class="dropdown-item pointer"
+                                                        @click="editEntry(tx)">Edit</a> </li>
+                                                <li class="bg-danger"><a class="dropdown-item pointer"
+                                                        @click="deleteLog(tx.id)">Delete</a> </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="flex justify-center mt-4">
+                            <nav class="relative justify-center rounded-md shadow pagination">
+                                <pagination-links v-for="(link, i) of nontaxable.links" :link="link" :key="i"
+                                    @next="nextPage(link)"></pagination-links>
+                            </nav>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <o-modal :isOpen="toggleModal" @submit="createNonTaxableAllowance" :modal-class="lg" title="Nontaxable Allowance" @modal-close="closeModal">
+                            <template #content>
+                                <div>
+                                     <form>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">Allowance</label>
+                                                            <div>
+                                                                    <Multiselect
+                                                                        v-model="nontax.allowance"
+                                                                        :options="allowance"
+                                                                        :close-on-select="true"
+                                                                        :clear-on-select="false"
+                                                                        placeholder="Select Option"
+                                                                        label="name"
+                                                                        track-by="pid"
+                                                                        />
+                                                            </div>
+                                                    <p class="text-danger " v-if="errors?.allowance">{{ errors?.allowance[0] }} </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">Value Type</label>
+                                                      <select v-model="nontax.value_type" class="form-control form-control-sm">
+                                                            <option value="" selected>Select Type</option>
+                                                            <option value="1">Fixed</option>
+                                                            <option value="2">Percentage of basic</option>
+                                                        </select>
+                                                    <p class="text-danger " v-if="errors?.value_type">{{ errors?.value_type[0] }} </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">Amount</label>
+                                                    <input type="number" v-model="nontax.amount" class="form-control form-control-sm" placeholder="e.g 5,000">
+                                                    <p class="text-danger " v-if="errors?.amount">{{ errors?.amount[0] }} </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">Employee Excluded</label>
+                                                         <div>
+                                                                     <Multiselect
+                                                                            v-model="nontax.employees"
+                                                                            :options="users"
+                                                                            :multiple="true"
+                                                                            :close-on-select="true"
+                                                                            placeholder="Pick staff"
+                                                                            label="text"
+                                                                            track-by="id"
+                                                                            />
+                                                                 </div>
+                                                    <p class="text-danger " v-if="errors?.employees">{{ errors?.employees[0] }} </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">Start month</label>
+                                                    <input type="date" v-model="nontax.begin" class="form-control form-control-sm">
+                                                    <p class="text-danger " v-if="errors?.begin">{{ errors?.begin[0] }} </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">End Month</label>
+                                                    <input type="date" v-model="nontax.end" class="form-control form-control-sm">
+                                                    <p class="text-danger " v-if="errors?.end">{{ errors?.end[0] }} </p>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        
+                                    </form>
+                                </div>
+                            </template>
+               
+        </o-modal>
     </div>
 </template>
 
@@ -157,7 +148,15 @@ import store from "@/store";
 import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
 import { Multiselect } from 'vue-multiselect';
-
+import OModal from "@/components/OModal.vue";
+const toggleModal = ref(false)
+const lg = 'modal-lg'
+const openModal = () => {
+    toggleModal.value = true
+}
+const closeModal = () => {
+    toggleModal.value = false;
+};
 const errors = ref({});
 const nontax = ref({
     allowance: '',
@@ -178,6 +177,7 @@ const editEntry = (tx) => {
         amount: tx.amount ,
         pid: tx.pid,
     }
+    toggleModal.value = true
 }
 const deleteLog = (pid) => {
     alert(pid)

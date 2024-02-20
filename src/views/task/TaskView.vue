@@ -132,12 +132,12 @@
 <script setup>
 import store from "@/store";
 import { ref } from "vue";
-import { useRouter } from 'vue-router';
 import { Multiselect } from 'vue-multiselect';
 import PaginationLinks from "@/components/PaginationLinks.vue";
 import SubTaskForm from "@/components/task/forms/SubTaskForm.vue";
 import OModal from "@/components/OModal.vue";
 
+import { useRouter } from 'vue-router';
 const router = useRouter()
 const modal = 'modal-xs'
 const lg = 'modal-lg'

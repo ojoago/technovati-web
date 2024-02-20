@@ -22,9 +22,7 @@
                                             <div class="form-group">
                                                 <label class="form-label">Salary Structure</label>
                                                 <Select2 v-model="grade.structure_pid" :options="structureDrop" :settings="{ width: '100%' }"  />
-
-                                                <p class="text-danger " v-if="errors?.structure_pid">{{ errors?.structure_pid[0] }}
-                                                </p>
+                                                <p class="text-danger " v-if="errors?.structure_pid">{{ errors?.structure_pid[0] }}  </p>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
@@ -45,7 +43,7 @@
                 </div>
                 <div class="col-md-7">
                     <div class="card">
-                        <div class="card-header">Departments</div>
+                        <div class="card-header">Salary Structures</div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table-hover table-stripped table-bordered table">
