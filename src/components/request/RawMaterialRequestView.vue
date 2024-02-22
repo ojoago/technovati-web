@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-md-7">
                     <div class="card">
-                        <div class="card-header">Receiving Items to Inventory</div>
+                        <div class="card-header">Company Raw Materials</div>
                         <div class="card-body">
                             <input type="text" class=" form-control form-control-sm" placeholder="search Item">
                             <div class="table-responsive">
@@ -13,20 +13,23 @@
                                         <tr>
                                             <th>SN</th>
                                             <th>Name</th>
-                                            <!-- <th>Model</th> -->
-                                            <th>Quantity</th>
-                                            <!-- <th>Description</th> -->
+                                            <th>Unit</th>
+                                            <th>Description</th>
                                             <th align="center"> <i class="bi bi-pencil-fill"></i> </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="(item, loop) in items?.data" :key="loop">
                                             <td>{{ loop + 1 }}</td>
+                                            <!-- <td>{{ item.name }}</td>
+                                                <td>{{ item.unit }}</td>
+                                                <td>{{ item.description }}</td> -->
                                             <td>{{ item.name }}</td>
-                                            <!-- <td>{{ item.model }} </td> -->
-                                            <td>{{ item.item?.quantity }} {{ item.unit }}</td>
+                                            <td>{{ item.model }} </td>
+                                            <td>{{ item.quantity }} {{ item.unit }}</td>
                                             <td>
-                                                <button @click="addItem(item)" type="button" class="btn btn-primary btn-sm">
+                                                <button v-if="item.quantity > 0" @click="addItem(item)" type="button"
+                                                    class="btn btn-primary btn-sm">
                                                     <i class="bi bi-patch-plus-fill"></i>
                                                 </button>
                                             </td>
@@ -44,6 +47,7 @@
                             <fieldset class="border rounded-3 p-2 m-1">
                                 <legend class="float-none w-auto px-2 h5">Request Items</legend>
                                 <form id="itemForm" v-if="request.items.length">
+
                                     <fieldset class="border rounded-3 p-2 m-1">
                                         <div class="col-md-12" v-for="(item, loop) in request.items" :key="loop">
                                             <label class="form-label">{{ item.name }} </label>
@@ -58,15 +62,14 @@
 
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <label class="form-label">Comment</label>
-                                            <textarea type="text" v-model="request.comment"
+                                            <label class="form-label">Note</label>
+                                            <textarea type="text" v-model="request.note"
                                                 class="form-control form-control-sm" placeholder="e.g UIU"></textarea>
-                                            <p class="text-danger " v-if="errors?.comment">{{ errors?.comment[0] }} </p>
+                                            <p class="text-danger " v-if="errors?.note">{{ errors?.note[0] }} </p>
                                         </div>
                                         <div class="col-md-12">
                                             <label class="form-label">Receiver</label>
-                                            <Select2 v-model="request.reciver" :options="users"
-                                                :settings="{ width: '100%' }" />
+                                            <Select2 v-model="request.reciver" :options="users" :settings="{ width: '100%' }" />
                                             <p class="text-danger " v-if="errors?.reciver">{{ errors?.reciver[0] }} </p>
                                         </div>
                                     </div>
@@ -96,9 +99,9 @@ const errors = ref({});
 const items = ref({});
 
 const request = ref({
+    note: '',
     reciver: '',
     comment: '',
-    store_pid: '04430511J207011I90N211FR73A5',
     items: [],
 });
 
@@ -131,7 +134,7 @@ const removeitem = (i) => {
 
 function requestMaterial() {
     errors.value = []
-    store.dispatch('postMethod', { url: '/item-cr-in', param: request.value }).then((data) => {
+    store.dispatch('postMethod', { url: '/request-materials', param: request.value }).then((data) => {
         if (data.status == 422) {
             errors.value = data.data
         } else if (data.status == 201) {
@@ -143,8 +146,7 @@ function requestMaterial() {
 }
 loadItem()
 function loadItem() {
-    store.dispatch('getMethod', { url: '/load-cr-in-items' }).then((data) => {
-        store.commit('setSpinner', false)
+    store.dispatch('getMethod', { url: '/load-materials' }).then((data) => {
         if (data.status == 200) {
             items.value = data.data;
         }
@@ -155,9 +157,6 @@ const users = ref({})
 function dropdownSupplier() {
     store.dispatch('loadDropdown', 'users').then(({ data }) => {
         users.value = data;
-    }).catch(e => {
-        console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownSupplier()

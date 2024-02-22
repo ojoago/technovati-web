@@ -2,29 +2,34 @@
     <div>
         <div class="container mt-2">
             <div class="card">
-                <div class="card-header">Raw Material Request Details</div>
+                <div class="card-header">Inventory Item Request Details</div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table-hover table-stripped table-bordered table">
                             <tbody>
                                 <tr>
-                                    <td colspan="2">{{ item.note }}</td>
+                                    <td colspan="4">{{ request.comment }}</td>
                                 </tr>
                                 <tr>
-                                    <!-- <td>{{ item.requested_by?.username }}</td> -->
+                                    <th>Requested By </th>
+                                    <td>{{ request.request?.username }}</td>
+                                    <th>Receiver </th>
+                                    <td>{{ request.receiver?.username ?? request.request?.username }} </td>
+                                </tr>
+                                <tr>
+                                    <th>Order </th>
+                                    <td>#{{ request.waybill }}</td>
                                     <th>Item Count </th>
-                                    <td>{{ item.item_count }}</td>
+                                    <td>{{ request.items_count }} </td>
                                     
                                 </tr>
-                                <tr>
-                                    <th>Receiver </th>
-                                    <td>{{ item.receiver?.username ?? item.requested_by?.username }}</td>
-                                </tr>
+                              
                                 <tr>
                                     <th>Date </th>
-                                    <td>{{ item.request_time }} <b>Status: {{ item.status }}</b> </td>
+                                    <td>{{ request.request_time }} </td>
+                                    <th>Status </th>
+                                    <td> {{ request.way_status }} </td>
                                 </tr>
-                                
                             </tbody>
                         </table>
 
@@ -33,7 +38,7 @@
                                 <tr>
                                     <th>SN</th>
                                     <th>Item Name</th>
-                                    <th>Model</th>
+                                    <!-- <th>Model</th> -->
                                     <th>Quantity Requested</th>
                                     <th>Quantity Supplied</th>
                                     <th>Difference</th>
@@ -41,10 +46,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(data, loop) in item.item" :key="loop">
+                                <tr v-for="(data, loop) in details" :key="loop">
                                     <td>{{ loop + 1 }}</td>
                                     <td>{{ data.name }}</td>
-                                    <td>{{ data.model }}</td>
+                                    <!-- <td>{{ data.model }}</td> -->
                                     <td>{{ data.quantity_requested }}</td>
                                     <td>{{ data.quantity_supplied }}</td>
                                     <td>{{ data.quantity_supplied - data.quantity_requested }}</td>
@@ -61,12 +66,12 @@
 </template>
 
 <script setup>
-// import store from "@/store";
+import store from "@/store";
 import { onMounted, ref } from "vue";
 import {  useRouter } from 'vue-router';
 const router = useRouter()
 
-const item = ref({});
+const request = ref({});
 // const requests = ref({});
 
 // loadRequest()
@@ -83,12 +88,24 @@ const item = ref({});
 //         alert('weting be this')
 //     })
 // }
+const details = ref({});
+
+function loadRequest() {
+    store.dispatch('getMethod', { url: '/load-way-bill-details/' + request.value.waybill }).then((data) => {
+        if (data?.status == 200) {
+            details.value = data.data;
+            console.log(data.data);
+        }
+    })
+}
 
 onMounted(() => {
-    item.value = localStorage.getItem('TVATI_RAW_MAT_RQ_DETAIL') ? JSON.parse(localStorage.getItem('TVATI_RAW_MAT_RQ_DETAIL')) : 'null'
-    if (item.value == 'null') {
-        router.push({ path: 'my-raw-material-request'})
+    request.value = localStorage.getItem('TVATI_MY_RQ_DETAIL') ? JSON.parse(localStorage.getItem('TVATI_MY_RQ_DETAIL')) : 'null'
+    if (request.value == 'null') {
+        router.push({ path: 'my-request'})
+        return false
     }
+    loadRequest()
     getUrlQueryParams()
 });
 

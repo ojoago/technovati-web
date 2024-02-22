@@ -81,7 +81,7 @@ const routes = [
                 path:'/leave-request',name:'LeaveRequest',component: () => import('@/views/leave/LeaveRequest.vue')
             },
             {
-                path:'/request',name:'RequestView',component: () => import('@/views/request/RequestView.vue')
+                path:'/request',name:'RequestView',component: () => import('@/views/request/InventoryItemRequestView.vue')
             },
             {
                 path:'/memo',name:'MemoView',component: () => import('@/views/memo/MemoView.vue')
@@ -147,9 +147,9 @@ const routes = [
             {
                 path:'/vehicle-detail',name:'VehicleDetailView',component: () => import('@/views/logistics/VehicleDetailView.vue')
             },
-           
             
             // Inventory 
+            {   path:'/stores',name:'StoreView',component: () => import('@/views/inventory/store/StoreView.vue') },
             {
                 path:'/cr-in',name:'CrInView',component: () => import('@/views/inventory/CrInView.vue')
             },
@@ -193,8 +193,15 @@ const routes = [
                 path:'/material-request',name:'MaterialRequestView',component: () => import('@/views/materials/MaterialRequestView.vue')
             },
             {
-                path:'/my-request',name:'MyRequestView',component: () => import('@/views/materials/MyRequestView.vue')
+                path:'/inventory-item-request',name:'InventoryItemRequestView',component: () => import('@/views/request/InventoryItemRequestView.vue')
             },
+
+            {
+                path:'/my-raw-material-request',name:'MyRawMaterialRequestView',component: () => import('@/views/materials/MyRawMaterialRequestView.vue')
+            },
+            {   path:'/my-request',name:'MyRequestView',component: () => import('@/views/request/MyRequestView.vue')  },
+            {   path:'/my-request-details',name:'MyRequestDetails',component: () => import('@/views/request/MyRequestDetails.vue')  },
+
             {
                 path:'/raw-material-request-details',name:'RawMaterialRequestDetails',component: () => import('@/views/materials/RawMaterialRequestDetails.vue')
             },

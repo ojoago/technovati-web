@@ -109,7 +109,7 @@ const item = ref({
  
 const editItem = (sec) => {
     item.value = {
-        unit: sec.item ,
+        unit: sec.unit ,
         description: sec.description ,
         name: sec.name ,
         pid: sec.pid ,

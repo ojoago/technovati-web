@@ -15,7 +15,7 @@
                                     <th>Items</th>
                                     <th>Receiver</th>
                                     <th>time</th>
-                                    <th align="center"> <i class="bi bi-pencil-fill"></i> </th>
+                                    <th align="center"> <i class="bi bi-gear-fill"></i> </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -29,7 +29,7 @@
                                     <td>
                                         <button @click="requestDetailPage(item)" type="button"
                                             class="btn btn-primary btn-sm">
-                                            <i class="bi bi-patch-plus-fill"></i>
+                                            <i class="bi bi-plus"></i>
                                         </button>
                                     </td>
                                 </tr>

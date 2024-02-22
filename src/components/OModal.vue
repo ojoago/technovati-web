@@ -68,6 +68,7 @@ const target = ref(null)
 onClickOutside(target, () => emit('modal-close'))
 
 </script>
+
 <style scoped>
 .slide-fade-enter-active {
     transition: all 0.3s ease-out;
