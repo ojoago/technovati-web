@@ -20,86 +20,46 @@
                       </ul>
                       <div class="tab-content pt-2" id="myTabjustifiedContent">
                         <div class="tab-pane fade show active" id="department" role="tabpanel" aria-labelledby="department-tab">
-                         
-                            <div class="row">
-                                <div class="col-md-4">
-                                      <fieldset class="border rounded-3 p-2 m-1">
-                                                <legend class="float-none w-auto px-2">Create Department</legend>
-                                                <form >
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label class="form-label">Department</label>
-                                                                <input type="text" v-model="dept.department" class="form-control" placeholder="Name of department">
-                                                                <p class="text-danger " v-if="errors?.department">{{ errors?.department[0] }}</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label class="form-label">Description</label>
-                                                                <textarea type="text" v-model="dept.description" class="form-control" placeholder="Name of department"></textarea>
-                                                                <p class="text-danger " v-if="errors?.description">{{ errors?.description[0] }}</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label class="form-label">Head of Department</label>
-                                                                <Select2 v-model="dept.head_pid" :options="users" :settings="{ width: '100%' }"  />
-
-                                                                <p class="text-danger " v-if="errors?.head">{{ errors?.head[0] }}</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <button type="button" class="btn btn-success btn-sm mt-2" @click="createDepartment">Submit</button>
-                                                </form>
-                                            </fieldset>
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="table-responsive">
-                                    <table class="table-hover table-stripped table-bordered table">
-                                        <thead>
-                                            <tr>
-                                                <th>SN</th>
-                                                <th>DEPARTMENT</th>
-                                                <th>Sub DEPARTMENT</th>
-                                                <th>DESCRIPTION</th>
-                                                <th>HEAD</th>
-                                                <th> <i class="bi bi-gear-fill"></i> </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-for="(dp, loop) in departments.data" :key="dp.pid">
-                                                <td>{{ loop + 1 }}</td>
-                                                <td>{{ dp.department }}</td>
-                                                <td>{{ dp.sub_count }}</td>
-                                                <td>{{ dp.description }}</td>
-                                                <td>{{ dp.head?.username }}</td>
-                                                <td>
-                                                    <div class="dropdown">
-                                                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown">
-                                                            <i class="bi bi-tools"></i>
-                                                        </button>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a class="dropdown-item pointer" @click="editDept(dp)">Edit</a></li>
-                                                            <li><a class="dropdown-item pointer" @click="openModal(dp.pid)">Assign</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                </div>
+                            <button class="btn btn-sm btn-primary mb-1" @click="toggleModal=true">Add New</button>
+                            <div class="table-responsive">
+                                <table class="table-hover table-stripped table-bordered table">
+                                    <thead>
+                                        <tr>
+                                            <th>SN</th>
+                                            <th>DEPARTMENT</th>
+                                            <th>Sub DEPARTMENT</th>
+                                            <th>DESCRIPTION</th>
+                                            <th>HEAD</th>
+                                            <th> <i class="bi bi-gear-fill"></i> </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(dp, loop) in departments.data" :key="dp.pid">
+                                            <td>{{ loop + 1 }}</td>
+                                            <td>{{ dp.department }}</td>
+                                            <td>{{ dp.sub_count }}</td>
+                                            <td>{{ dp.description }}</td>
+                                            <td>{{ dp.head?.username }}</td>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+                                                        <i class="bi bi-tools"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item pointer" @click="editDept(dp)">Edit</a></li>
+                                                        <li><a class="dropdown-item pointer" @click="openModal(dp.pid)">Assign</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                      
                         </div>
 
                         <div class="tab-pane fade" id="sub" role="tabpanel" aria-labelledby="sub-tab">
-                            
                             <SubDepartment/>
-                             
                         </div>
-
                         <div class="tab-pane fade" id="desig" role="tabpanel" aria-labelledby="desig-tab">
                             
                             <div class="row">
@@ -169,33 +129,67 @@
                 </div>
             </div>
         </div>
-        <o-modal :isOpen="isModalOpened" modal-class="modal-xs" @submit="assignDepartment" title="Assign Department" @modal-close="closeModal">
-                <template #content>
-                    <div>
-                        <form  >
-                            <div class="row">
 
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-label">Sub Department </label>
-                                        <Select2 v-model="dept.sub_department" :options="sub" :settings="{ width: '100%' }"  />
-                                        <p class="text-danger " v-if="a_errors?.sub_department">{{ a_errors?.sub_department[0] }}</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-label">Staff  <span>*</span> </label>
-                                        <Select2 v-model="dept.user_pid" :options="users" :settings="{ width: '100%' }"  />
-                                        <p class="text-danger " v-if="a_errors?.user_pid">{{ a_errors?.user_pid[0] }}</p>
-                                    </div>
+        <o-modal :isOpen="toggleModal" modal-class="modal-xs" @submit="createDepartment" title="Create Department" @modal-close="closeModal">
+            <template #content>
+                <div>
+                    <form >
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Department</label>
+                                    <input type="text" v-model="dept.department" class="form-control" placeholder="Name of department">
+                                    <p class="text-danger " v-if="errors?.department">{{ errors?.department[0] }}</p>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Description</label>
+                                    <textarea type="text" v-model="dept.description" class="form-control" placeholder="Name of department"></textarea>
+                                    <p class="text-danger " v-if="errors?.description">{{ errors?.description[0] }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Head of Department</label>
+                                    <Select2 v-model="dept.head_pid" :options="users" :settings="{ width: '100%' }"  />
 
-                        </form>
-                    </div>
-                </template>
-               
-            </o-modal>
+                                    <p class="text-danger " v-if="errors?.head">{{ errors?.head[0] }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <button type="button" class="btn btn-success btn-sm mt-2" @click="createDepartment">Submit</button> -->
+                    </form>
+                </div>
+            </template>
+        </o-modal>
+
+        <o-modal :isOpen="isModalOpened" modal-class="modal-xs" @submit="assignDepartment" title="Assign Department" @modal-close="closeModal">
+            <template #content>
+                <div>
+                    <form  >
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Sub Department </label>
+                                    <Select2 v-model="dept.sub_department" :options="sub" :settings="{ width: '100%' }"  />
+                                    <p class="text-danger " v-if="a_errors?.sub_department">{{ a_errors?.sub_department[0] }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Staff  <span>*</span> </label>
+                                    <Select2 v-model="dept.user_pid" :options="users" :settings="{ width: '100%' }"  />
+                                    <p class="text-danger " v-if="a_errors?.user_pid">{{ a_errors?.user_pid[0] }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </template>
+        </o-modal>
     </div>
 </template>
 
@@ -241,6 +235,7 @@ const toggleModal = ref(false);
             'head_pid': data.head_pid,
             'pid': data.pid
         }
+        toggleModal.value = true
     }
 
     const errors = ref({})
