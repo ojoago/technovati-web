@@ -80,7 +80,6 @@
     
     // import store from "@/store";
     import BioData from "@/components/onboarding/BioDataForm.vue"
-    // import PortFolio from "@/components/onboarding/PortFolio.vue"
     import SkillForm from "@/components/onboarding/SkillForm.vue"
     import ExperienceForm from "@/components/onboarding/ExperienceForm.vue"
     import HobbieForm from "@/components/onboarding/DocumentForm.vue"

@@ -2,7 +2,7 @@
     <div>
         <fieldset class="border rounded-3 p-2 m-1">
                                 <legend class="float-none w-auto px-2">Qualification</legend>
-                                <form>
+                                <form id="qualForm">
                                     <fieldset class="border rounded-3">
                                         <template v-for="(inst, loop) in qualification.institutions" :key="loop">
                                         
@@ -83,7 +83,9 @@ import {  ref,onMounted } from "vue";
 // import { useRouter } from 'vue-router';
 
 const q_errors = ref({});
-
+const props = defineProps({
+    user_pid: String,
+});
 const qualification = ref({
     institutions: [{
         institution: '',
@@ -93,7 +95,7 @@ const qualification = ref({
         grade: '',
         address: '',
     }],
-    'user_pid': '',
+    'user_pid': props.user_pid,
 });
 const addQualification = () => {
     qualification.value.institutions.push({
@@ -115,47 +117,21 @@ const removeQualification = (i) => {
 }
 let query = {}
 function staffQualification() {
-    store.commit('setSpinner', true)
     store.dispatch('postMethod', { url: '/add-qualification', param: qualification.value }).then((data) => {
-        store.commit('setSpinner', false)
         if (data.status == 422) {
             q_errors.value = data.data;
         } else if (data.status == 201) {
             q_errors.value = []
-            qualification.value.clear();
+            let form = document.querySelector('#qualForm');
+            form.reset()
             query = { tab: 'bank-tab', 'id': data?.data?.user_pid }
             localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
             switchTab()
         }
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
-        alert('weting be this')
     })
 }
 
-// function staffQualification() {
-//     store.commit('setSpinner', true)
-//     q_errors.value = []
-//     store.dispatch('addQualifiaction', qualification.value).then((data) => {
-//         if (data.status == 422) {
-//             q_errors.value = data.data
-//             console.log(data.data);
-//             console.log(q_errors.value.institutions[0])
-//             console.log(data.data);
-//         } else if (data.status == 201) {
-//             q_errors.value = []
-//             qualification.value = [];
-//             query = { tab: 'bank-tab', 'id': data?.data?.user_pid }
-//             localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
-//             // currentTab()
-//         }
-//         store.commit('setSpinner', false)
-//     }).catch(e => {
-//         store.commit('setSpinner', false)
-//         console.log(e);
-//     })
-// }
+
 const emit = defineEmits(['currentTab'])
 
 function switchTab() {

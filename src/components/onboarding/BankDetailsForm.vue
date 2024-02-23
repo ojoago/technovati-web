@@ -52,7 +52,7 @@
                                                
                                                     <div class="form-group">
                                                         <label class="form-label">sort code </label>
-                                                        <input type="text" v-model="bank.sort_code" class="form-control form-control-sm" placeholder="e.g Aminu">
+                                                        <input type="text" v-model="bank.sort_code" class="form-control form-control-sm" placeholder="e.g 301">
                                                         <p class="text-danger " v-if="b_errors?.sort_code">{{ b_errors?.sort_code[0] }}</p>
                                                     </div>
                                                 </div>
@@ -69,7 +69,9 @@
 <script setup>
 import store from "@/store";
 import { ref,onMounted } from "vue";
-
+const props = defineProps({
+    user_pid: String,
+});
 const b_errors = ref({});
 const bank = ref({
     'bank': '',
@@ -78,7 +80,7 @@ const bank = ref({
     'account_number': '',
     'bvn': '',
     'account_type': '',
-    'user_pid': '',
+    'user_pid': props.user_pid,
 });
 
 let query = {}

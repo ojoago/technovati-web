@@ -1,7 +1,7 @@
 <template>
     <div>
         <fieldset class="border rounded-3 p-2 m-1">
-            <legend class="float-none w-auto px-2">Qualification</legend>
+            <legend class="float-none w-auto px-2">Experience</legend>
             <form>
                 <fieldset class="border rounded-3">
                     <template v-for="(inst, loop) in work.expirence" :key="loop">
@@ -76,7 +76,9 @@ import store from "@/store";
 import { ref,onMounted } from "vue";
 // import { useRouter } from 'vue-router';
 
-
+const props = defineProps({
+    user_pid: String,
+});
 const q_errors = ref({});
 
 const work = ref({
@@ -87,7 +89,7 @@ const work = ref({
         from: '' ,
         to: ''
     }],
-    'user_pid': '',
+    'user_pid': props.user_pid,
 });
 const addQualification = () => {
     work.value.expirence.push({

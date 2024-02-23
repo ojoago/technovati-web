@@ -153,12 +153,10 @@
                                 <div class="form-group">
                                     <label class="form-label">Head of Department</label>
                                     <Select2 v-model="dept.head_pid" :options="users" :settings="{ width: '100%' }"  />
-
                                     <p class="text-danger " v-if="errors?.head">{{ errors?.head[0] }}</p>
                                 </div>
                             </div>
                         </div>
-                        <!-- <button type="button" class="btn btn-success btn-sm mt-2" @click="createDepartment">Submit</button> -->
                     </form>
                 </div>
             </template>

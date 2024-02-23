@@ -1,7 +1,7 @@
 <template>
     <div>
         <fieldset class="border rounded-3 p-2 m-1">
-            <legend class="float-none w-auto px-2">Qualification</legend>
+            <legend class="float-none w-auto px-2">Documents Upload</legend>
             <form>
                 <fieldset class="border rounded-3">
                     <template v-for="(inst, loop) in documents.items" :key="loop">
@@ -52,6 +52,9 @@
 import store from "@/store";
 import { ref,onMounted } from "vue";
 
+const props = defineProps({
+    user_pid: String,
+});
 
 const q_errors = ref({});
 
@@ -60,7 +63,7 @@ const documents = ref({
         name:'',
     }],
     media:[],
-    user_pid: '',
+    user_pid: props.user_pid,
 });
 const addQualification = () => {
     documents.value.items.push({
@@ -78,22 +81,16 @@ const removeQualification = (i) => {
 }
 let query = {}
 function staffQualification() {
-    store.commit('setSpinner', true)
     store.dispatch('postMethod', { url: '/add-documents', param: documents.value }).then((data) => {
-        store.commit('setSpinner', false)
         if (data.status == 422) {
             q_errors.value = data.data;
         } else if (data.status == 201) {
             q_errors.value = []
             documents.value = [];
-            query = { tab: 'personal-tab', 'id': data?.data?.user_pid }
+            query = { tab: 'personal-tab' }
             localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
             switchTab()
         }
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
-        alert('weting be this')
     })
 }
 const handleImageChange = (event) => {

@@ -62,7 +62,9 @@ import store from "@/store";
 import { ref,onMounted } from "vue";
 // import { useRouter } from 'vue-router';
 
-
+const props = defineProps({
+    user_pid: String,
+});
 const q_errors = ref({});
 
 const skills = ref({
@@ -71,7 +73,7 @@ const skills = ref({
         certification : '' ,
         years : ''
     }],
-    user_pid: '',
+    user_pid: props.user_pid,
 });
 const addQualification = () => {
     skills.value.skills.push({
