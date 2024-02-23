@@ -84,18 +84,12 @@ dropdownUser()
 const errors = ref({})
 function createTask() {
     errors.value = [];
-    store.commit('setSpinner', true)
     store.dispatch('postMethod', { url: '/create-sub-task', param: subTask.value }).then((data) => {
-        store.commit('setSpinner', false)
         if (data.status == 422) {
             errors.value = data.data;
         } else if (data.status == 201) {
             errors.value = [];
         }
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
-        alert('weting be this')
     })
 }
 

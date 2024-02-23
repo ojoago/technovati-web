@@ -58,7 +58,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card">
-                        <div class="card-header">Departments</div>
+                        <div class="card-header">Suppliers</div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table-hover table-stripped table-bordered table">
@@ -90,9 +90,9 @@
                                                         <i class="bi bi-tools"></i>
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                        <li class=""><a class="dropdown-item pointer" @click="supplierDetail(data)">Details</a> </li>
-                                                        <li class="bg-warning"><a class="dropdown-item pointer" @click="editSupplier(data)">Edit</a> </li>
-                                                        <li class="bg-danger"><a class="dropdown-item pointer" >Delete</a></li>
+                                                        <li><a class="dropdown-item pointer bg-info" @click="supplierDetail(data)">Details</a> </li>
+                                                        <li><a class="dropdown-item pointer bg-warning" @click="editSupplier(data)">Edit</a> </li>
+                                                        <li><a class="dropdown-item pointer bg-danger"  @click="detelSupplier(data?.pid)">Delete</a></li>
                                                     </ul>
                                                 </div>
                                             </td>
@@ -109,7 +109,6 @@
 </template>
 
 <script setup>
-import axiosClient from "@/axios";
 import store from "@/store";
 import { ref } from "vue";
 import { useRouter } from 'vue-router';
@@ -139,46 +138,34 @@ const editSupplier = (data)=> {
 
 
 function createSupplier() {
-    store.commit('setSpinner', true)
     errors.value = []
-    return axiosClient.post('/create-supplier', supplier.value)
-        .then(({ data }) => {
-            if (data.status == 201) {
-                errors.value = []
-                store.commit('notify', { message: data.message })
-                let form = document.querySelector('#sForm');
-                form.reset();
-                loadSuppliers()
-                store.commit('setSpinner', false)
-
-            } else if (data.status == 422) {
-                errors.value = data.data;
-                store.commit('setSpinner', false)
-
-                store.commit('notify', { message: data.message, type: 'warninig' })
-            } else {
-                store.commit('notify', { message: data.message, type: 'danger' })
-                store.commit('setSpinner', false)
-            }
-            return data;
-        })
+     store.dispatch('postMethod', { url: '/create-supplier', param: supplier.value }).then((data) => {
+        if (data.status == 422) {
+            errors.value = data.data;
+        } else if (data.status == 201) {
+            let form = document.querySelector('#sForm');
+            form.reset();
+            loadSuppliers()
+        }
+    })
+    
 }
 
 function loadSuppliers() {
-    store.commit('setSpinner', true)
-    return axiosClient.get('/load-suppliers')
-        .then(({ data }) => {
-            if (data.status == 200) {
-                store.commit('notify', { message: data.message })
-                console.log(data.data);
-                suppliers.value = data.data
-                store.commit('setSpinner', false)
-            } else {
-                store.commit('notify', { message: data.message, type: 'danger' })
-                store.commit('setSpinner', false)
-            }
-            return data;
-        })
+    store.dispatch('getMethod', { url: '/load-suppliers' }).then((data) => {
+        if (data?.status == 200) {
+            suppliers.value = data.data;
+        }
+    })
+}
+function detelSupplier(pid) {
+    store.dispatch('deleteMethod', { url: '/delete-supplier/'+pid }).then((data) => {
+        console.log(data);
+        if (data?.status == 201) {
+            suppliers.value = data.data;
+            loadSuppliers()
+        }
+    })
 }
 
 function supplierDetail(supplier) {
