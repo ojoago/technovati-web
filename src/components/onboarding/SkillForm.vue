@@ -92,47 +92,19 @@ const removeQualification = (i) => {
 }
 let query = {}
 function staffQualification() {
-    store.commit('setSpinner', true)
     store.dispatch('postMethod', { url: '/add-skills', param: skills.value }).then((data) => {
-        store.commit('setSpinner', false)
-        if (data.status == 422) {
+        if (data?.status == 422) {
             q_errors.value = data.data;
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             q_errors.value = []
             skills.value = [];
             query = { tab: 'document-tab', 'id': data?.data?.user_pid }
             localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
             switchTab()
         }
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
-        alert('weting be this')
     })
 }
 
-// function staffQualification() {
-//     store.commit('setSpinner', true)
-//     q_errors.value = []
-//     store.dispatch('addQualifiaction', qualification.value).then((data) => {
-//         if (data.status == 422) {
-//             q_errors.value = data.data
-//             console.log(data.data);
-//             console.log(q_errors.value.institutions[0])
-//             console.log(data.data);
-//         } else if (data.status == 201) {
-//             q_errors.value = []
-//             qualification.value = [];
-//             query = { tab: 'bank-tab', 'id': data?.data?.user_pid }
-//             localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
-//             // currentTab()
-//         }
-//         store.commit('setSpinner', false)
-//     }).catch(e => {
-//         store.commit('setSpinner', false)
-//         console.log(e);
-//     })
-// }
 const emit = defineEmits(['currentTab'])
 
 function switchTab() {
@@ -143,7 +115,24 @@ onMounted(() => {
     if (q != 'null') {
         skills.value.user_pid = q.id
     }
+    let tsk = localStorage.getItem('TVATI_EDIT_STAFF') ? JSON.parse(localStorage.getItem('TVATI_EDIT_STAFF')) : 'null'
+    if (tsk != 'null') {
+        if (tsk.action == 'edit') {
+            loadExperience(tsk?.staff?.pid)
+        }
+    }
 })
+
+
+const loadExperience = (pid) => {
+    store.dispatch('getMethod', { url: '/load-experience/' + pid }).then((data) => {
+        if (data?.status == 200) {
+            skills.value.skills = data?.data;
+        }
+    })
+}
+
+
 </script>
 
 <style scoped></style>

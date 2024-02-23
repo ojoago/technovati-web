@@ -191,9 +191,7 @@ const errors = ref({})
 function updateTask() {
     errors.value = [];
     task.value.teams = teams.value;
-    store.commit('setSpinner', true)
     store.dispatch('postMethod', { url: '/update-task', param: task.value }).then((data) => {
-        store.commit('setSpinner', false)
         if (data.status == 422) {
             errors.value = data.data;
         } else if (data.status == 201) {
@@ -201,19 +199,12 @@ function updateTask() {
             // memoForm.value = [];
             // loadTask()
         }
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
-        alert('weting be this')
     })
 }
 const users = ref([]);
 function dropdownUser() {
     store.dispatch('loadDropdown', 'users').then(({ data }) => {
         users.value = data;
-    }).catch(e => {
-        console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownUser()

@@ -44,7 +44,7 @@ const errors = ref({})
 function assignDepartment() {
     errors.value = []
     store.dispatch('postMethod', { url: '/assign-department', param: dept.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data;
         } 
     })

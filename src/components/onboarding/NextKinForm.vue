@@ -58,7 +58,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label">Address <span class="text-danger">*</span></label>
-                                <textarea v-model="next.address" class="form-control form-control-sm" placeholder="e.g aminu@technovati.com.ng"></textarea>
+                                <textarea v-model="next.address" class="form-control form-control-sm" placeholder="e.g somewhere in africa"></textarea>
                                 <p class="text-danger " v-if="errors?.address">{{ errors?.address[0] }}</p>
                             </div>
                         </div>
@@ -114,11 +114,25 @@ function switchTab() {
 
 onMounted(() => {
     let q = localStorage.getItem('TVATI_ONBOARD_TAB') ? JSON.parse(localStorage.getItem('TVATI_ONBOARD_TAB')) : 'null'
+    let tsk = localStorage.getItem('TVATI_EDIT_STAFF') ? JSON.parse(localStorage.getItem('TVATI_EDIT_STAFF')) : 'null'
     if (q != 'null') {
         next.value.user_pid = q.id
     }
+    if (tsk != 'null') {
+        if (tsk.action == 'edit') {
+            loadNextOfKin(tsk?.staff?.pid)
+        }
+    }
 })
 
+
+const loadNextOfKin = (pid) => {
+    store.dispatch('getMethod', { url: '/load-next-of-kin/' + pid }).then((data) => {
+        if (data.status == 200) {
+            next.value = data.data;
+        }
+    })
+}
 </script>
 
 <style scoped>

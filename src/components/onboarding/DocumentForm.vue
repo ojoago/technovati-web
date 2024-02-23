@@ -114,28 +114,7 @@ const handleImageChange = (event) => {
         reader.readAsDataURL(file);
     }
 }
-// function staffQualification() {
-//     store.commit('setSpinner', true)
-//     q_errors.value = []
-//     store.dispatch('addQualifiaction', qualification.value).then((data) => {
-//         if (data.status == 422) {
-//             q_errors.value = data.data
-//             console.log(data.data);
-//             console.log(q_errors.value.institutions[0])
-//             console.log(data.data);
-//         } else if (data.status == 201) {
-//             q_errors.value = []
-//             qualification.value = [];
-//             query = { tab: 'bank-tab', 'id': data?.data?.user_pid }
-//             localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
-//             // currentTab()
-//         }
-//         store.commit('setSpinner', false)
-//     }).catch(e => {
-//         store.commit('setSpinner', false)
-//         console.log(e);
-//     })
-// }
+
 const emit = defineEmits(['currentTab'])
 
 function switchTab() {
@@ -146,8 +125,22 @@ onMounted(() => {
     if (q != 'null') {
         documents.value.user_pid = q.id
     }
+    let tsk = localStorage.getItem('TVATI_EDIT_STAFF') ? JSON.parse(localStorage.getItem('TVATI_EDIT_STAFF')) : 'null'
+    if (tsk != 'null') {
+        if (tsk.action == 'edit') {
+            loadDocuments(tsk?.staff?.pid)
+        }
+    }
 })
 
+
+const loadDocuments = (pid) => {
+    store.dispatch('getMethod', { url: '/load-documents/' + pid }).then((data) => {
+        if (data?.status == 200) {
+            documents.value.items = data?.data;
+        }
+    })
+}
 </script>
 
 <style scoped></style>

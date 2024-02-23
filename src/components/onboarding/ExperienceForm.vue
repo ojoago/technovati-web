@@ -110,22 +110,16 @@ const removeQualification = (i) => {
 }
 let query = {}
 function staffQualification() {
-    store.commit('setSpinner', true)
     store.dispatch('postMethod', { url: '/add-experience', param: work.value }).then((data) => {
-        store.commit('setSpinner', false)
-        if (data.status == 422) {
+        if (data?.status == 422) {
             q_errors.value = data.data;
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             q_errors.value = []
             work.value = [];
             query = { tab: 'skill-tab', 'id': data?.data?.user_pid }
             localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
             switchTab()
         }
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
-        alert('weting be this')
     })
 }
 
@@ -139,8 +133,22 @@ onMounted(() => {
     if (q != 'null') {
         work.value.user_pid = q.id
     }
+    let tsk = localStorage.getItem('TVATI_EDIT_STAFF') ? JSON.parse(localStorage.getItem('TVATI_EDIT_STAFF')) : 'null'
+    if (tsk != 'null') {
+        if (tsk.action == 'edit') {
+            loadExperience(tsk?.staff?.pid)
+        }
+    }
 })
 
+
+const loadExperience = (pid) => {
+    store.dispatch('getMethod', { url: '/load-experience/' + pid }).then((data) => {
+        if (data.status == 200) {
+            work.value.expirence = data.data;
+        }
+    })
+}
 </script>
 
 <style scoped></style>

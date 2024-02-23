@@ -197,15 +197,8 @@ onMounted(() => {
 
 
 function loadStaffDetail() {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/ataff-detail/' + staff_pid.value }).then(({ data }) => {
         detail.value = data;
-        store.commit('setSpinner', false)
-
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
-        alert('weting be this')
     })
 }
 

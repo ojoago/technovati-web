@@ -86,22 +86,16 @@ const bank = ref({
 let query = {}
 function staffBankDetail() {
            b_errors.value = []
-    store.commit('setSpinner', true)
     store.dispatch('postMethod', { url: '/add-bank-detail', param: bank.value }).then((data) => {
-        store.commit('setSpinner', false)
-        if (data.status == 422) {
+        if (data?.status == 422) {
              b_errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
            b_errors.value = []
             bank.value = [];
             query = { tab: 'work-tab', 'id': data?.data?.user_pid }
             localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
             switchTab()
         }
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
-        alert('weting be this')
     })
 }
 
@@ -116,7 +110,21 @@ onMounted(() => {
     if (q != 'null') {
         bank.value.user_pid = q.id
     }
+     let tsk = localStorage.getItem('TVATI_EDIT_STAFF') ? JSON.parse(localStorage.getItem('TVATI_EDIT_STAFF')) : 'null'
+    if (tsk != 'null') {
+        if (tsk.action == 'edit') {
+            loadBankDetails(tsk?.staff?.pid)
+        }
+    }
 })
+
+const loadBankDetails = (pid) => {
+    store.dispatch('getMethod', { url: '/load-bank-details/' + pid }).then((data) => {
+        if (data.status == 200) {
+            bank.value = data.data;
+        }
+    })
+}
 
 </script>
 

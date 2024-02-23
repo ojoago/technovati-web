@@ -170,16 +170,10 @@
     loadStaff()
    
     function loadStaff() {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-staff/1' }).then((data) => {
-        store.commit('setSpinner', false)
         if (data.status == 200) {
             users.value = data.data;
         }
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
-        alert('weting be this')
     })
 }
     
@@ -200,9 +194,13 @@ function staffDetail(staff) {
     router.push({ path: 'staff-detail', query: { staff: staff.pid } })
 }
 function editStaff(staff) {
-    query = { tab: 'personal-tab', 'id': staff?.user_pid }
+    query = {action:'edit', tab: 'personal-tab', 'id': staff?.user_pid }
+    let data = {
+        staff : staff,
+        action : 'edit',
+    }
     localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
-    localStorage.setItem('TVATI_STAFF_DETAIL', JSON.stringify(staff, null, 2))
+    localStorage.setItem('TVATI_EDIT_STAFF', JSON.stringify(data, null, 2))
     router.push({ path: 'staff', query: { staff: staff.pid } })
 }
 
@@ -211,42 +209,27 @@ const disableStaff = (pid) =>{
         if (data.status == 201) {
             loadStaff()
         }
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
-        alert('weting be this')
     })
 }
 const reActivateStaff = (pid) =>{
-    alert(pid)
     store.dispatch('getMethod', { url: '/re-activate-staff/'+pid }).then((data) => {
         if (data.status == 200) {
-            loaddisabledStaff()
+            loadDisabledStaff()
         }
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
-        alert('weting be this')
     })
 }
 onMounted(()=>{
     const disableTab = document.querySelector('#next-tab');
     disableTab.addEventListener('click',()=>{
-        loaddisabledStaff()
+        loadDisabledStaff()
     })
 })
 const disabledList = ref({})
-function loaddisabledStaff() {
-    store.commit('setSpinner', true)
+function loadDisabledStaff() {
     store.dispatch('getMethod', { url: '/load-staff/0' }).then((data) => {
-        store.commit('setSpinner', false)
         if (data.status == 200) {
             disabledList.value = data.data;
         }
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
-        alert('weting be this')
     })
 }
 

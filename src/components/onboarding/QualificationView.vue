@@ -142,7 +142,23 @@ onMounted(() => {
     if (q != 'null') {
         qualification.value.user_pid = q.id
     }
+    let tsk = localStorage.getItem('TVATI_EDIT_STAFF') ? JSON.parse(localStorage.getItem('TVATI_EDIT_STAFF')) : 'null'
+      if (tsk != 'null') {
+        if (tsk.action == 'edit') {
+            loadQualification(tsk?.staff?.pid)
+        }
+    }
 })
+
+
+const loadQualification = (pid) => {
+    store.dispatch('getMethod', { url: '/load-qualifications/' + pid }).then((data) => {
+        if (data.status == 200) {
+            qualification.value.institutions = data.data;
+        }
+    })
+}
+
 </script>
 
 <style scoped>

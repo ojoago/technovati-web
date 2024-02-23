@@ -210,32 +210,34 @@
 import store from "@/store";
 import {  defineEmits } from "vue";
 import Select2 from 'vue3-select2-component';
-import { ref } from "vue";
-    const errors = ref({});
+import { ref, onMounted } from "vue";
+// import { useRoute, useRouter } from 'vue-router';
+
+const errors = ref({});
 const props = defineProps({
     user_pid: String,
 });
 const user = ref({
-    'email': '',
-    'username': '',
-    'gsm': '',
-    'group': '',
-    'firstname': '',
-    'othername': '',
-    'marital_status': '',
-    'gender': '',
-    'religion': '',
-    'pob': '',
-    'dob': '',
-    'state_of_origin': '',
-    'lga_of_origin': '',
-    'state_of_residence': '',
-    'lga_of_residence': '',
-    'address': '',
+    email: '',
+    username: '',
+    gsm: '',
+    group: '',
+    firstname: '',
+    othername: '',
+    marital_status: '',
+    gender: '',
+    religion: '',
+    pob: '',
+    dob: '',
+    state_of_origin: '',
+    lga_of_origin: '',
+    state_of_residence: '',
+    lga_of_residence: '',
+    address: '',
     department_pid: '',
     sub_department: '',
     designation_pid: '',
-    'user_pid': props.user_pid,
+    user_pid: props.user_pid,
     image: null,
 });
 
@@ -268,9 +270,6 @@ const  emit =  defineEmits(['currentTab'])
     function dropdownUser() {
         store.dispatch('loadDropdown', 'state').then(({ data }) => {
             states.value = data;
-        }).catch(e => {
-            console.log(e);
-            alert('Something Went Wrong')
         })
     }
 
@@ -341,8 +340,6 @@ const handleImageChange = (event) => {
      function loadStateLga(event) {
         store.dispatch('loadDropdown', 'state-lga/' + event.target.value).then(({ data }) => {
             stateLgas.value = data;
-        }).catch(e => {
-            console.log(e);
         })
     }
     
@@ -355,6 +352,25 @@ const handleImageChange = (event) => {
             console.log(e);
         })
     }
+    
+    onMounted(() => {
+        let tsk = localStorage.getItem('TVATI_EDIT_STAFF') ? JSON.parse(localStorage.getItem('TVATI_EDIT_STAFF')) : 'null'
+        if (tsk != 'null') {
+            if(tsk.action=='edit'){
+                loadStaff(tsk?.staff?.pid)
+            }
+        }
+    })
+
+    const  loadStaff = (pid) => {
+    store.dispatch('getMethod', { url: '/load-personal-detail/'+pid }).then((data) => {
+        if (data.status == 200) {
+            user.value = data.data;
+        }
+    })
+}
+
+     
 </script>
 
 <style scoped>
