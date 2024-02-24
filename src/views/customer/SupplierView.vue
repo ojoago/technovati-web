@@ -1,64 +1,11 @@
 <template>
     <div>
         <div class="container mt-2">
-            <div class="row">
-                <div class="col-md-4">
+           
                     <div class="card">
-                        <div class="card-body">
-                            <fieldset class="border rounded-3 p-2 m-1">
-                                <legend class="float-none w-auto px-2">Create Task</legend>
-
-                                <form id="sForm">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">Name</label>
-                                                <input type="text" v-model="supplier.name" class="form-control" placeholder="e.g Ray Engineering">
-                                                <p class="text-danger " v-if="errors?.name">{{ errors?.name[0] }}</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">RC</label>
-                                                <input type="text" v-model="supplier.rc" class="form-control" placeholder="e.g 20121212">
-                                                <p class="text-danger " v-if="errors?.rc">{{ errors?.rc[0] }}</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">Email</label>
-                                                <input type="text" v-model="supplier.email" class="form-control" placeholder="e.g ojoago@optimalsoft.com">
-                                                <p class="text-danger " v-if="errors?.email">{{ errors?.email[0] }}</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">Phone Number</label>
-                                                <input type="text" v-model="supplier.gsm" class="form-control" placeholder="Enter phone number">
-                                                <p class="text-danger " v-if="errors?.gsm">{{ errors?.gsm[0] }}</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">Address</label>
-                                                <textarea type="text" v-model="supplier.address" class="form-control" placeholder="e.g plot 99 lagos avenue"></textarea>
-                                                <p class="text-danger " v-if="errors?.address">{{ errors?.address[0]
-                                                }}</p>
-                                            </div>
-                                        </div>
-                                        
-                                    </div>
-                                    <button type="button" class="btn btn-success btn-sm mt-2"
-                                        @click="createSupplier">Submit</button>
-                                </form>
-
-                            </fieldset>
+                        <div class="card-header">Suppliers
+                            <button class="btn btn-sm btn-primary" @click="toggleSModal=true"> Add New</button>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-8">
-                    <div class="card">
-                        <div class="card-header">Suppliers</div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table-hover table-stripped table-bordered table">
@@ -99,12 +46,64 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                <div class="flex justify-center mt-4">
+                                    <nav class="relative justify-center rounded-md shadow pagination">
+                                        <pagination-links v-for="(link, i) of suppliers.links" :link="link" :key="i"
+                                            @next="nextPage(link)"></pagination-links>
+                                    </nav>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+           
+         <o-modal modal-class="modal-md" :is-open="toggleSModal" @submit="createSupplier" title="Create Supplier" @modal-close="closeModal">
+                <template #content>
+                     <form id="sForm">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Name</label>
+                                    <input type="text" v-model="supplier.name" class="form-control" placeholder="e.g Ray Engineering">
+                                    <p class="text-danger " v-if="errors?.name">{{ errors?.name[0] }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">RC</label>
+                                    <input type="text" v-model="supplier.rc" class="form-control" placeholder="e.g 20121212">
+                                    <p class="text-danger " v-if="errors?.rc">{{ errors?.rc[0] }}</p>
+                                </div>
+                            </div>
+                           
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Phone Number</label>
+                                    <input type="text" v-model="supplier.gsm" class="form-control" placeholder="Enter phone number">
+                                    <p class="text-danger " v-if="errors?.gsm">{{ errors?.gsm[0] }}</p>
+                                </div>
+                            </div>
+                             <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Email</label>
+                                        <input type="text" v-model="supplier.email" class="form-control" placeholder="e.g ojoago@optimalsoft.com">
+                                        <p class="text-danger " v-if="errors?.email">{{ errors?.email[0] }}</p>
+                                    </div>
+                                </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Address</label>
+                                    <textarea type="text" v-model="supplier.address" class="form-control" placeholder="e.g plot 99 lagos avenue"></textarea>
+                                    <p class="text-danger " v-if="errors?.address">{{ errors?.address[0]
+                                    }}</p>
+                                </div>
+                            </div>
+                        
+                        </div>
+                        
+                    </form>
+                </template>
+            </o-modal>
     </div>
 </template>
 
@@ -112,8 +111,14 @@
 import store from "@/store";
 import { ref } from "vue";
 import { useRouter } from 'vue-router';
-const router = useRouter()
+import PaginationLinks from "@/components/PaginationLinks.vue";
+import OModal from "@/components/OModal.vue";
 
+const router = useRouter()
+const toggleSModal = ref(false)
+const closeModal = () => {
+    toggleSModal.value = false;
+};
 const errors = ref({});
 const suppliers = ref({});
 const supplier = ref({
@@ -134,6 +139,7 @@ const editSupplier = (data)=> {
         'address': data.address,
         'pid': data.pid
     }
+    toggleSModal.value = true
 }
 
 
@@ -175,6 +181,15 @@ function supplierDetail(supplier) {
 
 
 loadSuppliers()
+
+
+function nextPage(link) {
+    alert()
+    if (!link.url || link.active) {
+        return;
+    }
+    alert(link.url)
+}
 
 </script>
 

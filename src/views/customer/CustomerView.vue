@@ -13,63 +13,7 @@
                     </ul>
                     <div class="tab-content pt-2" id="myTabjustifiedContent">
                         <div class="tab-pane fade show active" id="customer" role="tabpanel" aria-labelledby="customer-tab">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <fieldset class="border rounded-3 p-2 m-1">
-                                        <legend class="float-none w-auto px-2">Create Customer</legend>
-
-                                        <form id="cForm">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Name</label>
-                                                        <input type="text" v-model="customer.name" class="form-control"
-                                                            placeholder="e.g Ray Engineering">
-                                                        <p class="text-danger " v-if="errors?.name">{{ errors?.name[0] }}</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label class="form-label">RC</label>
-                                                        <input type="text" v-model="customer.rc" class="form-control"
-                                                            placeholder="e.g 20121212">
-                                                        <p class="text-danger " v-if="errors?.rc">{{ errors?.rc[0] }}</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Email</label>
-                                                        <input type="text" v-model="customer.email" class="form-control"
-                                                            placeholder="e.g ojoago@optimalsoft.com">
-                                                        <p class="text-danger " v-if="errors?.email">{{ errors?.email[0] }}</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Phone Number</label>
-                                                        <input type="text" v-model="customer.gsm" class="form-control"
-                                                            placeholder="Enter phone number">
-                                                        <p class="text-danger " v-if="errors?.gsm">{{ errors?.gsm[0] }}</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Address</label>
-                                                        <textarea type="text" v-model="customer.address" class="form-control"
-                                                            placeholder="e.g plot 99 lagos avenue"></textarea>
-                                                        <p class="text-danger " v-if="errors?.address">{{ errors?.address[0]
-                                                        }}</p>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <button type="button" class="btn btn-success btn-sm mt-2"
-                                                @click="createCustomer">Submit</button>
-                                        </form>
-
-                                    </fieldset>
-                                </div>
-                                <div class="col-md-8">
+                                    <button class="btn btn-sm btn-primary m-2" @click="toggleCModal=true">Add New</button>
                                     <div class="table-responsive">
                                             <table class="table-hover table-stripped table-bordered table">
                                                 <thead>
@@ -81,7 +25,7 @@
                                                         <th>Phone Number</th>
                                                         <th>address</th>
                                                         <!-- <th>STATUS</th> -->
-                                                        <th> <i class="bi bi-pencil-fill"></i> </th>
+                                                        <th> <i class="bi bi-gear-fill"></i> </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -100,140 +44,197 @@
                                                                     <i class="bi bi-tools"></i>
                                                                 </button>
                                                                 <ul class="dropdown-menu">
-                                                                    <li class=""><a class="dropdown-item pointer"
-                                                                            @click="customerDetail(data)">Details</a> </li>
-                                                                    <li class="bg-warning"><a class="dropdown-item pointer"
-                                                                            @click="editCustomer(data)">Edit</a> </li>
-                                                                    <li class="bg-danger"><a class="dropdown-item pointer">Delete</a>
-                                                                    </li>
+                                                                    <li class=""><a class="dropdown-item pointer bg-info"  @click="customerDetail(data)">Details</a> </li>
+                                                                    <li class=""><a class="dropdown-item pointer bg-warning" @click="editCustomer(data)">Edit</a> </li>
+                                                                    <li class=""><a class="dropdown-item pointer bg-danger" @click="deleteCustomer(data.pid)">Delete</a>  </li>
                                                                 </ul>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                        </div>
+                                             <div class="flex justify-center mt-4">
+                                                <nav class="relative justify-center rounded-md shadow pagination">
+                                                    <pagination-links v-for="(link, i) of customers.links" :link="link" :key="i"
+                                                        @next="nextPage(link)"></pagination-links>
+                                                </nav>
+                                            </div>
+                                    </div>
                                 </div>
+
+                    <div class="tab-pane fade" id="store" role="tabpanel" aria-labelledby="customer-tab">
+                                    <button class="btn btn-sm btn-primary m-3" @click="toggleMModal = true">Add New</button>
+                                     
+                                <div class="table-responsive">
+                                        <table class="table-hover table-stripped table-bordered table">
+                                            <thead>
+                                                <tr>
+                                                    <th>SN</th>
+                                                    <th>Company</th>
+                                                    <th>names</th>
+                                                    <th>Username</th>
+                                                    <th>email</th>
+                                                    <th>Phone Number</th>
+                                                    <th>address</th>
+                                                    <!-- <th>STATUS</th> -->
+                                                    <th> <i class="bi bi-gear-fill"></i> </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(data, loop) in managers?.data" :key="loop">
+                                                    <td>{{ loop + 1 }}</td>
+                                                    <td>{{ data.company.name }}</td>
+                                                    <td>{{ data.fullname }}</td>
+                                                    <td>{{ data.user.username }}</td>
+                                                    <td>{{ data.user.email }}</td>
+                                                    <td>{{ data.user.gsm }}</td>
+                                                    <td>{{ data.address }}</td>
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
+                                                                data-bs-toggle="dropdown">
+                                                                <i class="bi bi-tools"></i>
+                                                            </button>
+                                                            <ul class="dropdown-menu">
+                                                                <li ><a class="dropdown-item pointer bg-warning" @click="editCustomerStore(data)">Edit</a> </li>
+                                                                <li ><a class="dropdown-item pointer bg-danger" @click="deleteCustomerStore(data.id)">Delete</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                         <div class="flex justify-center mt-4">
+                                            <nav class="relative justify-center rounded-md shadow pagination">
+                                                <pagination-links v-for="(link, i) of managers.links" :link="link" :key="i"
+                                                    @next="nextPage(link)"></pagination-links>
+                                            </nav>
+                                        </div>
+                                    </div>
+                    </div>
+                </div>
+                            
+                </div>
+                </div>
+            </div>
+
+           
+        <o-modal modal-class="modal-lg" :is-open="toggleMModal" @submit="createStoreManager" title="Customer Store Manager" @modal-close="closeModal">
+            <template #content>
+                 <form id="mForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Company</label>
+                                <Select2 v-model="manager.customer_pid" :options="customersDrop" :settings="{ width: '100%' }"  />
+                                <p class="text-danger " v-if="sub_error?.customer_pid">{{ sub_error?.customer_pid[0] }}</p>
                             </div>
                         </div>
-                    <div class="tab-pane fade show active" id="store" role="tabpanel" aria-labelledby="customer-tab">
-                   
-                    </div>
-                            <div class="row">
-                                    <div class="col-md-4">
-                                        <fieldset class="border rounded-3 p-2 m-1">
-                                            <legend class="float-none w-auto px-2">Create Customer</legend>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Name</label>
+                                <input type="text" v-model="manager.names" class="form-control" placeholder="e.g Nasiru ...">
+                                <p class="text-danger " v-if="sub_error?.names">{{ sub_error?.names[0] }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="text" v-model="manager.email" class="form-control" placeholder="e.g optimal@gmail.com">
+                                <p class="text-danger " v-if="sub_error?.email">{{ sub_error?.email[0] }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Phone Number</label>
+                                <input type="text" maxlength="11" v-model="manager.gsm" class="form-control" placeholder="Enter phone number">
+                                <p class="text-danger " v-if="sub_error?.gsm">{{ sub_error?.gsm[0] }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Address</label>
+                                <textarea type="text" v-model="manager.address" class="form-control"
+                                    placeholder="e.g plot 99 lagos avenue"></textarea>
+                                <p class="text-danger " v-if="sub_error?.address">{{ sub_error?.address[0] }}</p>
+                            </div>
+                        </div>
 
-                                            <form id="cForm">
+                    </div>
+                </form>
+            </template>
+        </o-modal>
+
+        <o-modal modal-class="modal-lg" :is-open="toggleCModal" @submit="createCustomer" title="Create Customer" @modal-close="closeModal">
+            <template #content>
+                 <form id="cForm">
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group">
                                                             <label class="form-label">Name</label>
-                                                            <Select2 v-model="manager.customer_pid" :options="customersDrop" :settings="{ width: '100%' }"  />
-                                                            <p class="text-danger " v-if="sub_error?.customer_pid">{{ sub_error?.customer_pid[0] }}</p>
+                                                            <input type="text" v-model="customer.name" class="form-control"
+                                                                placeholder="e.g Ray Engineering">
+                                                            <p class="text-danger " v-if="errors?.name">{{ errors?.name[0] }}</p>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label class="form-label">Name</label>
-                                                            <input type="text" v-model="manager.names" class="form-control" placeholder="e.g Ray Engineering">
-                                                            <p class="text-danger " v-if="sub_error?.names">{{ sub_error?.names[0] }}</p>
+                                                            <label class="form-label">RC</label>
+                                                            <input type="text" v-model="customer.rc" class="form-control"
+                                                                placeholder="e.g 20121212">
+                                                            <p class="text-danger " v-if="errors?.rc">{{ errors?.rc[0] }}</p>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label class="form-label">Email</label>
-                                                            <input type="text" v-model="manager.email" class="form-control"   placeholder="e.g optimal@gmail.com">
-                                                            <p class="text-danger " v-if="sub_error?.email">{{ sub_error?.email[0] }}</p>
+                                                            <input type="text" v-model="customer.email" class="form-control"
+                                                                placeholder="e.g ojoago@optimalsoft.com">
+                                                            <p class="text-danger " v-if="errors?.email">{{ errors?.email[0] }}</p>
                                                         </div>
                                                     </div>
-                                                    
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label class="form-label">Phone Number</label>
-                                                            <input type="text" maxlength="11" v-model="manager.gsm" class="form-control" placeholder="Enter phone number">
-                                                            <p class="text-danger " v-if="sub_error?.gsm">{{ sub_error?.gsm[0] }}</p>
+                                                            <input type="text" v-model="customer.gsm" class="form-control"
+                                                                placeholder="Enter phone number">
+                                                            <p class="text-danger " v-if="errors?.gsm">{{ errors?.gsm[0] }}</p>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12">
                                                         <div class="form-group">
                                                             <label class="form-label">Address</label>
-                                                            <textarea type="text" v-model="manager.address" class="form-control"
+                                                            <textarea type="text" v-model="customer.address" class="form-control"
                                                                 placeholder="e.g plot 99 lagos avenue"></textarea>
-                                                            <p class="text-danger " v-if="sub_error?.address">{{ sub_error?.address[0]
+                                                            <p class="text-danger " v-if="errors?.address">{{ errors?.address[0]
                                                             }}</p>
                                                         </div>
                                                     </div>
 
                                                 </div>
-                                                <button type="button" class="btn btn-success btn-sm mt-2"
-                                                    @click="createStoreManager">Submit</button>
+                                                <!-- <button type="button" class="btn btn-success btn-sm mt-2" @click="createCustomer">Submit</button> -->
                                             </form>
-
-                                        </fieldset>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="table-responsive">
-                                                <table class="table-hover table-stripped table-bordered table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>SN</th>
-                                                            <th>Company</th>
-                                                            <th>names</th>
-                                                            <th>Username</th>
-                                                            <th>email</th>
-                                                            <th>Phone Number</th>
-                                                            <th>address</th>
-                                                            <!-- <th>STATUS</th> -->
-                                                            <th> <i class="bi bi-pencil-fill"></i> </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr v-for="(data, loop) in managers?.data" :key="loop">
-                                                            <td>{{ loop + 1 }}</td>
-                                                            <td>{{ data.company.name }}</td>
-                                                            <td>{{ data.names }}</td>
-                                                            <td>{{ data.user.username }}</td>
-                                                            <td>{{ data.user.email }}</td>
-                                                            <td>{{ data.user.gsm }}</td>
-                                                            <td>{{ data.address }}</td>
-                                                            <td>
-                                                                <div class="dropdown">
-                                                                    <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
-                                                                        data-bs-toggle="dropdown">
-                                                                        <i class="bi bi-tools"></i>
-                                                                    </button>
-                                                                    <ul class="dropdown-menu">
-                                                                        <!-- <li class=""><a class="dropdown-item pointer" @click="customerDetail(data)">Details</a> </li> -->
-                                                                        <li class="bg-warning"><a class="dropdown-item pointer"
-                                                                                @click="editCustomer(data)">Edit</a> </li>
-                                                                        <li class="bg-danger"><a class="dropdown-item pointer">Delete</a>
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                    </div>
-                                </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
+            </template>
+        </o-modal>
+    </div>
 </template>
 
 <script setup>
-import axiosClient from "@/axios";
 import store from "@/store";
 import { ref } from "vue";
 import { useRouter } from 'vue-router';
 import Select2 from 'vue3-select2-component';
-
+import PaginationLinks from "@/components/PaginationLinks.vue";
+import OModal from "@/components/OModal.vue";
 const router = useRouter()
 
+const toggleCModal = ref(false)
+const toggleMModal = ref(false)
+const closeModal = () => {
+    toggleCModal.value = false;
+    toggleMModal.value = false;
+};
 const errors = ref({});
 const customers = ref({});
 const customer = ref({
@@ -247,7 +248,7 @@ const customer = ref({
 
 const manager = ref({
     customer_pid: '',
-    names: '',
+    fullname: '',
     email: '',
     gsm: '',
     address: '',
@@ -264,99 +265,80 @@ const editCustomer = (data) => {
         'address': data.address,
         'pid': data.pid
     }
+    toggleCModal.value = true;
+}
+const editCustomerStore = (data) => {
+    manager.value = {
+        customer_pid: data.customer_pid ,
+        fullname: data.fullname,
+        email: data.email,
+        gsm: data.gsm,
+        address: data.address,
+        id: data.id
+    }
+    toggleMModal.value = true;
 }
 
 
 function createCustomer() {
-    store.commit('setSpinner', true)
     errors.value = []
-    return axiosClient.post('/create-customer', customer.value)
-        .then(({ data }) => {
-            if (data.status == 201) {
-                errors.value = []
-                store.commit('notify', { message: data.message })
-                console.log(data.data);
-                loadCustomer()
-                store.commit('setSpinner', false)
-
-            } else if (data.status == 422) {
-                errors.value = data.data;
-                store.commit('setSpinner', false)
-
-                store.commit('notify', { message: data.message, type: 'warninig' })
-            } else {
-                store.commit('notify', { message: data.message, type: 'danger' })
-                store.commit('setSpinner', false)
-            }
-            return data;
-        })
+    store.dispatch('postMethod', { url: '/create-customer', param: customer.value }).then((data) => {
+        if (data.status == 422) {
+            errors.value = data.data;
+        } else if (data.status == 201) {
+            let form = document.querySelector('#cForm');
+            form.reset();
+            loadCustomer()
+        }
+    })
 }
+
 
 function loadCustomer() {
-    store.commit('setSpinner', true)
-    return axiosClient.get('/load-customers')
-        .then(({ data }) => {
-            if (data.status == 200) {
-                store.commit('notify', { message: data.message })
-                let form = document.querySelector('#cForm');
-                form.reset();
-                customers.value = data.data
-                store.commit('setSpinner', false)
-            } else {
-                store.commit('notify', { message: data.message, type: 'danger' })
-                store.commit('setSpinner', false)
-            }
-            return data;
-        })
+    store.dispatch('getMethod', { url: '/load-customers' }).then((data) => {
+        if (data?.status == 200) {
+            customers.value = data.data;
+        }
+    })
 }
-//load-customer-store-manager
-// function createSubDepartment() {
-//     store.commit('setSpinner', true)
-//     sub_error.value = []
-//     store.dispatch('postMethod', { url: '/load-customer-store-manager', param: manager.value }).then((data) => {
-//         if (data.status == 422) {
-//             sub_error.value = data.data
-//         } else if (data.status == 201) {
-//             manager.value = [];
-//         }
-//         store.commit('setSpinner', false)
-//     }).catch(e => {
-//         store.commit('setSpinner', false)
-//         console.log(e);
-//     })
-// }
+function deleteCustomer(pid) {
+    store.dispatch('deleteMethod', { url: '/delete-customer/'+pid }).then((data) => {
+        if (data?.status == 201) {
+            loadCustomer()
+        }
+    })
+}
+function deleteCustomerStore(pid) {
+    store.dispatch('deleteMethod', { url: '/delete-customer-store-manager/'+pid }).then((data) => {
+        if (data?.status == 201) {
+            loadManager()
+        }
+    })
+}
 
 const managers = ref({})
 function loadManager() {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-customer-store-manager' }).then((data) => {
-        store.commit('setSpinner', false)
-        if (data.status == 200) {
+        if (data?.status == 200) {
             managers.value = data.data;
         }
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
-        alert('weting be this')
     })
 }
 loadManager()
 
 const sub_error = ref({})
 function createStoreManager() {
-    store.commit('setSpinner', true)
     sub_error.value = []
     store.dispatch('postMethod', { url: '/create-customer-store-manager', param: manager.value }).then((data) => {
         if (data.status == 422) {
-            sub_error.value = data.data
+            sub_error.value = data.data;
         } else if (data.status == 201) {
-            // sub.value = [];
+            let form = document.querySelector('#mForm');
+            form.reset();
+            loadCustomer()
         }
-        store.commit('setSpinner', false)
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
     })
+    
 }
 
 const customersDrop = ref([]);
@@ -377,6 +359,14 @@ function customerDetail(cst) {
 
 
 loadCustomer()
+
+function nextPage(link) {
+    alert()
+    if (!link.url || link.active) {
+        return;
+    }
+    alert(link.url)
+}
 
 </script>
 

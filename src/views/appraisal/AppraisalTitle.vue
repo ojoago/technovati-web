@@ -113,7 +113,6 @@ const deleteLog = (id) => {
 }
 
 function createAppraisalTitle() {
-    store.commit('setSpinner', true)
     errors.value = []
     store.dispatch('postMethod', { url: '/create-appraisal-title', param: appraisal.value }).then((data) => {
         if (data.status == 422) {
@@ -121,10 +120,6 @@ function createAppraisalTitle() {
         } else if (data.status == 201) {
             appraisal.value = [];
         }
-        store.commit('setSpinner', false)
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
     })
 }
 
