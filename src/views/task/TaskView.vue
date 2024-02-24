@@ -18,7 +18,7 @@
                                             <th>DESCRIPTION</th>
                                             <th>Deadline</th>
                                             <th>STATUS</th>
-                                            <th> <i class="bi bi-pencil-fill"></i> </th>
+                                            <th> <i class="bi bi-gear-fill"></i> </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -27,7 +27,7 @@
                                             <td>{{ task.task }}</td>
                                             <td>{{ task.sub_task_count }}</td>
                                             <td>{{ task.description }}</td>
-                                            <td>{{ task.to }}</td>
+                                            <td>{{ task.end }}</td>
                                             <td>{{ task.status == 0 ? 'Not Completed' : 'Completed' }}</td>
                                             <td>
                                                 <div class="dropdown">
@@ -57,7 +57,7 @@
                 </div>
         
         
-                <o-modal :isOpen="toggleModal" :modal-class="modal" title="Add Sub Task" subtitle="add sub task to task" @modal-close="closeModal" >
+                <o-modal :isOpen="toggleModal" modal-class="modal-sm" titles="Add Sub Task" subtitle="add sub task to task" @modal-close="closeModal" >
                     <template #content>
                         <SubTaskForm :task="_task" />
                     </template>
@@ -66,7 +66,7 @@
                     </template>
                 </o-modal>
 
-                <o-modal :isOpen="lgModal" :modal-class="lg" title="Create Task" @submit="createTask" @modal-close="closeModal" >
+                <o-modal :isOpen="lgModal" modal-class="modal-lg" title="Create Task" @submit="createTask" @modal-close="closeModal" >
                     <template #content>
                           <form>
                                     <div class="row">
@@ -87,9 +87,9 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="form-label">Status Heading</label>
-                                                <textarea type="text" v-model="task.heading" class="form-control"  placeholder="e.g PENDING, IN PROGRESS, COMPLETED, DAMAGED"></textarea>
-                                                <p class="text-danger " v-if="errors?.heading">{{ errors?.heading[0] }}</p>
+                                                <label class="form-label">Status Heading</label> <i class="bi bi-info-cycle"></i>
+                                                <textarea type="text" v-model="task.headings" class="form-control"  placeholder="e.g PENDING, IN PROGRESS, COMPLETED, DAMAGED"></textarea>
+                                                <p class="text-danger " v-if="errors?.headings">{{ errors?.headings[0] }}</p>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -139,8 +139,7 @@ import OModal from "@/components/OModal.vue";
 
 import { useRouter } from 'vue-router';
 const router = useRouter()
-const modal = 'modal-xs'
-const lg = 'modal-lg'
+ 
 const errors = ref({});
 const tasks = ref({});
 const task = ref({
@@ -241,6 +240,8 @@ function dropdownUser() {
     })
 }
 dropdownUser()
+
+
  
 </script>
 

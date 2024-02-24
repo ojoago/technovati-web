@@ -199,7 +199,12 @@ const store = createStore({
                     })
                }
             },
-            putMethod({commit},{url, param = null}){
+            putMethod({commit},{url,prompt = null, param = null}){
+                if(prompt != null){
+                    if(!confirm(prompt)){
+                        return false
+                    }
+                }
                 commit('setSpinner', true)
                 return axiosClient.put(url,param)
                     .then(({data})=>{

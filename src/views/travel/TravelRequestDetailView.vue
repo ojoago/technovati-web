@@ -4,13 +4,16 @@
             
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">{{ details.title }} <span class="badge bg-info p-1 m-1">
-                            <small>Status: {{ status[details?.status] }} </small> 
-                        </span> <small>{{ details.begin }} to {{ details.end }} </small> </h5>
+                    <h5 class="card-title">{{ details.title }} 
+                        <span class="badge bg-info p-1 m-1">
+                        <small class="small">From {{ details.start }} to {{ details.to }} </small> </span>
+                    </h5>
+                    <small>Status: {{ details?.request_status }} </small> 
                     <span class="badge bg-dark p-1 m-1">
                         <i class="bi bi-person"></i> {{ details?.user?.username }}
                     </span>
                     
+                    <p>{{ details?.department?.department }}</p> 
                     <p> Destination: {{ details.destination }}</p>
                     Crew
                     <hr>
@@ -18,15 +21,18 @@
                         {{ em.text }}
                     </span>
                     <br>
-                    Items
                     <hr>
+                    Items <br>
                     <span class="badge bg-dark p-1 m-1">
                         {{ details.itinerary }}
                     </span>
+                    <hr>
+
                     <div class="row">
                         <div class="col-md-6">
                             <label for="">Budgets</label>
-                            <button class="btn btn-primary btn-sm m-1">Add</button>
+                            <!-- <button class="btn btn-primary btn-sm m-1">Add</button> -->
+                            {{ budget_status }}
                             <div class="table-responsive">
                                 <table class="table table-hover table-stripped table-bordered">
                                     <thead>
@@ -45,7 +51,19 @@
                                             <td>{{ budget.amount }}</td>
                                             <td>{{ status[budget.status] }}</td>
                                             <td> 
-                                                <input type="checkbox" v-if="!budget.status" name="" id="">
+                                                <input type="checkbox" v-if="!budget.status" :value="budget.id" v-model="approval.budgets">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody v-if="approval.budgets.length">
+                                        <tr>
+                                            <td colspan="3"></td>
+                                            <td> 
+                                                <button class="btn btn-sm btn-success" @click="approveBudget" >Approve</button>
+                                                
+                                            </td>
+                                            <td> 
+                                                <button class="btn btn-sm btn-secondary" @click="rejectBudget" >Reject</button>                                                
                                             </td>
                                         </tr>
                                     </tbody>
@@ -54,7 +72,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="">Expenses</label>
-                            <button class="btn btn-primary btn-sm m-1">Add</button>
+                            <!-- <button class="btn btn-primary btn-sm m-1">Add</button> -->
                                 <div class="table-responsive">
                                     <table class="table table-hover table-stripped table-bordered">
                                         <thead>
@@ -73,7 +91,18 @@
                                                 <td>{{ expense.amount }}</td>
                                                 <td>{{ status[expense.status] }}</td>
                                                 <td>  
-                                                    <input type="checkbox" v-if="!expense.status" name="" id="">
+                                                    <input type="checkbox" v-if="!expense.status" :value="expense.id" v-model="reject.expenses">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody v-if="reject.expenses.length">
+                                            <tr>
+                                                <td colspan="3"></td>
+                                                <td> 
+                                                    <button class="btn btn-sm btn-success" @click="approveExpense" >Approve</button>
+                                                </td>
+                                                <td> 
+                                                    <button class="btn btn-sm btn-secondary" @click="rejectExpense" >Reject</button>                                                
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -94,7 +123,7 @@
 
 <script setup>
 import { ref , onMounted } from "vue";
-// import store from "@/store";
+import store from "@/store";
 
 // import { useRouter } from 'vue-router';
 
@@ -104,9 +133,10 @@ import { ref , onMounted } from "vue";
 
 const details = ref({});
 
-const status = ['Pending','Approved', 'Successfull Trip','Cancel'];
+const status = ['Pending','Approved', 'Rejected','Cancel'];
 
 const expenses = ref({})
+
 const budgets = ref({})
 onMounted(() => {
     let rqs = localStorage.getItem('TVATI_TRV_RQS_DETAIL') ? JSON.parse(localStorage.getItem('TVATI_TRV_RQS_DETAIL')) : 'null'
@@ -118,7 +148,68 @@ onMounted(() => {
     details.value = rqs;
 });
 
+// approve and reject budgets
+const approval = ref({
+    travel_pid: '',
+    budgets: []
+})
 
+const approveBudget = () =>{
+    approval.value.travel_pid = details.value.pid;
+    store.dispatch('putMethod', { url: '/approve-travel-request-budget/', prompt: 'Are you sure you want to approve the selected budget(s)?', param:approval.value }).then((data) => {
+        if (data?.status == 201) {
+            loadBudget()
+        }
+    })
+}
+
+const rejectBudget = () =>{
+    approval.value.travel_pid = details.value.pid;
+    store.dispatch('putMethod', { url: '/reject-travel-request-budgets/', prompt: 'Are you sure you want to reject the selected budget(s)?', param:approval.value }).then((data) => {
+        if (data?.status == 201) {
+            loadBudget()
+        }
+    })
+}
+
+const loadBudget = () => {
+    store.dispatch('getMethod', { url: '/load-travel-request-budgets/'+ details.value.pid }).then((data) => {
+        if (data?.status == 200) {
+            budgets.value = data.data
+        }
+    })
+}
+
+const reject = ref({
+    travel_pid: details.value.pid,
+    expenses: []
+})
+
+const approveExpense = () => {
+    reject.value.travel_pid = details.value.pid;
+    store.dispatch('putMethod', { url: '/approve-travel-expense', prompt: 'Are you sure you want to approve the selected expense(s)?', param: reject.value }).then((data) => {
+        if (data?.status == 201) {
+            loadExpense()
+        }
+    })
+}
+
+const rejectExpense = () => {
+    reject.value.travel_pid = details.value.pid;
+    store.dispatch('putMethod', { url: '/reject-travel-expense', prompt: 'Are you sure you want to reject the selected expense(s)?', param: reject.value }).then((data) => {
+        if (data?.status == 201) {
+            loadExpense()
+        }
+    })
+}
+
+const loadExpense = () => {
+    store.dispatch('getMethod', { url: '/load-travel-expense/' + details.value.pid }).then((data) => {
+        if (data?.status == 200) {
+            expenses.value = data.data
+        }
+    })
+}
 
 
 

@@ -5,68 +5,69 @@
             <div class="card">
                 <div class="card-body">
                     <button class="btn btn-sm btn-primary m-2" @click="openModal">Request</button>
-
-                 <div class="table-responsive">
-                    <table class="table-hover table-stripped table-bordered table">
-                        <thead>
-                            <tr>
-                                <th>SN</th>
-                                <th>title</th>
-                                <th>Department</th>
-                                <th>destination</th>
-                                <th>from</th>
-                                <th>to</th>
-                                <th>crew</th>
-                                <th>itinerary</th>
-                                <th>mode</th>
-                                <th> <i class="bi bi-gear-fill"></i> </th>
+                    <div class="table-responsive">
+                        <table class="table-hover table-stripped table-bordered table">
+                            <thead>
+                                <tr>
+                                    <th>SN</th>
+                                    <th>title</th>
+                                    <th>Department</th>
+                                    <th>destination</th>
+                                    <th>from</th>
+                                    <th>to</th>
+                                    <th>crew</th>
+                                    <th>itinerary</th>
+                                    <th>mode</th>
+                                    <th> <i class="bi bi-gear-fill"></i> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(data, loop) in requests?.data" :key="loop">
+                                <td>{{ loop + 1 }}</td>
+                                <td>{{ data.title }}</td>
+                                <td>{{ data.department.department }}</td>
+                                <td>{{ data.destination }}</td>
+                                <td>{{ data.start }}</td>
+                                <td>{{ data.to }}</td>
+                                <td>
+                                    <span v-for="em in data.crew" :key="em.pid" class="badge bg-dark p-1 m-1">
+                                        {{ em.text }}
+                                    </span>
+                                </td>
+                                <td>{{ data.itinerary }}</td>
+                                <td>{{ data.mode }}</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
+                                            data-bs-toggle="dropdown">
+                                            <i class="bi bi-tools"></i>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li ><a class="dropdown-item pointer bg-info" @click="requestDetail(data)">Details</a> </li>
+                                            <li ><a class="dropdown-item pointer bg-success" v-if="data?.status == 0" @click="approveRequest(data.pid)">Approve</a> </li>
+                                            <li ><a class="dropdown-item pointer bg-secondary" v-if="data?.status == 0" @click="rejectRequest(data.pid)">Reject</a> </li>
+                                            <li ><a class="dropdown-item pointer bg-warning" v-if="data?.status == 0" @click="editRequest(data)">Edit</a> </li>
+                                            <li ><a class="dropdown-item pointer bg-primary" v-if="data?.status != 3" @click="addBudget(data.pid)">Add Budget</a> </li>
+                                            <li ><a class="dropdown-item pointer bg-info" v-if="data?.status == 3 || data?.status==1" @click="addExpense(data.pid)">Add Expense</a> </li>
+                                            <li ><a class="dropdown-item pointer bg-danger" v-if="data?.status == 0" @click="deleteShift(data.pid)">Delete</a> </li>
+                                        </ul>
+                                    </div>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(data, loop) in requests?.data" :key="loop">
-                            <td>{{ loop + 1 }}</td>
-                            <td>{{ data.title }}</td>
-                            <td>{{ data.department.department }}</td>
-                            <td>{{ data.destination }}</td>
-                            <td>{{ data.begin }}</td>
-                            <td>{{ data.end }}</td>
-                            <td>
-                                <span v-for="em in data.crew" :key="em.pid" class="badge bg-dark p-1 m-1">
-                                    {{ em.text }}
-                                </span>
-                            </td>
-                            <td>{{ data.itinerary }}</td>
-                            <td>{{ data.mode }}</td>
-                            <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
-                                        data-bs-toggle="dropdown">
-                                        <i class="bi bi-tools"></i>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li ><a class="dropdown-item pointer bg-warning" @click="requestDetail(data)">Details</a> </li>
-                                        <li ><a class="dropdown-item pointer bg-warning" @click="editRequest(data)">Edit</a> </li>
-                                        <li ><a class="dropdown-item pointer bg-primary" @click="addBudget(data.pid)">Add Budget</a> </li>
-                                        <li ><a class="dropdown-item pointer bg-info" @click="addExpense(data.pid)">Add Expense</a> </li>
-                                        <li ><a class="dropdown-item pointer bg-danger" @click="deleteShift(data.pid)">Delete</a> </li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                     <div class="flex justify-center mt-4">
-                        <nav class="relative justify-center rounded-md shadow pagination">
-                            <pagination-links v-for="(link, i) of requests.links" :link="link" :key="i" @next="nextPage(link)"></pagination-links>
-                        </nav>
+                            </tbody>
+                        </table>
+                        <div class="flex justify-center mt-4">
+                            <nav class="relative justify-center rounded-md shadow pagination">
+                                <pagination-links v-for="(link, i) of requests.links" :link="link" :key="i" @next="nextPage(link)"></pagination-links>
+                            </nav>
+                        </div>
                     </div>
-                </div>
                 </div>
             </div>
             
         </div>
 
-        <o-modal :isOpen="toggleModal" :modal-class="lg" title="Create Shift" @submit="makeRequest" @modal-close="closeModal" >
+        <o-modal :isOpen="toggleModal" modal-class="modal-lg" title="Travel Request" @submit="makeRequest" @modal-close="closeModal">
                 <template #content>
                     <form id="requestForm">
                           <div class="row">
@@ -137,7 +138,7 @@
         
         </o-modal>
 
-        <o-modal :isOpen="budgetModal" :modal-class="sm" title="Add Request Budget " @submit="addRequestBudget" @modal-close="closeModal" >
+        <o-modal :isOpen="budgetModal" modal-class="modal-sm" title="Add Request Budget" @submit="addRequestBudget" @modal-close="closeModal">
                 <template #content>
                     <form id="requestForm">
                         <template v-for="(item, loop) in budget.items" :key="loop">
@@ -174,7 +175,7 @@
         
         </o-modal>
 
-        <o-modal :isOpen="expenseModal" :modal-class="sm" title="Add Request Expense " @submit="addRequestExpense" @modal-close="closeModal" >
+        <o-modal :isOpen="expenseModal" modal-class="modal-sm" title="Add Request Expense" @submit="addRequestExpense" @modal-close="closeModal">
                 <template #content>
                     <form id="expenseForm">
                         <!-- <template v-for="(item, loop) in budget.items" :key="loop"> -->
@@ -218,7 +219,7 @@
                 </template>
         
         </o-modal>
-
+        <!-- <BudgetComponent :budget-modal="budgetModal" :request-pid="budget.travel_pid"  @modal-close="budgetModal=false"/> -->
     </div>
 </template>
 
@@ -229,13 +230,12 @@ import store from "@/store";
 import { Multiselect } from 'vue-multiselect';
 import PaginationLinks from "@/components/PaginationLinks.vue";
 import { useRouter } from 'vue-router';
-
+// import BudgetComponent from '@/components/travel/BudgetComponent.vue'
 const router = useRouter()
 let query = {}
 router.push({ query: query })
      
      
-const lg = 'modal-lg';
 const toggleModal = ref(false)
 const openModal = () => {
     toggleModal.value = true;
@@ -272,7 +272,6 @@ function editRequest(data){
         mode: data.mode
     }
     toggleModal.value = true;
-
 }
 const errors = ref({})
 
@@ -286,20 +285,31 @@ function makeRequest(){
             form.reset()
             loadRequest()
         }
-        store.commit('setSpinner', false)
     })
 }
+
+const approveRequest = (pid) => {
+    store.dispatch('putMethod', { url: '/approve-travel-request/'+pid , prompt: 'Are you sure you want to approve this request?' }).then((data) => {
+        if (data?.status == 201) {
+            loadRequest()
+        }
+    })
+}
+const rejectRequest = (pid) => {
+    store.dispatch('putMethod', { url: '/travel-request/'+pid , prompt: 'Are you sure you want to reject this request?' }).then((data) => {
+        if (data?.status == 201) {
+            loadRequest()
+        }
+    })
+}
+
+
 const requests = ref({})
 function loadRequest() {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-request' }).then((data) => {
         if (data.status == 200) {
             requests.value = data.data
         }
-        store.commit('setSpinner', false)
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
     })
 }
 loadRequest()
@@ -317,7 +327,7 @@ const budget = ref({
         amount: '',
     }]
 });
-const sm = 'modal-sm';
+
 const budgetModal = ref(false)
 const addBudget = (pid) =>{
     budget.value.travel_pid = pid;
@@ -347,7 +357,6 @@ function addRequestBudget(){
             form.reset()
             loadRequest()
         }
-        store.commit('setSpinner', false)
     })
 }
 
@@ -416,7 +425,6 @@ function addRequestExpense(){
             form.reset()
             loadRequest()
         }
-        store.commit('setSpinner', false)
     })
 }
 
@@ -424,9 +432,6 @@ const userDrop = ref([]);
 function dropdownUser() {
     store.dispatch('loadDropdown', 'users').then(({ data }) => {
         userDrop.value = data;
-    }).catch(e => {
-        console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownUser()

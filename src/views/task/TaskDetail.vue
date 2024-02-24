@@ -45,7 +45,29 @@
             
                 </div>
             </div>
+
+            <!-- draggable  -->
+            <div class="col-4" v-for="(heading, lp) in task.headings" :key="lp"></div>
+            <draggable v-for="sub in subtasks" :key="sub.pid" tag="ul" group="heading">
+                        <label class="h3 text-center">{{ heading.toUpperCase() }}</label>
+                         <template #item="{ element: sub }">
+                            <li>{{ sub.name }}</li>
+                        </template>
+            </draggable>
+
+             <h1>Terrible Foods</h1>
+                <draggable v-model="subtasks" tag="ul" :group="subtasks">
+                    <template #item="{ element: sub }">
+                        <li>{{ sub.name }}</li>
+                        </template>
+                </draggable>
+
+
+
             </div>
+
+
+
             <div class="card-footer">
                 Team
                 <span v-for="tsk in task.teams" :key="tsk.id" class="badge bg-dark p-1 m-1 ellipsis">
@@ -60,9 +82,7 @@
                             <SubTaskForm :task="task" />
                         </template>
                         <template #footer>
-                            <div>
-                            
-                                </div>
+                            <div></div>
                         </template>
                     </o-modal>
 
@@ -134,7 +154,8 @@ import { useRoute,useRouter  } from 'vue-router';
 import SubTaskForm from "@/components/task/forms/SubTaskForm.vue";
 import OModal from "@/components/OModal.vue";
 import { Multiselect } from 'vue-multiselect';
-
+import draggable from 'vuedraggable';
+const header = ref([])
 const router = useRouter()
 const route = useRoute()
 const task = ref({});
@@ -144,6 +165,7 @@ function addSubTask() {
     toggleModal.value = true;
 }
 
+header.value = task.value.headings
 
 const toggleModal = ref(false);
 const closeModal = () => {

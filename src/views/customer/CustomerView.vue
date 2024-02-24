@@ -134,8 +134,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-label">Name</label>
-                                <input type="text" v-model="manager.names" class="form-control" placeholder="e.g Nasiru ...">
-                                <p class="text-danger " v-if="sub_error?.names">{{ sub_error?.names[0] }}</p>
+                                <input type="text" v-model="manager.fullname" class="form-control" placeholder="e.g Nasiru ...">
+                                <p class="text-danger " v-if="sub_error?.fullname">{{ sub_error?.fullname[0] }}</p>
                             </div>
                         </div>
                         <div class="col-md-6">
