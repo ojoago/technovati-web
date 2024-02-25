@@ -281,17 +281,14 @@ const vehicle = ref({
 const errors = ref({});
 
 function addVehicle() {
-    store.commit('setSpinner', true)
     errors.value = []
     let form = document.querySelector('#toolForm');
     store.dispatch('postMethod', { url: '/add-vehicle', param: vehicle.value, form: form }).then((data) => {
         if (data.status == 422) {
             errors.value = data.data
+        }else if(data?.status==201){
+            loadVehicles()
         }
-        store.commit('setSpinner', false)
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
     })
 
 }
@@ -317,7 +314,6 @@ const fuel = ref({
 
 const f_error = ref({})
 function topFuel() {
-    store.commit('setSpinner', true)
     f_error.value = []
     store.dispatch('postMethod', { url: '/add-fuel', param: fuel.value }).then((data) => {
         if (data.status == 422) {
@@ -326,11 +322,7 @@ function topFuel() {
             let form = document.querySelector('#assignForm');
             form.reset();
         }
-        store.commit('setSpinner', false)
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
-    })
+    }) 
 
 }
 const oilModal = ref(false)
@@ -433,16 +425,11 @@ const vehicles = ref({});
 
 loadVehicles()
 function loadVehicles() {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-vehicles' }).then((data) => {
         store.commit('setSpinner', false)
         if (data.status == 200) {
             vehicles.value = data.data;
         }
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
-        alert('weting be this')
     })
 }
 
@@ -452,15 +439,11 @@ const userDrop = ref({});
 function dropdownDept() {
     store.dispatch('loadDropdown', 'users').then(({ data }) => {
         userDrop.value = data;
-    }).catch(e => {
-        console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownDept()
 
 function nextPage(link) {
-    alert()
     if (!link.url || link.active) {
         return;
     }

@@ -1,10 +1,158 @@
 <template>
     <div>
         <!-- {{ staff }} -->
-        <div class="container">
-            {{ vehicle }}
-           
+        <div class="container my-2">
+            <div class="card">
+                
+                <div class="card-body">
+                    {{ vehicle }}
 
+                    <ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
+                        <li class="nav-item flex-fill" role="presentation">
+                            <button class="nav-link w-100 active" id="jorney-tab" data-bs-toggle="tab" data-bs-target="#jorneyTab" type="button" role="tab" aria-controls="jorneyTab" aria-selected="true">jorney</button>
+                        </li>
+                        <li class="nav-item flex-fill" role="presentation">
+                            <button class="nav-link w-100 " id="tyre-tab" data-bs-toggle="tab" data-bs-target="#tyreTab" type="button" role="tab" aria-controls="tyreTab" aria-selected="true">Tyres</button>
+                        </li>
+                        <li class="nav-item flex-fill" role="presentation">
+                            <button class="nav-link w-100 " id="tyre-history" data-bs-toggle="tab" data-bs-target="#tyreHistoryTab" type="button" role="tab" aria-controls="tyreHistoryTab" aria-selected="true">Tyre Histories</button>
+                        </li>
+
+                        <li class="nav-item flex-fill" role="presentation">
+                            <button class="nav-link w-100" id="fuel-history" data-bs-toggle="tab" data-bs-target="#fuelHistory" type="button" role="tab" aria-controls="fuelHistory" aria-selected="false">Fuel Histories</button>
+                        </li>
+
+                        <li class="nav-item flex-fill" role="presentation">
+                            <button class="nav-link w-100" id="oil-history" data-bs-toggle="tab" data-bs-target="#oilHistory" type="button" role="tab" aria-controls="oilHistory" aria-selected="false">Oil Histories</button>
+                        </li>
+
+                    </ul>
+
+                    <div class="tab-content pt-2">
+                        <div class="tab-pane fade show active" id="jorneyTab" role="tabpanel" aria-labelledby="worker-tab">
+                            1
+                        </div>
+
+                        <div class="tab-pane fade" id="tyreTab" role="tabpanel" aria-labelledby="worker-tab">
+                            <div class="table-responsive">
+                                <table class="table-hover table-stripped table-bordered table">
+                                    <thead>
+                                        <tr>
+                                            <th>SN</th>
+                                            <th>Side </th>
+                                            <th>Brand</th>
+                                            <th>date purchased</th>
+                                            <th>date manufactured</th>
+                                            <th>expiring date</th>
+                                            <!-- <th>brand</th> -->
+                                            <th>type</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(item, loop) in detail?.tyres" :key="loop">
+                                            <td>{{ loop + 1 }}</td>
+                                            <td>{{ item.side }}</td>
+                                            <td>{{ item.brand }} </td>
+                                            <td>{{ item.date_purchased }} </td>
+                                            <td>{{ item.date_manufactured }} </td>
+                                            <td>{{ item.expiring_date }} </td>
+                                            <td>{{ item?.type }} </td>
+                                    
+                                        </tr>
+                                    </tbody>
+                                </table>
+                           
+                        </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="tyreHistoryTab" role="tabpanel" aria-labelledby="worker-tab">
+                            <div class="table-responsive">
+                            <table class="table-hover table-stripped table-bordered table">
+                                <thead>
+                                    <tr>
+                                        <th>SN</th>
+                                        <th>Side </th>
+                                        <th>Brand</th>
+                                        <th>date purchased</th>
+                                        <th>date manufactured</th>
+                                        <th>expiring date</th>
+                                        <th>Date Change</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(item, loop) in detail?.tyre_history" :key="loop">
+                                        <td>{{ loop + 1 }}</td>
+                                        <td>{{ item.side }}</td>
+                                        <td>{{ item.brand }} </td>
+                                        <td>{{ item.date_purchased }} </td>
+                                        <td>{{ item.date_manufactured }} </td>
+                                        <td>{{ item.expiring_date }} </td>
+                                        <td>{{ item.created_at }} </td>
+                            
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="fuelHistory" role="tabpanel" aria-labelledby="worker-tab">
+                            <div class="table-responsive">
+                                    <table class="table-hover table-stripped table-bordered table">
+                                        <thead>
+                                            <tr>
+                                                <th>SN</th>
+                                                <th>Date </th>
+                                                <th>amount</th>
+                                                <th>Company</th>
+                                                <th>liters</th>
+                                                <!-- <th>Date Change</th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="(item, loop) in detail?.fuel_history" :key="loop">
+                                                <td>{{ loop + 1 }}</td>
+                                                <td>{{ item.date }}</td>
+                                                <td>{{ item.amount }} </td>
+                                                <td>{{ item.company }} </td>
+                                                <td>{{ item.liter }} </td>
+                                                <!-- <td>{{ item.brand }} </td> -->
+                                                <!-- <td>{{ item.created_at }} </td> -->
+                            
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                        </div>
+                        <div class="tab-pane fade" id="oilHistory" role="tabpanel" aria-labelledby="worker-tab">
+                            
+                                 <div class="table-responsive">
+                                    <table class="table-hover table-stripped table-bordered table">
+                                        <thead>
+                                            <tr>
+                                                <th>SN</th>
+                                                <th>date </th>
+                                                <th>amount</th>
+                                                <th>Brand</th>
+                                                <!-- <th>Date Recorded</th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="(item, loop) in detail?.oil_history" :key="loop">
+                                                <td>{{ loop + 1 }}</td>
+                                                <td>{{ item.date }}</td>
+                                                <td>{{ item.amount }} </td>
+                                                <td>{{ item.brand }} </td>
+                                                <!-- <td>{{ item.created_at }} </td> -->
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -16,29 +164,21 @@ import { onMounted, ref } from "vue";
 
 const vehicle = ref({});
 const detail = ref({});
-const staff_pid = ref(null);
+// const staff_pid = ref(null);
 
 
 onMounted(() => {
     vehicle.value = localStorage.getItem('TVATI_VEHICLE_DETAIL') ? JSON.parse(localStorage.getItem('TVATI_VEHICLE_DETAIL')) : 'null'
     console.log(vehicle);
     if (vehicle.value != 'null') {
-        staff_pid.value = vehicle.value.pid
+        loadVehicleDetails(vehicle.value.pid)
     }
-    loadStaffDetail()
 });
 
 
-function loadStaffDetail() {
-    store.commit('setSpinner', true)
-    store.dispatch('getMethod', { url: '/ataff-detail/' + staff_pid.value }).then(({ data }) => {
+function loadVehicleDetails(pid) {
+    store.dispatch('getMethod', { url: '/load-vehicle-details/' + pid }).then(({ data }) => {
         detail.value = data;
-        store.commit('setSpinner', false)
-
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
-        alert('weting be this')
     })
 }
 

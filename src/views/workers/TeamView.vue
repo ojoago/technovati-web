@@ -34,10 +34,10 @@
                                                         <i class="bi bi-tools"></i>
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                        <li><a class="dropdown-item pointer" @click="teamDetail(team)">Details</a> </li>
+                                                        <li><a class="dropdown-item pointer bg-info" @click="teamDetail(team)">Details</a> </li>
                                                         <!-- <li><a class="dropdown-item pointer" @click="addMember(team.pid)">Add Member</a> </li> -->
-                                                        <li><a class="dropdown-item pointer" @click="editTeam(team)">Edit Team</a> </li>
-                                                        <li class="bg-danger"><a class="dropdown-item pointer" @click="detletTeam(team.pid)">Delete Team</a> </li>
+                                                        <li><a class="dropdown-item pointer bg-warning" @click="editTeam(team)">Edit Team</a> </li>
+                                                        <li><a class="bg-danger dropdown-item pointer" @click="detletTeam(team.pid)">Delete Team</a> </li>
                                                       
                                                     </ul>
                                                 </div>

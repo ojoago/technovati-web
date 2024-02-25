@@ -233,6 +233,9 @@ const routes = [
             {
                 path:'/salary-structure',name:'SalaryStructureView',component: () => import('@/views/payroll/SalaryStructureView.vue')
             },
+            {
+                path:'/compute-salaries',name:'ComputeSalaryView',component: () => import('@/views/payroll/ComputeSalaryView.vue')
+            },
 
             // allowance 
             {

@@ -11,6 +11,11 @@
                    <!-- {{ team }} -->
                 </div>
                 <div class="card-body">
+                    <p>load work done by each member in the current month </p>
+                    <p>load work done by team group by month</p>
+                    <p>load work done by team group by year</p>
+                    <p>load work done by team group</p>
+                    {{ reports }}
                    <hr>
                    <label for="">Team Members</label>
                    <div class="table-responsive">
@@ -22,7 +27,7 @@
                                                         <th>Username</th>
                                                         <th>Email</th>
                                                         <th>Type</th>
-                                                        <th> <i class="bi bi-gear-fill"></i> </th>
+                                                        <!-- <th> <i class="bi bi-gear-fill"></i> </th> -->
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -32,7 +37,8 @@
                                                         <td>{{ data.type == 1 ? data.user.username : data.casual.username }}</td>
                                                         <td>{{ data.type == 1 ? data.user.email : data.casual.email }}</td>
                                                         <td>{{ data.cat }}</td>
-                                                        <td>
+
+                                                        <!-- <td>
                                                             <div class="dropdown">
                                                                 <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
                                                                     data-bs-toggle="dropdown">
@@ -44,7 +50,8 @@
                                                                     <li class="bg-primary"><a class="dropdown-item pointer" @click="assignTeamModal(data.pid)">Asign Team</a> </li>
                                                                 </ul>
                                                             </div>
-                                                        </td>
+                                                        </td> -->
+
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -86,6 +93,7 @@ onMounted(() => {
     if (tsk != 'null') {
         team.value = tsk;
         loadTeamMember(tsk.pid)
+        loadTeamRecord(tsk.pid)
     }
    
 });
@@ -95,6 +103,12 @@ const members = ref({})
 function loadTeamMember(pid) {
     store.dispatch('getMethod', { url: '/load-team-members/' + pid }).then(({ data }) => {
         members.value = data;
+    })
+}
+const reports = ref({})
+function loadTeamRecord(pid) {
+    store.dispatch('getMethod', { url: '/load-team-records/' + pid }).then(({ data }) => {
+        reports.value = data;
     })
 }
 
