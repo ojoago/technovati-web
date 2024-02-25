@@ -348,11 +348,8 @@ const allocation = ref({
     category: '' ,
 });
 
-
-
 // .
 function createShift() {
-    store.commit('setSpinner', true)
     errors.value = []
     store.dispatch('postMethod', { url: '/create-shift', param: shift.value }).then((data) => {
         if (data.status == 422) {
@@ -360,10 +357,6 @@ function createShift() {
         } else if (data.status == 201) {
             shift.value = [];
         }
-        store.commit('setSpinner', false)
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
     })
 }
 
@@ -374,37 +367,26 @@ function createShift() {
 // }
 
 function loadShifts() {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-shifts' }).then((data) => {
         if (data.status == 200) {
             shifts.value = data.data
         } 
-        store.commit('setSpinner', false)
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
     })
 }
 
 const allocations = ref({});
 
 function loadShiftAllocation() {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-shift-allocation' }).then((data) => {
         if (data.status == 200) {
             allocations.value = data.data
         } 
-        store.commit('setSpinner', false)
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
     })
 }
 
 loadShifts()
 
 function allocateShift() {
-   store.commit('setSpinner', true)
     alo_errors.value = []
     store.dispatch('postMethod', { url: '/allocate-shift', param: allocation.value }).then((data) => {
         if (data.status == 422) {
@@ -412,10 +394,6 @@ function allocateShift() {
         } else if (data.status == 201) {
             shift.value = [];
         }
-        store.commit('setSpinner', false)
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
     })
 }
 
@@ -425,9 +403,6 @@ const shiftDrop = ref({});
 function dropdownShifts() {
     store.dispatch('loadDropdown', 'shifts').then(({ data }) => {
         shiftDrop.value = data;
-    }).catch(e => {
-        console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownShifts()
@@ -435,9 +410,6 @@ const userDrop = ref([]);
 function dropdownUser() {
     store.dispatch('loadDropdown', 'users').then(({ data }) => {
         userDrop.value = data;
-    }).catch(e => {
-        console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownUser()
@@ -445,9 +417,6 @@ const deptDrop = ref([]);
 function dropdownDeptDrop() {
     store.dispatch('loadDropdown', 'departments').then(({ data }) => {
         deptDrop.value = data;
-    }).catch(e => {
-        console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownDeptDrop()
