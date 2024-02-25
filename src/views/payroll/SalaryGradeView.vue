@@ -43,7 +43,7 @@
                 </div>
                 <div class="col-md-7">
                     <div class="card">
-                        <div class="card-header">Salary Structures</div>
+                        <div class="card-header">Salary Grade</div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table-hover table-stripped table-bordered table">
@@ -53,7 +53,7 @@
                                             <th>Structure</th>
                                             <th> Grade</th>
                                             <th> pensionable</th>
-                                            <th> <i class="bi bi-pencil-fill"></i> </th>
+                                            <th> <i class="bi bi-gear-fill"></i> </th>
                                         </tr>
                                     </thead>
                                     <tbody>

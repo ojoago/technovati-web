@@ -43,12 +43,15 @@ function logout() {
     store.commit('setSpinner', true)
     store.dispatch('logout').then(() => {
         store.commit('setSpinner', false)
+        localStorage.clear()
         router.push({ name: 'SignIn' })
     }).catch(e => {
         store.commit('setSpinner', false)
         console.log(e.response);
         alert('weting be this')
     })
+    localStorage.clear()
+
 }
 
 </script>

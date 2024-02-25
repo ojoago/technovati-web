@@ -230,11 +230,12 @@
                                 <router-link to="/salary-steps" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Salary Steps  </span>  </router-link>
                             </li> -->
                             <li class="nav-item" title="staff">
-                                <router-link to="/salary-grade" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Salary Grade</span>  </router-link>
-                            </li>
-                            <li class="nav-item" title="staff">
                                 <router-link to="/salary-structure" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Salary Structure</span>  </router-link>
                             </li>
+                            <li class="nav-item" title="staff">
+                                <router-link to="/salary-grade" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Salary Grade</span>  </router-link>
+                            </li>
+                            
                         
                         </ul>
                     </li>

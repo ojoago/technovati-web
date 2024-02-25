@@ -58,9 +58,11 @@
                                                                 <i class="bi bi-tools"></i>
                                                             </button>
                                                             <ul class="dropdown-menu">
-                                                                <li class="bg-warning" v-if="data.type == 2"><a class="dropdown-item pointer" @click="editAnnounce(data)">Edit</a> </li>
-                                                                <li class="bg-danger" v-if="data.type == 2"><a class="dropdown-item pointer" @click="deleteAnnounce(data.pid)">Delete</a> </li>
-                                                                <li class="bg-primary"><a class="dropdown-item pointer" @click="assignTeamModal(data.pid)">Asign Team</a> </li>
+                                                                <!-- <li v-if="data.type == 2"><a class="dropdown-item pointer bg-warning" @click="editWorker(data.pid)">Edit</a> </li> -->
+                                                                <li v-if="data.type == 2 && data.status == 1"><a class="bg-danger dropdown-item pointer" @click="deleteCasualStaff(data.pid)">Delete</a> </li>
+                                                                <li v-if="data.type == 2 && data.status == 0"><a class="bg-secondary dropdown-item pointer" @click="enableCasualStaff(data.pid)">Enable</a> </li>
+                                                                <li><a class="bg-primary dropdown-item pointer" @click="assignTeamModal(data.pid)">Asign Team</a> </li>
+                                                                <li v-if="data?.team"><a class="bg-warning dropdown-item pointer" @click="deAssignTeamModal(data.pid)">Remove from Team</a> </li>
                                                             </ul>
                                                         </div>
                                                     </td>
@@ -89,7 +91,7 @@
                 </div>
             </div>
 
-            <o-modal :isOpen="teamModal" :modal-class="xs" title="Add Full time Staff" @submit="addStaff" @modal-close="closeModal" >
+            <o-modal :isOpen="teamModal" modal-class="modal-xs" title="Add Full time Staff" @submit="addStaff" @modal-close="closeModal" >
                     <template #content>
                         <form id="teamForm">
                             <div class="row">
@@ -114,7 +116,7 @@
                     </template>
             </o-modal>
 
-            <o-modal :isOpen="assignModal" :modal-class="xs" title="Assign Staff to team" @submit="addTeam" @modal-close="closeModal" >
+            <o-modal :isOpen="assignModal" modal-class="modal-xs" title="Assign Staff to team" @submit="addTeam" @modal-close="closeModal" >
                     <template #content>
                         <form id="assignForm">
                             <div class="row">
@@ -138,10 +140,12 @@
     import PaginationLinks from "@/components/PaginationLinks.vue";
     import WorkerForm from "@/components/forms/casual/WorkerForm.vue"
     import OModal from "@/components/OModal.vue";
-
+    import { useRouter } from 'vue-router';
+    const router = useRouter()
+    let query = {}
+    router.push({ query: query })
     // const user_pid = ref(null);
    
-    const xs = 'modal-xs';
     const teamModal = ref(false)
     const openTeamModal = () => {
         teamModal.value = true;
@@ -178,6 +182,13 @@ function addStaff() {
     })
 
 }
+function deAssignTeamModal(pid) {
+    store.dispatch('putMethod', { url: '/remove-staff-from-team/'+pid, prompt: 'Are You sure you want to remove staff from the team?' }).then((data) => {
+         if (data.status == 201) {
+            loadWorker()
+        }
+    })
+}
 function addTeam() {
     errors.value = []
     // let data = new FormData;
@@ -191,32 +202,38 @@ function addTeam() {
             loadWorker()
         }
     })
-
 }
 
+const deleteCasualStaff = (pid) => {
+    store.dispatch('deleteMethod', { url: '/delete-casual-staff/'+pid}).then((data) => {
+        if (data.status == 201) {
+            loadWorker()
+        }
+    })
+}
+// const editWorker = (pid) => {
+//     localStorage.clear()
+//     query = { action: 'edit', tab: 'casual-tab', 'id': pid }
+//     localStorage.setItem('TVATI_CASAUL_TAB', JSON.stringify(query, null, 2))
+//     router.push({ path: 'workers', query: query })
+//     let resultsTab = document.getElementById('casual-tab');
+//     //show the results tab:
+//     resultsTab.click();
+// }
 const worker = ref({});
 
 loadWorker()
 function loadWorker() {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-workers' }).then((data) => {
-        store.commit('setSpinner', false)
         if (data.status == 200) {
             worker.value = data.data;
         }
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
-        alert('weting be this')
     })
 }
 const teamDrop = ref({});
 function dropDownTeam() {
     store.dispatch('loadDropdown', 'team').then(({ data }) => {
         teamDrop.value = data;
-    }).catch(e => {
-        console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropDownTeam()
@@ -226,9 +243,6 @@ const deptDrop = ref({});
 function dropdownDept() {
     store.dispatch('loadDropdown', 'departments').then(({ data }) => {
         deptDrop.value = data;
-    }).catch(e => {
-        console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownDept()

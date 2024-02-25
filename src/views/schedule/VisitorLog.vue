@@ -67,11 +67,9 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="form-label">Names</label>
-                                                    <input type="text" v-model="log.names" class="form-control"
-                                                        placeholder="Name of visitor">
-                                                    <p class="text-danger " v-if="errors?.names">{{ errors?.names[0] }}
-                                                    </p>
+                                                    <label class="form-label">Names <span class="text-danger">*</span> </label>
+                                                    <input type="text" v-model="log.names" class="form-control" placeholder="Name of visitor">
+                                                    <p class="text-danger " v-if="errors?.names">{{ errors?.names[0] }} </p>
                                                 </div>
                                             </div>
                                              <div class="col-md-6">
@@ -83,7 +81,7 @@
                                                 </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="form-label">Purpose of Visit</label>
+                                                    <label class="form-label">Purpose of Visit <span class="text-danger">*</span></label>
                                                     <textarea type="text" v-model="log.purpose" class="form-control" placeholder="purpose of visit"></textarea>
                                                     <p class="text-danger " v-if="errors?.purpose">{{ errors?.purpose[0] }}
                                                     </p>
@@ -99,14 +97,14 @@
                                            
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="form-label">Tag Number<span class="text-danger">*</span></label>
+                                                    <label class="form-label">Tag Number</label>
                                                     <input type="text" v-model="log.tag" class="form-control form-control-sm" placeholder="e.g TLV 1">
                                                     <p class="text-danger " v-if="errors?.tag">{{ errors?.tag[0] }}</p>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="form-label">Staff <span class="text-danger">*</span></label>
+                                                    <label class="form-label">Staff </label>
                                                     <Select2 v-model="log.staff_pid" :options="users" :settings="{ width: '100%' }"  />
                                                     <p class="text-danger " v-if="errors?.staff_pid">{{ errors?.staff_pid[0] }}</p>
                                                 </div>
@@ -164,7 +162,7 @@ const editlog = (lg) => {
 }
 const clockOut = (id) => {
     store.dispatch('getMethod', { url: '/sign-visitor-out/'+id }).then((data) => {
-         if (data.status == 200) {
+         if (data?.status == 200) {
             store.commit('notify', { message: 'Reloading Datas...', type: 'secondary' })
             loadLog()
         }
@@ -172,7 +170,7 @@ const clockOut = (id) => {
 }
 const deleteLog = (id) => {
    store.dispatch('deleteMethod', { url: '/delete-visitor-record/' + id }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             store.commit('notify', { message: 'Reloading Datas...', type: 'secondary' })
             loadLog()
         }
@@ -183,7 +181,7 @@ function logVisitor() {
     errors.value = []
     store.dispatch('postMethod', { url: '/log-visitor', param: log.value }).then((data) => {
         console.log(data);
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
         } else if (data.status == 201) {
             loadLog()
@@ -204,9 +202,6 @@ const users = ref([]);
 function dropdownUser() {
     store.dispatch('loadDropdown', 'users').then(({ data }) => {
         users.value = data;
-    }).catch(e => {
-        console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownUser()

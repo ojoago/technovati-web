@@ -180,7 +180,7 @@
 <script setup>
     import Select2 from 'vue3-select2-component';
     import store from "@/store";
-    import { ref } from "vue";
+    import { onMounted, ref } from "vue";
     const errors = ref({});
     const staff = ref({
         email: '',
@@ -230,11 +230,8 @@ const handleImageChange = (event) => {
 }
 
 function createCasualStaff() {
-    store.commit('setSpinner', true)
     errors.value = []
-    // let data = new FormData;
-    const header = { "Content-Type": "multipart/form-data" };
-    store.dispatch('postMethod', { url: '/create-casual-staff', param: staff.value, header: header }).then((data) => {
+    store.dispatch('postMethod', { url: '/create-casual-staff', param: staff.value }).then((data) => {
         if (data.status == 422) {
             errors.value = data.data
         } else if (data.status == 201) {
@@ -242,10 +239,6 @@ function createCasualStaff() {
             form.reset();
             // staff.value = [];
         }
-        store.commit('setSpinner', false)
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
     })
 
 }
@@ -255,9 +248,6 @@ const states = ref({});
 function dropDOwnState() {
     store.dispatch('loadDropdown', 'state').then(({ data }) => {
         states.value = data;
-    }).catch(e => {
-        console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropDOwnState()
@@ -266,9 +256,6 @@ const teamDrop = ref({});
 function dropDownTeam() {
     store.dispatch('loadDropdown', 'team').then(({ data }) => {
         teamDrop.value = data;
-    }).catch(e => {
-        console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropDownTeam()
@@ -277,8 +264,6 @@ const stateLgas = ref([]);
 function loadStateLga(event) {
     store.dispatch('loadDropdown', 'state-lga/' + event.target.value).then(({ data }) => {
         stateLgas.value = data;
-    }).catch(e => {
-        console.log(e);
     })
 }
 
@@ -287,10 +272,27 @@ const resLga = ref([]);
 function loadStateRes(event) {
     store.dispatch('loadDropdown', 'state-lga/' + event.target.value).then(({ data }) => {
         resLga.value = data;
-    }).catch(e => {
-        console.log(e);
     })
 }
+ onMounted(() => {
+    // alert('mounted')
+    let tsk = localStorage.getItem('TVATI_CASAUL_TAB') ? JSON.parse(localStorage.getItem('TVATI_CASAUL_TAB')) : 'null'
+    if (tsk != 'null') {
+        if (tsk.action == 'edit') {
+            loadCasual(tsk?.query?.id)
+        }
+    }
+ })
+
+ const loadCasual = (pid) => {
+    store.dispatch('getMethod', { url: '/load-casual-staff-detail/'+pid }).then((data) => {
+         if (data.status == 200) {
+            staff.value = data.data;
+        }
+    })
+ }
+
+ 
 
 </script>
 

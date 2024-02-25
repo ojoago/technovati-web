@@ -36,7 +36,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card">
-                        <div class="card-header">Departments</div>
+                        <div class="card-header">Salary Structures</div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table-hover table-stripped table-bordered table">
@@ -45,7 +45,7 @@
                                             <th>SN</th>
                                             <th>Structure</th>
                                             <th> Has any Step</th>
-                                            <th> <i class="bi bi-pencil-fill"></i> </th>
+                                            <th> <i class="bi bi-gear-fill"></i> </th>
                                         </tr>
                                     </thead>
                                     <tbody>

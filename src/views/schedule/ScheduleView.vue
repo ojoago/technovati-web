@@ -34,8 +34,8 @@
                                         <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="form-label">Staff <span class="text-danger">*</span></label>
-                                                    <Select2 v-model="schedule.staff_pid" :options="users" :settings="{ width: '100%' }"  />
-                                                    <p class="text-danger " v-if="errors?.staff_pid">{{ errors?.staff_pid[0] }}</p>
+                                                    <Select2 v-model="schedule.user_pid" :options="users" :settings="{ width: '100%' }"  />
+                                                    <p class="text-danger " v-if="errors?.user_pid">{{ errors?.user_pid[0] }}</p>
                                                 </div>
                                             </div>
                                     </div>
@@ -57,9 +57,9 @@
                                             <th>SN</th>
                                             <th>Activity</th>
                                             <th>Begin</th>
-                                            <th> End</th>
+                                            <th>End</th>
                                             <th>STATUS</th>
-                                            <th> <i class="bi bi-pencil-fill"></i> </th>
+                                            <th> <i class="bi bi-gear-fill"></i> </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -110,7 +110,7 @@ const schedule = ref({
     schedule : '' ,
     begin_time : '' ,
     end_time : '' ,
-    staff_pid : '' ,
+    user_pid : '' ,
 });
 
 const editSchedule = (sch)=>{
@@ -118,14 +118,14 @@ const editSchedule = (sch)=>{
         schedule: sch.schedule,
         begin_time: sch.begin_time,
         end_time: sch.end_time,
-        staff_pid: sch.staff_pid,
+        user_pid: sch.user_pid,
         id: sch.id,
     }
 }
 
 function createSchedule() {
     errors.value = []
-    store.dispatch('postMethod', { url: '/create-md-schedule', param: schedule.value }).then((data) => {
+    store.dispatch('postMethod', { url: '/create-schedule', param: schedule.value }).then((data) => {
         if (data.status == 422) {
             errors.value = data.data
         } else if (data.status == 201) {
