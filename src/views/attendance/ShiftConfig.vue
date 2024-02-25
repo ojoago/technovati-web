@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="container-fluid mt-2">
+        <div class="container-fluid mt-2 mb-2">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Manage Shifts </h5>
@@ -42,7 +42,7 @@
                                                 <th>shift days</th>
                                                 <th>working days</th>
                                                 <th>late</th>
-                                                <th> <i class="bi bi-pencil-fill"></i> </th>
+                                                <th> <i class="bi bi-gear-fill"></i> </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -64,10 +64,9 @@
                                                             <i class="bi bi-tools"></i>
                                                         </button>
                                                         <ul class="dropdown-menu">
-                                                            <li class="bg-warning"><a class="dropdown-item pointer"
-                                                                    @click="editShift(data)">Edit</a> </li>
-                                                            <li class="bg-danger"><a class="dropdown-item pointer"
-                                                                    @click="deleteShift(data.pid)">Delete</a> </li>
+                                                            <li><a class="bg-info dropdown-item pointer" @click="shiftDtail(data)">Details </a> </li>
+                                                            <li><a class="bg-warning dropdown-item pointer" @click="editShift(data)">Edit </a> </li>
+                                                            <li><a class="bg-danger dropdown-item pointer" @click="deleteShift(data.pid)">Delete</a> </li>
                                                         </ul>
                                                     </div>
                                                 </td>
@@ -88,19 +87,25 @@
                                         <table class="table-hover table-stripped table-bordered table">
                                             <thead>
                                                 <tr>
-                                                    <th>SN</th>
+                                                    <th width="5%">SN</th>
                                                     <th>Shift</th>
-                                                    <th>Category</th>
+                                                    <th>Staff</th>
                                                     <!-- <th>late</th> -->
-                                                    <th> <i class="bi bi-gear"></i> </th>
+                                                    <!-- <th> <i class="bi bi-gear"></i> </th> -->
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr v-for="(data, loop) in allocations" :key="loop">
                                                     <td>{{ loop + 1 }}</td>
                                                     <td>{{ data?.shift?.shift }}</td>
-                                                    <td>{{ data?.category }}</td>
                                                     <td>
+                                                        <!-- {{ data?.user }} -->
+                                                        <span v-for="user in data?.user" :key="user.id" class="badge bg-dark p-1 m-1 ellipsis">
+                                                            {{ user.username }}
+                                                        </span>
+                                                    </td>
+
+                                                    <!-- <td>
                                                         <div class="dropdown">
                                                             <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
                                                                 data-bs-toggle="dropdown">
@@ -113,7 +118,8 @@
                                                                         @click="deleteShift(data.pid)">Delete</a> </li>
                                                             </ul>
                                                         </div>
-                                                    </td>
+                                                    </td> -->
+
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -132,7 +138,7 @@
             </div>
 
         </div>
-         <o-modal :isOpen="toggleModal" :modal-class="lg" title="Create Shift" @submit="createShift" @modal-close="closeModal" >
+         <o-modal :isOpen="toggleModal" modal-class="modal-lg" title="Create Shift" @submit="createShift" @modal-close="closeModal" >
             <template #content>
                 <form>
                       <div class="row">
@@ -209,7 +215,7 @@
         
         </o-modal>
 
-         <o-modal :isOpen="alloModal" :modal-class="xs" title="Allocate Shift" @submit="allocateShift" @modal-close="closeModal" >
+         <o-modal :isOpen="alloModal" modal-class="modal-xs" title="Allocate Shift" @submit="allocateShift" @modal-close="closeModal" >
             <template #content>
                 <form>
                       <div class="row">
@@ -264,7 +270,6 @@
             </template>
         
         </o-modal>
-
         
     </div>
 </template>
@@ -282,12 +287,10 @@ let query = {}
 router.push({ query: query })
 
 
-const lg = 'modal-lg';
 const toggleModal = ref(false)
 const openModal = () => {
     toggleModal.value = true;
 };
-const xs = 'modal-xs';
 const alloModal = ref(false)
 const openAlloModal = () => {
     alloModal.value = true;
@@ -329,6 +332,10 @@ const editShift = (data) => {
         late: data.late ,
         pid: data.pid
     }
+    toggleModal.value = true
+}
+const shiftDtail = (data) => {
+    console.log(data);
 }
 const deleteShift = (pid) => {
     alert(pid)

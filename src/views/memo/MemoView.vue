@@ -76,7 +76,7 @@
                                     <div class="form-group">
                                         <label class="form-label">Category</label>
                                             <select v-model="memoForm.category" class="form-control form-control-sm">
-                                                <option disabled selected>Select Section</option>
+                                                <option value="" selected>Make Selection</option>
                                                 <option value="1">General</option>
                                                 <option value="2">Department</option>
                                                 <option value="3">Staff</option>

@@ -18,6 +18,7 @@
     "qalendar": "^3.7.0",
     "simple-vue-camera": "^1.1.3",
     "vue": "^3.4.7",
+    "vue-cal": "^4.8.1",
     "vue-multiselect": "^3.0.0-beta.3",
     "vue-router": "^4.2.5",
     "vue3-select2-component": "^0.1.7",

@@ -1,12 +1,21 @@
 <template>
     <div>
-         <fieldset class="border rounded-3 p-2 m-1">
-            <legend class="float-none w-auto px-2">Shift Holidays</legend>
-            <button class="btn btn-sm btn-primary m-2" @click="openHModal">Add Holiday</button>
-                <Qalendar :events="events" :config="config" />
+        <fieldset class="border rounded-3 p-1 m-1">
+            <legend class="float-none w-auto px-1">Shift Holidays</legend>
+            <button class="btn btn-sm btn-primary m-1" @click="openHModal">Add Holiday</button>
+    <vue-cal
+      :selected-date="currentDate"
+      :time-from="9 * 60"
+      :disable-views="['years', 'year']"
+      active-view="month"
+      hide-weekends
+      events-on-month-view="short"
+      :events="events"
+      style="height: 600px">
+    </vue-cal>
         </fieldset>
 
-            <o-modal :isOpen="hModal" :modal-class="xs" title="Add Holiday to Shift" @submit="markShiftHoliday" @modal-close="closeModal" >
+            <o-modal :isOpen="hModal" modal-class="modal-xs" title="Add Holiday to Shift" @submit="markShiftHoliday" @modal-close="closeModal" >
                 <template #content>
                     <form id="formHoliday">
                         <div class="row">
@@ -61,7 +70,9 @@
 </template>
 
 <script setup>
-import { Qalendar } from "qalendar";
+// import { Qalendar } from "qalendar";
+import VueCal from 'vue-cal'
+import 'vue-cal/dist/vuecal.css'
 import { ref } from "vue";
 import store from "@/store";
 import OModal from "@/components/OModal.vue";
@@ -74,7 +85,15 @@ const openHModal = () => {
 const closeModal = () => {
     hModal.value = false;
 };
+const currentDate = ref({})
+const date = new Date();
 
+let day = date.getDate();
+let month = date.getMonth() + 1;
+let year = date.getFullYear();
+
+// This arrangement can be altered based on how we want the date's format to appear.
+currentDate.value = `${year}-${month}-${day}`;
 
 const b_errors = ref({});
 const holiday = ref({
@@ -100,64 +119,32 @@ function markShiftHoliday() {
 //
 loadShiftHolidays()
 const events = ref([]);
+
 function loadShiftHolidays() {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-shift-holidays' }).then((data) => {
         if (data.status == 200) {
             data.data.forEach( (el) => {
                 events.value.push({
                     title: el.tittle,
-                    with: el.shift.shift,
-                    time: { start: el.start, end: el.end },
-                    color: "blue",
-                    isEditable: true,
-                    id: el.id,
-                    description: el.note
+                    start: el.start,
+                    end: el.end ,
+                    class: 'blue-event',
+                    // id: el.id,
+                    content:  `<i class="bi bi-alarm">${el.shift.shift} ${el.note}</i>`,
+                    // contentFull: 'My shopping list is rather long:<br><ul><li>Avocados</li><li>Tomatoes</li><li>Potatoes</li><li>Mangoes</li></ul>'
                 })
             });
-            console.log(events.value);
+            // console.log(events.value);
             // data.data.
         }
-        store.commit('setSpinner', false)
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
     })
 }
 
-// const events = ref([
-//     // ...
-//     {
-//         title: "Advanced algebra",
-//         with: "Chandler Bing",
-//         time: { start: "2024-02-12", end: "2024-02-16" },
-//         color: "yellow",
-//         isEditable: true,
-//         id: "753944708f0f",
-//         description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores assumenda corporis doloremque et expedita molestias necessitatibus quam quas temporibus veritatis. Deserunt excepturi illum nobis perferendis praesentium repudiandae saepe sapiente voluptatem!"
-//     },
-//     {
-//         title: "Ralph on holiday",
-//         with: "Rachel Greene",
-//         time: { start: "2024-02-17", end: "2024-02-17" },
-//         color: "green",
-//         isEditable: true,
-//         id: "5602b6f589fc"
-//     }
-//     // ...
-// ])
-  const  config = ref({
-    // see configuration section
-    // defaultMode: 'month',
-})
 
 const shiftDrop = ref({});
 function dropdownShifts() {
     store.dispatch('loadDropdown', 'shifts').then(({ data }) => {
         shiftDrop.value = data;
-    }).catch(e => {
-        console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownShifts()
@@ -165,4 +152,14 @@ dropdownShifts()
 
 <style scoped>
     @import "qalendar/dist/style.css";
+    .vuecal--month-view .vuecal__cell {height: 80px;}
+
+.vuecal--month-view .vuecal__cell-content {
+  justify-content: flex-start;
+  height: 100%;
+  align-items: flex-end;
+}
+
+.vuecal--month-view .vuecal__cell-date {padding: 4px;}
+.vuecal--month-view .vuecal__no-event {display: none;}
 </style>
