@@ -55,7 +55,8 @@
     import store from '@/store';
     // import { ref,onMounted } from 'vue'
     import AttendanceComponent from '@/components/shift/AttendanceComponent.vue';
-import { ref } from 'vue';
+    import { ref } from 'vue';
+    
     loadAttendance()
     
     const attendance = ref({})

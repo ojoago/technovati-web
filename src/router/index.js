@@ -123,6 +123,9 @@ const routes = [
                 path:'/travel-request',name:'TravelRequestView',component: () => import('@/views/travel/TravelRequestView.vue')
             },
             {
+                path:'/staff-travel-request',name:'StaffTravelRequest',component: () => import('@/views/travel/StaffTravelRequest.vue')
+            },
+            {
                 path:'/travel-request-detail',name:'TravelRequestDetailView',component: () => import('@/views/travel/TravelRequestDetailView.vue')
             },
 
