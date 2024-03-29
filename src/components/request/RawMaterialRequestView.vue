@@ -15,7 +15,7 @@
                                             <th>Name</th>
                                             <th>Unit</th>
                                             <th>Description</th>
-                                            <th align="center"> <i class="bi bi-pencil-fill"></i> </th>
+                                            <th align="center"> <i class="bi bi-gear-fill"></i> </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -26,9 +26,9 @@
                                                 <td>{{ item.description }}</td> -->
                                             <td>{{ item.name }}</td>
                                             <td>{{ item.model }} </td>
-                                            <td>{{ item.quantity }} {{ item.unit }}</td>
+                                            <td>{{ item?.quantity?.quantity }} {{ item?.unit?.name }}</td>
                                             <td>
-                                                <button v-if="item.quantity > 0" @click="addItem(item)" type="button"
+                                                <button v-if="item?.quantity?.quantity > 0" @click="addItem(item)" type="button"
                                                     class="btn btn-primary btn-sm">
                                                     <i class="bi bi-patch-plus-fill"></i>
                                                 </button>
@@ -114,7 +114,7 @@ const addItem = (item) => {
             name: item.name,
         })
     } else {
-        if (request.value.items[index].quantity < item.quantity) {
+        if (request.value.items[index].quantity < item?.quantity?.quantity) {
             request.value.items[index].quantity++
         } else {
             store.commit('notify', { message: `quantity remaining is : ${request.value.items[index].quantity}`, type: 'warninig' })

@@ -6,6 +6,7 @@
             <div id="main">
                 <router-view></router-view>
             </div>
+            <!-- this is footer -->
         </section>
     </div>
 </template>
@@ -48,9 +49,8 @@ function logout() {
     }).catch(e => {
         store.commit('setSpinner', false)
         console.log(e.response);
-        alert('weting be this')
+        localStorage.clear()
     })
-    localStorage.clear()
 
 }
 

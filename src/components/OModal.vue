@@ -11,7 +11,7 @@
                                          <div class="modal-header bg-light shadow">
                                                 <slot name="header">
                                                     <div >
-                                                        <span class="h5">{{ title }}</span>
+                                                        <span class="h6">{{ title }}</span>
                                                         <p class="flex-col">{{ subtitle }}</p>
                                                     </div> 
                                                 </slot>
@@ -151,6 +151,10 @@ body.modal-base {
     margin: 10px 50px;
 }
 
+.header{
+    text-align: center;
+    margin-top: 10px;
+}
 
 .modal-header{
     border-bottom: 1px solid #252729;
@@ -158,6 +162,9 @@ body.modal-base {
     display: flex;
     justify-content: space-between;
     padding: 5px 20px;
+    background: #f0f4f7 !important;
+    text-align: center;
+
     /* padding-bottom: 10px; */
 }
 .icon {

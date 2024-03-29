@@ -8,9 +8,10 @@
                         <h2>Sign In</h2>
                         <form  @submit.prevent="login">
                             <input type="text" v-model="user.email"  placeholder="enter emial/username">
+                            <p class="text-danger " v-if="errors?.email">{{ errors?.email[0] }}</p>
                             <input type="password" v-model="user.password" name="" placeholder="enter password">
+                            <p class="text-danger " v-if="errors?.password">{{ errors?.password[0] }}</p>
                             <button class="btn">Sign In</button>
-                       
                         </form>
                     </div>
 
@@ -24,25 +25,37 @@
 </template>
 
 <script setup>
-    import { useRouter } from 'vue-router';
+    import { ref } from 'vue';
     import store from "../../store";
+    import { useRouter } from 'vue-router';
     const router = useRouter()
     const user = {
         'email': '',
         'password': '',
         'remember': false
     }
+    const errors = ref({})
+
     function login() {
-        store.commit('setSpinner', true)
-        store.dispatch('signIn', user).then(() => {
-            store.commit('setSpinner', false)
-            router.push({ name: 'DashboardView' })
+        errors.value = [];
+        store.dispatch('signIn', user).then((data) => {
+            if(data.status==422){
+                errors.value = data.data;
+                return false
+            }
+            let name = data?.data.roles[0];
+            if(name =='staff'){
+                name = 'Self'
+            }
+            name = name[0].toUpperCase() + name.substring(1)+'Dashboard'
+            
+            router.push({ name: name })
         }).catch(e => {
             store.commit('setSpinner', false)
             console.log(e);
-            alert('weting be this')
         })
     }
+
 </script>
 
 <style scoped>

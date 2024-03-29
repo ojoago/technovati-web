@@ -21,17 +21,17 @@
                                         <th>status</th>
                                         <th>manager comment</th>
                                         <th>hr comment</th>
-                                        <th> <i class="bi bi-pencil-fill"></i> </th>
+                                        <th> <i class="bi bi-gear-fill"></i> </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="(lv, loop) in leaves.data" :key="loop">
                                         <td>{{ loop + 1 }}</td>
                                         <td>{{ lv.leave.leave }}</td>
-                                        <td>{{ lv.from }}</td>
-                                        <td>{{ lv.to }}</td>
+                                        <td>{{ lv.begin }}</td>
+                                        <td>{{ lv.end }}</td>
                                         <td>{{ lv.note }}</td>
-                                        <td>{{ lv.status }}</td>
+                                        <td>{{ lv.request_status }}</td>
                                         <td>{{ lv.hr_comment }}</td>
                                         <td>{{ lv.line_manager_comment }}</td>
                                         
@@ -62,10 +62,10 @@
                         </div>
                 </div>
           
-        <o-modal :isOpen="assignModal" @submit="makeRequest" :modal-class="sm" title="Request Leave" @modal-close="closeModal">
+        <o-modal :isOpen="assignModal" @submit="makeRequest" modal-class="modal-sm" title="Request Leave" @modal-close="closeModal">
                 <template #content>
                     <div>
-                                    <form>
+                                    <form id="lForm">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
@@ -128,7 +128,6 @@ const errors = ref({});
 
 
 const assignModal = ref(false)
-const sm = 'modal-sm'
 const openModal = () => {
     assignModal.value = true
 }
@@ -146,8 +145,6 @@ const request = ref({
 
 const leaves = ref({});
 
- 
-
 function makeRequest() {
     store.commit('setSpinner', true)
     errors.value = []
@@ -155,9 +152,9 @@ function makeRequest() {
         if (data.status == 422) {
             errors.value = data.data
         } else if (data.status == 201) {
-
-          request.value = [];
-             
+            loadLeaves()
+          let form = document.querySelector('#lForm')
+          form.reset()
         }
         store.commit('setSpinner', false)
     }).catch(e => {
@@ -190,13 +187,12 @@ function loadLeaves() {
     store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-my-leave-request'}).then((data) => {
         store.commit('setSpinner', false)
-        if (data.status == 200) {
+        if (data?.status == 200) {
             leaves.value = data.data;
         }
     }).catch(e => {
         store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 }
 
@@ -236,7 +232,6 @@ const leaveDrop = ref({})
         leaveDrop.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownSection()

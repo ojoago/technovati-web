@@ -1,15 +1,15 @@
 <template>
     <div>
         <div class="container mt-2">
-            <div class="col-md-12">
-                <div class="card">
+            <div class="card">
                     <div class="card-header">Raw Materials  <button class="btn btn-sm btn-success mb-2"> 
                                     <router-link to="/raw-material" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Add New  </span>  </router-link>
                                 </button></div>
                     <div class="card-body">
+                        <button @click="toggleModal = true" class="btn btn-sm btn-primary">Add New</button>
+                        <button @click="unitModal = true" class="btn btn-sm btn-primary">Add Unit</button>
                         <fieldset class="border rounded-3 p-2 m-1">
                             <legend class="float-none w-auto px-2">Lists</legend>
-                            
                             <div class="table-responsive">
                                 <table class="table-hover table-stripped table-bordered table">
                                     <thead>
@@ -22,7 +22,7 @@
                                             <!-- <th>Team</th> -->
                                             <th>description</th>
                                             <th>manufacturer</th>
-                                            <th> <i class="bi bi-pencil-fill"></i> </th>
+                                            <th> <i class="bi bi-gear-fill"></i> </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -30,7 +30,7 @@
                                             <td>{{ loop + 1 }}</td>
                                             <td>{{ data.name }}</td>
                                             <td>{{ data.model  }} </td>
-                                            <td>{{ data.quantity }} {{ data.unit }}</td>
+                                            <td>{{ data?.quantity?.quantity }} {{ data?.unit?.name }}</td>
                                             <td>{{ data.description  }}</td>
                                             <td>{{ data.manufacturer?.name }}</td>
                                             <td>
@@ -60,36 +60,62 @@
                 </div>
             </div>
         </div>
+        <o-modal :isOpen="toggleModal" modal-class="modal-lg" title="Add Full time Staff" @submit="addStaff" @modal-close="closeModal" >
+            <template #content>
+                <MaterialForm/>
+            </template>
+             <template #footer>
+                    <div></div>
+                </template>
+        </o-modal>
+
+        <o-modal :isOpen="unitModal" modal-class="modal-xs" title="Add Item Unit" @modal-close="closeModal" >
+            <template #content>
+                <UnitItemForm/>
+            </template>
+            <template #footer>
+                <div></div>
+            </template>
+        </o-modal>
     </div>
-</div>
-      
 </template>
 
 <script setup>
 import store from "@/store";
 import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
+import OModal from "@/components/OModal.vue";
+import UnitItemForm from "@/components/material/ItemUnitForm.vue"
+import MaterialForm from "@/components/material/MaterialForm.vue"
+
+
+
+const toggleModal = ref(false)
+const unitModal = ref(false)
+
+const closeModal = () => {
+    toggleModal.value = false;
+    unitModal.value = false;
+};
+
+
 
 const rawMaterials = ref({});
 
 loadRawMaterials()
 function loadRawMaterials() {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-materials' }).then((data) => {
-        store.commit('setSpinner', false)
-        if (data.status == 200) {
+        if (data?.status == 200) {
             rawMaterials.value = data.data;
         }
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
-        alert('weting be this')
     })
 }
 
 const editMaterial = (data) => {
     console.log(data);
 }
+
+
 
 function nextPage(link) {
     alert()

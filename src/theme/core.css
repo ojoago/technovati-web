@@ -90,13 +90,15 @@ body{
     display: none;
 }
 
-.sidebar .nav-links li {
+.sidebar .nav-links li,
+.sidebar .nav-links div li {
     position: relative;
     list-style: none;
     transition: all .4s ease;
 }
 
-.sidebar .nav-links li:hover {
+.sidebar .nav-links li:hover, 
+.sidebar .nav-links div li:hover {
     background: #1d1b31;
 }
 
@@ -137,7 +139,7 @@ body{
 }
 
 .sidebar .nav-links li a .link-name {
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 400;
     color: #fff;
 }
@@ -393,6 +395,9 @@ body{
     /* display: block */
     position: sticky;
     width: 20% !important;
+}
+.uppercase-text{
+    text-transform: uppercase;
 }
 th{
     text-transform: uppercase;

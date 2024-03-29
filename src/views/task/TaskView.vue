@@ -38,8 +38,8 @@
                                                     <ul class="dropdown-menu">
                                                         <li><a class="dropdown-item pointer" @click="taskDetail(task)">Details</a> </li>
                                                         <li><a class="dropdown-item pointer" @click="addSubTask(task)">ADD SUB TASK</a> </li>
-                                                        <li><a class="dropdown-item pointer" @click="editTask(task)">Edit Task</a> </li>
-                                                        <li><a class="dropdown-item pointer bg-danger"  @click="deleteTask(task)">Delete</a></li>
+                                                        <li><a class="dropdown-item pointer" v-if="task.creator == creator" @click="editTask(task)">Edit Task</a> </li>
+                                                        <li><a class="dropdown-item pointer bg-danger" v-if="task.creator == creator" @click="deleteTask(task)">Delete</a></li>
                                                     </ul>
                                                 </div>
                                             </td>
@@ -136,6 +136,8 @@ import { Multiselect } from 'vue-multiselect';
 import PaginationLinks from "@/components/PaginationLinks.vue";
 import SubTaskForm from "@/components/task/forms/SubTaskForm.vue";
 import OModal from "@/components/OModal.vue";
+const creator = ref(null);
+creator.value = store?.state?.user?.data?.pid;
 
 import { useRouter } from 'vue-router';
 const router = useRouter()
@@ -167,7 +169,7 @@ function createTask() {
     store.commit('setSpinner', true)
     store.dispatch('postMethod', { url: '/create-task', param: task.value }).then((data) => {
         store.commit('setSpinner', false)
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data;
         } else if (data.status == 201) {
             errors.value = [];
@@ -186,13 +188,12 @@ function deleteTask(tsk) {
         store.commit('setSpinner', true)
         store.dispatch('getMethod', { url: '/delete-task/' + tsk.pid }).then((data) => {
             store.commit('setSpinner', false)
-            if (data.status == 201) {
+            if (data?.status == 201) {
                 loadTask()
             }
         }).catch(e => {
             store.commit('setSpinner', false)
             console.log(e);
-            alert('weting be this')
         })
     }
 }
@@ -203,14 +204,12 @@ function loadTask() {
     store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-task' }).then((data) => {
         store.commit('setSpinner', false)
-        if (data.status == 200) {
+        if (data?.status == 200) {
             tasks.value = data.data
-            // console.log(data.data);
         }
     }).catch(e => {
         store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 }
   

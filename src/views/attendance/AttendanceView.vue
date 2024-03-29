@@ -29,7 +29,7 @@
                             <tbody>
                                 <tr v-for="(tend, loop) in attendance.data" :key="loop">
                                     <td>{{ loop + 1 }}</td>
-                                    <td>{{ tend.time_in }}</td>
+                                    <td>{{ tend.week_day }} {{ tend.time_in }}</td>
                                     <td>{{ tend.time_out }}</td>
                                     <td>{{ tend.attendance_status }}</td>
                                     <td>{{ tend.location }}</td>

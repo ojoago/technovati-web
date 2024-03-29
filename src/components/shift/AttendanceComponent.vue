@@ -1,8 +1,25 @@
 <template>
     <div>
-        <button @click="startCamera" class="btn btn-sm btn-primary">Take</button>
+        <div class="attendance-card shadow">
+             <h5 class="card-title h6 text-center">{{ date }} <span>| {{ time }}</span></h5>
+             <div class="col-outer">
+                <div class="col-inner">
+                    Time in
+                    <hr>
+                    {{timeIn}}
+                </div>
+                <div class="col-inner">
+                    time out
+                    <hr>
+                    {{timeOut}}
+                </div>
+             </div>
+             <button @click="startCamera" v-if="clockBtn == false" class="btn btn-sm btn-primary actionBtn">Clock In</button>
+             <button @click="clockOut" v-if="clockBtn== true" class="btn btn-sm btn-danger actionBtn">Clock Out</button>
 
-        <o-modal  :isOpen="toggleModal" modal-class="modal-sm" title="Take Attendance" @submit="createShift" @modal-close="closeModal">
+        </div>
+
+        <o-modal  :isOpen="toggleModal" modal-class="modal-sm" title="Take Attendance" @modal-close="closeModal">
             <template #content>
                 <button @click="initCamera" class="btn btn-sm btn-success">Retake</button>
                 <div class="container" v-if="startStream">
@@ -27,6 +44,16 @@ import OModal from '@/components/OModal.vue';
 import { ref, onMounted } from 'vue'
 const toggleModal = ref(false)
 
+const date = ref(null);
+date.value = new Date().toDateString();
+const time = ref()
+function timer() {
+    time.value = new Date().toLocaleTimeString();
+}
+setInterval(() => timer(), 1000)
+const timeIn = ref('--:--')
+const timeOut = ref('--:--')
+const clockBtn = ref(null)
 const closeModal = () => {
     toggleModal.value = false;
     stopCamera()
@@ -61,7 +88,7 @@ const captureImage = async () => {
     // Convert the canvas image to a data URL
     capturedImage.value = canvas.value.toDataURL('image/png');
     attendance.value.image = capturedImage;
-    takeAttendance()
+    clockIn()
 };
 
 // Initialize the webcam when the component is mounted
@@ -128,7 +155,9 @@ const getLocation = () => {
                 coordinates.value = {
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude,
+                    accuracy: position.coords.accuracy,
                 };
+                // coordinates.value = position.coords
                 attendance.value.coordinates = coordinates
                 console.log(position);
             },
@@ -166,10 +195,69 @@ const longitude = -122.4194;
 getLocationName(latitude, longitude);
 
 
-function takeAttendance() {
-    store.commit('setSpinner', true)
-    store.dispatch('postMethod', { url: '/take-attendance', param: attendance.value });
+function clockIn() {
+    store.dispatch('postMethod', { url: '/clock-in', param: attendance.value }).then((data) => {
+        if (data?.status == 201) {
+            clockBtn.value = false;
+            timeIn.value = data?.data?.time_in;
+            toggleModal.value = false;
+        }
+    });
 }
+
+
+const checkedInToday = () => {
+//last-check-in
+    store.dispatch('getMethod', { url: '/last-check-in' }).then((data) => {
+        if (data?.status == 200) {
+            clock(data?.data)
+        }
+    });
+}
+ onMounted(()=>{
+    checkedInToday()
+ })
+
+
+const clockOut = () => {
+    store.dispatch('putMethod', { url: '/clock-out',prompt:"are you sure you want to clock out?" }).then((data) => {
+        if (data?.status == 201) {
+            clock(data?.data)
+        }
+    });
+}
+const clock = (data) => {
+    if (data == null) {
+        clockBtn.value = false;
+    } else {
+        timeIn.value = data?.time_in;
+        clockBtn.value = true;
+        if (data.time_out != null) {
+            timeOut.value = data?.time_out;
+            clockBtn.value = null;
+        }
+    }
+}
+
+
+
 </script>
 
-<style scoped></style>
+<style scoped>
+    .attendance-card{
+        max-width: 100%;
+        padding: 5px;
+        background-color: #f1f1f1;
+        /* box-shadow: #f1f1f1; */
+       /* box-shadow: inset 5em 1em #646363; */
+    }
+    .col-outer{
+        display: flex;
+        justify-content: space-between;
+        padding: 5px;
+        text-transform: uppercase;
+    }
+    .actionBtn{
+        width: 100%;
+    }
+</style>

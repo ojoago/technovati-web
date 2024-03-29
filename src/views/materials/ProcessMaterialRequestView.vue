@@ -109,7 +109,6 @@ const removeitem = (i) => {
 
 
 function processRawMaterialRequest() {
-    store.commit('setSpinner', true)
     errors.value = []
     store.dispatch('postMethod', { url: '/process-raw-material-request', param: requestDetail.value }).then((data) => {
         if (data.status == 422) {
@@ -118,12 +117,9 @@ function processRawMaterialRequest() {
             let form = document.querySelector('#itemForm');
             form.reset()
         }
-        store.commit('setSpinner', false)
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
     })
 }
+
 function loadItems(pid) {
     requestDetail.value.request_pid = pid;
     store.commit('setSpinner', true)

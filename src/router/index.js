@@ -20,6 +20,8 @@ const routes = [
             {
                 path:'/welcome',name:'Welcome',component: () => import('@/views/guest/WelcomeView.vue')
             },
+            // Catch-all route for unknown paths
+            { path: '/:pathMatch(.*)*',name:'404', component: () => import('@/views/errors/_404.vue') },
          ]
     },
     {
@@ -29,10 +31,21 @@ const routes = [
         redirect:'/dashboard',
         meta:{requiresAuth:true},
         children:[
+             // Catch-all route for unknown paths
+            { path: '/:pathMatch(.*)*',name:'ForohFor', component: () => import('@/views/errors/_404.vue') },
             {
                 path:'/dashboard',name:'DashboardView',component: () => import('@/views/DashboardView.vue')
             },
+
+            {
+                path:'/self-service',name:'SelfDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')
+            },
+            // self services 
+            
             // HR 
+            {
+                path:'/hr-dashboard',name:'HrDashboard',component: () => import('@/views/dashboard/HrDashboard.vue')
+            },
             {
                 path:'/staff',name:'StaffView',component: () => import('@/views/users/StaffView.vue')
             },
@@ -72,6 +85,9 @@ const routes = [
             {
                 path:'/appraisal-list',name:'AppraisalListView',component: () => import('@/views/appraisal/AppraisalListView.vue')
             },
+            {
+                path:'/self-appraisal',name:'SelfAppraisalView',component: () => import('@/views/appraisal/SelfAppraisalView.vue')
+            },
 
             // appraisal end here 
             {
@@ -92,6 +108,9 @@ const routes = [
             },
             {
                 path:'/attendance',name:'AttendanceView',component: () => import('@/views/attendance/AttendanceView.vue')
+            },
+            {
+                path:'/staff-attendance',name:'StaffAttendance',component: () => import('@/views/attendance/StaffAttendance.vue')
             },
 
             {
@@ -279,7 +298,8 @@ const router = createRouter({
 })
 
 router.beforeEach((to,from,next)=>{ 
-    
+    // console.log(store.state.user.token);
+    // alert(store.state.user.token);
     if (to.meta.requiresAuth && !store.state.user.token){
         next({name:'SignIn'})
     } 

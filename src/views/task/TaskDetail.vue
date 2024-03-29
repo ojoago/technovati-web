@@ -14,7 +14,7 @@
                   </nav>
                   <div class="float-end">
                     <button class="btn btn-sm btn-primary m-2"  @click="addSubTask(task)">Add Sub Task</button>
-                    <button class="btn btn-sm btn-primary m-2" @click="addTeamModal">Add Team M</button>
+                    <!-- <button class="btn btn-sm btn-primary m-2" @click="addTeamModal">Add Team M</button> -->
                   </div>
             </div>
             <div class="card-body">
@@ -77,7 +77,7 @@
             </div>
            </div>
         </div>
-             <o-modal :isOpen="toggleModal" :modal-class="modal" title="Add Sub Task" subtitle="add sub task to task" @modal-close="closeModal" >
+             <o-modal :isOpen="toggleModal" modal-class="modal-sm" subtitle="add sub task to task" @modal-close="closeModal" >
                         <template #content>
                             <SubTaskForm :task="task" />
                         </template>
@@ -205,10 +205,12 @@ const subTaskDetail = (sb,sts)=>{
 // view sub task details on modal 
 const teamModal = ref(false)
 const teams = ref({})
-const addTeamModal = ()=>{
-    teams.value = task.value.teams;
-    teamModal.value = true
-}
+
+// const addTeamModal = ()=>{
+//     teams.value = task.value.teams;
+//     teamModal.value = true
+// }
+
 const errors = ref({})
 function updateTask() {
     errors.value = [];
