@@ -97,6 +97,12 @@ const routes = [
                 path:'/leave-request',name:'LeaveRequest',component: () => import('@/views/leave/LeaveRequest.vue')
             },
             {
+                path:'/my-leave-request',name:'MyLeaveRequest',component: () => import('@/views/leave/MyLeaveRequest.vue')
+            },
+            {
+                path:'/line-manager-view-leave-request',name:'LineManagerViewLeaveRequest',component: () => import('@/views/leave/LineManagerViewLeaveRequest.vue')
+            },
+            {
                 path:'/request',name:'RequestView',component: () => import('@/views/request/InventoryItemRequestView.vue')
             },
             {

@@ -189,7 +189,8 @@
                     <a>
                         <i class="bi bi-list-task"></i>
                         <span class="link-name">
-                            <router-link to="/staff-travel-request" class="nav-link"><span class="nav-name">Travel Request
+                            <router-link to="/staff-travel-request" class="nav-link"><span class="nav-name">Travel
+                                    Request
                                 </span> </router-link>
                         </span>
                     </a>
@@ -587,7 +588,8 @@
                         <a>
                             <i class="bi bi-grid"></i>
                             <span class="link-name">
-                                <router-link to="/leave-request" class="nav-link"><span class="nav-name">Leave </span>
+                                <router-link to="/my-leave-request" class="nav-link"><span class="nav-name">Leave
+                                    </span>
                                 </router-link>
                             </span>
                         </a>
@@ -641,6 +643,18 @@
                         <i class="bi bi-grid"></i>
                         <span class="link-name">
                             <router-link to="/memo" class="nav-link"><span class="nav-name">Memo</span> </router-link>
+                        </span>
+                    </a>
+                    <i class="bi bi-chevron-right arrow"></i>
+                </div>
+            </li>
+            <li>
+                <div class="icon-link">
+                    <a>
+                        <i class="bi bi-grid"></i>
+                        <span class="link-name">
+                            <router-link to="/line-manager-view-leave-request" class="nav-link"><span
+                                    class="nav-name">Leave Request</span> </router-link>
                         </span>
                     </a>
                     <i class="bi bi-chevron-right arrow"></i>

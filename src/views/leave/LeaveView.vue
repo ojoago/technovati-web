@@ -15,7 +15,7 @@
                         <li class="nav-item flex-fill" role="presentation">
                             <button class="nav-link w-100" id="request-tab" data-bs-toggle="tab"
                                 data-bs-target="#request" type="button" role="tab" aria-controls="request"
-                                aria-selected="false">Request</button>
+                                aria-selected="false">Assign Leave</button>
                         </li>
 
                     </ul>
@@ -117,11 +117,35 @@
                         </div>
                         <div class="tab-pane fade" id="request" role="tabpanel" aria-labelledby="request-tab">
                             <fieldset class="border rounded-3 p-2 m-1">
-                                <legend class="float-none w-auto px-2">Leave Request</legend>
+                                <legend class="float-none w-auto px-2">Assign Leave </legend>
+                                <button class="btn btn-primary btn-sm mb-2" @click="assignModal=true">Assign</button>
                                 <div class="table-responsive">
-                                    {{desigs}}
-                                    <hr>
-                                    {{ lvx }}
+                                    <table class="table-hover table-stripped table-bordered table">
+                                        <thead>
+                                            <tr>
+                                                <th>SN</th>
+                                                <th>Leave</th>
+                                                <th>Days</th>
+                                                <th>Designation</th>
+                                                <th> <i class="bi bi-setting"></i> </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="(lv, loop) in dlvx" :key="loop">
+                                                <td>{{ loop + 1 }}</td>
+                                                <td>{{ lv.leave }}</td>
+                                                <td>{{ lv.days }}</td>
+                                                <td>{{ lv.name }}</td>
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <button type="button" class="btn btn-primary btn-sm">
+                                                            Remove
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </fieldset>
                         </div>
@@ -132,6 +156,39 @@
             </div>
 
         </div>
+        <o-modal :isOpen="assignModal" @submit="assignLeave" modal-class="modal-sm" title="Assign Leave"
+            @modal-close="closeModal">
+            <template #content>
+                <div>
+                    <form id="aForm">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Leave <span class="text-danger">*</span></label>
+                                    <select v-model="assign.leave_pid" class="form-control form-control-sm">
+                                        <option value="" selected>Make Selection</option>
+                                        <option v-for="(leave, i) in lvx" :key="i" :value="leave.id">{{ leave.text
+                                            }} - {{ leave.days }} days</option>
+                                    </select>
+                                    <p class="text-danger " v-if="errors?.leave_pid">{{ errors?.leave_pid[0] }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Designations <span class="text-danger">*</span></label>
+                                    <Select2 v-model="assign.designation_pid" :options="desigs"
+                                        :settings="{ width: '100%' }" />
+
+                                    <p class="text-danger " v-if="errors?.from">{{ errors?.from[0] }}</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </template>
+
+        </o-modal>
     </div>
 </template>
 
@@ -140,6 +197,14 @@
 import store from "@/store";
 import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
+import OModal from "@/components/OModal.vue";
+import Select2 from 'vue3-select2-component';
+
+
+const assignModal = ref(false)
+const closeModal = () => {
+    assignModal.value = false;
+};
 
 const errors = ref({});
 
@@ -154,10 +219,29 @@ const leaves = ref({});
 function createLeave() {
     errors.value = []
     store.dispatch('postMethod', {url:'/create-leave',param:leave.value}).then((data) => {
+        if (data?.status == 422) {
+            errors.value = data.data
+        } else if (data?.status == 201) {
+          let form = document.querySelector('#lForm')
+          form.reset()
+          loadLeaves()
+        }
+    }) 
+}
+
+const assign = ref({
+    leave_pid:'',
+    designation_pid:''
+})
+function assignLeave() {
+    errors.value = []
+    store.dispatch('postMethod', {url:'/assign-leave',param:assign.value}).then((data) => {
         if (data.status == 422) {
             errors.value = data.data
         } else if (data.status == 201) {
-          leave.value = [];
+            let form = document.querySelector('#aForm')
+            form.reset()
+            loadAssignLeave()
         }
     }) 
 }
@@ -182,8 +266,17 @@ function loadLeaves() {
         if (data.status == 200) {
             leaves.value = data.data;
         }
-    }).catch(e => {
-        console.log(e);
+    })
+}
+ 
+ 
+loadAssignLeave()
+const dlvx = ref({})
+function loadAssignLeave() {
+    store.dispatch('getMethod', { url: '/load-assigned-leaves'}).then((data) => {
+        if (data.status == 200) {
+            dlvx.value = data.data;
+        }
     })
 }
  
@@ -220,4 +313,6 @@ function nextPage(link) {
 
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>

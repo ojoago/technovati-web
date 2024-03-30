@@ -4,7 +4,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Staff Leave
-                        <!-- <button class="btn btn-primary btn-sm" @click="openModal">New Leave</button> -->
+                        <button class="btn btn-primary btn-sm" @click="openModal">New Leave</button>
                     </h5>
 
                     <fieldset class="border rounded-3 p-2 m-1">
@@ -17,7 +17,6 @@
                                         <th>Leave</th>
                                         <th>From</th>
                                         <th>to</th>
-                                        <th>Days</th>
                                         <th>note</th>
                                         <th>status</th>
                                         <th>manager comment</th>
@@ -31,13 +30,13 @@
                                         <td>{{ lv.leave.leave }}</td>
                                         <td>{{ lv.begin }}</td>
                                         <td>{{ lv.end }}</td>
-                                        <td>{{ lv.days }}</td>
                                         <td>{{ lv.note }}</td>
                                         <td>{{ lv.request_status }}</td>
                                         <td>{{ lv.line_manager_comment }}</td>
                                         <td>{{ lv.hr_comment }}</td>
+
                                         <td>
-                                            <div class="dropdown" v-if="lv.status == 1">
+                                            <div class="dropdown" v-if="lv.status==0">
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     @click="respond(lv.pid)">
                                                     <span>Response</span>
@@ -77,11 +76,9 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="form-label">Approve? <span class="text-danger">*</span> </label> <br>
-                                    <input v-model="response.status" type="radio" id="yes" name="status" value="3">
-                                    &nbsp;
+                                    <input v-model="response.status" type="radio" id="yes" name="status" value="1"> &nbsp;
                                     <label for="yes">Yes</label> &nbsp;
-                                    <input v-model="response.status" type="radio" id="no" name="status" value="4">
-                                    &nbsp;
+                                    <input v-model="response.status" type="radio" id="no" name="status" value="2"> &nbsp;
                                     <label for="no">No</label>
                                     <p class="text-danger " v-if="errors?.status">{{ errors?.status[0] }}</p>
                                 </div>
@@ -102,29 +99,31 @@ import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
 import OModal from "@/components/OModal.vue";
 
-
 const errors = ref({});
 
 
 const assignModal = ref(false)
-
+const openModal = () => {
+    assignModal.value = true
+}
 const closeModal = () => {
     assignModal.value = false;
 };
 const response = ref({
-    'comment': '',
-    'leave_pid': '',
-    'status': '',
+    'comment' :'' ,
+    'leave_pid' : '' , 
+    'status' : '' , 
 });
 
-const respond = (pid) => {
+const leaves = ref({});
+const respond = (pid) =>{
     response.value.leave_pid = pid
     assignModal.value = true
 }
 
 const respondToRequest = () => {
     errors.value = []
-    store.dispatch('postMethod', { url: '/hr-respond-to-request', param: response.value }).then((data) => {
+    store.dispatch('postMethod', { url: '/hod-respond-to-request',param:response.value }).then((data) => {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
@@ -134,19 +133,15 @@ const respondToRequest = () => {
         }
     })
 }
-
-const leaves = ref({});
  
 loadLeaves()
 
 function loadLeaves() {
-    store.dispatch('getMethod', { url: '/leave-request'}).then((data) => {
+    store.dispatch('getMethod', { url: '/line-manager-view-leave-request'}).then((data) => {
         if (data?.status == 200) {
             leaves.value = data.data;
         }
-    }).catch(e => {
-        console.log(e);
-    })
+    }) 
 }
 
 function nextPage(link) {
@@ -156,8 +151,6 @@ function nextPage(link) {
     }
     alert(link.url)
 }
-
-
 
 
 </script>

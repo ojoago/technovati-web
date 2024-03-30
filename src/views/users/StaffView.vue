@@ -3,7 +3,7 @@
         <div class="container-fluid mt-2">
            <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title">Staff Onboarding <label for=""><router-link to="/staff-list" class="nav-link"><i class="bi bi-arrow-down-left-square-fill"></i> Staff list</router-link></label>  </h5>
+                  <h5 class="card-title">Staff Onboarding <label class="float-end" for=""><router-link to="/staff-list" class="nav-link"><i class="bi bi-list"></i> Staff list</router-link></label>  </h5>
 
                   <!-- Default Tabs -->
                   <ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
@@ -99,6 +99,7 @@
 
     const currentTab = ()=>{
       let q = localStorage.getItem('TVATI_ONBOARD_TAB') ? JSON.parse(localStorage.getItem('TVATI_ONBOARD_TAB')) : 'null'
+
         if(q != 'null'){
             //    var someTabTriggerEl = document.querySelector('#'+q.tab);
             // var tab = new bootstrap.Tab(someTabTriggerEl);

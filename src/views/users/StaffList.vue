@@ -32,6 +32,7 @@
                                         <tr>
                                             <th width="5%">S/N</th>
                                             <th>fullname</th>
+                                            <th>username</th>
                                             <th>Email</th>
                                             <th>GSM</th>
                                             <th>Department</th>
@@ -43,6 +44,7 @@
                                         <tr v-for="(user,loop) in users.data" :key="loop">
                                             <td>{{ loop+1 }}</td>
                                             <td>{{ `${user.lastname} ${user.firstname}   ${user.othername}` }}</td>
+                                            <td>{{ user.username }}</td>
                                             <td>{{ user.email }}</td>
                                             <td>{{ user.gsm }}</td>
                                             <td>{{ user.department }}</td>
@@ -85,6 +87,7 @@
                                             <tr>
                                                 <th width="5%">S/N</th>
                                                 <th>fullname</th>
+                                                <th>username</th>
                                                 <th>Email</th>
                                                 <th>GSM</th>
                                                 <th>Department</th>
@@ -96,6 +99,7 @@
                                             <tr v-for="(user, loop) in disabledList.data" :key="loop">
                                                 <td>{{ loop + 1 }}</td>
                                                 <td>{{ `${user.lastname} ${user.firstname}   ${user.othername}` }}</td>
+                                                <td>{{ user.username }}</td>
                                                 <td>{{ user.email }}</td>
                                                 <td>{{ user.gsm }}</td>
                                                 <td>{{ user.department }}</td>

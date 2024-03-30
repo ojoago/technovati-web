@@ -81,6 +81,8 @@ const removeQualification = (i) => {
 }
 let query = {}
 function staffQualification() {
+    let str = localStorage.getItem('TVATI_ONBOARD_TAB') ? JSON.parse(localStorage.getItem('TVATI_ONBOARD_TAB')) : 'null'
+    documents.value.user_pid = str.id;
     store.dispatch('postMethod', { url: '/add-documents', param: documents.value }).then((data) => {
         if (data.status == 422) {
             q_errors.value = data.data;

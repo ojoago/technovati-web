@@ -244,10 +244,8 @@ const user = ref({
 let query = {}
 
 function createStaff() {
-    // store.commit('setSpinner', true)
-            errors.value = []
+    errors.value = []
     store.dispatch('postMethod', { url: '/create-staff', param: user.value }).then((data) => {
-        // store.commit('setSpinner', false)
         if (data.status == 422) {
             errors.value = data.data;
         } else if (data.status == 201) {
