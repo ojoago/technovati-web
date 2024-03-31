@@ -50,6 +50,7 @@ const store = createStore({
                                     store.commit('setSpinner', false)
                                     if(data?.status === 200){
                                         commit('setUser', data.data)
+                                        console.log(data.data.roles);
                                         commit('setActiveRole',data?.data?.roles[0])
                                         commit('notify',{message:data.message})
                                     }else if(data?.status != 422){
@@ -59,12 +60,17 @@ const store = createStore({
                                 })
         },
         logout({commit}){
+            store.commit('setSpinner', true)
             return axiosClient.get('sign-out').then((res=>{
+                store.commit('setSpinner', false)
                 localStorage.setItem('TOKEN',null)
                 commit('logout');
+                commit('notify',{message:res?.message})
+                localStorage.clear()
                 return res
             })).catch(e=>{
-                console.log(e.response);
+                store.commit('setSpinner', false)
+                console.log(e?.response);
                 sessionStorage.setItem('TOKEN', null)
                 commit('logout');
             })
@@ -248,24 +254,25 @@ const store = createStore({
     },
     mutations:{
         setUser:(state,userData)=>{
-            state.user.token = userData?.token,
-            state.user.data = userData?.user,
-            sessionStorage.setItem('USERDATA', JSON.stringify(userData?.user,null,2)),
-            localStorage.setItem('TVATI_USERDATA', JSON.stringify(userData?.user,null,2)),
-            localStorage.setItem('TVATI_USER_ROLES', JSON.stringify(userData?.roles,null,2)),
-            localStorage.setItem('TVATI_TOKEN', userData?.token)
+            state.user.token = userData?.token;
+            state.user.data = userData?.user;
+            state.user.roles = userData?.roles;
+            sessionStorage.setItem('USERDATA', JSON.stringify(userData?.user,null,2));
+            localStorage.setItem('TVATI_USERDATA', JSON.stringify(userData?.user,null,2));
+            localStorage.setItem('TVATI_USER_ROLES', JSON.stringify(userData?.roles,null,2));
+            localStorage.setItem('TVATI_TOKEN', userData?.token);
             
         },
         setProfile:(state,user)=>{
-            state.user.data = user,
+            state.user.data = user
             sessionStorage.setItem('USERDATA', JSON.stringify(user,null,2))
         },
         setActiveRole:(state,role) => {
-            state.activeRole = role,
+            state.activeRole = role
             localStorage.setItem('TVATI_ACTIVE_ROLE', role)
         },
         logout: ({commit},state) =>{
-            state.user.token = null,
+            state.user.token = null
             state.user.data = ''
             localStorage.setItem('TVATI_USERDATA','')
             localStorage.setItem('TVATI_USER_ROLES','')

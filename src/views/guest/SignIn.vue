@@ -48,7 +48,6 @@
                 name = 'Self'
             }
             name = name[0].toUpperCase() + name.substring(1)+'Dashboard'
-            
             router.push({ name: name })
         }).catch(e => {
             store.commit('setSpinner', false)

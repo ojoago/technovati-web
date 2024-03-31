@@ -21,6 +21,34 @@
 
 
 
+            <div v-if="activeRole == 'md'">
+                <li>
+                    <div class="icon-link">
+                        <a>
+                            <i class="bi bi-grid"></i>
+                            <span class="link-name">
+                                <router-link to="/view-schedule" class="nav-link"><span class="nav-name">Schedule</span>
+                                </router-link>
+                            </span>
+                        </a>
+                        <i class="bi bi-chevron-right arrow"></i>
+                    </div>
+                </li>
+                <li>
+                    <div class="icon-link">
+                        <a>
+                            <i class="bi bi-grid"></i>
+                            <span class="link-name">
+                                <router-link to="/view-log" class="nav-link"><span class="nav-name">Visitors</span>
+                                </router-link>
+                            </span>
+                        </a>
+                        <i class="bi bi-chevron-right arrow"></i>
+                    </div>
+                </li>
+
+
+            </div>
             <div v-if="activeRole == 'receptionist'">
                 <li>
                     <div class="icon-link">
@@ -63,6 +91,8 @@
                 </li>
 
             </div>
+
+
             <div v-if="activeRole == 'receptionist'">
 
             </div>

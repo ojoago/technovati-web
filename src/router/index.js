@@ -46,6 +46,10 @@ const routes = [
             {
                 path:'/hr-dashboard',name:'HrDashboard',component: () => import('@/views/dashboard/HrDashboard.vue')
             },
+            // md 
+            {
+                path:'/md-dashboard',name:'MdDashboard',component: () => import('@/views/dashboard/MdDashboard.vue')
+            },
             {
                 path:'/staff',name:'StaffView',component: () => import('@/views/users/StaffView.vue')
             },
@@ -139,7 +143,13 @@ const routes = [
             // Receptionisht 
 
             {
+                path:'/view-schedule',name:'ViewSchedule',component: () => import('@/views/schedule/ViewSchedule.vue')
+            },
+            {
                 path:'/schedule',name:'ScheduleView',component: () => import('@/views/schedule/ScheduleView.vue')
+            },
+            {
+                path:'/view-log',name:'ViewVisitorLog',component: () => import('@/views/schedule/ViewVisitorLog.vue')
             },
             {
                 path:'/log',name:'VisitorLog',component: () => import('@/views/schedule/VisitorLog.vue')
