@@ -37,9 +37,12 @@ const routes = [
                 path:'/dashboard',name:'DashboardView',component: () => import('@/views/DashboardView.vue')
             },
 
-            {
-                path:'/self-service',name:'SelfDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')
-            },
+            {  path:'/self-service',name:'SelfDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
+            {  path:'/self-service',name:'HodDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
+            {  path:'/self-service',name:'SupervisorDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
+            {  path:'/self-service',name:'CooDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
+            {  path:'/self-service',name:'GmDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
+            {  path:'/self-service',name:'AdminDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
             // self services 
             
             // HR 
@@ -50,6 +53,17 @@ const routes = [
             {
                 path:'/md-dashboard',name:'MdDashboard',component: () => import('@/views/dashboard/MdDashboard.vue')
             },
+            // md 
+            {   path:'/receptionist-dashboard',name:'ReceptionistDashboard',component: () => import('@/views/dashboard/ReceptionistDashboard.vue') },
+            
+            {   path:'/logistic-dashboard',name:'LogisticsDashboard',component: () => import('@/views/dashboard/LogisticsDashboard.vue') },
+
+            {   path:'/secretary-dashboard',name:'SecretaryDashboard',component: () => import('@/views/dashboard/SecretaryDashboard.vue') },
+
+            {   path:'/accountant-dashboard',name:'AccountantDashboard',component: () => import('@/views/dashboard/AccountantDashboard.vue') },
+
+            {   path:'/engineer-dashboard',name:'EngineerDashboard',component: () => import('@/views/dashboard/EngineerDashboard.vue') },
+
             {
                 path:'/staff',name:'StaffView',component: () => import('@/views/users/StaffView.vue')
             },

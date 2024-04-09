@@ -19,7 +19,7 @@
                                     <th>Engine Number</th>
                                     <th>Color</th>
                                     <th>Driver</th>
-                                    <th align = "center"> <i class="bi bi-pencil-fill"></i> </th>
+                                    <th align = "center"> <i class="bi bi-gear-fill"></i> </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -61,7 +61,7 @@
             </div>
         </div>
 
-        <o-modal :isOpen="vehicleModal" :modal-class="lg" title="Add New Tool" @submit="addVehicle" @modal-close="closeModal">
+        <o-modal :isOpen="vehicleModal" modal-class="modal-lg" title="Add New Vehicle" @submit="addVehicle" @modal-close="closeModal">
             <template #content>
                 <form id="toolForm">
                     <div class="row">
@@ -118,7 +118,7 @@
             </template>
         </o-modal>
 
-        <o-modal :isOpen="tyreModal" :modal-class="lg" title="Add Tyre to Vehicle" @submit="addTyre" @modal-close="closeModal">
+        <o-modal :isOpen="tyreModal" modal-class="modal-lg" title="Add Tyre to Vehicle" @submit="addTyre" @modal-close="closeModal">
             <template #content>
                 <form id="assignForm">
                     <div class="row">
@@ -130,6 +130,7 @@
                                 <option>Front Left</option>
                                 <option>Back Right</option>
                                 <option>Back Left</option>
+                                <option>Spare</option>
                             </select>
                             <p class="text-danger" v-if="t_error?.side">{{ t_error?.side[0] }} </p>
                         </div>
@@ -167,7 +168,7 @@
 
         </o-modal>
 
-        <o-modal :isOpen="oilModal" :modal-class="sm" title="Change Oil" @submit="changeOil"  @modal-close="closeModal">
+        <o-modal :isOpen="oilModal" modal-class="modal-sm" title="Change Oil" @submit="changeOil"  @modal-close="closeModal">
             <template #content>
                 <form id="assignForm">
                     <div class="row">
@@ -193,7 +194,7 @@
             </template>
         </o-modal>
 
-        <o-modal :isOpen="fuelModal" :modal-class="xs" title="Add Fuel" @submit="topFuel"  @modal-close="closeModal">
+        <o-modal :isOpen="fuelModal" modal-class="modal-xs" title="Add Fuel" @submit="topFuel"  @modal-close="closeModal">
             <template #content>
                 <form id="assignForm">
                     <div class="row">
@@ -248,9 +249,6 @@ let query = {}
 router.push({ query: query })
 // const user_pid = ref(null);
 
-const lg = 'modal-lg';
-const sm = 'modal-sm';
-const xs = 'modal-xs';
 const vehicleModal = ref(false)
 
 const tyreModal = ref(false)
@@ -371,16 +369,12 @@ const deleteVehicle = (pid) =>{
 }
 
 function deleteVehicleRecord(pid) {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/delete-vehicle/'+pid }).then((data) => {
-        store.commit('setSpinner', false)
         if (data.status == 201) {
             loadVehicles()
         }
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 }
 const t_error = ref({})
