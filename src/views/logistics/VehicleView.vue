@@ -38,9 +38,9 @@
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li><a class="dropdown-item pointer" @click="vehilceDetail(item)">Detail</a></li>
-                                                <li><a class="dropdown-item pointer" @click="addFuel(item.pid)">Add Fuel Level</a></li>
-                                                <li><a class="dropdown-item pointer" @click="changeOilModal(item.pid)">Change Oil</a></li>
-                                                <li><a class="dropdown-item pointer" @click="addType(item.pid)">Add Tyre</a></li>
+                                                <!-- <li><a class="dropdown-item pointer" @click="addFuel(item.pid)">Add Fuel Level</a></li> -->
+                                                <!-- <li><a class="dropdown-item pointer" @click="changeOilModal(item.pid)">Change Oil</a></li> -->
+                                                <!-- <li><a class="dropdown-item pointer" @click="addType(item.pid)">Add Tyre</a></li> -->
                                                 <li><a class="dropdown-item pointer text-warning" @click="editVehicle(item)" >Edit</a></li>
                                                 <li><a class="dropdown-item pointer text-danger" @click="deleteVehicle(item.pid)">Delete</a></li>
                                             </ul>
@@ -117,7 +117,7 @@
                 </form>
             </template>
         </o-modal>
-
+<!-- 
         <o-modal :isOpen="tyreModal" modal-class="modal-lg" title="Add Tyre to Vehicle" @submit="addTyre" @modal-close="closeModal">
             <template #content>
                 <form id="assignForm">
@@ -166,9 +166,9 @@
                 </form>
             </template>
 
-        </o-modal>
+        </o-modal> -->
 
-        <o-modal :isOpen="oilModal" modal-class="modal-sm" title="Change Oil" @submit="changeOil"  @modal-close="closeModal">
+        <!-- <o-modal :isOpen="oilModal" modal-class="modal-sm" title="Change Oil" @submit="changeOil"  @modal-close="closeModal">
             <template #content>
                 <form id="assignForm">
                     <div class="row">
@@ -228,7 +228,7 @@
                     </div>
                 </form>
             </template>
-        </o-modal>
+        </o-modal> -->
     </div>
 </template>
 
@@ -236,7 +236,7 @@
 import store from "@/store";
 import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
-import Select2 from 'vue3-select2-component';
+// import Select2 from 'vue3-select2-component';
 
 // import ItemRequestView from '@/views/inventory/ItemRequestView.vue';
 
@@ -262,8 +262,8 @@ const openVehicleModal = () => {
 const closeModal = () => {
     vehicleModal.value = false;
     tyreModal.value = false;
-    oilModal.value = false;
-    fuelModal.value = false;
+    // oilModal.value = false;
+    // fuelModal.value = false;
 };
 
 const vehicle = ref({
@@ -295,59 +295,59 @@ const vehilceDetail = (data) =>{
     localStorage.setItem('TVATI_VEHICLE_DETAIL', JSON.stringify(data, null, 2))
     router.push({ path: 'vehicle-detail', query: { vehicle: data.pid } })
 }
- const addFuel = (pid) =>{
-     fuel.value.vehicle_pid = pid;
-     fuelModal.value = true
-}
-const fuelModal = ref(false)
+//  const addFuel = (pid) =>{
+//      fuel.value.vehicle_pid = pid;
+//      fuelModal.value = true
+// }
+// const fuelModal = ref(false)
 
-const fuel = ref({
-    vehicle_pid: '' ,
-    date : '' , 
-    amount : '' , 
-    liter : '' , 
-    company: '' , 
-    purcased_by : ''
-});
+// const fuel = ref({
+//     vehicle_pid: '' ,
+//     date : '' , 
+//     amount : '' , 
+//     liter : '' , 
+//     company: '' , 
+//     purcased_by : ''
+// });
 
-const f_error = ref({})
-function topFuel() {
-    f_error.value = []
-    store.dispatch('postMethod', { url: '/add-fuel', param: fuel.value }).then((data) => {
-        if (data.status == 422) {
-            f_error.value = data.data
-        } else if (data.status == 201) {
-            let form = document.querySelector('#assignForm');
-            form.reset();
-        }
-    }) 
+// const f_error = ref({})
+// function topFuel() {
+//     f_error.value = []
+//     store.dispatch('postMethod', { url: '/add-fuel', param: fuel.value }).then((data) => {
+//         if (data.status == 422) {
+//             f_error.value = data.data
+//         } else if (data.status == 201) {
+//             let form = document.querySelector('#assignForm');
+//             form.reset();
+//         }
+//     }) 
 
-}
-const oilModal = ref(false)
-const oil = ref({
-    'vehicle_pid': '' , 
-    'date' : '',
-    'amount' : '' ,
-    'brand' : ''
-})
-const changeOilModal = (pid) =>{
-    oil.value.vehicle_pid = pid
-    oilModal.value = true
+// }
+// const oilModal = ref(false)
+// const oil = ref({
+//     'vehicle_pid': '' , 
+//     'date' : '',
+//     'amount' : '' ,
+//     'brand' : ''
+// })
+// const changeOilModal = (pid) =>{
+//     oil.value.vehicle_pid = pid
+//     oilModal.value = true
 
-}
-const tyre = ref({
-    vehicle_pid: '',
-    side: '' ,
-    date_purchased: '' ,
-    date_manufactured: '' ,
-    expiring_date: '' ,
-    brand : '',
-    type: ''
-})
-const addType = (pid) => {
-    tyre.value.vehicle_pid = pid
-    tyreModal.value = true;
-}
+// }
+// const tyre = ref({
+//     vehicle_pid: '',
+//     side: '' ,
+//     date_purchased: '' ,
+//     date_manufactured: '' ,
+//     expiring_date: '' ,
+//     brand : '',
+//     type: ''
+// })
+// const addType = (pid) => {
+//     tyre.value.vehicle_pid = pid
+//     tyreModal.value = true;
+// }
 const editVehicle = (data) =>{
     vehicle.value = {
         name: data.name ,
@@ -377,43 +377,43 @@ function deleteVehicleRecord(pid) {
         console.log(e);
     })
 }
-const t_error = ref({})
-function addTyre() {
-    store.commit('setSpinner', true)
-    t_error.value = []
-    store.dispatch('postMethod', { url: '/add-tyre', param: tyre.value }).then((data) => {
-        if (data.status == 422) {
-            t_error.value = data.data
-        } else if (data.status == 201) {
-            let form = document.querySelector('#assignForm');
-            form.reset();
-        }
-        store.commit('setSpinner', false)
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
-    })
+// const t_error = ref({})
+// function addTyre() {
+//     store.commit('setSpinner', true)
+//     t_error.value = []
+//     store.dispatch('postMethod', { url: '/add-tyre', param: tyre.value }).then((data) => {
+//         if (data.status == 422) {
+//             t_error.value = data.data
+//         } else if (data.status == 201) {
+//             let form = document.querySelector('#assignForm');
+//             form.reset();
+//         }
+//         store.commit('setSpinner', false)
+//     }).catch(e => {
+//         store.commit('setSpinner', false)
+//         console.log(e);
+//     })
 
-}
+// }
 
-const o_error = ref({})
-function changeOil() {
-    store.commit('setSpinner', true)
-    o_error.value = []
-    store.dispatch('postMethod', { url: '/change-oil', param: oil.value }).then((data) => {
-        if (data.status == 422) {
-            o_error.value = data.data
-        } else if (data.status == 201) {
-            let form = document.querySelector('#assignForm');
-            form.reset();
-        }
-        store.commit('setSpinner', false)
-    }).catch(e => {
-        store.commit('setSpinner', false)
-        console.log(e);
-    })
+// const o_error = ref({})
+// function changeOil() {
+//     store.commit('setSpinner', true)
+//     o_error.value = []
+//     store.dispatch('postMethod', { url: '/change-oil', param: oil.value }).then((data) => {
+//         if (data.status == 422) {
+//             o_error.value = data.data
+//         } else if (data.status == 201) {
+//             let form = document.querySelector('#assignForm');
+//             form.reset();
+//         }
+//         store.commit('setSpinner', false)
+//     }).catch(e => {
+//         store.commit('setSpinner', false)
+//         console.log(e);
+//     })
 
-}
+// }
 
 const vehicles = ref({});
 
