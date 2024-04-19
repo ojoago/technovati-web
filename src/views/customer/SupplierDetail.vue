@@ -34,8 +34,8 @@
                                             <td>{{ loop + 1 }}</td>
                                             <td>{{ data.name }}</td>
                                             <td>{{ data.model }}</td>
-                                            <td>{{ data.quantity }} {{ data.unit }}</td>
-                                            <td>{{ data.date_supplied }}</td>
+                                            <td>{{ data?.quantity?.quantity }} {{ data?.unit?.name }}</td>
+                                            <td>{{ data?.quantity?.date_supplied }}</td>
                                            
                                         </tr>
                                     </tbody>
@@ -123,29 +123,20 @@ onMounted(() => {
 });
 
 function loadCompanySuppliedItem(pid){
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/supplier-items/' + pid }).then(({ data }) => {
         supplies.value = data;
-        store.commit('setSpinner', false)
-
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 }
 
 
 
 function loadCompanyConsignment(pid) {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/supplier-consignment/' + pid }).then(({ data }) => {
         consignments.value = data;
-        store.commit('setSpinner', false)
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 }
 

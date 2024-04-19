@@ -8,23 +8,23 @@
                         <table class="table-hover table-stripped table-bordered table">
                             <tbody>
                                 <tr>
-                                    <td colspan="2">{{ item.note }}</td>
+                                    <td colspan="2">{{ item?.note }}</td>
                                 </tr>
                                 <tr>
                                     <!-- <td>{{ item.requested_by?.username }}</td> -->
                                     <th>Item Count </th>
-                                    <td>{{ item.item_count }}</td>
-                                    
+                                    <td>{{ item?.item_count }}</td>
+
                                 </tr>
                                 <tr>
                                     <th>Receiver </th>
-                                    <td>{{ item.receiver?.username ?? item.requested_by?.username }}</td>
+                                    <td>{{ item?.receiver?.username ?? item?.requested_by?.username }}</td>
                                 </tr>
                                 <tr>
                                     <th>Date </th>
-                                    <td>{{ item.request_time }} <b>Status: {{ item.status }}</b> </td>
+                                    <td>{{ item?.request_time }} <b>Status: {{ item?.request_status }}</b> </td>
                                 </tr>
-                                
+
                             </tbody>
                         </table>
 
@@ -37,7 +37,7 @@
                                     <th>Quantity Requested</th>
                                     <th>Quantity Supplied</th>
                                     <th>Difference</th>
-                                   
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -53,15 +53,16 @@
                         </table>
 
                     </div>
+                    <button class="btn btn-primary btn-sm" @click="confirmItems">confirm</button>
                 </div>
             </div>
         </div>
     </div>
-      
+
 </template>
 
 <script setup>
-// import store from "@/store";
+import store from "@/store";
 import { onMounted, ref } from "vue";
 import {  useRouter } from 'vue-router';
 const router = useRouter()
@@ -69,20 +70,26 @@ const router = useRouter()
 const item = ref({});
 // const requests = ref({});
 
-// loadRequest()
-// function loadRequest() {
-//     store.commit('setSpinner', true)
-//     store.dispatch('getMethod', { url: '/load-my-raw-material-requests' }).then((data) => {
-//         store.commit('setSpinner', false)
-//         if (data.status == 200) {
-//             requests.value = data.data;
-//         }
-//     }).catch(e => {
-//         store.commit('setSpinner', false)
-//         console.log(e);
-//         alert('weting be this')
-//     })
-// }
+const confirmItems = () => {
+    store.dispatch('putMethod', { url: '/confirm-raw-material-received/' + item.value?.pid, prompt: 'by clicking ok you accept that quantity indicated on the app tallies with quantity received phisycally' }).then((data) => {
+        if (data.status == 201) {
+            loadRequest(item.value?.pid)
+            // requests.value = data.data;
+        }
+    }).catch(e => {
+        console.log(e);
+    })
+}
+function loadRequest(pid) {
+    store.dispatch('getMethod', { url: '/load-raw-material-request-details/'+pid }).then((data) => {
+        if (data?.status == 200) {
+            item.value = data?.data;
+        }
+    }).catch(e => {
+        console.log(e);
+        alert('weting be this')
+    })
+}
 
 onMounted(() => {
     item.value = localStorage.getItem('TVATI_RAW_MAT_RQ_DETAIL') ? JSON.parse(localStorage.getItem('TVATI_RAW_MAT_RQ_DETAIL')) : 'null'

@@ -108,8 +108,7 @@
                     </div>
                     <ul class="sub-menu">
                         <li class="nav-item" title="workers">
-                            <router-link to="/workers" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">Create Staff </span> </router-link>
+                            <router-link to="/workers" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Workers</span> </router-link>
                         </li>
                         <li class="nav-item" title="team">
                             <router-link to="/team" class="nav-link"><i class="bi bi-record"></i> <span
@@ -119,6 +118,8 @@
                             <router-link to="/tools" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Tools </span> </router-link>
                         </li>
+
+                         
                         <li class="nav-item" title="work">
                             <router-link to="/daily-record" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Daily Record </span> </router-link>
@@ -131,6 +132,27 @@
                             <router-link to="/staff-record" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Staff Record </span> </router-link>
                         </li>
+
+                    </ul>
+                </li>
+                <li>
+                    <div class="icon-link">
+                        <a>
+                            <i class="bi bi-book"></i>
+                            <span class="link-name">Material Request</span>
+                        </a>
+                        <i class="bi bi-chevron-down arrow"></i>
+                    </div>
+                    <ul class="sub-menu">
+                        <li class="nav-item" title="raw materials">
+                            <router-link to="/material-request" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">New Request</span> </router-link>
+                        </li>
+                        <li class="nav-item" title="staff">
+                            <router-link to="/my-raw-material-request" class="nav-link"><i class="bi bi-record"></i>
+                                <span class="nav-name">My Request</span> </router-link>
+                        </li>
+               
 
                     </ul>
                 </li>
@@ -451,10 +473,12 @@
                             <router-link to="/items" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Items </span> </router-link>
                         </li>
+
                         <li class="nav-item" title="staff">
-                            <router-link to="/staff-list" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">Staff List</span> </router-link>
+                            <router-link to="/store-item" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Store Item </span> </router-link>
                         </li>
+                       
 
                     </ul>
                 </li>
@@ -678,7 +702,8 @@
                     <i class="bi bi-chevron-right arrow"></i>
                 </div>
             </li>
-            <li>
+
+            <li v-if="roles.includes('hod')">
                 <div class="icon-link">
                     <a>
                         <i class="bi bi-grid"></i>
@@ -717,7 +742,8 @@ import store from "@/store";
 import { ref } from "vue";
 import { useRouter } from 'vue-router';
 const router = useRouter()
-// const roles =  store?.state?.user?.roles;
+const roles =  store?.state?.user?.roles;
+
 const activeRole = ref(null)
 activeRole.value = store?.state?.activeRole
 // console.log(activeRole.value)

@@ -7,7 +7,7 @@
                     <div class="content">
                         <h2>Sign In</h2>
                         <form  @submit.prevent="login">
-                            <input type="text" v-model="user.email"  placeholder="enter emial/username">
+                            <input type="text" v-model="user.email"  placeholder="enter email/username/gsm">
                             <p class="text-danger " v-if="errors?.email">{{ errors?.email[0] }}</p>
                             <input type="password" v-model="user.password" name="" placeholder="enter password">
                             <p class="text-danger " v-if="errors?.password">{{ errors?.password[0] }}</p>

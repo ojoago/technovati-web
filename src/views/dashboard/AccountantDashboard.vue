@@ -1,6 +1,6 @@
 <template>
     <div>
-        HR 
+        ACCOUNT 
     </div>
 </template>
 

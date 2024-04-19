@@ -56,6 +56,8 @@ const routes = [
             // md 
             {   path:'/receptionist-dashboard',name:'ReceptionistDashboard',component: () => import('@/views/dashboard/ReceptionistDashboard.vue') },
             
+            {   path:'/store-dashboard',name:'StoreDashboard',component: () => import('@/views/dashboard/StoreDashboard.vue') },
+
             {   path:'/logistic-dashboard',name:'LogisticsDashboard',component: () => import('@/views/dashboard/LogisticsDashboard.vue') },
 
             {   path:'/secretary-dashboard',name:'SecretaryDashboard',component: () => import('@/views/dashboard/SecretaryDashboard.vue') },
@@ -202,12 +204,9 @@ const routes = [
             
             // Inventory 
             {   path:'/stores',name:'StoreView',component: () => import('@/views/inventory/store/StoreView.vue') },
-            {
-                path:'/cr-in',name:'CrInView',component: () => import('@/views/inventory/CrInView.vue')
-            },
-            {
-                path:'/items',name:'ItemView',component: () => import('@/views/inventory/ItemView.vue')
-            },
+            {   path:'/items',name:'ItemView',component: () => import('@/views/inventory/ItemView.vue') },
+            {   path:'/store-item',name:'ItemItem',component: () => import('@/views/inventory/store/StoreItemView.vue') },
+            {   path:'/cr-in',name:'CrInView',component: () => import('@/views/inventory/CrInView.vue') },
             {
                 path:'/cr-out',name:'CrOutView',component: () => import('@/views/inventory/CrOutView.vue')
             },

@@ -139,6 +139,10 @@ function requestMaterial() {
             errors.value = data.data
         } else if (data.status == 201) {
             let form = document.querySelector('#itemForm');
+            request.value.items = []
+            request.value.note = ''
+            request.value.reciver = ''
+            request.value.comment = ''
             form.reset();
             loadItem()
         }

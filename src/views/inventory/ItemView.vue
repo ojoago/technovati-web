@@ -1,49 +1,14 @@
 <template>
     <div>
         <div class="container mt-2">
-            <div class="row">
-                 
-                <div class="col-md-5">
+            
                     <div class="card">
-                        <div class="card-body">
-                            <fieldset class="border rounded-3 p-2 m-1">
-                                <legend class="float-none w-auto px-2 h5">Create Item Name</legend>
-                                <form id="itemForm">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <label class="form-label">Item Name</label>
-                                                <input type="text" v-model="item.name" class="form-control form-control-sm" placeholder="e.g UIU">
-                                                <p class="text-danger " v-if="errors?.name">{{ errors?.name[0] }} </p>
-                                            </div>
-                                            <div class="col-md-12">
-                                                    <label class="form-label">Item Name</label>
-                                                    <select v-model="item.unit" class="form-control form-control-sm" >
-                                                        <option value="" selected>Select Unit</option>
-                                                        <option v-for="(unit,i) in units" :key="i">{{ unit }}</option>
-                                                    </select>
-                                                <p class="text-danger " v-if="errors?.unit">{{ errors?.unit[0] }} </p>
-                                            </div>
-                                           <div class="col-md-12">
-                                                <label >Description</label>
-                                                <textarea v-model="item.description" class="form-control form-control-sm"></textarea>
-                                           </div>
-                                        </div>
-                                    
-                                    <div class="float-end">
-                                        <button type="button" class="btn btn-success btn-sm mt-2"
-                                            @click="createItem">Submit</button>
-                                    </div>
-                                </form>
+                        <div class="card-header">Company Items
 
-                            </fieldset>
+                            <button class="btn btn-primary btn-sm" @click="toggleModal = true">Add New</button>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-7">
-                    <div class="card">
-                        <div class="card-header">Company Items</div>
                         <div class="card-body">
-                           
+
                             <div class="table-responsive">
                                 <table class="table-hover table-stripped table-bordered table">
                                     <thead>
@@ -78,7 +43,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                  <div class="flex justify-center mt-4">
+                                <div class="flex justify-center mt-4">
                                     <nav class="relative justify-center rounded-md shadow pagination">
                                         <pagination-links v-for="(link, i) of items.links" :link="link" :key="i"
                                             @next="nextPage(link)"></pagination-links>
@@ -88,8 +53,39 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+         
+     
+        <o-modal :isOpen="toggleModal" modal-class="modal-xs" title="Create Item Names" @submit="createItem"
+            @modal-close="closeModal">
+            <template #content>
+                <form id="itemForm">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="form-label">Item Name</label>
+                            <input type="text" v-model="item.name" class="form-control form-control-sm"
+                                placeholder="e.g UIU">
+                            <p class="text-danger " v-if="errors?.name">{{ errors?.name[0] }} </p>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label">Item Name</label>
+                            <select v-model="item.unit" class="form-control form-control-sm">
+                                <option value="" selected>Select Unit</option>
+                                <option v-for="(unit, i) in units" :key="i">{{ unit }}</option>
+                            </select>
+                            <p class="text-danger " v-if="errors?.unit">{{ errors?.unit[0] }} </p>
+                        </div>
+                        <div class="col-md-12">
+                            <label>Description</label>
+                            <textarea v-model="item.description" class="form-control form-control-sm"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- <div class="float-end">
+                        <button type="button" class="btn btn-success btn-sm mt-2" @click="createItem">Submit</button>
+                    </div> -->
+                </form>
+            </template>
+        </o-modal>
     </div>
 </template>
 
@@ -97,6 +93,15 @@
 import store from "@/store";
 import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
+import OModal from "@/components/OModal.vue";
+
+const toggleModal = ref(false);
+
+const closeModal = () => {
+    toggleModal.value = false;
+};
+
+
 
 const errors = ref({});
 const items = ref({});

@@ -42,7 +42,7 @@
                                                 <!-- <li><a class="dropdown-item pointer" @click="changeOilModal(item.pid)">Change Oil</a></li> -->
                                                 <!-- <li><a class="dropdown-item pointer" @click="addType(item.pid)">Add Tyre</a></li> -->
                                                 <li><a class="dropdown-item pointer text-warning" @click="editVehicle(item)" >Edit</a></li>
-                                                <li><a class="dropdown-item pointer text-danger" @click="deleteVehicle(item.pid)">Delete</a></li>
+                                                <li><a class="dropdown-item pointer text-danger" @click="deleteVehicleRecord(item.pid)">Delete</a></li>
                                             </ul>
                                         </div>
                                     </td>
@@ -362,14 +362,14 @@ const editVehicle = (data) =>{
     }
     vehicleModal.value = true;
 }
-const deleteVehicle = (pid) =>{
-    if(confirm('are you sure you can to delete this ?')){
-        deleteVehicleRecord(pid)
-    }
-}
+// const deleteVehicle = (pid) =>{
+//     if(confirm('are you sure you can to delete this ?')){
+//         deleteVehicleRecord(pid)
+//     }
+// }
 
 function deleteVehicleRecord(pid) {
-    store.dispatch('getMethod', { url: '/delete-vehicle/'+pid }).then((data) => {
+    store.dispatch('deleteMethod', { url: '/delete-vehicle/'+pid }).then((data) => {
         if (data.status == 201) {
             loadVehicles()
         }
