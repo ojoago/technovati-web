@@ -206,6 +206,7 @@ const routes = [
             {   path:'/stores',name:'StoreView',component: () => import('@/views/inventory/store/StoreView.vue') },
             {   path:'/items',name:'ItemView',component: () => import('@/views/inventory/ItemView.vue') },
             {   path:'/store-item',name:'ItemItem',component: () => import('@/views/inventory/store/StoreItemView.vue') },
+            {   path:'/damaged-items',name:'DamagedItemView',component: () => import('@/views/inventory/store/DamagedItemView.vue') },
             {   path:'/cr-in',name:'CrInView',component: () => import('@/views/inventory/CrInView.vue') },
             {
                 path:'/cr-out',name:'CrOutView',component: () => import('@/views/inventory/CrOutView.vue')

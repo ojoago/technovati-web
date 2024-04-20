@@ -73,16 +73,12 @@ onMounted(() => {
 });
 
 function loadItem(pid) {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-customer-invoice/'+pid }).then((data) => {
-        store.commit('setSpinner', false)
         if (data.status == 200) {
             items.value = data.data;
         }
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 }
 

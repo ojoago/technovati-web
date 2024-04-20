@@ -1,18 +1,21 @@
 <template>
     <div>
-        suppliers  
-        <br>
-        customer  
-        <hr>
-        item head count 
 
-        <hr>
-        pending request
-        <hr>
+        <div class="container">
+            suppliers
+            <br>
+            customer
+            <hr>
+            item head count
 
-        raw material
-        <hr> 
-        
+            <hr>
+            pending request
+            <hr>
+
+            raw material
+            <hr>
+        </div>
+
     </div>
 </template>
 

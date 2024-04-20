@@ -472,8 +472,12 @@
                             <router-link to="/items" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Items </span> </router-link>
                         </li>
 
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" title="Store Item">
                             <router-link to="/store-item" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Store Item </span> </router-link>
+                        </li>
+
+                        <li class="nav-item" title="Damaged Item">
+                            <router-link to="/damaged-items" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Damaged Items </span> </router-link>
                         </li>
                     </ul>
                 </li>

@@ -31,7 +31,7 @@
                                     <!-- <th>Unit</th> -->
                                     <th>Quantity</th>
                                     <th>Description</th>
-                                    <!-- <th> <i class="bi bi-pencil-fill"></i> </th> -->
+                                    <th> <i class="bi bi-gear-fill"></i> </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -41,20 +41,10 @@
                                     <!-- <td></td> -->
                                     <td>{{ item?.quantity }} {{ item?.item?.unit }}</td>
                                     <td>{{ item?.item?.description }}</td>
-                                    <!-- <td> -->
-                                    <!-- <div class="dropdown">
-                                            <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
-                                                data-bs-toggle="dropdown">
-                                                <i class="bi bi-tools"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li class="bg-warning"><a class="dropdown-item pointer"
-                                                        @click="editItem(item)">Edit</a> </li>
-                                                <li class="bg-danger"><a class="dropdown-item pointer"
-                                                        @click="deleteItem(item.pid)">Delete</a> </li>
-                                            </ul>
-                                        </div> -->
-                                    <!-- </td> -->
+                                    <td>
+                                        <button @click="moveDamage(item)" class="btn btn-sm btn-danger"> <i
+                                                class="bi bi-eject"></i> </button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -69,6 +59,36 @@
             </div>
         </div>
 
+        <o-modal :isOpen="toggleModal" modal-class="modal-md" title="Remove damaged Quantity" @submit="removeDamageItem"
+            @modal-close="closeModal">
+            <template #content>
+                <form id="anForm">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="form-label">Quantity</label>
+                            <input type="number" step="0.1" class="form-control form-control-sm" placeholder="Enter Quantity Damaged"
+                                v-model="dmgForm.quantity">
+                            <p class="text-danger " v-if="errors?.quantity">{{ errors?.quantity[0] }} </p>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label">Date</label>
+                            <input type="date" class="form-control form-control-sm" v-model="dmgForm.date">
+                            <p class="text-danger " v-if="errors?.date">{{ errors?.date[0] }} </p>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Note</label>
+                                <textarea type="text" v-model="dmgForm.note" class="form-control" placeholder="e.g "></textarea>
+                                <p class="text-danger " v-if="errors?.note">{{ errors?.note[0] }} </p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </form>
+            </template>
+
+        </o-modal>
     </div>
 </template>
 
@@ -76,17 +96,65 @@
 import store from "@/store";
 import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
- 
-const items = ref({});
+import OModal from "@/components/OModal.vue";
 
+
+const toggleModal = ref(false);
+const items = ref({});
+const stoe_pid = ref(null)
  
 function loadItem(pid) {
+    stoe_pid.value = pid;
     store.dispatch('getMethod', { url: '/load-store-items/' + pid }).then((data) => {
         if (data?.status == 200) {
             items.value = data.data;
+        }else{
+            items.value = []
         }
     }).catch(e => {
         console.log(e);
+    })
+}
+
+const closeModal = () => {
+    toggleModal.value = false;
+    resetAttr()
+};
+
+const resetAttr = () => {
+    dmgForm.value = {
+        quantity: '',
+        inventroy_pid: '',
+        note: '',
+        date: '',
+    }
+}
+const dmgForm = ref({
+    quantity: '',
+    inventroy_pid: '',
+    note: '',
+    date: '',
+})
+function moveDamage(item){
+    toggleModal.value = true;
+    dmgForm.value = {
+        quantity:item.quantity ,
+        inventroy_pid:item.pid ,
+    }
+}
+
+const errors = ref({})
+const removeDamageItem = () =>{
+    errors.value = []
+    store.dispatch('postMethod', { url: '/remove-damage-item', param: dmgForm.value }).then((data) => {
+        if (data?.status == 422) {
+            errors.value = data.data
+        } else if (data.status == 201) {
+            resetAttr()
+            loadItem(stoe_pid.value)
+            toggleModal.value = false;
+
+        }
     })
 }
 

@@ -26,8 +26,9 @@
                                             <!-- <td>{{ item.model }} </td> -->
                                             <td>{{ item.item?.quantity }} {{ item.unit }}</td>
                                             <td>
-                                                <button @click="addItem(item)" type="button" class="btn btn-primary btn-sm">
-                                                    <i class="bi bi-patch-plus-fill"></i>
+                                                <button @click="addItem(item)" type="button"
+                                                    class="btn btn-primary btn-sm">
+                                                    <i class="bi bi-plus"></i>
                                                 </button>
                                             </td>
                                         </tr>
@@ -51,7 +52,8 @@
                                                 <input type="number" v-model="item.quantity" class="form-control"
                                                     placeholder="e.g ABU Zaria">
                                                 <button type="button" class="btn btn-danger btn-sm"
-                                                    @click="removeitem(loop)"> <i class="bi bi-patch-minus"></i> </button>
+                                                    @click="removeitem(loop)"> <i class="bi bi-file-minus-fill"></i>
+                                                </button>
                                             </div>
                                         </div>
                                     </fieldset>
