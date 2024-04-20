@@ -4,7 +4,23 @@
             <div class="row">
                 <div class="col-md-7">
                     <div class="card">
-                        <div class="card-header">Finished Products</div>
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    Finished Products
+                                </div>
+                                <div class="col-md-6">
+                                    <select class="form-control" @change="loadItem($event.target.value)">
+                                        <option disabled selected>Make Selection</option>
+                                        <template v-for="sec in stores" :key="sec.id">
+                                            <option v-if="stores.length == 1" selected :value="sec.id">{{ sec.text }}
+                                            </option>
+                                            <option v-else :value="sec.id">{{ sec.text }} </option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                         <div class="card-body">
                             <input type="text" class=" form-control form-control-sm" placeholder="search Item">
                             <div class="table-responsive">
@@ -16,7 +32,7 @@
                                             <!-- <th>Model</th> -->
                                             <th>Quantity</th>
                                             <!-- <th>Description</th> -->
-                                            <th align="center"> <i class="bi bi-pencil-fill"></i> </th>
+                                            <th align="center"> <i class="bi bi-plus-fill"></i> </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -24,9 +40,10 @@
                                             <td>{{ loop + 1 }}</td>
                                             <td>{{ item.name }}</td>
                                             <!-- <td>{{ item.model }} </td> -->
-                                            <td>{{ item.item?.quantity ?? 0 }} {{ item.unit }}</td>
+                                            <td>{{ item?.quantity ?? 0 }} {{ item.unit }}</td>
                                             <td>
-                                                <button v-if="item.item?.quantity > 0" @click="addItem(item)" type="button" class="btn btn-primary btn-sm">
+                                                <button v-if="item?.quantity > 0" @click="addItem(item)"
+                                                    type="button" class="btn btn-primary btn-sm">
                                                     <i class="bi bi-plus"></i>
                                                 </button>
                                             </td>
@@ -53,7 +70,8 @@
                                                 <input type="number" v-model="item.quantity" class="form-control"
                                                     placeholder="e.g ABU Zaria">
                                                 <button type="button" class="btn btn-danger btn-sm"
-                                                    @click="removeitem(loop)"> <i class="bi bi-patch-minus"></i> </button>
+                                                    @click="removeitem(loop)"> <i class="bi bi-patch-minus"></i>
+                                                </button>
                                             </div>
                                         </div>
                                     </fieldset>
@@ -68,9 +86,11 @@
                                         <div class="col-md-12">
                                             <label class="form-label">Receiver</label>
                                             <!-- <input class="form-control form-control-sm" placeholder="" v-model="request.customer_pid"> -->
-                                            <Select2 v-model="request.customer_pid" :options="customerDrop" :settings="{ width: '100%' }"  />
+                                            <Select2 v-model="request.customer_pid" :options="customerDrop"
+                                                :settings="{ width: '100%' }" />
 
-                                            <p class="text-danger " v-if="errors?.customer_pid">{{ errors?.customer_pid[0] }} </p>
+                                            <p class="text-danger " v-if="errors?.customer_pid">{{
+                                                errors?.customer_pid[0] }} </p>
                                         </div>
                                     </div>
 
@@ -111,11 +131,11 @@ const addItem = (item) => {
         request.value.items.push({
             pid: item.pid,
             quantity: 1,
-            qnt: item?.item?.quantity,
+            qnt: item?.quantity,
             name: item.name,
         })
     } else {
-        if (request.value.items[index].quantity < item?.item?.quantity) {
+        if (request.value.items[index].quantity < item?.quantity) {
             request.value.items[index].quantity++
         } else {
             store.commit('notify', { message: `quantity remaining is : ${request.value.items[index].quantity}`, type: 'warninig' })
@@ -134,34 +154,30 @@ const removeitem = (i) => {
 
 
 function requestMaterial() {
-    store.commit('setSpinner', true)
     errors.value = []
     store.dispatch('postMethod', { url: '/item-cr-out', param: request.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             let form = document.querySelector('#itemForm');
             form.reset();
-            loadItem()
+            
         }
-        store.commit('setSpinner', false)
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
     })
 }
-loadItem()
-function loadItem() {
-    store.commit('setSpinner', true)
-    store.dispatch('getMethod', { url: '/load-cr-out-items' }).then((data) => {
-        store.commit('setSpinner', false)
-        if (data.status == 200) {
+
+
+function loadItem(pid) {
+    store.dispatch('getMethod', { url: '/load-cr-out-items/'+pid }).then((data) => {
+        if (data?.status == 200) {
             items.value = data.data;
+        }else{
+            items.value = []
         }
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 }
 if(request.value.items){
@@ -177,6 +193,19 @@ function loadStateRes() {
         console.log(e);
     })
 }
+
+const stores = ref({})
+function dropdownSection() {
+    store.dispatch('loadDropdown', 'stores').then(({ data }) => {
+        if (data.length == 1) {
+            loadItem(data[0].id)
+        }
+        stores.value = data;
+    }).catch(e => {
+        console.log(e);
+    })
+}
+dropdownSection()
 
 
 </script>

@@ -106,10 +106,11 @@ const request = ref({
 });
 
 const addItem = (item) => {
-    var index = request.value.items.findIndex(x => x.pid == item.pid)
+     
+    var index = request.value.items.findIndex(x => x.pid == item?.quantity?.pid)
     if (index === -1) {
         request.value.items.push({
-            pid: item.pid,
+            pid: item?.quantity?.pid,
             quantity: 1,
             name: item.name,
         })

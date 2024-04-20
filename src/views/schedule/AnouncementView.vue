@@ -131,6 +131,7 @@ const toggleModal = ref(false);
 // const md = 'modal-md';
 const closeModal = () => {
     toggleModal.value = false;
+    resetAttr()
 };
 const anounceModal = () => {
     toggleModal.value = true;
@@ -144,6 +145,17 @@ const announce = ref({
     department : '',
     status : 0
 });
+
+const resetAttr = () => {
+    announce.value = {
+        title: '',
+        body: '',
+        category: '',
+        staff: '',
+        department: '',
+        status: 0
+    }
+}
 
 const editAnnounce = (ann) => {
     announce.value = {
@@ -186,27 +198,21 @@ function makeAnnouncement() {
         if (data.status == 422) {
             errors.value = data.data
         } else if (data.status == 201) {
-            let form = document.querySelector('#anForm');
-            form.reset();
+            resetAttr()
             loadAnnouncements()
             toggleModal.value = false;
         }
-        store.commit('setSpinner', false)
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
     })
 }
 loadAnnouncements()
 function loadAnnouncements() {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-announcements' }).then((data) => {
-        store.commit('setSpinner', false)
         if (data.status == 200) {
             announcements.value = data.data;
         }
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
         alert('weting be this')
     })

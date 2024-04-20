@@ -6,8 +6,8 @@
                                     <router-link to="/raw-material" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Add New  </span>  </router-link>
                                 </button></div>
                     <div class="card-body">
-                        <button @click="toggleModal = true" class="btn btn-sm btn-primary">Add New</button>
-                        <button @click="unitModal = true" class="btn btn-sm btn-primary">Add Unit</button>
+                        <button @click="toggleModal = true" class="btn btn-sm btn-primary mr-2">Add New</button> &nbsp;
+                        <button @click="unitModal = true" class="btn btn-sm btn-primary ml-2">Add Unit</button>
                         <fieldset class="border rounded-3 p-2 m-1">
                             <legend class="float-none w-auto px-2">Lists</legend>
                             <div class="table-responsive">

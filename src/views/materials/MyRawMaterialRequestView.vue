@@ -98,11 +98,11 @@
 <script setup>
 import store from "@/store";
 import { ref } from "vue";
-import { useRouter } from 'vue-router';
 import OModal from "@/components/OModal.vue";
+import { useRouter } from 'vue-router';
 
-const toggleModal = ref(false)
 const router = useRouter()
+const toggleModal = ref(false)
 const requests = ref({});
 const items = ref({})
 const returnItem = (request) => {

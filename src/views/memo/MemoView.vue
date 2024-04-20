@@ -125,9 +125,11 @@ import OModal from "@/components/OModal.vue";
 const toggleModal = ref(false)
 const openModal = () => {
     toggleModal.value = true
+
 }
 const closeModal = () => {
     toggleModal.value = false;
+    resetAttr()
 };
     const memoForm = ref({
             subject : '',
@@ -138,6 +140,15 @@ const closeModal = () => {
     });
      
 
+    const resetAttr = () => {
+        memoForm.value = {
+            subject: '',
+            body: '',
+            category: '',
+            staff: '',
+            departments: '', 
+        }
+    }
     
     // const cast = [
     //     Request memo,
@@ -157,8 +168,8 @@ const closeModal = () => {
             if (data.status == 422) {
                 errors.value = data.data;
             } else if (data.status == 201) {
-                let form = document.querySelector('#memoForm')
-                form.reset()
+                resetAttr()
+
                 loadMemo()
             }
         })
@@ -195,14 +206,11 @@ const closeModal = () => {
 
     loadMemo()
     function loadMemo(){
-       store.commit('setSpinner', true)
         store.dispatch('getMethod', { url: '/load-memo', param: memoForm.value }).then((data) => {
-            store.commit('setSpinner', false)
               if (data.status == 200) {
                 memos.value = data.data;
             }
         }).catch(e => {
-            store.commit('setSpinner', false)
             console.log(e);
             alert('weting be this')
         })

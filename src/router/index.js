@@ -256,9 +256,8 @@ const routes = [
             {
                 path:'/raw-material-request-details',name:'RawMaterialRequestDetails',component: () => import('@/views/materials/RawMaterialRequestDetails.vue')
             },
-            {
-                path:'/process-raw-material-request',name:'ProcessMaterialRequestView',component: () => import('@/views/materials/ProcessMaterialRequestView.vue')
-            },
+            {   path:'/pending-raw-material-request',name:'PendingMaterialRequestView',component: () => import('@/views/materials/PendingMaterialRequestView.vue')      },
+            {   path:'/processed-raw-material-request',name:'ProcessedMaterialRequestView',component: () => import('@/views/materials/ProcessedMaterialRequestView.vue')      },
 
 
             // suppliers 

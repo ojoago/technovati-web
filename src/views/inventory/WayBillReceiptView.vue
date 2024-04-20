@@ -1,29 +1,55 @@
 <template>
     <div>
         <div class="container mt-2">
-            {{way}}
-                    <div class="table-responsive">
-                        <table class="table-hover table-stripped table-bordered table">
-                            <thead>
-                                <tr>
-                                    <th>SN</th>
-                                    <th>Item Name</th>
-                                    <th>Description</th>
-                                    <th>Quantity </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(data, loop) in details" :key="loop">
-                                    <td>{{ loop + 1 }}</td>
-                                    <td>{{ data.name }}</td>
-                                    <td>{{ data.description }}</td>
-                                    <td>{{ data.quantity }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+            <!-- {{ way }} -->
+            <div class="card">
+                <div class="receipt-header">
+                    <div class="receipt-left">
+                        <h6 class="h4">{{ way?.customer?.name }} <small class="small">{{ way?.customer?.rc }}</small>
+                        </h6>
+
+                        <!-- {{ way?.customer?.email }} <br> -->
+                        {{ way?.customer?.gsm }} <br>
+                        {{ way?.customer?.address }}
+                    </div>
+                    <div class="receipt-right">
+                        #{{ way?.waybill }} <br>
+                        date: {{ way?.request_time }} <br>
+                        comment: {{ way?.comment }}
 
                     </div>
-              
+                </div>
+
+                <div class="table-responsive p-2">
+                    <table class="table-hover table-stripped table-bordered table">
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>Item Name</th>
+                                <th>Description</th>
+                                <th># Quantity </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(data, loop) in details" :key="loop">
+                                <td>{{ loop + 1 }}</td>
+                                <td>{{ data?.name }} </td>
+                                <td>{{ data?.description }}</td>
+                                <td>{{ data?.quantity_supplied }} {{ data?.unit }}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3">Total</td>
+
+                                <td>{{ '0' }}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+            </div>
+
         </div>
     </div>
 </template>
@@ -38,16 +64,12 @@ const way = ref({});
 const details = ref({});
 
 function loadRequest() {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-way-bill-details/'+way.value.waybill }).then((data) => {
-        store.commit('setSpinner', false)
         if (data.status == 200) {
             details.value = data.data;
         }
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 }
 
@@ -58,7 +80,6 @@ onMounted(() => {
     }
     
     loadRequest()
-    console.log('details',way);
     getUrlQueryParams()
 });
 
@@ -68,4 +89,11 @@ async function getUrlQueryParams() {
 
 </script>
 
-<style scoped></style>
+<style scoped>
+    .receipt-header{
+        padding: 10px 15px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+</style>

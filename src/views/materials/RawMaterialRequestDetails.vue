@@ -3,6 +3,7 @@
         <div class="container mt-2">
             <div class="card">
                 <div class="card-header">Raw Material Request Details</div>
+                 
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table-hover table-stripped table-bordered table">
@@ -81,8 +82,10 @@ const confirmItems = () => {
     })
 }
 function loadRequest(pid) {
-    store.dispatch('getMethod', { url: '/load-raw-material-request-details/'+pid }).then((data) => {
+    store.dispatch('getMethod', { url: '/load-raw-material-receipt/'+pid }).then((data) => {
+        console.log(data);
         if (data?.status == 200) {
+            
             item.value = data?.data;
         }
     }).catch(e => {
@@ -93,8 +96,11 @@ function loadRequest(pid) {
 
 onMounted(() => {
     item.value = localStorage.getItem('TVATI_RAW_MAT_RQ_DETAIL') ? JSON.parse(localStorage.getItem('TVATI_RAW_MAT_RQ_DETAIL')) : 'null'
+    console.log(item.value);
     if (item.value == 'null') {
         router.push({ path: 'my-raw-material-request'})
+    } else if (item.value.item==undefined){
+        loadRequest(item.value.request_pid)
     }
     getUrlQueryParams()
 });

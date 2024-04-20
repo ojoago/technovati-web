@@ -466,20 +466,15 @@
                     </div>
                     <ul class="sub-menu">
                         <li class="nav-item" title="staff">
-                            <router-link to="/stores" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">Store </span> </router-link>
+                            <router-link to="/stores" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Store </span> </router-link>
                         </li>
                         <li class="nav-item" title="staff">
-                            <router-link to="/items" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">Items </span> </router-link>
+                            <router-link to="/items" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Items </span> </router-link>
                         </li>
 
                         <li class="nav-item" title="staff">
-                            <router-link to="/store-item" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">Store Item </span> </router-link>
+                            <router-link to="/store-item" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Store Item </span> </router-link>
                         </li>
-                       
-
                     </ul>
                 </li>
 
@@ -554,52 +549,24 @@
                     </ul>
                 </li>
 
-
                 <li>
                     <div class="icon-link">
                         <a>
                             <i class="bi bi-book"></i>
-                            <span class="link-name">Material Request</span>
+                            <span class="link-name">Materail Request</span>
                         </a>
                         <i class="bi bi-chevron-down arrow"></i>
                     </div>
                     <ul class="sub-menu">
-                        <li class="nav-item" title="raw materials">
-                            <router-link to="/material-request" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">New Request</span> </router-link>
-                        </li>
+                        
                         <li class="nav-item" title="staff">
-                            <router-link to="/my-raw-material-request" class="nav-link"><i class="bi bi-record"></i>
-                                <span class="nav-name">My Request</span> </router-link>
-                        </li>
-                        <li class="nav-item" title="staff">
-                            <router-link to="/process-raw-material-request" class="nav-link"><i
-                                    class="bi bi-record"></i> <span class="nav-name">Request</span> </router-link>
+                            <router-link to="/pending-raw-material-request" class="nav-link"><i
+                                    class="bi bi-record"></i> <span class="nav-name">Pending</span> </router-link>
                         </li>
 
-                    </ul>
-                </li>
-
-                <li>
-                    <div class="icon-link">
-                        <a>
-                            <i class="bi bi-book"></i>
-                            <span class="link-name">Item Request</span>
-                        </a>
-                        <i class="bi bi-chevron-down arrow"></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li class="nav-item" title="raw materials">
-                            <router-link to="/inventory-item-request" class="nav-link"><i class="bi bi-record"></i>
-                                <span class="nav-name">New Request</span> </router-link>
-                        </li>
                         <li class="nav-item" title="staff">
-                            <router-link to="/my-request" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">My Request</span> </router-link>
-                        </li>
-                        <li class="nav-item" title="staff">
-                            <router-link to="/process-raw-material-request" class="nav-link"><i
-                                    class="bi bi-record"></i> <span class="nav-name">Request</span> </router-link>
+                            <router-link to="/processed-raw-material-request" class="nav-link"><i
+                                    class="bi bi-record"></i> <span class="nav-name">Processed</span> </router-link>
                         </li>
 
                     </ul>
