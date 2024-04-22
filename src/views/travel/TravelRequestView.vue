@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="container my-2">
-            
+
             <div class="card">
                 <div class="card-body">
                     <button class="btn btn-sm btn-primary m-2" @click="openModal">Request</button>
@@ -11,7 +11,7 @@
                                 <tr>
                                     <th>SN</th>
                                     <th>title</th>
-                                    <th>Department</th>
+                                    <th>status</th>
                                     <th>destination</th>
                                     <th>from</th>
                                     <th>to</th>
@@ -23,201 +23,223 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(data, loop) in requests?.data" :key="loop">
-                                <td>{{ loop + 1 }}</td>
-                                <td>{{ data.title }}</td>
-                                <td>{{ data.department.department }}</td>
-                                <td>{{ data.destination }}</td>
-                                <td>{{ data.start }}</td>
-                                <td>{{ data.to }}</td>
-                                <td>
-                                    <span v-for="em in data.crew" :key="em.pid" class="badge bg-dark p-1 m-1">
-                                        {{ em.text }}
-                                    </span>
-                                </td>
-                                <td>{{ data.itinerary }}</td>
-                                <td>{{ data.mode }}</td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
-                                            data-bs-toggle="dropdown">
-                                            <i class="bi bi-tools"></i>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li ><a class="dropdown-item pointer bg-info" @click="requestDetail(data)">Details</a> </li>
-                                            <li ><a class="dropdown-item pointer bg-success" v-if="data?.status == 0" @click="approveRequest(data.pid)">Approve</a> </li>
-                                            <li ><a class="dropdown-item pointer bg-secondary" v-if="data?.status == 0" @click="rejectRequest(data.pid)">Reject</a> </li>
-                                            <li ><a class="dropdown-item pointer bg-warning" v-if="data?.status == 0 && data?.user_pid == creator" @click="editRequest(data)">Edit</a> </li>
-                                            <li ><a class="dropdown-item pointer bg-primary" v-if="data?.status != 3  && data?.user_pid == creator" @click="addBudget(data.pid)">Add Budget</a> </li>
-                                            <li ><a class="dropdown-item pointer bg-info" v-if="(data?.status == 3 || data?.status == 1)  && data?.user_pid == creator" @click="addExpense(data.pid)">Add Expense</a> </li>
-                                            <li ><a class="dropdown-item pointer bg-danger" v-if="data?.status == 0  && data?.user_pid == creator" @click="deleteShift(data.pid)">Delete</a> </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
+                                    <td>{{ loop + 1 }}</td>
+                                    <td>{{ data.title }}</td>
+                                    <td>{{ data.request_status }}</td>
+                                    <td>{{ data.destination }}</td>
+                                    <td>{{ data.start }}</td>
+                                    <td>{{ data.to }}</td>
+                                    <td>
+                                        <span v-for="em in data.crew" :key="em.pid" class="badge bg-dark p-1 m-1">
+                                            {{ em.text }}
+                                        </span>
+                                    </td>
+                                    <td>{{ data.itinerary }}</td>
+                                    <td>{{ data.mode }}</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
+                                                data-bs-toggle="dropdown">
+                                                <i class="bi bi-tools"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item pointer bg-info"
+                                                        @click="requestDetail(data)">Details</a> </li>
+                                                <!-- <li ><a class="dropdown-item pointer bg-success" v-if="data?.status == 0" @click="approveRequest(data.pid)">Approve</a> </li>
+                                            <li ><a class="dropdown-item pointer bg-secondary" v-if="data?.status == 0" @click="rejectRequest(data.pid)">Reject</a> </li> -->
+                                                <li><a class="dropdown-item pointer bg-warning"
+                                                        v-if="data?.status == 0 && data?.user_pid == creator"
+                                                        @click="editRequest(data)">Edit</a> </li>
+                                                <li><a class="dropdown-item pointer bg-primary"
+                                                        v-if="data?.status != 3 && data?.status != 4  && data?.user_pid == creator"
+                                                        @click="addBudget(data.pid)">Add Budget</a> </li>
+                                                <li><a class="dropdown-item pointer bg-info"
+                                                        v-if="(data?.status == 3 || data?.status == 1) && data?.status != 4 && data?.user_pid == creator"
+                                                        @click="addExpense(data.pid)">Add Expense</a> </li>
+                                                <li><a class="dropdown-item pointer bg-danger"
+                                                        v-if="data?.status == 0  && data?.user_pid == creator"
+                                                        @click="cancelTrip(data.pid)">Cancel</a> </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                         <div class="flex justify-center mt-4">
                             <nav class="relative justify-center rounded-md shadow pagination">
-                                <pagination-links v-for="(link, i) of requests.links" :link="link" :key="i" @next="nextPage(link)"></pagination-links>
+                                <pagination-links v-for="(link, i) of requests.links" :link="link" :key="i"
+                                    @next="nextPage(link)"></pagination-links>
                             </nav>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
         </div>
 
-        <o-modal :isOpen="toggleModal" modal-class="modal-lg" title="Travel Request" @submit="makeRequest" @modal-close="closeModal">
-                <template #content>
-                    <form id="requestForm">
-                          <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label">Tittle <span class="text-danger">*</span></label>
-                                    <input type="text" v-model="travel.title" class="form-control form-control-sm" placeholder="e.g work shop">
-                                    <p class="text-danger " v-if="errors?.title">{{ errors?.title[0] }}</p>
-                                </div>
+        <o-modal :isOpen="toggleModal" modal-class="modal-lg" title="Travel Request" @submit="makeRequest"
+            @modal-close="closeModal">
+            <template #content>
+                <form id="requestForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Tittle <span class="text-danger">*</span></label>
+                                <input type="text" v-model="travel.title" class="form-control form-control-sm"
+                                    placeholder="e.g work shop">
+                                <p class="text-danger " v-if="errors?.title">{{ errors?.title[0] }}</p>
                             </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Destination <span class="text-danger">*</span></label>
-                                        <input type="text" v-model="travel.destination" class="form-control form-control-sm">
-                                        <p class="text-danger " v-if="errors?.destination">{{ errors?.destination[0] }}
-                                        </p>
-                                    </div>
-                                </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label">Begin Date</label>
-                                    <input type="date" v-model="travel.begin" class="form-control form-control-sm">
-                                    <p class="text-danger " v-if="errors?.begin">{{ errors?.begin[0] }}</p>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label">End Date<span class="text-danger">*</span></label>
-                                    <input type="date" v-model="travel.end" class="form-control form-control-sm">
-                                    <p class="text-danger " v-if="errors?.end">{{ errors?.end[0] }}</p>
-                                </div>
-                            </div>
-
-                             <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-label">Items</label>
-                                        <textarea  v-model="travel.itinerary" class="form-control form-control-sm"></textarea>
-                                        <p class="text-danger " v-if="errors?.itinerary">{{ errors?.itinerary[0] }}</p>
-                                    </div>
-                                </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label">Crew Members </label>
-                                    <div>
-                                        <Multiselect v-model="travel.crew" :options="userDrop" :multiple="true"
-                                            :close-on-select="true" placeholder="Pick Crew" label="text"
-                                            track-by="id" />
-                                    </div>
-                                    <p class="text-danger " v-if="errors?.crew">{{ errors?.crew[0] }}</p>
-                                </div>
-                            </div>
-                                                  
-                            
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label">Mode of Transpotation<span class="text-danger">*</span></label>
-                                    <input type="text" v-model="travel.mode" class="form-control">
-                                    <p class="text-danger " v-if="errors?.mode">{{ errors?.mode[0] }}</p>
-                                </div>
-                            </div>
-                           
-                     
                         </div>
-                    </form>
-                </template>
-        
-        </o-modal>
-
-        <o-modal :isOpen="budgetModal" modal-class="modal-sm" title="Add Request Budget" @submit="addRequestBudget" @modal-close="closeModal">
-                <template #content>
-                    <form id="requestForm">
-                        <template v-for="(item, loop) in budget.items" :key="loop">
-                                        
-                                <fieldset class="border rounded-3 p-2 m-1">
-                                    <div class="row">
-                                          <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">Budget Item <span class="text-danger">*</span></label>
-                                                <input type="text" v-model="item.budget" class="form-control form-control-sm" placeholder="e.g feeding">
-                                                <!-- <p class="text-danger " v-if="errors?.title">{{ errors?.title[0] }}</p> -->
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">Amount <span class="text-danger">*</span></label>
-                                                <div class="input-group">
-                                                    <input type="number" step="0.1" v-model="item.amount" class="form-control form-control-sm">
-                                                    <button type="button" class="btn btn-danger btn-sm" @click="removeQualification(loop)"> <i class="bi bi-patch-minus"></i> </button>
-                                                </div>
-                                                <!-- <p class="text-danger " v-if="errors?.destination">{{ errors?.destination[0] }}   </p> -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                </fieldset>
-                            </template>
-                            <div class="float-end p-2">
-                                <button type="button" class="btn btn-success btn-sm mt-2" @click="addQualification"> <i class="bi bi-plus"></i> </button>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Destination <span class="text-danger">*</span></label>
+                                <input type="text" v-model="travel.destination" class="form-control form-control-sm">
+                                <p class="text-danger " v-if="errors?.destination">{{ errors?.destination[0] }}
+                                </p>
                             </div>
-                           
-                    </form>
-                </template>
-        
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Begin Date</label>
+                                <input type="date" v-model="travel.begin" class="form-control form-control-sm">
+                                <p class="text-danger " v-if="errors?.begin">{{ errors?.begin[0] }}</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">End Date<span class="text-danger">*</span></label>
+                                <input type="date" v-model="travel.end" class="form-control form-control-sm">
+                                <p class="text-danger " v-if="errors?.end">{{ errors?.end[0] }}</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Items</label>
+                                <textarea v-model="travel.itinerary" class="form-control form-control-sm"></textarea>
+                                <p class="text-danger " v-if="errors?.itinerary">{{ errors?.itinerary[0] }}</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Crew Members </label>
+                                <div>
+                                    <Multiselect v-model="travel.crew" :options="userDrop" :multiple="true"
+                                        :close-on-select="true" placeholder="Pick Crew" label="text" track-by="id" />
+                                </div>
+                                <p class="text-danger " v-if="errors?.crew">{{ errors?.crew[0] }}</p>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Mode of Transpotation<span
+                                        class="text-danger">*</span></label>
+                                <input type="text" v-model="travel.mode" class="form-control">
+                                <p class="text-danger " v-if="errors?.mode">{{ errors?.mode[0] }}</p>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </form>
+            </template>
+
         </o-modal>
 
-        <o-modal :isOpen="expenseModal" modal-class="modal-sm" title="Add Request Expense" @submit="addRequestExpense" @modal-close="closeModal">
-                <template #content>
-                    <form id="expenseForm">
-                        <!-- <template v-for="(item, loop) in budget.items" :key="loop"> -->
-                                        
-                                <!-- <fieldset class="border rounded-3 p-2 m-1"> -->
-                                    <div class="row">
-                                          <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">Expense <span class="text-danger">*</span></label>
-                                                <input type="text" v-model="expense.expense" class="form-control form-control-sm" placeholder="e.g feeding">
-                                                <p class="text-danger " v-if="ex_errors?.expense">{{ ex_errors?.expense[0] }}</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">Amount <span class="text-danger">*</span></label>
-                                                <!-- <div class="input-group"> -->
-                                                    <input type="number" step="0.1" v-model="expense.amount" class="form-control form-control-sm">
-                                                    <!-- <button type="button" class="btn btn-danger btn-sm" @click="removeExpenseItem(loop)"> <i class="bi bi-patch-minus"></i> </button> -->
-                                                <!-- </div> -->
-                                                <p class="text-danger " v-if="ex_errors?.amount">{{ ex_errors?.amount[0] }}   </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">Receipt <span class="text-danger">*</span></label>
-                                                <input type="file" class="form-control form-control-sm" id="image" @change="handleImageChange" accept="image/*" required />
-                                                <p class="text-danger " v-if="ex_errors?.image">{{ ex_errors?.image[0] }}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                <!-- </fieldset> -->
-                            <!-- </template> -->
+        <o-modal :isOpen="budgetModal" modal-class="modal-sm" title="Add Request Budget" @submit="addRequestBudget"
+            @modal-close="closeModal">
+            <template #content>
+                <form id="requestForm">
+                    <template v-for="(item, loop) in budget.items" :key="loop">
 
-                            <!-- <div class="float-end p-2">
+                        <fieldset class="border rounded-3 p-2 m-1">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Budget Item <span class="text-danger">*</span></label>
+                                        <input type="text" v-model="item.budget" class="form-control form-control-sm"
+                                            placeholder="e.g feeding">
+                                        <!-- <p class="text-danger " v-if="errors?.title">{{ errors?.title[0] }}</p> -->
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Amount <span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <input type="number" step="0.1" v-model="item.amount"
+                                                class="form-control form-control-sm">
+                                            <button type="button" class="btn btn-danger btn-sm"
+                                                @click="removeQualification(loop)"> <i class="bi bi-patch-minus"></i>
+                                            </button>
+                                        </div>
+                                        <!-- <p class="text-danger " v-if="errors?.destination">{{ errors?.destination[0] }}   </p> -->
+                                    </div>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </template>
+                    <div class="float-end p-2">
+                        <button type="button" class="btn btn-success btn-sm mt-2" @click="addQualification"> <i
+                                class="bi bi-plus"></i> </button>
+                    </div>
+
+                </form>
+            </template>
+
+        </o-modal>
+
+        <o-modal :isOpen="expenseModal" modal-class="modal-sm" title="Add Request Expense" @submit="addRequestExpense"
+            @modal-close="closeModal">
+            <template #content>
+                <form id="expenseForm">
+                    <!-- <template v-for="(item, loop) in budget.items" :key="loop"> -->
+
+                    <!-- <fieldset class="border rounded-3 p-2 m-1"> -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Expense <span class="text-danger">*</span></label>
+                                <input type="text" v-model="expense.expense" class="form-control form-control-sm"
+                                    placeholder="e.g feeding">
+                                <p class="text-danger " v-if="ex_errors?.expense">{{ ex_errors?.expense[0] }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Amount <span class="text-danger">*</span></label>
+                                <!-- <div class="input-group"> -->
+                                <input type="number" step="0.1" v-model="expense.amount"
+                                    class="form-control form-control-sm">
+                                <!-- <button type="button" class="btn btn-danger btn-sm" @click="removeExpenseItem(loop)"> <i class="bi bi-patch-minus"></i> </button> -->
+                                <!-- </div> -->
+                                <p class="text-danger " v-if="ex_errors?.amount">{{ ex_errors?.amount[0] }} </p>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Receipt <span class="text-danger">*</span></label>
+                                <input type="file" class="form-control form-control-sm" id="image"
+                                    @change="handleImageChange" accept="image/*" required />
+                                <p class="text-danger " v-if="ex_errors?.image">{{ ex_errors?.image[0] }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- </fieldset> -->
+                    <!-- </template> -->
+
+                    <!-- <div class="float-end p-2">
                                 <button type="button" class="btn btn-success btn-sm mt-2" @click="addExpenseItem"> <i class="bi bi-plus"></i> </button>
                             </div> -->
-                           
-                    </form>
-                </template>
-        
+
+                </form>
+            </template>
+
         </o-modal>
         <!-- <BudgetComponent :budget-modal="budgetModal" :request-pid="budget.travel_pid"  @modal-close="budgetModal=false"/> -->
     </div>
@@ -243,11 +265,13 @@ const openModal = () => {
     toggleModal.value = true;
 };
 
-
 const closeModal = () => {
     toggleModal.value = false;
     budgetModal.value = false;
     expenseModal.value = false;
+    resetAttr()
+    resetBud()
+    resetExp()
 };
 
 const travel = ref({
@@ -261,9 +285,22 @@ const travel = ref({
     mode : ''
 })
 
+const resetAttr = ()=>{
+    travel.value = {
+        title: '',
+        dept_pid: '',
+        destination: '',
+        begin: '',
+        end: '',
+        crew: '',
+        itinerary: '',
+        mode: ''
+    }
+}
+
 function editRequest(data){
     travel.value = {
-         title: data.title,
+        title: data.title,
         dept_pid: data.dept_pid,
         destination: data.destination,
         begin: data.begin,
@@ -283,28 +320,11 @@ function makeRequest(){
         if (data.status == 422) {
             errors.value = data.data
         } else if (data.status == 201) {
-            let form = document.querySelector('#requestForm');
-            form.reset()
+            resetAttr()
             loadRequest()
         }
     })
 }
-
-const approveRequest = (pid) => {
-    store.dispatch('putMethod', { url: '/approve-travel-request/'+pid , prompt: 'Are you sure you want to approve this request?' }).then((data) => {
-        if (data?.status == 201) {
-            loadRequest()
-        }
-    })
-}
-const rejectRequest = (pid) => {
-    store.dispatch('putMethod', { url: '/travel-request/'+pid , prompt: 'Are you sure you want to reject this request?' }).then((data) => {
-        if (data?.status == 201) {
-            loadRequest()
-        }
-    })
-}
-
 
 const requests = ref({})
 function loadRequest() {
@@ -329,7 +349,15 @@ const budget = ref({
         amount: '',
     }]
 });
-
+const resetBud = ()=>{
+    budget.value = {
+        travel_pid: '',
+        items: [{
+            budget: '',
+            amount: '',
+        }]
+    }
+}
 const budgetModal = ref(false)
 const addBudget = (pid) =>{
     budget.value.travel_pid = pid;
@@ -355,8 +383,7 @@ function addRequestBudget(){
         if (data.status == 422) {
             errors.value = data.data
         } else if (data.status == 201) {
-            let form = document.querySelector('#requestForm');
-            form.reset()
+            resetBud()
             loadRequest()
         }
     })
@@ -374,6 +401,15 @@ const expense = ref({
     //     amount: '',
     // }]
 });
+
+const resetExp = () =>{
+    expense.value = {
+        travel_pid: '',
+        expense: '',
+        amount: '',
+        image: ''
+    }
+}
 // const sm = 'modal-sm';
 const expenseModal = ref(false)
 const addExpense = (pid) =>{
@@ -381,6 +417,15 @@ const addExpense = (pid) =>{
     expenseModal.value = true ;
 }
 
+
+const cancelTrip = (pid) => {
+    store.dispatch('putMethod', { url: '/cancel-travel-request/'+pid, prompt: 'are you sure you want to cancel this request?' }).then((data) => {
+         if (data.status == 201) {
+            loadRequest()
+        }
+    })
+    
+}
 // const addExpenseItem = () => {
 //     budget.value.items.push({
 //         budget: '',
@@ -420,11 +465,10 @@ const ex_errors = ref([]);
 function addRequestExpense(){
     ex_errors.value = []
      store.dispatch('postMethod', { url: '/add-travel-request-expense', param: expense.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             ex_errors.value = data.data
-        } else if (data.status == 201) {
-            let form = document.querySelector('#expenseForm');
-            form.reset()
+        } else if (data?.status == 201) {
+            resetExp()
             loadRequest()
         }
     })
@@ -450,5 +494,11 @@ function nextPage(link) {
 </script>
 
 <style scoped>
+    .dropdown{
+        position: relative;
+    }
 
+    .dropdown-menu{
+        position: absolute;
+    }
 </style>

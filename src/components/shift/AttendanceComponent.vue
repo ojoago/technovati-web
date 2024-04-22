@@ -22,14 +22,14 @@
         <o-modal  :isOpen="toggleModal" modal-class="modal-sm" title="Take Attendance" @modal-close="closeModal">
             <template #content>
                 <button @click="initCamera" class="btn btn-sm btn-success">Retake</button>
-                <div class="container" v-if="startStream">
+                <div class="container text-center" v-if="startStream">
                     <video ref="video" width="250" v-if="stopStream" height="250" autoplay></video>
-                    <button @click="captureImage" v-if="stopStream" class="btn btn-sm btn-success">Capture Image</button>
+                    <button @click="captureImage" v-if="stopStream" class="text-center btn btn-sm btn-success">CAPTURE</button>
                     <canvas ref="canvas" width="250" height="250" style="display: none;"></canvas>
                     <img v-if="capturedImage" :src="capturedImage" alt="Captured Image" />
 
-                    <p v-if="coordinates">Coordinates: {{ coordinates.latitude }}, {{ coordinates.longitude }}</p>
-                    <p v-if="locationError">{{ locationError }}</p>
+                    <!-- <p v-if="coordinates">Coordinates: {{ coordinates.latitude }}, {{ coordinates.longitude }}</p>
+                    <p v-if="locationError">{{ locationError }}</p> -->
                 </div>
             </template>
             <template #footer><div></div></template>

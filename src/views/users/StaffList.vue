@@ -232,6 +232,8 @@
     const closeModal = () => {
         assignModal.value = false;
         roleModal.value = false;
+        formValue.value.roles = [];
+        newRole.value = []  
     };
 
 
@@ -288,6 +290,7 @@ const newRole = ref([])
 const roleModal = ref(false)
 const updateRoles = (id) => {
     roleModal.value = true
+    newRole.value = []
     formValue.value.id = id;
     store.dispatch('getMethod', { url: '/load-staff-roles/'+id }).then((data) => {
         if (data.status == 200) {
@@ -306,8 +309,8 @@ const updateStaffRole = () => {
         if (data.status == 201) {
             newRole.value = []
             roleModal.value = false
-            let form = document.querySelector('#rForm')
-            form.reset()
+            formValue.value.roles = [];
+            newRole.value = []
         }
     })
 } 
@@ -321,6 +324,8 @@ function loadRoles() {
     })
 }
 loadRoles()
+
+
 
 </script>
 

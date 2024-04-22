@@ -36,7 +36,7 @@
                         <label class="form-label">Assign</label>
                             <div v-for="team in task.teams" :key="team.pid">
                                 <input type="checkbox" id="checkbox" :value="team" v-model="subTask.teams" />
-                                <label for="checkbox"> {{ team.text }}</label>
+                                &nbsp; <label for="checkbox"> {{ team.text }}</label>
                             </div>
                         <p class="text-danger " v-if="errors?.teams">{{ errors?.teams[0] }}</p>
                     </div>
@@ -71,6 +71,30 @@ const subTask = ref({
     task_pid: props.task?.pid ,
 
 });
+
+const resetAttr = () =>{
+    subTask.value = {
+        'task': '',
+        'description': '',
+        'from': '',
+        'to': '',
+        teams: [],
+        task_pid: props.task?.pid,
+    }
+}
+
+const errors = ref({})
+function createTask() {
+    errors.value = [];
+    store.dispatch('postMethod', { url: '/create-sub-task', param: subTask.value }).then((data) => {
+        if (data?.status == 422) {
+            errors.value = data.data;
+        } else if (data?.status == 201) {
+            resetAttr()
+        }
+    })
+}
+
 const users = ref([]);
 function dropdownUser() {
     store.dispatch('loadDropdown', 'users').then(({ data }) => {
@@ -78,17 +102,6 @@ function dropdownUser() {
     })
 }
 dropdownUser()
-const errors = ref({})
-function createTask() {
-    errors.value = [];
-    store.dispatch('postMethod', { url: '/create-sub-task', param: subTask.value }).then((data) => {
-        if (data.status == 422) {
-            errors.value = data.data;
-        } else if (data.status == 201) {
-            errors.value = [];
-        }
-    })
-}
 
 
 </script>

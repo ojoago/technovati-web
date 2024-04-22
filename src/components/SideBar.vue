@@ -693,7 +693,6 @@
                         <!-- <p>powered by</p> -->
                         <img src="../assets/images/optimal.png" alt="optimal">
                     </div>
-                    <i class="bi bi-gear-fill"></i>
                     <!-- <div class="job-name">
                         <div class="name">Prem Shahi</div>
                         <div class="job">Web Designer</div>

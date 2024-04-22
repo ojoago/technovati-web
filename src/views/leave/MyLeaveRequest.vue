@@ -32,8 +32,8 @@
                                         <td>{{ lv.end }}</td>
                                         <td>{{ lv.note }}</td>
                                         <td>{{ lv.request_status }}</td>
-                                        <td>{{ lv.hr_comment }}</td>
                                         <td>{{ lv.line_manager_comment }}</td>
+                                        <td>{{ lv.hr_comment }}</td>
 
                                         <td>
                                             <div class="dropdown">
@@ -48,9 +48,9 @@
                                                     <li v-if="lv.status == 0" class="bg-warning"><a
                                                             class="dropdown-item pointer"
                                                             @click="editLeave(lv)">Edit</a> </li>
-                                                    <li v-if="lv.status == 0" class="bg-danger"><a
+                                                    <li v-if="lv.status == 0 || lv.status == 1" class="bg-danger"><a
                                                             class="dropdown-item pointer"
-                                                            @click="deleteLeave(lv.pid)">Delete</a> </li>
+                                                            @click="deleteLeave(lv.pid)">Cancel</a> </li>
                                                 </ul>
                                             </div>
                                         </td>
@@ -146,6 +146,8 @@ const openModal = () => {
 }
 const closeModal = () => {
     assignModal.value = false;
+    resetAttr()
+
 };
 const request = ref({
     'from' :'' ,
@@ -156,17 +158,27 @@ const request = ref({
     image : ''
 });
 
+const resetAttr = ()=>{
+    request.value = {
+        'from': '',
+        'to': '',
+        'note': '',
+        'path': '',
+        'leave_pid': '',
+        image: ''
+    }
+}
+
 const leaves = ref({});
 
 function makeRequest() {
     errors.value = []
     store.dispatch('postMethod', {url:'/request-leave',param: request.value}).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             loadLeaves()
-          let form = document.querySelector('#lForm')
-          form.reset()
+            resetAttr()
         }
     }).catch(e => {
         console.log(e);
@@ -185,7 +197,13 @@ const editLeave = (lv) =>{
     assignModal.value = true
 }
 const deleteLeave = (pid) => {
-    alert(pid)
+    store.dispatch('putMethod', { url: '/cancel-leave-request/'+pid,prompt:'are you sure you want to cancel this leave?' }).then((data) => {
+        if (data?.status == 201) {
+            loadLeaves()
+        }
+    }).catch(e => {
+        console.log(e);
+    })
 }
 const remindLeave = (pid) => {
     alert(pid)

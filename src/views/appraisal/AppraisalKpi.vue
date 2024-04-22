@@ -116,6 +116,8 @@ const keys = ref({
     type_pid: '',
     obtainable: 0,
 });
+
+
 const addKey = () => {
     keys.value.keys.push({
         key: '',
@@ -148,28 +150,23 @@ const obtainable = ref(0)
  }
 
 function createKpi() {
-    store.commit('setSpinner', true)
     errors.value = []
     store.dispatch('postMethod', { url: '/create-appraisal-kpi', param: keys.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             keys.value.keys = [[{
                 key: '',
                 obtainable: '',
             }]];
         }
-        store.commit('setSpinner', false)
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
     })
 }
 
 function loadSectionDetails(event) {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-section-kpi/'+ event.target.value }).then((data) => {
-        store.commit('setSpinner', false)
         if (data.status == 200) {
             type.value = data.data;
             let k = data.data.keys
@@ -178,12 +175,9 @@ function loadSectionDetails(event) {
             keys.value.type_pid = event.target.value;
             keys.value.obtainable = data.data.obtainable;
             sumVal()
-
         }
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 }
 function dropdownSection() {

@@ -151,9 +151,8 @@ const routes = [
             {
                 path:'/staff-travel-request',name:'StaffTravelRequest',component: () => import('@/views/travel/StaffTravelRequest.vue')
             },
-            {
-                path:'/travel-request-detail',name:'TravelRequestDetailView',component: () => import('@/views/travel/TravelRequestDetailView.vue')
-            },
+            {   path:'/travel-request-detail',name:'TravelRequestDetailView',component: () => import('@/views/travel/TravelRequestDetailView.vue')  },
+            {   path:'/travel-request-detail-hr-view',name:'TravelRequestDetailHrView',component: () => import('@/views/travel/TravelRequestDetailHrView.vue')  },
 
 
             // Receptionisht 

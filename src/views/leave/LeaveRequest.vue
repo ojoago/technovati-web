@@ -37,7 +37,7 @@
                                         <td>{{ lv.line_manager_comment }}</td>
                                         <td>{{ lv.hr_comment }}</td>
                                         <td>
-                                            <div class="dropdown" v-if="lv.status == 1">
+                                            <div class="dropdown" v-if="lv.status == 1 && !lv.expired">
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     @click="respond(lv.pid)">
                                                     <span>Response</span>
@@ -77,12 +77,14 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="form-label">Approve? <span class="text-danger">*</span> </label> <br>
+                                    <label for="yes">Yes</label> &nbsp;
                                     <input v-model="response.status" type="radio" id="yes" name="status" value="3">
                                     &nbsp;
-                                    <label for="yes">Yes</label> &nbsp;
-                                    <input v-model="response.status" type="radio" id="no" name="status" value="4">
+                                    &nbsp;
                                     &nbsp;
                                     <label for="no">No</label>
+                                    &nbsp;
+                                    <input v-model="response.status" type="radio" id="no" name="status" value="4">
                                     <p class="text-danger " v-if="errors?.status">{{ errors?.status[0] }}</p>
                                 </div>
                             </div>

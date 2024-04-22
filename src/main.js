@@ -11,4 +11,5 @@ import 'vue-multiselect/dist/vue-multiselect.css'
 import './theme/core.css';
 
 // import { Tooltip } from "bootstrap";
-createApp(App).use(router).use(store).use(Select2).use(Multiselect).mount('#app')
+createApp(App).use(router).use(store).use(Select2).use(Multiselect)
+.mount('#app')

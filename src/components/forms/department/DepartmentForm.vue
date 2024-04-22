@@ -47,17 +47,14 @@ const errors = ref({});
 
 
 function createDepartment() {
-    store.commit('setSpinner', true)
     errors.value = []
     store.dispatch('postMethod', { url: '/create-department', param: dept.value }).then((data) => {
         if (data.status == 422) {
             errors.value = data.data
         } else if (data.status == 201) {
-            dept.value = [];
+            dept.value = {};
         }
-        store.commit('setSpinner', false)
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
     })
 }
@@ -69,11 +66,10 @@ onMounted(()=>{
 
 const users = ref([]);
 function dropdownAllow() {
-    store.dispatch('loadDropdown', 'users').then(({ data }) => {
+    store.dispatch('loadDropdown', 'hod').then(({ data }) => {
         users.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownAllow()
@@ -84,7 +80,6 @@ function dropdownDepts() {
         deptDrop.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownDepts()

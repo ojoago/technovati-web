@@ -6,7 +6,7 @@
                     <div class="card">
                         <div class="card-body">
                             <fieldset class="border rounded-3 p-2 m-1">
-                                <legend class="float-none w-auto px-2 h5">Create Appraisal Section</legend>
+                                <legend class="float-none w-auto px-2 h5">Create Appraisal Type</legend>
                                 <form id="typeForm">
                                     <div class="row">
                                         <div class="col-md-12">
@@ -43,7 +43,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card">
-                        <div class="card-header">Appraisal Section</div>
+                        <div class="card-header">Appraisal Types</div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table-hover table-stripped table-bordered table">
@@ -115,39 +115,42 @@ const editSection = (sec) => {
         obtainable: sec.obtainable,
     }
 }
+
+
+const resetAttr = () => {
+    type.value = {
+        name: '',
+        note: '',
+        pid: '',
+        obtainable: '',
+    }
+}
+
 const deleteLog = (id) => {
     alert(id)
 }
 
 function createAppraisalSection() {
-    store.commit('setSpinner', true)
     errors.value = []
     store.dispatch('postMethod', { url: '/create-appraisal-section', param: type.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
-            let form = document.querySelector('#typeForm');
-            form.reset() 
+        } else if (data?.status == 201) {
+            resetAttr()
             loadLog()
         }
-        store.commit('setSpinner', false)
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
     })
 }
 
 function loadLog() {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-appraisal-section' }).then((data) => {
-        store.commit('setSpinner', false)
-        if (data.status == 200) {
+        if (data?.status == 200) {
             sections.value = data.data;
         }
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 }
 

@@ -14,9 +14,11 @@
                                 <thead>
                                     <tr>
                                         <th>SN</th>
+                                        <th>Name</th>
                                         <th>Leave</th>
                                         <th>From</th>
                                         <th>to</th>
+                                        <th>Days</th>
                                         <th>note</th>
                                         <th>status</th>
                                         <th>manager comment</th>
@@ -27,16 +29,18 @@
                                 <tbody>
                                     <tr v-for="(lv, loop) in leaves.data" :key="loop">
                                         <td>{{ loop + 1 }}</td>
+                                        <td>{{ lv.staff.username }}</td>
                                         <td>{{ lv.leave.leave }}</td>
                                         <td>{{ lv.begin }}</td>
                                         <td>{{ lv.end }}</td>
+                                        <td>{{ lv.days }}</td>
                                         <td>{{ lv.note }}</td>
                                         <td>{{ lv.request_status }}</td>
                                         <td>{{ lv.line_manager_comment }}</td>
                                         <td>{{ lv.hr_comment }}</td>
 
                                         <td>
-                                            <div class="dropdown" v-if="lv.status==0">
+                                            <div class="dropdown" v-if="lv.status == 0 && !lv.expired">
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     @click="respond(lv.pid)">
                                                     <span>Response</span>
@@ -69,17 +73,23 @@
                                     <label class="form-label">Comment <span class="text-danger">*</span> </label>
                                     <textarea type="text" cols="4" v-model="response.comment"
                                         class="form-control form-control-sm"
-                                        placeholder="e.g this leave only applies to senior devs"></textarea>
+                                        placeholder="e.g go and refresh "></textarea>
                                     <p class="text-danger " v-if="errors?.comment">{{ errors?.comment[0] }}</p>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="form-label">Approve? <span class="text-danger">*</span> </label> <br>
-                                    <input v-model="response.status" type="radio" id="yes" name="status" value="1"> &nbsp;
-                                    <label for="yes">Yes</label> &nbsp;
-                                    <input v-model="response.status" type="radio" id="no" name="status" value="2"> &nbsp;
-                                    <label for="no">No</label>
+                                    <label for="yes">Yes </label> 
+                                    &nbsp;
+                                    <input v-model="response.status" type="radio" id="yes" name="status" value="1">
+                                    &nbsp;
+                                    &nbsp;
+                                    &nbsp;
+                                    
+                                    <label for="no">No </label>
+                                    &nbsp;
+                                    <input v-model="response.status" type="radio" id="no" name="status" value="2">
                                     <p class="text-danger " v-if="errors?.status">{{ errors?.status[0] }}</p>
                                 </div>
                             </div>
@@ -99,6 +109,8 @@ import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
 import OModal from "@/components/OModal.vue";
 
+
+
 const errors = ref({});
 
 
@@ -115,6 +127,13 @@ const response = ref({
     'status' : '' , 
 });
 
+const resetAttr = () =>{
+    response.value = {
+        'comment': '',
+        'leave_pid': '',
+        'status': '', 
+    }
+}
 const leaves = ref({});
 const respond = (pid) =>{
     response.value.leave_pid = pid
@@ -128,8 +147,7 @@ const respondToRequest = () => {
             errors.value = data.data
         } else if (data?.status == 201) {
             loadLeaves()
-            let form = document.querySelector('#rForm')
-            form.reset()
+            resetAttr()
         }
     })
 }

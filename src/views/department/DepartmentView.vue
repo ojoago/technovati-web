@@ -133,6 +133,7 @@
         <o-modal :isOpen="toggleModal" modal-class="modal-xs" @submit="createDepartment" title="Create Department" @modal-close="closeModal">
             <template #content>
                 <div>
+                    <p class="text-danger small">Note Head of Department must have the role of [HOD]</p>
                     <form >
                         <div class="row">
                             <div class="col-md-12">
@@ -208,7 +209,7 @@ const openModal = (pid) => {
 const closeModal = () => {
     isModalOpened.value = false;
     toggleModal.value = false;
-
+    resetDept()
 };
 const toggleModal = ref(false);
 
@@ -219,6 +220,13 @@ const toggleModal = ref(false);
         'description':'' , 
         'head_pid':'' , 
     });
+    const resetDept = () => {
+        dept.value ={
+            'department': '',
+            'description': '',
+            'head_pid': '',
+        }
+    }
     const assign = ref({
         department_pid: '',
         sub_department: '',
@@ -240,10 +248,11 @@ const toggleModal = ref(false);
     function createDepartment() {
     errors.value = []
     store.dispatch('postMethod', { url: '/create-department', param: dept.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
-            dept.value = [];
+        } else if (data?.status == 201) {
+            resetDept();
+            loadDepartment()
         }
     })
 }
@@ -321,9 +330,9 @@ const desig_error = ref(false)
 function createDesignation(){
     desig_error.value = []
     store.dispatch('postMethod', { url: '/create-designation', param: desig.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             desig_error.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             assign_sub.value = [];
             loadDesignation()
         }
@@ -334,7 +343,7 @@ function createDesignation(){
     
     function loadDepartment() {
         store.dispatch('getMethod', { url: '/load-departments' }).then((data) => {
-            if (data.status == 200) {
+            if (data?.status == 200) {
                 departments.value = data.data;
             }
         })
@@ -343,8 +352,7 @@ function createDesignation(){
     const designations = ref({});
     function loadDesignation() {
         store.dispatch('getMethod', { url: '/load-designation' }).then((data) => {
-            store.commit('setSpinner', false)
-            if (data.status == 200) {
+            if (data?.status == 200) {
                 designations.value = data.data;
             }
         })
@@ -352,11 +360,10 @@ function createDesignation(){
 
     const users = ref([]);
     function dropdownAllow() {
-        store.dispatch('loadDropdown', 'users').then(({ data }) => {
+        store.dispatch('loadDropdown', 'hod').then(({ data }) => {
             users.value = data;
         }).catch(e => {
             console.log(e);
-            alert('Something Went Wrong')
         })
     }
     dropdownAllow()

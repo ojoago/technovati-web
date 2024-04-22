@@ -108,6 +108,14 @@ const editTitle = (apr) => {
         pid: apr.pid,
     }
 }
+
+const resetAttr = ()=>{
+    appraisal.value = {
+        title: '',
+        description: '',
+        pid: '',
+    }
+}
 const deleteLog = (id) => {
     alert(id)
 }
@@ -118,22 +126,19 @@ function createAppraisalTitle() {
         if (data.status == 422) {
             errors.value = data.data
         } else if (data.status == 201) {
-            appraisal.value = [];
+            resetAttr()
+            loadLog()
         }
     })
 }
 
 function loadLog() {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-appraisal-titles' }).then((data) => {
-        store.commit('setSpinner', false)
-        if (data.status == 200) {
+        if (data?.status == 200) {
             titles.value = data.data;
         }
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 }
 

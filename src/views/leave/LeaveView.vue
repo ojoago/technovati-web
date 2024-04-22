@@ -214,6 +214,14 @@ const leave = ref({
     days : '',
     description : ''
 });
+const resetAttr = () => {
+    leave.value = {
+        leave: '',
+        days: '',
+        description: '',
+        pid: ''
+    }
+}
 const leaves = ref({});
 
 function createLeave() {
@@ -222,8 +230,7 @@ function createLeave() {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-          let form = document.querySelector('#lForm')
-          form.reset()
+            resetAttr()
           loadLeaves()
         }
     }) 
@@ -233,14 +240,19 @@ const assign = ref({
     leave_pid:'',
     designation_pid:''
 })
+const resetA = () => {
+    assign.value = {
+        leave_pid: '',
+        designation_pid: ''        
+    }
+}
 function assignLeave() {
     errors.value = []
     store.dispatch('postMethod', {url:'/assign-leave',param:assign.value}).then((data) => {
         if (data.status == 422) {
             errors.value = data.data
         } else if (data.status == 201) {
-            let form = document.querySelector('#aForm')
-            form.reset()
+            resetA()
             loadAssignLeave()
         }
     }) 

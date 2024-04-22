@@ -117,7 +117,7 @@ loadRequest()
 
 function requestDetail(request) {
     localStorage.setItem('TVATI_TRV_RQS_DETAIL', JSON.stringify(request, null, 2))
-    router.push({ path: 'travel-request-detail', query: { request: request.pid } })
+    router.push({ path: 'travel-request-detail-hr-view', query: { request: request.pid } })
 }
 
 // request budget 

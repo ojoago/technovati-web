@@ -34,10 +34,10 @@
                                             <td>{{ data.cycle.title }}</td>
                                             <td>{{ data.year }}</td>
                                             <td>{{ data.month }}</td>
-                                            <td>{{ data.from }}</td>
-                                            <td>{{ data.to }}</td>
+                                            <td>{{ data.start }}</td>
+                                            <td>{{ data.end }}</td>
                                             <td>{{ data.note }}</td>
-                                            <td>{{ data.status }}</td>
+                                            <td>{{ data.status_name }}</td>
                                             <td>
                                                 <div class="dropdown" v-if="data.status">
                                                     <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
@@ -66,7 +66,7 @@
             </div>
         </div>
 
-        <o-modal :isOpen="configModal" :modal-class="lg" title="Configure Appraisal Assessment" @submit="configAppraisal" @modal-close="closeModal">
+        <o-modal :isOpen="configModal" modal-class="modal-lg" title="Configure Appraisal Assessment" @submit="configAppraisal" @modal-close="closeModal">
                 <template #content>
                     <form id="configForm">
                        <div class="col-md-12">
@@ -127,7 +127,9 @@
                     </form>
                 </template>
         </o-modal>
-        <o-modal :isOpen="cycleModal" :modal-class="sm" title="KPI Mapping" @submit="initiateAppraisal" @modal-close="closeModal">
+
+
+        <o-modal :isOpen="cycleModal" modal-class="modal-sm" title="KPI Mapping" @submit="initiateAppraisal" @modal-close="closeModal">
                 <template #content>
                     <form id="configForm">
                        
@@ -193,6 +195,7 @@
                     </form>
                 </template>
         </o-modal>
+
     </div>
 </template>
 
@@ -208,7 +211,6 @@ const apparisals = ref({});
 const titleDrop = ref({});
 const currentTime = new Date()
 var year = currentTime.getFullYear()
-const lg = 'modal-lg';
 const configModal = ref(false)
 const cycleModal = ref(false)
 const openConfigModal = () => {
@@ -218,6 +220,8 @@ const openConfigModal = () => {
 const closeModal = () => {
     configModal.value = false;
     cycleModal.value = false;
+    resetConfig()
+    resetMap()
 };
 const config = ref({
     title_pid : '' , 
@@ -228,6 +232,16 @@ const config = ref({
     note : '' ,
 });
 
+const resetConfig = ()=>{
+    config.value= {
+        title_pid: '',
+        year: year,
+        month: '',
+        from: '',
+        to: '',
+        note: '',
+    }
+}
 const editCycle = (cycle) => {
     config.value = {
         title_pid: cycle.title_pid,
@@ -242,7 +256,6 @@ const editCycle = (cycle) => {
 const deleteCycle = (pid) => {
     alert(pid)
 }
-const sm = 'modal-sm';
 
 const mapping = ref({
     apparisal_pid: '' ,
@@ -250,6 +263,15 @@ const mapping = ref({
     designations: '' ,
     types: ''
 })
+
+const resetMap = () =>{
+    mapping.value = {
+        apparisal_pid: '',
+        department: '',
+        designations: '',
+        types: ''
+    }
+}
 const configureCycle = (pid) => {
     cycleModal.value = true;
     mapping.value.apparisal_pid = pid
@@ -267,9 +289,9 @@ function configAppraisal() {
         if (data.status == 422) {
             errors.value = data.data
         } else if (data.status == 201) {
-            console.log();
+            resetConfig()
+            loadSectionDetails()
         }
-        // store.commit('setSpinner', false)
     })
 }
 
@@ -281,7 +303,7 @@ function initiateAppraisal() {
         if (data.status == 422) {
             init_errors.value = data.data
         } else if (data.status == 201) {
-            console.log();
+            resetMap();
         }
         // store.commit('setSpinner', false)
     })
@@ -289,16 +311,12 @@ function initiateAppraisal() {
 
 loadSectionDetails()
 function loadSectionDetails() {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-appraisal-cycle'}).then((data) => {
-        store.commit('setSpinner', false)
         if (data.status == 200) {
             apparisals.value = data.data;
         }
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 }
 
@@ -307,7 +325,6 @@ function dropdownSection() {
         titleDrop.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownDept()

@@ -103,15 +103,23 @@ const holiday = ref({
     start: '',
     end: '',
 });
+const resetAttr = () =>{
+    holiday.value = {
+        shif_pid: '',
+        tittle: '',
+        note: '',
+        start: '',
+        end: '',
+    }
+}
 function markShiftHoliday() {
     b_errors.value = []
     store.dispatch('postMethod', { param: holiday.value, url: 'mark-shift-holiday' }).then((data) => {
         if (data.status == 422) {
             b_errors.value = data.data
         } else if (data.status == 201) {
-            b_errors.value = []
-            let form = document.querySelector('#formHoliday')
-            form.reset()
+            loadShiftHolidays()
+            resetAttr()
         }
     })
 }
