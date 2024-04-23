@@ -37,9 +37,9 @@
                                                     </button>
                                                     <ul class="dropdown-menu">
                                                         <li><a class="dropdown-item pointer" @click="taskDetail(task)">Details</a> </li>
-                                                        <li><a class="dropdown-item pointer" @click="addSubTask(task)">ADD SUB TASK</a> </li>
-                                                        <li><a class="dropdown-item pointer" v-if="task.creator == creator" @click="editTask(task)">Edit Task</a> </li>
-                                                        <li><a class="dropdown-item pointer bg-danger" v-if="task.creator == creator" @click="deleteTask(task)">Delete</a></li>
+                                                        <li><a class="dropdown-item pointer" v-if="task.status==0" @click="addSubTask(task)">ADD SUB TASK</a> </li>
+                                                        <li><a class="dropdown-item pointer" v-if="task.creator == creator && task.status==0" @click="editTask(task)">Edit Task</a> </li>
+                                                        <li><a class="dropdown-item pointer bg-danger" v-if="task.creator == creator && task.status==0" @click="deleteTask(task)">Delete</a></li>
                                                     </ul>
                                                 </div>
                                             </td>

@@ -18,59 +18,24 @@
                     </div>
                 </div>
                 <div class="card-body">
-
-                    <!-- <div class="horizontal-scrollable">
-                        <div class="row flex-nowrap">
-                            <div class="col-4" v-for="(heading, lp) in task.headings" :key="lp">
-                                <label class="h3 text-center">{{ heading.toUpperCase() }}</label>
-                                <div class="sub-task-card">
-                                    <template v-for="sub in subtasks" :key="sub.pid">
-                                        <div class="card mb-2 " v-if="lp == task.status">
-                                            <div class="card-body">
-                                                <h4 class="card-title h5">{{ sub.name }}</h4>
-                                            </div>
-                                            <div class="card-body">
-                                                <span v-for="team in sub.teams" :key="team.id"
-                                                    class="badge bg-dark p-1 m-1 ellipsis">
-                                                    {{ team.text }}
-                                                </span>
-                                            </div>
-                                            <div class="card-footer">
-                                                <i class="bi bi-info-circle-fill pointer"
-                                                    @click="subTaskDetail(sub, heading)"></i>
-                                                <i class="bi bi-person"></i> <label>{{ sub.user?.username }}</label>
-                                                <span class="float-end small text-danger"><i
-                                                        class="bi bi-calendar-x"></i> <label>{{ sub.to }}</label></span>
-                                            </div>
-                                        </div>
-                                    </template>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div> -->
-
                     <div class="horizontal-scrollable">
                         <div class="row flex-nowrap">
                             <!-- <div class="kanban"> -->
-                                <div class="column col-md-4" v-for="(column, columnIndex) in subtasks" :key="columnIndex">
-                                    <h4 class="task-header">{{ column.title }}</h4>
-                                    <draggable class="task-list" v-model="column.tasks" group="kanban"
-                                        @end="onDragEnd(columnIndex)">
-                                        <template #item="{ element, index }">
-                                            <div class="task" :key="index">{{ element.name }}</div>
-                                        </template>
-                                    </draggable>
-                                </div>
+                            <div class="column col-4" v-for="(column, columnIndex) in subtasks" :key="columnIndex">
+                                <h4 class="task-header">{{ column.title }} </h4>
+                                <draggable class="task-list" :id="columnIndex" v-model="column.tasks" group="kanban"
+                                    @end="onDragEnd($event, column.title)" @change="handleChange">
+                                    <template #item="{ element, index }">
+                                        <div @click="subTaskDetail(column.title,element)" class="task" :key="index">{{
+                                            element.name }}</div>
+                                    </template>
+                                </draggable>
+                            </div>
                             <!-- </div> -->
                         </div>
                     </div>
 
-
-
                 </div>
-
-
 
                 <div class="card-footer">
                     Team
@@ -81,11 +46,10 @@
                 </div>
             </div>
 
-
-
-
-
         </div>
+
+
+
         <o-modal :isOpen="toggleModal" modal-class="modal-sm" subtitle="add sub task to task" @modal-close="closeModal">
             <template #content>
                 <SubTaskForm :task="task" />
@@ -95,22 +59,79 @@
             </template>
         </o-modal>
 
+        <o-modal :isOpen="subTaskModal" modal-class="modal-sm" @submit="editSubTask" subtitle="Edit sub task"
+            @modal-close="closeModal">
+            <template #content>
+                <form>
+                    <!-- {{ subTask }} -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Sub Task</label>
+                                <input type="text" v-model="subTask.name" class="form-control"
+                                    placeholder="enter sub task">
+                                <p class="text-danger " v-if="errors?.name">{{ errors?.name[0] }}</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Begin Date</label>
+                                <input type="date" v-model="subTask.from" class="form-control">
+                                <p class="text-danger " v-if="errors?.from">{{ errors?.from[0] }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">End Date</label>
+                                <input type="date" v-model="subTask.to" class="form-control">
+                                <p class="text-danger " v-if="errors?.to">{{ errors?.to[0] }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Description</label>
+                                <textarea type="text" v-model="subTask.description" class="form-control"
+                                    placeholder="enter description"></textarea>
+                                <p class="text-danger " v-if="errors?.description">{{ errors?.description[0] }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Assign</label>
+                                <div v-for="team in task.teams" :key="team.pid">
+                                    <input type="checkbox" id="checkbox" :value="team" v-model="subTask.teams" />
+                                    &nbsp; <label for="checkbox"> {{ team.text }}</label>
+                                </div>
+                                <p class="text-danger " v-if="errors?.teams">{{ errors?.teams[0] }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <button type="button" class="btn btn-success btn-sm mt-2" @click="createTask">Submit</button> -->
+                </form>
+            </template>
+
+        </o-modal>
+
         <o-modal :isOpen="dtlModal" subtitle="sub task details" @modal-close="closeModal">
             <template #content>
                 <div class="card mb-2 ">
                     <div class="card-body">
                         <h4 class="card-title h5">Task: {{ dtlSub.name }}</h4>
                         <p>Current Status: <span class="text-info"><i class="bi bi-info-circle"></i> <label>{{
-                                    dtlSub.status }}</label></span></p>
-                        Task Begin: <span class="text-primary"><i class="bi bi-calendar-x"></i> <label>{{
-                                dtlSub.from
-                                }}</label></span>
-                        <span class="float-end">Task End: <span class="text-danger"> <i class="bi bi-calendar-x"></i>
-                                <label>{{ dtlSub.to }}</label></span> </span>
+                                    dtlSub.title }}</label></span></p>
+                        Task Begin: <span class="text-primary"><i class="bi bi-calendar-x"></i> <label> {{
+                                dtlSub.start
+                                }}</label></span> <br>
+                        <span class="">Task End: <span class="text-danger"> <i class="bi bi-calendar-x"></i>
+                                <label> &nbsp; {{ dtlSub.end }}</label></span> </span>
 
                     </div>
                     <div class="card-body">
-                        Description <p>{{ dtlSub.description }}</p>
+
+                        Description
+                        <hr>
+                        <p>{{ dtlSub.description }}</p>
                         <hr>
                         Teams:
                         <span v-for="team in dtlSub.teams" :key="team.id" class="badge bg-dark p-1 m-1">
@@ -124,7 +145,7 @@
             </template>
             <template #footer>
                 <div>
-
+                    <button class="btn btn-sm btn-warning" @click="editSubTaskModal(dtlSub)">Edit</button>
                 </div>
             </template>
         </o-modal>
@@ -167,8 +188,8 @@ import { useRoute,useRouter  } from 'vue-router';
 import SubTaskForm from "@/components/task/forms/SubTaskForm.vue";
 import OModal from "@/components/OModal.vue";
 import { Multiselect } from 'vue-multiselect';
-// import draggable from 'vuedraggable';
 import Draggable from 'vuedraggable';
+
 const header = ref([])
 const router = useRouter()
 const route = useRoute()
@@ -180,8 +201,6 @@ function addSubTask() {
 }
 
 
-
-
 header.value = task.value.headings
 
 const toggleModal = ref(false);
@@ -189,6 +208,7 @@ const closeModal = () => {
     toggleModal.value = false;
     dtlModal.value = false;
     teamModal.value = false;
+    subTaskModal.value = false;
 };
 
 onMounted(() => {
@@ -216,19 +236,62 @@ function loadSubTask() {
 const dtlModal = ref(false)
 const dtlSub = ref({})
 
-// const subTaskDetail = (sb,sts)=>{
-//     dtlSub.value = sb;
-//     dtlSub.value.status = sts
-//     dtlModal.value = true
-// }
+const subTaskDetail = (status,data)=>{
+    dtlSub.value = data;
+    dtlSub.value.title = status
+    dtlModal.value = true
+}
+
+const subTask = ref({})
+const subTaskModal = ref(false)
+const editSubTaskModal = (data) =>{
+    dtlModal.value = false
+    subTaskModal.value = true
+    subTask.value = data;
+}
+
+const editSubTask = ()=>{
+    store.dispatch('postMethod', { url: '/create-sub-task', param: subTask.value }).then((data) => {
+        if (data?.status == 422) {
+            errors.value = data.data;
+        } else if (data?.status == 201) {
+            subTask.value = {}
+        }
+    })
+}
+
 
 // view sub task details on modal 
 const teamModal = ref(false)
 const teams = ref({})
 
-const onDragEnd = (index) => {
-    alert(index)
+const taskParam = ref({ status: '', sub_task_id: '', pid: '', task :'',title:''})
+const onDragEnd = (event,title) => {
+    taskParam.value.status = event['to'].id
+    taskParam.value.title = title
+    if (taskParam.value.sub_task_id) {
+        updateSubTask()
+    }
 }
+const handleChange = (event) => {
+    if (event['added'] != undefined){
+        taskParam.value.sub_task_id = event['added']['element'].id; 
+        taskParam.value.pid = event['added']['element'].pid; 
+        taskParam.value.task = event['added']['element'].name; 
+    }
+}
+
+const updateSubTask = () => {
+    store.dispatch('putMethod', { url: '/update-sub-task-status', param: taskParam.value }).then((data) => {
+        if (data?.status == 422) {
+            errors.value = data.data;
+        } else if (data?.status == 201) {
+            errors.value = [];
+        
+        }
+    })
+}
+
 // const addTeamModal = ()=>{
 //     teams.value = task.value.teams;
 //     teamModal.value = true
@@ -275,9 +338,9 @@ dropdownUser()
 
 
 
-.col-md-4:nth-child(3n+1) { background: #c69; }
-.col-md-4:nth-child(3n+2) { background: #9c6; }
-.col-md-4:nth-child(3n+3) { background: #69c; }
+.col-4:nth-child(3n+1) { background: #c69; }
+.col-4:nth-child(3n+2) { background: #9c6; }
+.col-4:nth-child(3n+3) { background: #69c; }
 
 /* .sub-task-card{
     overflow-y: scroll;
@@ -345,6 +408,7 @@ dropdownUser()
     margin-bottom: 5px;
     border-radius: 5px;
     white-space: pre-wrap;
+    cursor: grab;
     /* width: 200px; */
 }
 </style>
