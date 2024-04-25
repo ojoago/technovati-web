@@ -1,6 +1,6 @@
 <template>
     <div>
-         <form>
+        <form>
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
@@ -9,41 +9,44 @@
                         <p class="text-danger " v-if="errors?.name">{{ errors?.name[0] }}</p>
                     </div>
                 </div>
-               
+
                 <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">Begin Date</label>
-                            <input type="date" v-model="subTask.from" class="form-control">
-                            <p class="text-danger " v-if="errors?.from">{{ errors?.from[0] }}</p>
-                        </div>
+                    <div class="form-group">
+                        <label class="form-label">Begin Date</label>
+                        <input type="date" v-model="subTask.from" class="form-control">
+                        <p class="text-danger " v-if="errors?.from">{{ errors?.from[0] }}</p>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">End Date</label>
-                            <input type="date" v-model="subTask.to" class="form-control">
-                            <p class="text-danger " v-if="errors?.to">{{ errors?.to[0] }}</p>
-                        </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">End Date</label>
+                        <input type="date" v-model="subTask.to" class="form-control">
+                        <p class="text-danger " v-if="errors?.to">{{ errors?.to[0] }}</p>
                     </div>
-                     <div class="col-md-12">
-                        <div class="form-group">
-                            <label class="form-label">Description</label>
-                            <textarea type="text" v-model="subTask.description" class="form-control"  placeholder="enter description"></textarea>
-                            <p class="text-danger " v-if="errors?.description">{{ errors?.description[0] }}</p>
-                        </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea type="text" v-model="subTask.description" class="form-control"
+                            placeholder="enter description"></textarea>
+                        <p class="text-danger " v-if="errors?.description">{{ errors?.description[0] }}</p>
                     </div>
+                </div>
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="form-label">Assign</label>
-                            <div v-for="team in task.teams" :key="team.pid">
-                                <input type="checkbox" id="checkbox" :value="team" v-model="subTask.teams" />
-                                &nbsp; <label for="checkbox"> {{ team.text }}</label>
-                            </div>
+                            <div class="row">
+                                <div class="col-md-6" v-for="team in task.teams" :key="team.pid">
+                                    <input type="checkbox" id="checkbox" :value="team" v-model="subTask.teams" />
+                                    &nbsp; <label for="checkbox"> {{ team.text }}</label>
+                                </div>
+                        </div>
                         <p class="text-danger " v-if="errors?.teams">{{ errors?.teams[0] }}</p>
                     </div>
                 </div>
             </div>
-            <button type="button" class="btn btn-success btn-sm mt-2"
-                @click="createTask">Submit</button>
+            <hr>
+            <button type="button" class="btn btn-success btn-sm mt-2" @click="createTask">Submit</button>
         </form>
     </div>
 </template>

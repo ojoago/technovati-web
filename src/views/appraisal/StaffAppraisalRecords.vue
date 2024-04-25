@@ -53,16 +53,16 @@ import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
 
 
-import { useRouter } from 'vue-router';
-const router = useRouter()
+// import { useRouter } from 'vue-router';
+// const router = useRouter()
 
 const titles = ref({});
 
 
-const evaluateSelf = (data) => {
-    localStorage.setItem('TVATI_APPRAISAL', JSON.stringify(data, null, 2))
-    router.push({ path: 'self-appraisal-hr-comment', query: { param: data.pid } })
-}
+// const evaluateSelf = (data) => {
+//     localStorage.setItem('TVATI_APPRAISAL', JSON.stringify(data, null, 2))
+//     router.push({ path: 'self-appraisal-hr-comment', query: { param: data.pid } })
+// }
 
 
 function loadStafffAppraisalRecord() {

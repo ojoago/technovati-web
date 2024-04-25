@@ -198,7 +198,7 @@ getLocationName(latitude, longitude);
 function clockIn() {
     store.dispatch('postMethod', { url: '/clock-in', param: attendance.value }).then((data) => {
         if (data?.status == 201) {
-            clockBtn.value = false;
+            clockBtn.value = true;
             timeIn.value = data?.data?.time_in;
             toggleModal.value = false;
         }
