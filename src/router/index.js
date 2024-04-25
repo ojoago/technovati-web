@@ -102,11 +102,30 @@ const routes = [
             {
                 path:'/appraisal',name:'AppraisalView',component: () => import('@/views/appraisal/AppraisalView.vue')
             },
+            
+            
             {
                 path:'/appraisal-list',name:'AppraisalListView',component: () => import('@/views/appraisal/AppraisalListView.vue')
             },
+            {  path:'/self-appraisal',name:'SelfAppraisalView',component: () => import('@/views/appraisal/SelfAppraisalView.vue') },
+            
             {
-                path:'/self-appraisal',name:'SelfAppraisalView',component: () => import('@/views/appraisal/SelfAppraisalView.vue')
+                path:'/staff-appraisal-list',name:'StaffAppraisalListView',component: () => import('@/views/appraisal/StaffAppraisalListView.vue')
+            },
+            
+            {
+                path:'/staff-appraisal-records',name:'StaffAppraisalRecords',component: () => import('@/views/appraisal/StaffAppraisalRecords.vue')
+            },
+
+            {
+                path:'/self-appraisal-hr-comment',name:'SelfAppraisalHrComment',component: () => import('@/views/appraisal/SelfAppraisalHrComment.vue')
+            },
+
+            {
+                path:'/supervisor-appraisal-list',name:'SupervisorAppraisalListView',component: () => import('@/views/appraisal/SupervisorAppraisalListView.vue')
+            },
+            {
+                path:'/supervisor-appraisal',name:'SupervisorAppraisal',component: () => import('@/views/appraisal/SupervisorAppraisal.vue')
             },
 
             // appraisal end here 

@@ -75,7 +75,7 @@
                                                 <option disabled selected>Select Section</option>
                                                 <option v-for="title in titleDrop" :key="title.pid" :value="title.pid">{{ title.title }}</option>
                                             </select>
-                                             <p class="text-danger " v-if="errors?.title_pid">{{ errors?.title_pid[0] }} </p>
+                                            <p class="text-danger " v-if="errors?.title_pid">{{ errors?.title_pid[0] }} </p>
                                         </div>
                                         <div class="row">
     
@@ -252,6 +252,7 @@ const editCycle = (cycle) => {
         note: cycle.note,
         pid: cycle.pid,
     }
+    cycleModal.value = true
 }
 const deleteCycle = (pid) => {
     alert(pid)
@@ -300,9 +301,9 @@ function initiateAppraisal() {
     // store.commit('setSpinner', true)
     init_errors.value = []
     store.dispatch('postMethod', { url: '/initiate-appraisal', param: mapping.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             init_errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             resetMap();
         }
         // store.commit('setSpinner', false)

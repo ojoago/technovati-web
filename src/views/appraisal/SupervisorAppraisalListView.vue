@@ -9,10 +9,12 @@
                             <thead>
                                 <tr>
                                     <th>SN</th>
+                                    <th>username</th>
                                     <th>Title</th>
                                     <th>Month</th>
                                     <th>Year</th>
                                     <th>Status</th>
+                                    <th>Self Rating</th>
                                     <th>Start</th>
                                     <th>End</th>
                                     <th> <i class="bi bi-gear-fill"></i> </th>
@@ -21,10 +23,12 @@
                             <tbody>
                                 <tr v-for="(data, loop) in titles?.data" :key="loop">
                                     <td>{{ loop + 1 }}</td>
+                                    <td>{{ data?.username }}</td>
                                     <td>{{ data?.title }}</td>
                                     <td>{{ data?.month }}</td>
                                     <td>{{ data?.year }}</td>
                                     <td>{{ data?._status }}</td>
+                                    <td>{{ data?.self_rating }}</td>
                                     <td>{{ data?.start }}</td>
                                     <td>{{ data?.end }}</td>
                                     <td>
@@ -34,14 +38,9 @@
                                                 <i class="bi bi-tools"></i>
                                             </button>
                                             <ul class="dropdown-menu">
-                                                <li class="bg-warning" v-if="data?.status < 2"><a
-                                                        class="dropdown-item pointer"
+                                                <li class="bg-warning"><a class="dropdown-item pointer"
                                                         @click="evaluateSelf(data)">Evaluate</a> </li>
-
-                                                <li class="bg-warning" v-if="data?.status > 1"><a
-                                                        class="dropdown-item pointer"
-                                                        @click="evaluateSelf(data)">View</a> </li>
-
+                                                
                                             </ul>
                                         </div>
                                     </td>
@@ -77,12 +76,12 @@ const titles = ref({});
 
 const evaluateSelf = (data) => {
     localStorage.setItem('TVATI_APPRAISAL', JSON.stringify(data, null, 2))
-    router.push({ path: 'self-appraisal', query: { param: data.pid } })
+    router.push({ path: 'supervisor-appraisal', query: { param: data.pid } })
 }
 
 
 function loadLog() {
-    store.dispatch('getMethod', { url: '/load-appraisal' }).then((data) => {
+    store.dispatch('getMethod', { url: '/load-supervisor-appraisal-list' }).then((data) => {
         if (data?.status == 200) {
             titles.value = data.data;
         }

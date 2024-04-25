@@ -175,7 +175,7 @@
                                     <div class="form-check form-switch">
                                         <input v-model="newRole" class="form-check-input" type="checkbox"
                                             :value="role.id">
-                                        <label class="form-check-label" for="flexSwitchCheckDefault">{{ role.id
+                                        <label class="form-check-label" for="flexSwitchCheckDefault">{{ role.id.replace('_',' ')
                                             }}</label>
                                     </div>
                                 </div>

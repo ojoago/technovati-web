@@ -21,8 +21,8 @@
                     <div class="horizontal-scrollable">
                         <div class="row flex-nowrap">
                             <!-- <div class="kanban"> -->
-                            <div class="column col-4" v-for="(column, columnIndex) in subtasks" :key="columnIndex">
-                                <h4 class="task-header">{{ column.title }} </h4>
+                            <div class="column" v-for="(column, columnIndex) in subtasks" :key="columnIndex">
+                                <h4 class="task-header text-ellipsis">{{ column.title }} </h4>
                                 <draggable class="task-list" :id="columnIndex" v-model="column.tasks" group="kanban"
                                     @end="onDragEnd($event, column.title)" @change="handleChange">
                                     <template #item="{ element, index }">
@@ -338,9 +338,9 @@ dropdownUser()
 
 
 
-.col-4:nth-child(3n+1) { background: #c69; }
-.col-4:nth-child(3n+2) { background: #9c6; }
-.col-4:nth-child(3n+3) { background: #69c; }
+.column:nth-child(3n+1) { background: #c69; }
+.column:nth-child(3n+2) { background: #9c6; }
+.column:nth-child(3n+3) { background: #69c; }
 
 /* .sub-task-card{
     overflow-y: scroll;
@@ -366,11 +366,11 @@ dropdownUser()
 
 .column {
     /* flex: 1; */
-    padding: 10px;
+    padding: 5px 10px;
     margin: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-
+    width: 280px;
 }
 
 
@@ -382,6 +382,8 @@ dropdownUser()
         padding: 5px;
         margin-bottom: 5px;
         border-radius: 5px;
+    width: 100% !important;
+    align-content: center;
 }
 
 .task-list {
@@ -398,7 +400,7 @@ dropdownUser()
 }
 
 .task-list::-webkit-scrollbar {
-    width: 8px !important;
+    width: 8px ;
 }
 
 .task {

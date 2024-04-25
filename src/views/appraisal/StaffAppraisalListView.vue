@@ -9,6 +9,7 @@
                             <thead>
                                 <tr>
                                     <th>SN</th>
+                                    <th>username</th>
                                     <th>Title</th>
                                     <th>Month</th>
                                     <th>Year</th>
@@ -21,6 +22,7 @@
                             <tbody>
                                 <tr v-for="(data, loop) in titles?.data" :key="loop">
                                     <td>{{ loop + 1 }}</td>
+                                    <td>{{ data?.username }}</td>
                                     <td>{{ data?.title }}</td>
                                     <td>{{ data?.month }}</td>
                                     <td>{{ data?.year }}</td>
@@ -34,13 +36,12 @@
                                                 <i class="bi bi-tools"></i>
                                             </button>
                                             <ul class="dropdown-menu">
-                                                <li class="bg-warning" v-if="data?.status < 2"><a
+                                                <li class="bg-warning" v-if="data?.status==2"><a
                                                         class="dropdown-item pointer"
-                                                        @click="evaluateSelf(data)">Evaluate</a> </li>
-
-                                                <li class="bg-warning" v-if="data?.status > 1"><a
+                                                        @click="evaluateSelf(data)">Comment</a> </li>
+                                                <li class="bg-success"><a
                                                         class="dropdown-item pointer"
-                                                        @click="evaluateSelf(data)">View</a> </li>
+                                                        @click="evaluateSelf(data)">Preview</a> </li>
 
                                             </ul>
                                         </div>
@@ -77,12 +78,12 @@ const titles = ref({});
 
 const evaluateSelf = (data) => {
     localStorage.setItem('TVATI_APPRAISAL', JSON.stringify(data, null, 2))
-    router.push({ path: 'self-appraisal', query: { param: data.pid } })
+    router.push({ path: 'self-appraisal-hr-comment', query: { param: data.pid } })
 }
 
 
 function loadLog() {
-    store.dispatch('getMethod', { url: '/load-appraisal' }).then((data) => {
+    store.dispatch('getMethod', { url: '/load-staff-appraisal' }).then((data) => {
         if (data?.status == 200) {
             titles.value = data.data;
         }
