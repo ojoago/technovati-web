@@ -121,33 +121,26 @@ const deleteLog = (pid) => {
 }
 
 function createSalaryGrade() {
-    store.commit('setSpinner', true)
     errors.value = []
     store.dispatch('postMethod', { url: '/create-salary-grade', param: grade.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             grade.value = [];
             loadGrades()
         }
-        store.commit('setSpinner', false)
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
     })
 }
 
 function loadGrades() {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-salary-grade' }).then((data) => {
-        store.commit('setSpinner', false)
-        if (data.status == 200) {
+        if (data?.status == 200) {
             grades.value = data.data;
         }
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 }
 

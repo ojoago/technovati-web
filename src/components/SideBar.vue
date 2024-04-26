@@ -358,6 +358,10 @@
                                     class="nav-name">Salary Grade</span> </router-link>
                         </li>
                         <li class="nav-item" title="staff">
+                            <router-link to="/basic-salary" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Basic Salary</span> </router-link>
+                        </li>
+                        <li class="nav-item" title="staff">
                             <router-link to="/compute-salaries" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Salaries</span> </router-link>
                         </li>

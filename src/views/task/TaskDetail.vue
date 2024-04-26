@@ -16,9 +16,10 @@
                         <button class="btn btn-sm btn-primary m-2" @click="addSubTask(task)">Add Sub Task</button>
                         <!-- <button class="btn btn-sm btn-primary m-2" @click="addTeamModal">Add Team M</button> -->
                     </div>
+                    <!-- <small>click on a task for details and right click to edit</small> -->
                 </div>
                 <div class="card-body">
-                    <div class="horizontal-scrollable">
+                    <div class="horizontal-scrollable" v-if="subtasks.length> 0">
                         <div class="row flex-nowrap">
                             <!-- <div class="kanban"> -->
                             <div class="column" v-for="(column, columnIndex) in subtasks" :key="columnIndex">
@@ -26,7 +27,9 @@
                                 <draggable class="task-list" :id="columnIndex" v-model="column.tasks" group="kanban"
                                     @end="onDragEnd($event, column.title)" @change="handleChange">
                                     <template #item="{ element, index }">
-                                        <div @click="subTaskDetail(column.title,element)" class="task" :key="index">{{
+                                        <div @click="subTaskDetail(column.title,element)"
+                                            @contextmenu="handleRightClick($event,  element)" class="task" :key="index">
+                                            {{
                                             element.name }}</div>
                                     </template>
                                 </draggable>
@@ -145,7 +148,7 @@
             </template>
             <template #footer>
                 <div>
-                    <button class="btn btn-sm btn-warning" @click="editSubTaskModal(dtlSub)">Edit</button>
+                    <!-- <button class="btn btn-sm btn-warning" @click="editSubTaskModal(dtlSub)">Edit</button> -->
                 </div>
             </template>
         </o-modal>
@@ -242,13 +245,20 @@ const subTaskDetail = (status,data)=>{
     dtlModal.value = true
 }
 
-const subTask = ref({})
-const subTaskModal = ref(false)
-const editSubTaskModal = (data) =>{
+const handleRightClick = (event,data) => {
+    event.preventDefault();
     dtlModal.value = false
     subTaskModal.value = true
     subTask.value = data;
 }
+
+const subTask = ref({})
+const subTaskModal = ref(false)
+// const editSubTaskModal = (data) =>{
+//     dtlModal.value = false
+//     subTaskModal.value = true
+//     subTask.value = data;
+// }
 
 const editSubTask = ()=>{
     store.dispatch('postMethod', { url: '/create-sub-task', param: subTask.value }).then((data) => {

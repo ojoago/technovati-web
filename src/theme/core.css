@@ -396,6 +396,9 @@ body{
     position: sticky;
     width: 20% !important;
 }
+.line-break {
+    white-space: pre-wrap !important;
+}
 .uppercase-text{
     text-transform: uppercase;
 }
