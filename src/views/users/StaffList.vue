@@ -63,15 +63,24 @@
                                                         <ul class="dropdown-menu">
                                                             <li><a class="dropdown-item pointer bg-info"
                                                                     @click="staffDetail(user)">Detail</a></li>
+
                                                             <li><a class="dropdown-item pointer"
                                                                     @click="updateRoles(user.id)">Update Roles</a></li>
+
+                                                            <li><a class="dropdown-item pointer bg-success"
+                                                                    @click="updateStep(user.pid)">Update Salary Step</a>
+                                                            </li>
+
                                                             <li><a class="dropdown-item pointer bg-warning"
                                                                     @click="editStaff(user)">Edit</a></li>
+
                                                             <li><a class="dropdown-item pointer bg-primary text-white"
                                                                     @click="assignDepartment(user.pid)">Assign Dept</a>
                                                             </li>
+
                                                             <li><a class="dropdown-item pointer bg-warning"
                                                                     @click="resetLink(user.pid)">Reset Password</a></li>
+
                                                             <li><a class="dropdown-item pointer bg-danger"
                                                                     @click="disableStaff(user.pid)">Disable Account</a>
                                                             </li>
@@ -164,6 +173,7 @@
                 <div></div>
             </template>
         </o-modal>
+
         <o-modal :isOpen="roleModal" modal-class="modal-sm" @submit="updateStaffRole" title="Staff Role"
             @modal-close="closeModal">
             <template #content>
@@ -175,7 +185,8 @@
                                     <div class="form-check form-switch">
                                         <input v-model="newRole" class="form-check-input" type="checkbox"
                                             :value="role.id">
-                                        <label class="form-check-label" for="flexSwitchCheckDefault">{{ role.id.replace('_',' ')
+                                        <label class="form-check-label" for="flexSwitchCheckDefault">{{
+                                            role.id.replace('_',' ')
                                             }}</label>
                                     </div>
                                 </div>
@@ -184,8 +195,61 @@
                     </form>
                 </div>
             </template>
-
         </o-modal>
+
+        <o-modal :isOpen="stepModal" modal-class="modal-sm" @submit="updateStaffStep" title="Update Grade Step"
+            @modal-close="closeModal">
+            <template #content>
+                <div>
+                    <form id="rForm">
+                        <div class="row">
+                                <form>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="form-label">Salary Structure</label>
+                                                <select class="form-control form-control-sm"
+                                                    v-model="salary.structure_pid" @change="loadGrades($event)">
+                                                    <option value="" selected>Make Selection</option>
+                                                    <option v-for="sec in structureDrop" :key="sec.id" :value="sec.id">
+                                                        {{ sec.text }}
+                                                    </option>
+                                                </select>
+                                                <p class="text-danger " v-if="errors?.structure_pid">{{
+                                                errors?.structure_pid[0] }} </p>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="form-label">Salary Grade</label>
+                                                <select class="form-control form-control-sm" v-model="salary.grade_pid"
+                                                    @change="loadSteps($event)">
+                                                    <option value="" selected>Make Selection</option>
+                                                    <option v-for="sec in grades" :key="sec.id" :value="sec.id">{{
+                                                sec.text }} </option>
+                                                </select>
+                                                <p class="text-danger " v-if="errors?.grade_pid">{{ errors?.grade_pid[0]
+                                                    }} </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="form-label">Salary Step</label>
+                                                <Select2 v-model="salary.step" :options="steps" id="pid"
+                                                    :settings="{ width: '100%' }" />
+                                                <p class="text-danger " v-if="errors?.step">{{ errors?.step[0] }} </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                        </div>
+                    </form>
+                </div>
+            </template>
+        </o-modal>
+
     </div>
 </template>
 
@@ -194,6 +258,7 @@
     import OModal from "@/components/OModal.vue";
     import PaginationLinks from "@/components/PaginationLinks.vue";
     import assignDepartmentForm from "@/components/forms/department/AssignDepartmentForm.vue";
+import Select2 from 'vue3-select2-component';
 
     import store from "@/store";
     import {  onMounted, ref } from "vue";
@@ -216,7 +281,7 @@
    
     function loadStaff() {
     store.dispatch('getMethod', { url: '/load-staff/1' }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             users.value = data.data;
         }
     })
@@ -231,6 +296,7 @@
     }
     const closeModal = () => {
         assignModal.value = false;
+        stepModal.value = false;
         roleModal.value = false;
         formValue.value.roles = [];
         newRole.value = []  
@@ -254,14 +320,14 @@ function editStaff(staff) {
 
 const disableStaff = (pid) =>{
     store.dispatch('deleteMethod', { url: '/disable-staff/'+pid }).then((data) => {
-        if (data.status == 201) {
+        if (data?.status == 201) {
             loadStaff()
         }
     })
 }
 const reActivateStaff = (pid) =>{
     store.dispatch('getMethod', { url: '/re-activate-staff/'+pid }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             loadDisabledStaff()
         }
     })
@@ -275,7 +341,7 @@ onMounted(()=>{
 const disabledList = ref({})
 function loadDisabledStaff() {
     store.dispatch('getMethod', { url: '/load-staff/0' }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             disabledList.value = data.data;
         }
     })
@@ -293,20 +359,58 @@ const updateRoles = (id) => {
     newRole.value = []
     formValue.value.id = id;
     store.dispatch('getMethod', { url: '/load-staff-roles/'+id }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             newRole.value.push(...data.data);
         }
     })
 }
 
+const salary = ref({
+    structure_pid: '' ,
+    grade_pid: '' ,
+    step: '' ,
+    user_pid: '' ,
+})
+const resetSalary = ()=> {
+    salary.value = {
+        structure_pid: '',
+        grade_pid: '',
+        step: '',
+        user_pid: '',
+    }
+}
+const stepModal = ref(false)
+const updateStep = (id) => {
+    stepModal.value = true
+    salary.value.user_pid = id;
+    store.dispatch('getMethod', { url: 'load-staff-basic-salary/'+id }).then((data) => {
+        if (data?.status == 200) {
+            salary.value = data.data;
+        }
+    })
+}
+
+const updateStaffStep = () => {
+    store.dispatch('putMethod', { url: '/update-staff-grade-step', param: salary.value, prompt: 'Are you sure, you want to update the staff Step?' }).then((data) => {
+        if (data?.status == 201) {
+            resetSalary()
+            stepModal.value = false;
+        }
+    })
+} 
+
+
+
+
 const formValue = ref({
     id:'',
     roles:[]
 })
+
 const updateStaffRole = () => {
     formValue.value.roles = newRole.value
     store.dispatch('putMethod', { url: '/update-staff-role', param: formValue.value, prompt:'Are you sure, you want to update the staff role?'}).then((data) => {
-        if (data.status == 201) {
+        if (data?.status == 201) {
             newRole.value = []
             roleModal.value = false
             formValue.value.roles = [];
@@ -326,6 +430,44 @@ function loadRoles() {
 loadRoles()
 
 
+
+const grades = ref({})
+
+const steps = ref({})
+function loadSteps(event) {
+    dropdownStep(event.target.value)
+}
+
+
+const loadGrades = (event) => {
+    dropdownGrade(event.target.value)
+}
+
+function dropdownStep(id) {
+    store.dispatch('loadDropdown', 'grade-step/' + id).then(({ data }) => {
+        steps.value = data;
+    }).catch(e => {
+        console.log(e);
+    })
+}
+function dropdownGrade(id) {
+    store.dispatch('loadDropdown', 'salary-grade/' + id).then(({ data }) => {
+        grades.value = data;
+    }).catch(e => {
+        console.log(e);
+    })
+}
+
+
+const structureDrop = ref({});
+function dropdownStructure() {
+    store.dispatch('loadDropdown', 'salary-structure').then(({ data }) => {
+        structureDrop.value = data;
+    }).catch(e => {
+        console.log(e);
+    })
+}
+dropdownStructure()
 
 </script>
 

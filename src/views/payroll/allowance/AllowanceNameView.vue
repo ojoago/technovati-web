@@ -20,6 +20,17 @@
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
+                                                <label class="form-label">Type</label>
+                                                <select v-model="allowance.type" class="form-control">
+                                                    <option value="" selected>Select Type</option>
+                                                    <option value="1"> Taxable </option>
+                                                    <option value="2"> Non Taxable </option>
+                                                </select>
+                                                <p class="text-danger " v-if="errors?.type">{{ errors?.type[0] }} </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
                                                 <label class="form-label">Description</label>
                                                 <textarea type="text" v-model="allowance.description" class="form-control"
                                                     placeholder="description of visit"></textarea>
@@ -44,14 +55,16 @@
                                         <tr>
                                             <th>SN</th>
                                             <th>Allowance</th>
+                                            <th>type</th>
                                             <th> Description</th>
-                                            <th> <i class="bi bi-pencil-fill"></i> </th>
+                                            <th> <i class="bi bi-gear-fill"></i> </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="(lg, loop) in allowances.data" :key="loop">
                                             <td>{{ loop + 1 }}</td>
                                             <td>{{ lg.name }}</td>
+                                            <td>{{ lg.types }}</td>
                                             <td>{{ lg.description }}</td>
                                             <td>
                                                 <div class="dropdown">
@@ -95,6 +108,7 @@ const allowances = ref({});
 const allowance = ref({
     name: '',
     description: '',
+    type: '',
 });
 
 const editAllow = (stp) => {
@@ -102,40 +116,43 @@ const editAllow = (stp) => {
         name: stp.name,
         description: stp.description,
         pid: stp.pid,
+        type: stp.type,
     }
 }
 const deleteLog = (pid) => {
     alert(pid)
 }
 
+const resetAttr = () => {
+    allowance.value = {
+        name: '',
+        description: '',
+        pid: '',
+        type: '',
+    }
+}
+
 function createSalaryAllowance() {
-    store.commit('setSpinner', true)
     errors.value = []
     store.dispatch('postMethod', { url: '/create-allowance-name', param: allowance.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
-            allowance.value = [];
+        } else if (data?.status == 201) {
+            resetAttr()
             loadAllowance()
         }
-        store.commit('setSpinner', false)
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
     })
 }
 
 function loadAllowance() {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-allowance-names' }).then((data) => {
-        store.commit('setSpinner', false)
-        if (data.status == 200) {
+        if (data?.status == 200) {
             allowances.value = data.data;
         }
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 }
 

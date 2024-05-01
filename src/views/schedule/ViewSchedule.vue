@@ -62,7 +62,7 @@ const schedules = ref({});
 
 function loadSchedules() {
     store.dispatch('getMethod', { url: '/load-my-schedules' }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             schedules.value = data.data;
         }
     })

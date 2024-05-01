@@ -4,7 +4,8 @@
             
             <div class="card">
                 <div class="card-body">
-                    <!-- <button class="btn btn-sm btn-primary m-2" @click="openModal">Request</button> -->
+                    <h5 class="card-title">Staff Travel Request
+                    </h5>
                     <div class="table-responsive">
                         <table class="table-hover table-stripped table-bordered table">
                             <thead>
@@ -108,7 +109,7 @@ const rejectRequest = (pid) => {
 const requests = ref({})
 function loadRequest() {
     store.dispatch('getMethod', { url: '/load-staff-request' }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             requests.value = data.data
         }
     })

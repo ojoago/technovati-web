@@ -166,9 +166,9 @@ function createDeductionAccount() {
     store.commit('setSpinner', true)
     errors.value = []
     store.dispatch('postMethod', { url: '/create-deduction-account', param: deduction.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             deduction.value = [];
         }
         store.commit('setSpinner', false)
@@ -183,7 +183,7 @@ function loadLog() {
     store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-deduction-accounts' }).then((data) => {
         store.commit('setSpinner', false)
-        if (data.status == 200) {
+        if (data?.status == 200) {
             accounts.value = data.data;
         }
     }).catch(e => {

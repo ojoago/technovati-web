@@ -8,7 +8,7 @@
                         <div class="card-header">
                             Appraisal Configurations
 
-                            <button class="btn btn-primary btn-sm" @click="openConfigModal">Configure Appraisal</button>
+                            <button class="btn btn-primary btn-sm" @click="configModal=true">Configure Appraisal</button>
 
                         </div>
                         <div class="card-body">
@@ -25,7 +25,7 @@
                                             <th>End date</th>
                                             <th>Note</th>
                                             <th>Status</th>
-                                            <th> <i class="bi bi-pencil-fill"></i> </th>
+                                            <th> <i class="bi bi-gear-fill"></i> </th>
                                         </tr>
                                     </thead>
                                     <tbody class="mb-4">
@@ -37,17 +37,18 @@
                                             <td>{{ data.start }}</td>
                                             <td>{{ data.end }}</td>
                                             <td>{{ data.note }}</td>
-                                            <td>{{ data.status_name }}</td>
+                                            <td>{{ data?.status_name }}</td>
                                             <td>
-                                                <div class="dropdown" v-if="data.status">
+                                                <div class="dropdown" v-if="data?.status==1">
                                                     <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
                                                         data-bs-toggle="dropdown">
                                                         <i class="bi bi-tools"></i>
                                                     </button>
                                                     <ul class="dropdown-menu" >
-                                                        <li><a class="dropdown-item pointer bg-primary text-white" @click="configureCycle(data.pid)">Add KPIs</a> </li>
+                                                        <li><a class="dropdown-item pointer bg-primary text-white" @click="configureCycle(data.pid)">Map To Staff</a> </li>
                                                         <li><a class="dropdown-item pointer bg-warning" @click="editCycle(data)">Edit</a> </li>
-                                                        <li><a class="dropdown-item pointer bg-danger" @click="deleteCycle(data.pid)">Delete</a> </li>
+                                                        <li><a class="dropdown-item pointer bg-info" @click="lockAppraisal(data.pid)">Lock Appraisal</a> </li>
+                                                        <li><a class="dropdown-item pointer bg-danger" @click="deleteAppraisal(data.pid)">Delete</a> </li>
                                                     </ul>
                                                 </div>
                                             </td>
@@ -72,7 +73,7 @@
                        <div class="col-md-12">
                                             <label class="form-label">Section</label>
                                             <select class="form-control form-control-sm" v-model="config.title_pid">
-                                                <option disabled selected>Select Section</option>
+                                                <option value="" selected>Select Section</option>
                                                 <option v-for="title in titleDrop" :key="title.pid" :value="title.pid">{{ title.title }}</option>
                                             </select>
                                             <p class="text-danger " v-if="errors?.title_pid">{{ errors?.title_pid[0] }} </p>
@@ -83,11 +84,6 @@
                                                 <div class="form-group">
                                                     <label class="form-label">Year</label>
                                                     <input type="number" v-model="config.year" class="form-control" placeholder="e.g 3">
-
-                                                     <!-- <select class="form-control form-control-sm" v-model="config.year" :selected="year"  >
-                                                    <option disabled selected>Select Year</option>
-                                                    <option v-for="i in 4" :key="i">{{ (year++)-4 }}</option>
-                                                </select> -->
                                                     <p class="text-danger " v-if="errors?.year">{{ errors?.year[0] }} </p>
                                                 </div>
                                             </div>
@@ -95,7 +91,7 @@
                                                 <div class="form-group">
                                                     <label class="form-label">Month</label>
                                                     <select class="form-control form-control-sm" v-model="config.month"  >
-                                                        <option disabled selected>Select Month</option>
+                                                        <option value="" selected>Select Month</option>
                                                         <option v-for="(month, j) in months" :key="j">{{ month }}</option>
                                                      </select>
                                                     <p class="text-danger " v-if="errors?.month">{{ errors?.month[0] }}       </p>
@@ -213,9 +209,6 @@ const currentTime = new Date()
 var year = currentTime.getFullYear()
 const configModal = ref(false)
 const cycleModal = ref(false)
-const openConfigModal = () => {
-    configModal.value = true;
-};
 
 const closeModal = () => {
     configModal.value = false;
@@ -252,10 +245,7 @@ const editCycle = (cycle) => {
         note: cycle.note,
         pid: cycle.pid,
     }
-    cycleModal.value = true
-}
-const deleteCycle = (pid) => {
-    alert(pid)
+    configModal.value = true
 }
 
 const mapping = ref({
@@ -265,9 +255,9 @@ const mapping = ref({
     types: ''
 })
 
-const resetMap = () =>{
+const resetMap = (pid) =>{
     mapping.value = {
-        apparisal_pid: '',
+        apparisal_pid: pid,
         department: '',
         designations: '',
         types: ''
@@ -287,10 +277,27 @@ function configAppraisal() {
     // store.commit('setSpinner', true)
     errors.value = []
     store.dispatch('postMethod', { url: '/create-appraisal-cycle', param: config.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             resetConfig()
+            loadSectionDetails()
+        }
+    })
+}
+
+const lockAppraisal = (pid) => {
+    store.dispatch('putMethod', { url: '/lock-appraisal-cycle/'+pid, prompt:'Are you sure you want to lock this Appraisal?' }).then((data) => {
+        if (data?.status == 201) {
+            loadSectionDetails()
+        }
+    })
+}
+
+
+const deleteAppraisal = (pid) => {
+    store.dispatch('deleteMethod', { url: '/delete-appraisal-cycle/'+pid, prompt:'Are you sure, you want to delete this Appraisal? ' }).then((data) => {
+        if (data?.status == 201) {
             loadSectionDetails()
         }
     })
@@ -304,7 +311,7 @@ function initiateAppraisal() {
         if (data?.status == 422) {
             init_errors.value = data.data
         } else if (data?.status == 201) {
-            resetMap();
+            resetMap(mapping.value.apparisal_pid);
         }
         // store.commit('setSpinner', false)
     })
@@ -313,7 +320,7 @@ function initiateAppraisal() {
 loadSectionDetails()
 function loadSectionDetails() {
     store.dispatch('getMethod', { url: '/load-appraisal-cycle'}).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             apparisals.value = data.data;
         }
     }).catch(e => {

@@ -73,7 +73,7 @@ const item = ref({});
 
 const confirmItems = () => {
     store.dispatch('putMethod', { url: '/confirm-raw-material-received/' + item.value?.pid, prompt: 'by clicking ok you accept that quantity indicated on the app tallies with quantity received phisycally' }).then((data) => {
-        if (data.status == 201) {
+        if (data?.status == 201) {
             loadRequest(item.value?.pid)
             // requests.value = data.data;
         }

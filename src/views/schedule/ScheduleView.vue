@@ -126,9 +126,9 @@ const editSchedule = (sch)=>{
 function createSchedule() {
     errors.value = []
     store.dispatch('postMethod', { url: '/create-schedule', param: schedule.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             let form = document.querySelector('#scheduleForm');
             form.reset()
             loadSchedules()
@@ -138,7 +138,7 @@ function createSchedule() {
 
 function loadSchedules() {
     store.dispatch('getMethod', { url: '/load-schedules' }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             schedules.value = data.data;
         }
     })

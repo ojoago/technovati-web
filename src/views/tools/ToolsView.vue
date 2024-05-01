@@ -141,10 +141,10 @@ const errors = ref({});
 function createTool() {
     errors.value = []
     store.dispatch('postMethod', { url: '/create-tool', param: tool.value}).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
         } 
-        else if (data.status == 201) {
+        else if (data?.status == 201) {
             let form = document.querySelector('#toolForm');
             form.reset();
             loadTools()
@@ -172,7 +172,7 @@ const tools = ref({});
 loadTools()
 function loadTools() {
     store.dispatch('getMethod', { url: '/load-tools' }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             tools.value = data.data;
         }
     }).catch(e => {

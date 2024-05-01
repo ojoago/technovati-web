@@ -88,9 +88,9 @@ const raw = ref({
 function addMaterial() {
     errors.value = []
     store.dispatch('postMethod', { url: '/add-material-quantity', param: raw.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             let form = document.querySelector('#rForm');
             form.reset()
         }

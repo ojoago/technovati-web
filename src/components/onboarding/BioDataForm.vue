@@ -275,13 +275,13 @@ let query = {}
 function createStaff() {
     errors.value = []
     store.dispatch('postMethod', { url: '/create-staff', param: user.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data;
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             query = { tab: 'next-tab', 'id': data?.data?.user_pid }
             localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
             errors.value = []
-            user.value = [];
+            resetAttr()
             switchTab()
         }
     })
@@ -402,12 +402,39 @@ const handleImageChange = (event) => {
 
     const  loadStaff = (pid) => {
     store.dispatch('getMethod', { url: '/load-personal-detail/'+pid }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             user.value = data.data;
         }
     })
 }
 
+
+const resetAttr = () => {
+    user.value = {
+        email: '',
+    username: '',
+    gsm: '',
+    group: '',
+    firstname: '',
+    othername: '',
+    marital_status: '',
+    gender: '',
+    religion: '',
+    pob: '',
+    dob: '',
+    state_of_origin: '',
+    lga_of_origin: '',
+    state_of_residence: '',
+    lga_of_residence: '',
+    address: '',
+    department_pid: '',
+    sub_department: '',
+    designation_pid: '',
+    user_pid: props.user_pid,
+    image: null,
+    role: '',
+    }
+}
      
 </script>
 

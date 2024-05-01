@@ -100,9 +100,9 @@ const sub_error = ref({})
 function createSubDepartment() {
     sub_error.value = []
     store.dispatch('postMethod', { url: '/create-sub-department', param: sub.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             sub_error.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             sub.value = [];
         }
     })
@@ -114,7 +114,7 @@ loadSubDepartment()
 const sub_depts = ref({})
 function loadSubDepartment() {
     store.dispatch('getMethod', { url: '/load-sub-departments' }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             sub_depts.value = data.data;
         }
     })
@@ -127,7 +127,6 @@ function dropdownAllow() {
         users.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownAllow()

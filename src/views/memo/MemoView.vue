@@ -172,9 +172,9 @@ const closeModal = () => {
     function createMemo(){
         errors.value = [];
         store.dispatch('postMethod', { url: '/create-memo', param: memoForm.value }).then((data) => {
-            if (data.status == 422) {
+            if (data?.status == 422) {
                 errors.value = data.data;
-            } else if (data.status == 201) {
+            } else if (data?.status == 201) {
                 resetAttr()
 
                 loadMemo()
@@ -195,7 +195,7 @@ const closeModal = () => {
 
    const deleteMemo = (pid) => {
        store.dispatch('deleteMethod', { url: '/delete-memo-record/' + pid }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             store.commit('notify', { message: 'Reloading Records...', type: 'secondary' })
             loadMemo()
         }
@@ -214,7 +214,7 @@ const closeModal = () => {
     loadMemo()
     function loadMemo(){
         store.dispatch('getMethod', { url: '/load-memo', param: memoForm.value }).then((data) => {
-              if (data.status == 200) {
+              if (data?.status == 200) {
                 memos.value = data.data;
             }
         }).catch(e => {

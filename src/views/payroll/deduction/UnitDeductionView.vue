@@ -3,7 +3,7 @@
         <div class="container mt-2">
             <div class="card">
                 <div class="card-header">Unit Deductions
-                    <button class="btn btn-sm btn-primary" @click="openModal">Add New</button>
+                    <button class="btn btn-sm btn-primary" @click="toggleModal = true">Add New</button>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -23,10 +23,10 @@
                                 <tr v-for="(ex, loop) in deductions.data" :key="loop">
                                     <td>{{ loop + 1 }}</td>
                                     <td>{{ ex.deduction.name }}</td>
-                                    <td>{{ ex.amount }}</td>
-                                    <td>{{ levels[Number(ex.level) - 1] }}</td>
-                                    <td>{{ ex.value_type == 1 ? 'FIXED' : 'PERCENTAGE OF BASIC' }}</td>
-                                    <td>{{ ex.method == 1 ? 'PERIODIC' : 'GENERAL' }}</td>
+                                    <td>{{ ex.total }}</td>
+                                    <td>{{ ex.levels }}</td>
+                                    <td>{{ ex.type }}</td>
+                                    <td>{{ ex.methods }}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
@@ -35,7 +35,7 @@
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li><a class="dropdown-item pointer bg-warning" @click="editData(ex)">Edit</a></li>
-                                                <li><a class="dropdown-item pointer bg-danger" @click="deleteData(ex.id)">Delete</a> </li>
+                                                <li><a class="dropdown-item pointer bg-danger" @click="deleteData(ex.pid)">Delete</a> </li>
                                             </ul>
                                         </div>
                                     </td>
@@ -52,9 +52,11 @@
                 </div>
             </div>
         </div>
+
         <o-modal :isOpen="toggleModal" @submit="createUnitDeduction" modal-class="modal-xl" title="Unit Deduction" @modal-close="closeModal">
                 <template #content>
                     <div>
+                        
                          <form id="deductionForm">
                                 <div class="row">
                                     <div class="col-md-4">
@@ -167,36 +169,36 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Salary Structure</label>
-                                                    <select v-model="deduction.grade.structure_pid" class="form-control"
+                                                    <select v-model="deduction.grade_structure_pid" class="form-control"
                                                         @change="loadSectionDetails($event)">
                                                         <option value="" selected>Select Structure</option>
-                                                        <option v-for="sec in structures" :key="sec.pid" :value="sec.pid">{{
-                                                            sec.structure }}</option>
+                                                        <option v-for="sec in structures" :key="sec.id" :value="sec.id">{{
+                                                            sec.text }}</option>
                                                     </select>
-                                                    <p class="text-danger " v-if="errors?.grade.structure_pid">{{
-                                                        errors?.grade.structure_pid[0] }} </p>
+                                                    <p class="text-danger " v-if="errors?.grade_structure_pid">{{
+                                                        errors?.grade_structure_pid[0] }} </p>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Salary Grade</label>
-                                                    <select v-model="deduction.grade.grade_pid" class="form-control"
+                                                    <select v-model="deduction.grade_grade_pid" class="form-control"
                                                         @change="loadSectionDetails($event)">
                                                         <option value="" selected>Select Grade</option>
-                                                        <option v-for="sec in grades" :key="sec.pid" :value="sec.pid">{{
-                                                            sec.grade }}</option>
+                                                        <option v-for="sec in grades" :key="sec.id" :value="sec.id">{{
+                                                            sec.text }}</option>
                                                     </select>
-                                                    <p class="text-danger " v-if="errors?.grade.grade_pid">{{ errors?.grade.grade_pid[0] }} </p>
+                                                    <p class="text-danger " v-if="errors?.grade_grade_pid">{{ errors?.grade_grade_pid[0] }} </p>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Salary Step</label>
-                                                    <select v-model="deduction.grade.step" multiple class="form-control">
+                                                    <select v-model="deduction.grade_step" multiple class="form-control">
                                                         <option value="" selected>Select Step</option>
                                                         <option v-for="i = 1, in 15" :key="i" value="{{i}}">Step {{ i }}</option>
                                                     </select>
-                                                    <p class="text-danger " v-if="errors?.grade.step">{{ errors?.grade.step[0] }} </p>
+                                                    <p class="text-danger " v-if="errors?.grade_step">{{ errors?.grade_step[0] }} </p>
                                                 </div>
                                             </div>
 
@@ -211,7 +213,7 @@
                                                 <div>
                                                     <Multiselect v-model="deduction.structures" :options="structures"
                                                         :multiple="true" :close-on-select="true"
-                                                        placeholder="Pick Salary Structure" label="structure" track-by="pid" />
+                                                        placeholder="Pick Salary Structure" label="text" track-by="id" />
                                                 </div>
                                                 <p class="text-danger " v-if="errors?.structures">{{ errors?.structures[0] }}
                                                 </p>
@@ -225,15 +227,15 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="form-label">Start Period </label>
-                                                    <input v-model="deduction.period.from" type="date" class="form-control">
-                                                    <p class="text-danger " v-if="errors?.period.from">{{ errors?.period.from[0] }} </p>
+                                                    <input v-model="deduction.period_from" type="date" class="form-control">
+                                                    <p class="text-danger " v-if="errors?.period_from">{{ errors?.period_from[0] }} </p>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="form-label">End Period </label>
-                                                    <input v-model="deduction.period.to" type="date" class="form-control">
-                                                    <p class="text-danger " v-if="errors?.period.to">{{ errors?.period.to[0] }}
+                                                    <input v-model="deduction.period_to" type="date" class="form-control">
+                                                    <p class="text-danger " v-if="errors?.period_to">{{ errors?.period_to[0] }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -260,15 +262,12 @@ import { Multiselect } from 'vue-multiselect';
 import OModal from "@/components/OModal.vue";
 
 const toggleModal = ref(false)
-const openModal = () => {
-    toggleModal.value = true
-}
+
 const closeModal = () => {
     toggleModal.value = false;
+    resetAttr()
 };
-const levels = [
-    'Department', 'Designation', 'Employee', 'Grade', 'Structure'
-];
+
 const errors = ref({});
 const deduction = ref({
     deduction_pid: '',
@@ -276,20 +275,18 @@ const deduction = ref({
     value_type: '',
     amount: '',
     method: '',
-    period: {
-        from: '',
-        to: ''
-    },
+    period_from: '',
+    period_to: '',
     departments: [],
     structures: [],
     employees: [],
     designations: [],
-    grade: {
-        grade_pid: '',
-        structure_pid: '',
-        step: ''
-    },
+    grade_grade_pid: '',
+    grade_structure_pid: '',
+    grade_step: '',
 });
+
+
 
 const editData = (data) => {
     deduction.value = {
@@ -298,16 +295,16 @@ const editData = (data) => {
         value_type: data.value_type ,
         amount: data.amount ,
         method: data.method ,
-        period: data.period,
-        // period: {
-        //     from: '',
-        //     to: ''
-        // },
+        period_from: data.period.from,
+        period_to: data.period.to,
         departments: data.departments ,
         structures: data.structures ,
         employees: data.employees ,
         designations: data.designations ,
-        grade: data.grade,
+        grade_grade_pid: data.grade_grade_pid ,
+        grade_structure_pid: data.grade_structure_pid ,
+        grade_step: data.grade_step ,
+        pid: data.pid,
         // grade: {
         //     grade_pid: '',
         //     structure_pid: '',
@@ -317,23 +314,45 @@ const editData = (data) => {
     toggleModal.value = true
 }
 
+const resetAttr = () => {
+    deduction.value = {
+        deduction_pid: '',
+        level: '',
+        value_type: '',
+        amount: '',
+        method: '',
+        period_from: '',
+        period_to: '',
+        departments: [],
+        structures: [],
+        employees: [],
+        designations: [],
+        grade_grade_pid: '',
+        grade_structure_pid: '',
+        grade_step: '',
+    }
+}
 
 
 function createUnitDeduction() {
-    store.commit('setSpinner', true)
     errors.value = []
     store.dispatch('postMethod', { url: '/create-unit-deduction', param: deduction.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
-            // deduction.value = [];
-            // deductionForm
-            let form = document.querySelector('#deductionForm');
-            form.reset();
+        } else if (data?.status == 201) {
+            loadLog()
+            resetAttr();
         }
-        store.commit('setSpinner', false)
     }).catch(e => {
-        store.commit('setSpinner', false)
+        console.log(e);
+    })
+}
+function deleteData(id) {
+    store.dispatch('deleteMethod', { url: '/delete-unit-deduction/'+id }).then((data) => {
+        if (data?.status == 201) {
+            loadLog()
+        }
+    }).catch(e => {
         console.log(e);
     })
 }
@@ -341,16 +360,12 @@ function createUnitDeduction() {
 const deductions = ref({});
 
 function loadLog() {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-unit-deductions' }).then((data) => {
-        store.commit('setSpinner', false)
-        if (data.status == 200) {
+        if (data?.status == 200) {
             deductions.value = data.data;
         }
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 }
 
@@ -363,7 +378,6 @@ function dropdownAllow() {
         deduction_names.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownAllow()
@@ -374,18 +388,16 @@ function dropdownDept() {
         department.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownDept()
 
 const designation = ref([]);
 function dropdownDesig() {
-    store.dispatch('loadDropdown', 'departments').then(({ data }) => {
+    store.dispatch('loadDropdown', 'designations').then(({ data }) => {
         designation.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownDesig()
@@ -396,7 +408,6 @@ function dropdownUser() {
         users.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownUser()
@@ -407,23 +418,18 @@ function dropdownStructure() {
         structures.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownStructure()
 
 const grades = ref([]);
 function loadSectionDetails(event) {
-    store.commit('setSpinner', true)
     store.dispatch('loadDropdown', 'salary-grade/' + event.target.value).then((data) => {
-        store.commit('setSpinner', false)
-        if (data.status == 200) {
+        if (data?.status == 200) {
             grades.value = data.data;
         }
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 }
 

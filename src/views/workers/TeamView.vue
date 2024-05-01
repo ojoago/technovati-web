@@ -152,7 +152,7 @@ const editTeam = (tm)=>{
 
 const detletTeam = (pid) => {
       store.dispatch('putMethod', { url: '/toggle-team-status/'+pid }).then((data) => {
-       if (data.status == 201) {
+       if (data?.status == 201) {
             let form = document.querySelector('#teamForm');
             form.reset();
         }
@@ -181,9 +181,9 @@ const teamDetail = (data) =>{
 function createTeam() {
     errors.value = []
         store.dispatch('postMethod', { url: '/create-team', param: team.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             let form = document.querySelector('#teamForm');
             form.reset();
             loadTeam()
@@ -195,7 +195,7 @@ function loadTeam() {
     store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-team' }).then((data) => {
         store.commit('setSpinner', false)
-        if (data.status == 200) {
+        if (data?.status == 200) {
             team_data.value = data.data;
         }
     }).catch(e => {

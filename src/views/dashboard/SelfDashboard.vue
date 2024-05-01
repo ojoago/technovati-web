@@ -61,7 +61,7 @@ const eventData = ref([])
 
 function loadEvents() {
     store.dispatch('getMethod', { url: '/load-shift-holidays' }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             eventData.value = data.data;
         }
     })

@@ -72,7 +72,7 @@ function submitComment() {
     errors.value = {}
     comment.value.pid = assessment.value.pid
     store.dispatch('postMethod', { url: '/submit-hr-comment' , param: comment.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
             summary.value = data.data;

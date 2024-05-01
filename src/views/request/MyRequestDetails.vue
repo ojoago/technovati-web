@@ -79,7 +79,7 @@ const request = ref({});
 //     store.commit('setSpinner', true)
 //     store.dispatch('getMethod', { url: '/load-my-raw-material-requests' }).then((data) => {
 //         store.commit('setSpinner', false)
-//         if (data.status == 200) {
+//         if (data?.status == 200) {
 //             requests.value = data.data;
 //         }
 //     }).catch(e => {

@@ -29,7 +29,7 @@
                                             <td>{{ data.email }}</td>
                                             <td>{{ data.gsm }}</td>
                                             <td>{{ data.address }}</td>
-                                            <!-- <td>{{ data.status }}</td> -->
+                                            <!-- <td>{{ data?.status }}</td> -->
                                             <td>
                                                 <div class="dropdown">
                                                     <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
@@ -146,9 +146,9 @@ const editSupplier = (data)=> {
 function createSupplier() {
     errors.value = []
      store.dispatch('postMethod', { url: '/create-supplier', param: supplier.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data;
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             let form = document.querySelector('#sForm');
             form.reset();
             loadSuppliers()

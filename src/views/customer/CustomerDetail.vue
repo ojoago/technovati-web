@@ -74,7 +74,7 @@ onMounted(() => {
 
 function loadItem(pid) {
     store.dispatch('getMethod', { url: '/load-customer-invoice/'+pid }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             items.value = data.data;
         }
     }).catch(e => {

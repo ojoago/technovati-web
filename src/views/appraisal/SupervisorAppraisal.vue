@@ -93,7 +93,7 @@ function submitComment() {
     comment.value.pid = assessment.value.pid
     comment.value.keys = keys.value
     store.dispatch('postMethod', { url: '/submit-supervisor-assessment', param: comment.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
             summary.value = data.data;

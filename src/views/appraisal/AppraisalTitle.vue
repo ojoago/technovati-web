@@ -123,9 +123,9 @@ const deleteLog = (id) => {
 function createAppraisalTitle() {
     errors.value = []
     store.dispatch('postMethod', { url: '/create-appraisal-title', param: appraisal.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             resetAttr()
             loadLog()
         }

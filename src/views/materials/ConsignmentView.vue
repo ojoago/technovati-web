@@ -99,7 +99,7 @@ function loadRawMaterials() {
     store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-material-consignment' }).then((data) => {
         store.commit('setSpinner', false)
-        if (data.status == 200) {
+        if (data?.status == 200) {
             rawMaterials.value = data.data;
         }
     }).catch(e => {

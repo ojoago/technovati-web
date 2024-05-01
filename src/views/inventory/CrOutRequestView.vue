@@ -58,7 +58,7 @@ function loadItem() {
     store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-cr-out-request' }).then((data) => {
         store.commit('setSpinner', false)
-        if (data.status == 200) {
+        if (data?.status == 200) {
             items.value = data.data;
         }
     }).catch(e => {

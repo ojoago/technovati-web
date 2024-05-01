@@ -128,7 +128,7 @@ onMounted(() => {
 
 const loadBankDetails = (pid) => {
     store.dispatch('getMethod', { url: '/load-bank-details/' + pid }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             bank.value = data.data;
         }
     })

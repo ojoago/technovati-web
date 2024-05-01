@@ -171,7 +171,7 @@ function createTask() {
         store.commit('setSpinner', false)
         if (data?.status == 422) {
             errors.value = data.data;
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             errors.value = [];
             // memoForm.value = [];
             loadTask()

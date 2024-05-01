@@ -158,9 +158,9 @@ const t_error = ref({})
 function addTyre() {
     t_error.value = []
     store.dispatch('postMethod', { url: '/add-tyre', param: tyre.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             t_error.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             let form = document.querySelector('#assignForm');
             form.reset();
             loadVehicleTyres(tyre.value.vehicle_pid)

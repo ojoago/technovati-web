@@ -97,9 +97,9 @@ const o_error = ref({})
 function changeOil() {
     o_error.value = []
     store.dispatch('postMethod', { url: '/change-oil', param: oil.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             o_error.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             let form = document.querySelector('#assignForm');
             loadVehicleOilHistory(oil.value.vehicle_pid)
             form.reset();

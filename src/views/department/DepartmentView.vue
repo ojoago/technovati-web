@@ -269,7 +269,7 @@ const toggleModal = ref(false);
     function assignDepartment() {
         a_errors.value = []
         store.dispatch('postMethod', { url: '/assign-department', param: dept.value }).then((data) => {
-            if (data.status == 422) {
+            if (data?.status == 422) {
                 a_errors.value = data.data;
             }
         })
@@ -279,9 +279,9 @@ const toggleModal = ref(false);
     //     store.commit('setSpinner', true)
     //     s_error.value = []
     //     store.dispatch('postMethod', { url: '/assign-sub-department-head', param: assign_sub.value }).then((data) => {
-    //         if (data.status == 422) {
+    //         if (data?.status == 422) {
     //             s_error.value = data.data
-    //         } else if (data.status == 201) {
+    //         } else if (data?.status == 201) {
     //             assign_sub.value = [];
     //         }
     //         store.commit('setSpinner', false)
@@ -297,7 +297,7 @@ const toggleModal = ref(false);
 //     store.commit('setSpinner', true)
 //     store.dispatch('getMethod', { url: '/load-sub-departments' }).then((data) => {
 //         store.commit('setSpinner', false)
-//         if (data.status == 200) {
+//         if (data?.status == 200) {
 //             sub_depts.value = data.data;
 //         }
 //     }).catch(e => {

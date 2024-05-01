@@ -68,6 +68,8 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="form-label">Allowance</label>
+                                                    <Select2 v-model="nontax.allowance_pid" :options="allowance" :settings="{ width: '100%' }"  />
+
                                                             <div>
                                                                     <Multiselect
                                                                         v-model="nontax.allowance"
@@ -159,7 +161,7 @@ const closeModal = () => {
 };
 const errors = ref({});
 const nontax = ref({
-    allowance: '',
+    allowance_pid: '',
     employees: '' , 
     begin: '', 
     end: '', 
@@ -169,7 +171,7 @@ const nontax = ref({
 
 const editEntry = (tx) => {
     nontax.value = {
-        allowance: tx.allowance,
+        allowance_pid: tx.allowance_pid,
         employees: tx.employees,
         begin: tx.begin,
         end: tx.end,
@@ -184,17 +186,14 @@ const deleteLog = (pid) => {
 }
 
 function createNonTaxableAllowance() {
-    store.commit('setSpinner', true)
     errors.value = []
     store.dispatch('postMethod', { url: '/create-non-taxable-allowance', param: nontax.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
-            nontax.value = [];
+        } else if (data?.status == 201) {
+            dropdownAllow()
         }
-        store.commit('setSpinner', false)
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
     })
 }
@@ -202,16 +201,13 @@ function createNonTaxableAllowance() {
 const nontaxable = ref({});
 
 function loadLog() {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-nontaxable-allowance' }).then((data) => {
         store.commit('setSpinner', false)
-        if (data.status == 200) {
+        if (data?.status == 200) {
             nontaxable.value = data.data;
         }
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 }
 

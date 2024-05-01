@@ -80,7 +80,7 @@ const store = createStore({
           createDepartment({commit},data){
             return axiosClient.post('/create-department',data)
                                 .then(({data})=>{
-                                  if(data.status == 201){
+                                  if(data?.status == 201){
                                     commit('notify',{message:data.message})
                                 }else{
                                       commit('notify',{message:data.message,type:'danger'})
@@ -96,7 +96,7 @@ const store = createStore({
          createUser({commit},data){
             return axiosClient.post('/create-staff',data)
                 .then(({data})=>{
-                    if(data.status == 201){
+                    if(data?.status == 201){
                     commit('notify',{message:data.message})
                 }else{
                         commit('notify',{message:data.message,type:'danger'})
@@ -107,7 +107,7 @@ const store = createStore({
          nextOfKin({commit},data){
             return axiosClient.post('/add-next-of-kin',data)
                 .then(({data})=>{
-                    if(data.status == 201){
+                    if(data?.status == 201){
                     commit('notify',{message:data.message})
                 }else{
                         commit('notify',{message:data.message,type:'danger'})
@@ -118,7 +118,7 @@ const store = createStore({
          addQualifiaction({commit},data){
             return axiosClient.post('/add-qualification',data)
                 .then(({data})=>{
-                    if(data.status == 201){
+                    if(data?.status == 201){
                     commit('notify',{message:data.message})
                 }else{
                         commit('notify',{message:data.message,type:'danger'})
@@ -129,7 +129,7 @@ const store = createStore({
          bankDetail({commit},data){
             return axiosClient.post('/add-bank-detail',data)
                 .then(({data})=>{
-                    if(data.status == 201){
+                    if(data?.status == 201){
                     commit('notify',{message:data.message})
                 }else{
                         commit('notify',{message:data.message,type:'danger'})
@@ -143,7 +143,7 @@ const store = createStore({
             loadStaff({commit}){
                 return axiosClient.get('/load-staff')
                     .then(({data})=>{
-                        if(data.status == 200){
+                        if(data?.status == 200){
                         commit('notify',{message:data.message})
                     }else{
                             commit('notify',{message:data.message,type:'danger'})
@@ -194,8 +194,12 @@ const store = createStore({
                     })
             },
 
-            deleteMethod({commit},{url, param = null}){
-               if(confirm('are you sure, you want to delete this ?')){
+            deleteMethod({commit},{url,prompt = 'are you sure, you want to delete this ?', param = null}){
+                if(prompt != null){
+                    if(!confirm(prompt)){
+                        return false
+                    }
+                }
                  commit('setSpinner', true)
                 return axiosClient.delete(url,param)
                     .then(({data})=>{
@@ -211,7 +215,7 @@ const store = createStore({
                         commit('setSpinner', false)
                         console.log(e);
                     })
-               }
+               
             },
             putMethod({commit},{url,prompt = null, param = null}){
                 if(prompt != null){
@@ -241,7 +245,7 @@ const store = createStore({
             console.log(_);
             return axiosClient.get('/dropdown-'+url)
                                 .then(({data})=>{
-                                    if(data.status==200){
+                                    if(data?.status==200){
                                         return data;
                                     }else{
                                         return [];

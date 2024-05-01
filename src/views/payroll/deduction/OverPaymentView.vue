@@ -144,9 +144,9 @@ function createDeductionName() {
     store.commit('setSpinner', true)
     errors.value = []
     store.dispatch('postMethod', { url: '/add-over-payments', param: over.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             let form = document.getElementsByName('form');
             form.reset()
             loadOverPayments()
@@ -166,7 +166,7 @@ function loadOverPayments() {
     store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-over-payments' }).then((data) => {
         store.commit('setSpinner', false)
-        if (data.status == 200) {
+        if (data?.status == 200) {
             payments.value = data.data;
         }
     }).catch(e => {

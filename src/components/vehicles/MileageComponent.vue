@@ -174,7 +174,7 @@ const error = ref({})
 const addVehicleMileage = () => {
     error.value = []
     store.dispatch('postMethod', { url: '/add-vehicle-mileage', param: mile.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             error.value = data.data
         } else if (data?.status == 201) {
             let form = document.querySelector('#milForm');

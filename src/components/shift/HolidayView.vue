@@ -115,9 +115,9 @@ const resetAttr = () =>{
 function markShiftHoliday() {
     b_errors.value = []
     store.dispatch('postMethod', { param: holiday.value, url: 'mark-shift-holiday' }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             b_errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             loadShiftHolidays()
             resetAttr()
         }
@@ -130,7 +130,7 @@ const events = ref([]);
 
 function loadShiftHolidays() {
     store.dispatch('getMethod', { url: '/load-shift-holidays' }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             data.data.forEach( (el) => {
                 events.value.push({
                     title: el.tittle,

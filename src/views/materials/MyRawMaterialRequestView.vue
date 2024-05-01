@@ -121,7 +121,7 @@ function requestDetailPage(item) {
 loadRequest()
 function loadRequest() {
     store.dispatch('getMethod', { url: '/load-my-raw-material-requests' }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             requests.value = data.data;
         }
     }).catch(e => {
@@ -132,7 +132,7 @@ function loadRequest() {
 
 const returnBackToStore = () => {
     store.dispatch('postMethod', { url: '/return-requested-raw-materials' }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             requests.value = data.data;
         }
     }).catch(e => {

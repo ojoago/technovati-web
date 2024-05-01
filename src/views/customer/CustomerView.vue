@@ -36,7 +36,7 @@
                                                         <td>{{ data.email }}</td>
                                                         <td>{{ data.gsm }}</td>
                                                         <td>{{ data.address }}</td>
-                                                        <!-- <td>{{ data.status }}</td> -->
+                                                        <!-- <td>{{ data?.status }}</td> -->
                                                         <td>
                                                             <div class="dropdown">
                                                                 <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
@@ -283,9 +283,9 @@ const editCustomerStore = (data) => {
 function createCustomer() {
     errors.value = []
     store.dispatch('postMethod', { url: '/create-customer', param: customer.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data;
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             let form = document.querySelector('#cForm');
             form.reset();
             loadCustomer()
@@ -330,9 +330,9 @@ const sub_error = ref({})
 function createStoreManager() {
     sub_error.value = []
     store.dispatch('postMethod', { url: '/create-customer-store-manager', param: manager.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             sub_error.value = data.data;
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             let form = document.querySelector('#mForm');
             form.reset();
             loadCustomer()

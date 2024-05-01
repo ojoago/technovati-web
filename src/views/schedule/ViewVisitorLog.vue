@@ -73,7 +73,7 @@ const logs = ref({});
 
 function loadLog() {
     store.dispatch('getMethod', { url: '/load-my-visitor-log' }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             logs.value = data.data;
         }
     })

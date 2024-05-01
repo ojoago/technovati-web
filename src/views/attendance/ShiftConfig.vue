@@ -333,9 +333,9 @@ const allocation = ref({
 function createShift() {
     errors.value = []
     store.dispatch('postMethod', { url: '/create-shift', param: shift.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             shift.value = [];
         }
     })
@@ -349,7 +349,7 @@ function createShift() {
 
 function loadShifts() {
     store.dispatch('getMethod', { url: '/load-shifts' }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             shifts.value = data.data
         } 
     })
@@ -359,7 +359,7 @@ const allocations = ref({});
 
 function loadShiftAllocation() {
     store.dispatch('getMethod', { url: '/load-shift-allocation' }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             allocations.value = data.data
         } 
     })
@@ -370,9 +370,9 @@ loadShifts()
 function allocateShift() {
     alo_errors.value = []
     store.dispatch('postMethod', { url: '/allocate-shift', param: allocation.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             alo_errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             shift.value = [];
         }
     })

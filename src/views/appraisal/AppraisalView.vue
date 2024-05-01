@@ -134,7 +134,7 @@ function createAppraisalTitle() {
 
 function loadLog() {
     store.dispatch('getMethod', { url: '/load-appraisal-titles' }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             titles.value = data.data;
         }
     }).catch(e => {

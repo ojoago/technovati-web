@@ -4,7 +4,7 @@
             <!-- <div class="card-header"></div> -->
             <div class="card-body">
                 <fieldset class="border shadow rounded-3 p-2 m-1">
-                    <legend class="float-none w-auto px-1">Notifications</legend>
+                    <legend class="float-none w-auto px-1">{{ title }}</legend>
                     <vue-cal :selected-date="currentDate" :time-from="9 * 60"
                         :disable-views="['years', 'year', 'week', 'day']" active-view="month" hide-weekends
                         events-on-month-view="short" :events="events" style="height: auto">
@@ -21,7 +21,10 @@
     import { ref } from "vue";
     const props = defineProps({
     data: Object,
-
+    title:{
+        type:String,
+        default:'Notifications'
+    }
 });
     // import store from "@/store";
 

@@ -65,7 +65,7 @@
                                             <th>SN</th>
                                             <th>Key</th>
                                             <th>Score</th>
-                                            <th> <i class="bi bi-gear-fill"></i> </th>
+                                            <!-- <th> <i class="bi bi-gear-fill"></i> </th> -->
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -73,7 +73,8 @@
                                             <td>{{ loop + 1 }}</td>
                                             <td>{{ kpi.key }}</td>
                                             <td>{{ kpi.obtainable }}</td>
-                                            <td>
+
+                                            <!-- <td>
                                                 <div class="dropdown">
                                                     <button type="button" class="btn btn-primary btn-sm dropdown-toggle"  data-bs-toggle="dropdown">
                                                         <i class="bi bi-tools"></i>
@@ -85,7 +86,7 @@
                                                                 @click="deleteLog(kpi.pid)">Delete</a> </li>
                                                     </ul>
                                                 </div>
-                                            </td>
+                                            </td> -->
                                         </tr>
                                     </tbody>
                                 </table>
@@ -134,16 +135,16 @@ const removeKey = (i) => {
     keys.value.keys.splice(i, 1);
     sumVal()
 }
-const editSection = (sec) => {
-   keys.value.keys.push({
-        key: sec.key ,
-        obtainable: sec.obtainable ,
-        pid: sec.pid,
-    })
-}
-const deleteLog = (id) => {
-    alert(id)
-}
+// const editSection = (sec) => {
+//    keys.value.keys.push({
+//         key: sec.key ,
+//         obtainable: sec.obtainable ,
+//         pid: sec.pid,
+//     })
+// }
+// const deleteLog = (id) => {
+//     alert(id)
+// }
 const obtainable = ref(0)
  const sumVal = ()=>{
     obtainable.value = keys.value.keys.reduce((n, { obtainable }) => n + Number(obtainable), 0);
@@ -167,7 +168,7 @@ function createKpi() {
 
 function loadSectionDetails(event) {
     store.dispatch('getMethod', { url: '/load-section-kpi/'+ event.target.value }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             type.value = data.data;
             let k = data.data.keys
             kpis.value = data.data.keys;

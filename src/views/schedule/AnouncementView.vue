@@ -28,7 +28,7 @@
                                     <td class="">{{ data.announce_category }}</td>
                                     <td class="">{{ data.created_at }}</td>
                                     <td>
-                                        <div class="dropdown" v-if="data.status == 0">
+                                        <div class="dropdown" v-if="data?.status == 0">
                                             <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
                                                 data-bs-toggle="dropdown">
                                                 <i class="bi bi-tools"></i>
@@ -181,7 +181,7 @@ const editAnnounce = (ann) => {
 
 const deleteAnnounce = (pid) => {
     store.dispatch('deleteMethod', { url: '/delete-memo-record/' + pid }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             store.commit('notify', { message: 'Reloading Records...', type: 'secondary' })
             loadAnnouncements()
         }
@@ -203,9 +203,9 @@ function makeAnnouncement() {
     store.commit('setSpinner', true)
     errors.value = []
     store.dispatch('postMethod', { url: '/make-announcement', param: announce.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             resetAttr()
             loadAnnouncements()
             toggleModal.value = false;
@@ -217,7 +217,7 @@ function makeAnnouncement() {
 loadAnnouncements()
 function loadAnnouncements() {
     store.dispatch('getMethod', { url: '/load-announcements' }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             announcements.value = data.data;
         }
     }).catch(e => {

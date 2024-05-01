@@ -143,9 +143,9 @@ function createActivity() {
     errors.value = []
     let form = document.querySelector('#deviceForm');
     store.dispatch('postMethod', { url: '/create-activity', param: device.value, form: form }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             dropdownDevice()
         }
     })
@@ -154,7 +154,7 @@ function createActivity() {
 const team_data = ref({})
 function loadTeam() {
     store.dispatch('getMethod', { url: '/load-team' }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             team_data.value = data.data;
         }
     })
@@ -171,7 +171,7 @@ function loadTeamMember(data) {
     work.value.team_pid = data?.pid;
     members.value = {}
     store.dispatch('getMethod', { url: '/load-team-member/' + data?.pid }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             members.value = data.data;
         }
     })
@@ -193,7 +193,7 @@ function submitWorkSheet() {
     errors.value = '';
     let form = document.querySelector('#workForm');
     store.dispatch('postMethod', { url: 'submit-work-sheet', param: work.value, form: form }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
         }
         store.commit('setSpinner', false)

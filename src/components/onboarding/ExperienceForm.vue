@@ -146,7 +146,7 @@ onMounted(() => {
 
 const loadExperience = (pid) => {
     store.dispatch('getMethod', { url: '/load-experience/' + pid }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             work.value.expirence = data.data;
         }
     })

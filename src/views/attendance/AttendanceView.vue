@@ -62,7 +62,7 @@
     const attendance = ref({})
     function loadAttendance() {
     store.dispatch('getMethod', { url: '/load-attendance' }).then((data) => {
-         if (data.status == 200) {
+         if (data?.status == 200) {
             attendance.value = data.data;
         }
     })

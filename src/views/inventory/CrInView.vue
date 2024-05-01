@@ -134,9 +134,9 @@ const removeitem = (i) => {
 function requestMaterial() {
     errors.value = []
     store.dispatch('postMethod', { url: '/item-cr-in', param: request.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             let form = document.querySelector('#itemForm');
             form.reset();
             loadItem()
@@ -147,7 +147,7 @@ loadItem()
 function loadItem() {
     store.dispatch('getMethod', { url: '/load-cr-in-items' }).then((data) => {
         store.commit('setSpinner', false)
-        if (data.status == 200) {
+        if (data?.status == 200) {
             items.value = data.data;
         }
     })

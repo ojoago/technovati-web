@@ -104,10 +104,10 @@ function createTool() {
     errors.value = []
     let form = document.querySelector('#toolForm');
     store.dispatch('postMethod', { url: '/create-tool', param: tool.value, form: form }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
         }
-        // else if (data.status == 201) {
+        // else if (data?.status == 201) {
         //     let form = document.querySelector('#teamForm');
         //     form.reset();
         // }
@@ -124,9 +124,9 @@ function addTeam() {
     // let data = new FormData;
     // const  header = { "Content-Type": "multipart/form-data" };
     store.dispatch('postMethod', { url: '/assign-team', param: tool.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             let form = document.querySelector('#assignForm');
             form.reset();
         }
@@ -147,7 +147,7 @@ function loadWorker() {
     store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-workers' }).then((data) => {
         store.commit('setSpinner', false)
-        if (data.status == 200) {
+        if (data?.status == 200) {
             worker.value = data.data;
         }
     }).catch(e => {

@@ -65,7 +65,7 @@ const details = ref({});
 
 function loadRequest() {
     store.dispatch('getMethod', { url: '/load-way-bill-details/'+way.value.waybill }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             details.value = data.data;
         }
     }).catch(e => {

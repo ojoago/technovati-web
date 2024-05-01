@@ -1,8 +1,8 @@
 <template>
     <div>
+        <auth-header @logout="logout()"></auth-header>
         <side-bar></side-bar> 
         <section class="page-section">
-            <auth-header @logout="logout()"></auth-header>
             <div id="main">
                 <router-view></router-view>
             </div>

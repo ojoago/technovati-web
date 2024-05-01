@@ -49,9 +49,9 @@ const errors = ref({});
 function createDepartment() {
     errors.value = []
     store.dispatch('postMethod', { url: '/create-department', param: dept.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             dept.value = {};
         }
     }).catch(e => {

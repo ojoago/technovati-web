@@ -84,12 +84,12 @@ function staffQualification() {
     let str = localStorage.getItem('TVATI_ONBOARD_TAB') ? JSON.parse(localStorage.getItem('TVATI_ONBOARD_TAB')) : 'null'
     documents.value.user_pid = str.id;
     store.dispatch('postMethod', { url: '/add-documents', param: documents.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             q_errors.value = data.data;
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             q_errors.value = []
             documents.value = [];
-            query = { tab: 'personal-tab' }
+            query = { tab: 'salary-tab' ,'id': str.id }
             localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
             switchTab()
         }

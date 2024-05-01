@@ -39,7 +39,7 @@
     function login() {
         errors.value = [];
         store.dispatch('signIn', user).then((data) => {
-            if(data.status==422){
+            if(data?.status==422){
                 errors.value = data.data;
                 return false
             }

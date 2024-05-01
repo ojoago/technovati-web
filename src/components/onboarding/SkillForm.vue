@@ -88,7 +88,7 @@ const removeQualification = (i) => {
         store.commit('notify', { message: 'one skill is required to proceed', type: 'warning' })
         return;
     }
-    skills.value.skill.splice(i, 1);
+    skills.value.skills.splice(i, 1);
 }
 let query = {}
 function staffQualification() {

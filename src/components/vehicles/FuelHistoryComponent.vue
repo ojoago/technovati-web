@@ -111,9 +111,9 @@ const f_error = ref({})
 function topFuel() {
     f_error.value = []
     store.dispatch('postMethod', { url: '/add-fuel', param: fuel.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             f_error.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             let form = document.querySelector('#assignForm');
             loadVehicleTyreHistory(fuel.value.vehicle_pid)
             form.reset();

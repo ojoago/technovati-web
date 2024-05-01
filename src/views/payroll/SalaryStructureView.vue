@@ -113,9 +113,9 @@ function createSalaryStructure() {
     store.commit('setSpinner', true)
     errors.value = []
     store.dispatch('postMethod', { url: '/create-salary-structure', param: structure.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             structure.value = [];
             loadLog()
         }
@@ -130,7 +130,7 @@ function loadLog() {
     store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-salary-structure' }).then((data) => {
         store.commit('setSpinner', false)
-        if (data.status == 200) {
+        if (data?.status == 200) {
             structures.value = data.data;
         }
     }).catch(e => {

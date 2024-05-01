@@ -1,7 +1,11 @@
 <template>
     <div>
         <div class="header">
-            <i class="bi bi-list toggleMenu pointer"></i>
+            <div class="brand-details">
+                <i class="bi bi-list toggleMenu pointer"></i>
+                <!-- <span class="brand-name">Optimal</span> -->
+                <span class="brand-name">Technovati</span>
+            </div>
 
             <!-- <span class="text">Drop Down Sidebar </span> -->
             <nav class="header-nav ms-auto">
@@ -16,10 +20,11 @@
                             id="notifications">
                         </ul>
                     </li>
+
                     <li class="nav-item dropdown pe-3">
                         <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#"
                             data-bs-toggle="dropdown">
-                            <!-- <img src="{{asset('themes/img/profile-img.jpg')}}" alt="Profile" class="rounded-circle"> -->
+                            
                             <span
                                 class="d-none d-md-block uppercase-text dropdown-toggle ps-2 ellipsis-text">{{username}}
                             </span>
@@ -62,9 +67,9 @@
                             </li>
 
                             <li>
-                                <a class="dropdown-item d-flex align-items-center bg-danger pointer"
+                                <a class="dropdown-item d-flex align-items-center bg-danger pointer text-white"
                                     @click="$emit('logout')">
-                                    <i class="bi bi-box-arrow-right"></i> <span> Sign Out</span>
+                                    <i class="bi bi-box-arrow-right text-white mr-1"></i> <span class="ml-1"> Sign Out</span>
                                 </a>
                             </li>
 

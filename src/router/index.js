@@ -302,9 +302,8 @@ const routes = [
             {
                 path:'/salary-structure',name:'SalaryStructureView',component: () => import('@/views/payroll/SalaryStructureView.vue')
             },
-            {
-                path:'/basic-salary',name:'BasicSalaryView',component: () => import('@/views/payroll/BasicSalaryView.vue')
-            },
+            {   path:'/basic-salary',name:'BasicSalaryView',component: () => import('@/views/payroll/BasicSalaryView.vue') },
+            // {   path:'/basic-salary-config',name:'BasicSalaryConfig',component: () => import('@/components/forms/BasicSalaryConfig.vue') },
             {
                 path:'/compute-salaries',name:'ComputeSalaryView',component: () => import('@/views/payroll/ComputeSalaryView.vue')
             },

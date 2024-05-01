@@ -59,8 +59,8 @@
                                                             </button>
                                                             <ul class="dropdown-menu">
                                                                 <!-- <li v-if="data.type == 2"><a class="dropdown-item pointer bg-warning" @click="editWorker(data.pid)">Edit</a> </li> -->
-                                                                <li v-if="data.type == 2 && data.status == 1"><a class="bg-danger dropdown-item pointer" @click="deleteCasualStaff(data.pid)">Delete</a> </li>
-                                                                <li v-if="data.type == 2 && data.status == 0"><a class="bg-secondary dropdown-item pointer" @click="enableCasualStaff(data.pid)">Enable</a> </li>
+                                                                <li v-if="data.type == 2 && data?.status == 1"><a class="bg-danger dropdown-item pointer" @click="deleteCasualStaff(data.pid)">Delete</a> </li>
+                                                                <li v-if="data.type == 2 && data?.status == 0"><a class="bg-secondary dropdown-item pointer" @click="enableCasualStaff(data.pid)">Enable</a> </li>
                                                                 <li><a class="bg-primary dropdown-item pointer" @click="assignTeamModal(data.pid)">Asign Team</a> </li>
                                                                 <li v-if="data?.team"><a class="bg-warning dropdown-item pointer" @click="deAssignTeamModal(data.pid)">Remove from Team</a> </li>
                                                             </ul>
@@ -172,9 +172,9 @@ function addStaff() {
     // let data = new FormData;
     // const  header = { "Content-Type": "multipart/form-data" };
     store.dispatch('postMethod', { url: '/add-staff-to-team', param: team.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             let form = document.querySelector('#teamForm');
             form.reset();
             loadWorker()
@@ -184,7 +184,7 @@ function addStaff() {
 }
 function deAssignTeamModal(pid) {
     store.dispatch('putMethod', { url: '/remove-staff-from-team/'+pid, prompt: 'Are You sure you want to remove staff from the team?' }).then((data) => {
-         if (data.status == 201) {
+         if (data?.status == 201) {
             loadWorker()
         }
     })
@@ -194,9 +194,9 @@ function addTeam() {
     // let data = new FormData;
     // const  header = { "Content-Type": "multipart/form-data" };
     store.dispatch('postMethod', { url: '/assign-team', param: team.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             let form = document.querySelector('#assignForm');
             form.reset();
             loadWorker()
@@ -206,7 +206,7 @@ function addTeam() {
 
 const deleteCasualStaff = (pid) => {
     store.dispatch('deleteMethod', { url: '/delete-casual-staff/'+pid}).then((data) => {
-        if (data.status == 201) {
+        if (data?.status == 201) {
             loadWorker()
         }
     })
@@ -225,7 +225,7 @@ const worker = ref({});
 loadWorker()
 function loadWorker() {
     store.dispatch('getMethod', { url: '/load-workers' }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             worker.value = data.data;
         }
     })

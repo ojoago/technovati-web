@@ -232,9 +232,9 @@ const handleImageChange = (event) => {
 function createCasualStaff() {
     errors.value = []
     store.dispatch('postMethod', { url: '/create-casual-staff', param: staff.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             let form = document.querySelector('#casualForm');
             form.reset();
             // staff.value = [];
@@ -286,7 +286,7 @@ function loadStateRes(event) {
 
  const loadCasual = (pid) => {
     store.dispatch('getMethod', { url: '/load-casual-staff-detail/'+pid }).then((data) => {
-         if (data.status == 200) {
+         if (data?.status == 200) {
             staff.value = data.data;
         }
     })

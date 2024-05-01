@@ -79,9 +79,9 @@ const removeQualification = (i) => {
 const errors = ref({});
 function addRequestBudget() {
     store.dispatch('postMethod', { url: '/add-travel-request-budget', param: budget.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             let form = document.querySelector('#requestForm');
             form.reset()
         }

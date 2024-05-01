@@ -78,7 +78,7 @@ import { ref } from "vue";
 const team_data = ref({})
 function loadTeam() {
     store.dispatch('getMethod', { url: '/load-team' }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             team_data.value = data.data;
         }
     })
@@ -88,7 +88,7 @@ loadTeam()
 const records = ref({})
 function loadRecords() {
     store.dispatch('getMethod', { url: '/load-records' }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             records.value = data.data;
         }
     })

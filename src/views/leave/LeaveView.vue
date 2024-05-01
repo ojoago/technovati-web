@@ -249,9 +249,9 @@ const resetA = () => {
 function assignLeave() {
     errors.value = []
     store.dispatch('postMethod', {url:'/assign-leave',param:assign.value}).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             resetA()
             loadAssignLeave()
         }
@@ -275,7 +275,7 @@ loadLeaves()
 
 function loadLeaves() {
     store.dispatch('getMethod', { url: '/load-leaves'}).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             leaves.value = data.data;
         }
     })
@@ -286,7 +286,7 @@ loadAssignLeave()
 const dlvx = ref({})
 function loadAssignLeave() {
     store.dispatch('getMethod', { url: '/load-assigned-leaves'}).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             dlvx.value = data.data;
         }
     })

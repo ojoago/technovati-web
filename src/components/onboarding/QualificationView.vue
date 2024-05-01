@@ -120,9 +120,9 @@ function staffQualification() {
     let str = localStorage.getItem('TVATI_ONBOARD_TAB') ? JSON.parse(localStorage.getItem('TVATI_ONBOARD_TAB')) : 'null'
     qualification.value.user_pid = str.id;
     store.dispatch('postMethod', { url: '/add-qualification', param: qualification.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             q_errors.value = data.data;
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             q_errors.value = []
             let form = document.querySelector('#qualForm');
             form.reset()
@@ -155,7 +155,7 @@ onMounted(() => {
 
 const loadQualification = (pid) => {
     store.dispatch('getMethod', { url: '/load-qualifications/' + pid }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             qualification.value.institutions = data.data;
         }
     })

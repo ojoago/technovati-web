@@ -126,7 +126,7 @@ const attendance = ref({})
 function loadAttendance() {
     clea.value = false
     store.dispatch('getMethod', { url: '/load-staff-attendance' }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             attendance.value = data.data;
         }
     })
@@ -136,9 +136,9 @@ const errors = ref({})
 const filterAttendance = () => {
     errors.value = []
     store.dispatch('postMethod', { url: '/filter-staff-attendance', param: filter.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 200) {
+        } else if (data?.status == 200) {
             clea.value = true
             attendance.value = data.data;
             toggleModal.value = false;

@@ -101,9 +101,9 @@ function staffNextofKin() {
     let str = localStorage.getItem('TVATI_ONBOARD_TAB') ? JSON.parse(localStorage.getItem('TVATI_ONBOARD_TAB')) : 'null'
     next.value.user_pid = str.id;
     store.dispatch('postMethod', { url: '/add-next-of-kin', param: next.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data;
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             query = { tab: 'qualification-tab', 'id': data?.data?.user_pid }
             localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
             errors.value = []
@@ -135,7 +135,7 @@ onMounted(() => {
 
 const loadNextOfKin = (pid) => {
     store.dispatch('getMethod', { url: '/load-next-of-kin/' + pid }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             next.value = data.data;
         }
     })

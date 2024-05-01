@@ -120,9 +120,9 @@ function createSalaryStep() {
     store.commit('setSpinner', true)
     errors.value = []
     store.dispatch('postMethod', { url: '/create-salary-step', param: step.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             step.value = [];
         }
         store.commit('setSpinner', false)
@@ -136,7 +136,7 @@ function loadLog() {
     store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-visitor-log' }).then((data) => {
         store.commit('setSpinner', false)
-        if (data.status == 200) {
+        if (data?.status == 200) {
             logs.value = data.data;
         }
     }).catch(e => {

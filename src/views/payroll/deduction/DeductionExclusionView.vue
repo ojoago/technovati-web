@@ -150,9 +150,9 @@ function createAllowanceExclusion() {
     store.commit('setSpinner', true)
     errors.value = []
     store.dispatch('postMethod', { url: '/add-deduction-exclusion', param: exclusion.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             exclusion.value = [];
         }
         store.commit('setSpinner', false)
@@ -168,7 +168,7 @@ function loadLog() {
     store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-deduction-exclusion' }).then((data) => {
         store.commit('setSpinner', false)
-        if (data.status == 200) {
+        if (data?.status == 200) {
             exclusions.value = data.data;
         }
     }).catch(e => {

@@ -37,9 +37,9 @@ const unit = ref({
 function addItemUnit() {
     errors.value = []
     store.dispatch('postMethod', { url: '/create-item-unit', param: unit.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             let form = document.querySelector('#uForm');
             form.reset()
         }

@@ -183,7 +183,7 @@ function logVisitor() {
         console.log(data);
         if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             loadLog()
             let form = document.querySelector('#logForm')
             form.reset()
@@ -193,7 +193,7 @@ function logVisitor() {
 
 function loadLog() {
     store.dispatch('getMethod', { url: '/load-visitor-log' }).then((data) => {
-        if (data.status == 200) {
+        if (data?.status == 200) {
             logs.value = data.data;
         }
     })

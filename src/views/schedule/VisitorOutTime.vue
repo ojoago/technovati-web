@@ -78,7 +78,7 @@ function loadLog() {
     store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/visitor-log' }).then((data) => {
         store.commit('setSpinner', false)
-        if (data.status == 200) {
+        if (data?.status == 200) {
             logs.value = data.data;
         }
     }).catch(e => {

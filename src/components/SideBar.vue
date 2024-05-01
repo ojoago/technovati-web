@@ -2,11 +2,11 @@
     <div class="sidebar " id="sidebar">
 
         <!-- <div class="sidebar " id="sidebar"> -->
-        <div class="brand-details">
+
+        <!-- <div class="brand-details">
             <i class="bi bi-list toggleMenu pointer"></i>
             <span class="brand-name">Optimal</span>
-            <!-- <span class="brand-name">Technovati</span> -->
-        </div>
+        </div> -->
         <ul class="nav-links">
             <li>
                 <a>
@@ -286,8 +286,8 @@
                         </li>
 
                         <li class="nav-item" title="staff">
-                            <router-link to="/staff-appraisal-records" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">Appraisal Records</span> </router-link>
+                            <router-link to="/staff-appraisal-records" class="nav-link"><i class="bi bi-record"></i>
+                                <span class="nav-name">Appraisal Records</span> </router-link>
                         </li>
 
                     </ul>
@@ -319,7 +319,7 @@
                 <li>
                     <div class="icon-link">
                         <a>
-                            <i class="bi bi-book"></i>
+                            <i class="bi bi-person-bounding-box"></i>
                             <span class="link-name">Attendance</span>
                         </a>
                         <i class="bi bi-chevron-down arrow"></i>
@@ -361,6 +361,9 @@
                             <router-link to="/basic-salary" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Basic Salary</span> </router-link>
                         </li>
+
+
+
                         <li class="nav-item" title="staff">
                             <router-link to="/compute-salaries" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Salaries</span> </router-link>
@@ -389,10 +392,11 @@
                             <router-link to="/allowance-exclusion" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Allowance Exclusion</span> </router-link>
                         </li>
-                        <li class="nav-item" title="staff">
+
+                        <!-- <li class="nav-item" title="staff">
                             <router-link to="/nontaxable-allowance" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Nontaxable Allowance</span> </router-link>
-                        </li>
+                        </li> -->
 
                     </ul>
                 </li>
@@ -625,7 +629,7 @@
                 <li>
                     <div class="icon-link">
                         <a>
-                            <i class="bi bi-grid"></i>
+                            <i class="bi bi-bootstrap-reboot"></i>
                             <span class="link-name">
                                 <router-link to="/my-leave-request" class="nav-link"><span class="nav-name">Leave
                                     </span>
@@ -691,7 +695,7 @@
             <li v-if="roles.includes('hod')">
                 <div class="icon-link">
                     <a>
-                        <i class="bi bi-grid"></i>
+                        <i class="bi bi-bootstrap-reboot"></i>
                         <span class="link-name">
                             <router-link to="/line-manager-view-leave-request" class="nav-link"><span
                                     class="nav-name">Leave Request</span> </router-link>

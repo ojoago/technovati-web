@@ -282,7 +282,7 @@ function addVehicle() {
     errors.value = []
     let form = document.querySelector('#toolForm');
     store.dispatch('postMethod', { url: '/add-vehicle', param: vehicle.value, form: form }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
         }else if(data?.status==201){
             loadVehicles()
@@ -314,9 +314,9 @@ const vehilceDetail = (data) =>{
 // function topFuel() {
 //     f_error.value = []
 //     store.dispatch('postMethod', { url: '/add-fuel', param: fuel.value }).then((data) => {
-//         if (data.status == 422) {
+//         if (data?.status == 422) {
 //             f_error.value = data.data
-//         } else if (data.status == 201) {
+//         } else if (data?.status == 201) {
 //             let form = document.querySelector('#assignForm');
 //             form.reset();
 //         }
@@ -370,7 +370,7 @@ const editVehicle = (data) =>{
 
 function deleteVehicleRecord(pid) {
     store.dispatch('deleteMethod', { url: '/delete-vehicle/'+pid }).then((data) => {
-        if (data.status == 201) {
+        if (data?.status == 201) {
             loadVehicles()
         }
     }).catch(e => {
@@ -382,9 +382,9 @@ function deleteVehicleRecord(pid) {
 //     store.commit('setSpinner', true)
 //     t_error.value = []
 //     store.dispatch('postMethod', { url: '/add-tyre', param: tyre.value }).then((data) => {
-//         if (data.status == 422) {
+//         if (data?.status == 422) {
 //             t_error.value = data.data
-//         } else if (data.status == 201) {
+//         } else if (data?.status == 201) {
 //             let form = document.querySelector('#assignForm');
 //             form.reset();
 //         }
@@ -401,9 +401,9 @@ function deleteVehicleRecord(pid) {
 //     store.commit('setSpinner', true)
 //     o_error.value = []
 //     store.dispatch('postMethod', { url: '/change-oil', param: oil.value }).then((data) => {
-//         if (data.status == 422) {
+//         if (data?.status == 422) {
 //             o_error.value = data.data
-//         } else if (data.status == 201) {
+//         } else if (data?.status == 201) {
 //             let form = document.querySelector('#assignForm');
 //             form.reset();
 //         }
@@ -421,7 +421,7 @@ loadVehicles()
 function loadVehicles() {
     store.dispatch('getMethod', { url: '/load-vehicles' }).then((data) => {
         store.commit('setSpinner', false)
-        if (data.status == 200) {
+        if (data?.status == 200) {
             vehicles.value = data.data;
         }
     })

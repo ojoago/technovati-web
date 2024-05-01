@@ -129,9 +129,9 @@ function createDeductionName() {
     store.commit('setSpinner', true)
     errors.value = []
     store.dispatch('postMethod', { url: '/create-deduction-name', param: deduction.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             let form = document.getElementsByName('form');
             form.reset()
             loadDeductionName()
@@ -151,7 +151,7 @@ function loadDeductionName() {
     store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-deduction-names' }).then((data) => {
         store.commit('setSpinner', false)
-        if (data.status == 200) {
+        if (data?.status == 200) {
             deductions.value = data.data;
         }
     }).catch(e => {

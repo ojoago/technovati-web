@@ -4,7 +4,7 @@
            
             <div class="card">
                 <div class="card-header">Allowance Exclusions
-                    <button class="btn btn-sm btn-primary" @click="openModal">Add New</button>
+                    <button class="btn btn-sm btn-primary" @click="toggleModal=true">Add New</button>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -28,8 +28,8 @@
                                             {{ em.text }}
                                         </span>
                                     </td>
-                                    <td>{{ ex.begin }}</td>
-                                    <td>{{ ex.end }}</td>
+                                    <td>{{ ex.from }}</td>
+                                    <td>{{ ex.to }}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
@@ -58,7 +58,7 @@
             </div>
         </div>
        
-          <o-modal :isOpen="toggleModal" @submit="createAllowanceExclusion" :modal-class="sm" title="Allowance Exclusion" @modal-close="closeModal">
+          <o-modal :isOpen="toggleModal" @submit="createAllowanceExclusion" modal-class="modal-sm" title="Allowance Exclusion" @modal-close="closeModal">
                         <template #content>
                             <div>
                                   <form id="excForm">
@@ -66,7 +66,9 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="form-label">Allowance</label>
-                                                        <div>
+                                                    <Select2 v-model="exclusion.allowance_pid" :options="allowance" :settings="{ width: '100%' }"  />
+
+                                                        <!-- <div>
                                                                 <Multiselect
                                                                     v-model="exclusion.allowance"
                                                                     :options="allowance"
@@ -76,8 +78,8 @@
                                                                     label="name"
                                                                     track-by="pid"
                                                                     />
-                                                        </div>
-                                                    <p class="text-danger " v-if="errors?.allowance">{{ errors?.allowance[0] }} </p>
+                                                        </div> -->
+                                                    <p class="text-danger " v-if="errors?.allowance_pid">{{ errors?.allowance_pid[0] }} </p>
                                                 </div>
                                             </div>
 
@@ -131,17 +133,17 @@ import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
 import { Multiselect } from 'vue-multiselect';
 import OModal from "@/components/OModal.vue";
+import Select2 from 'vue3-select2-component';
+
 const toggleModal = ref(false)
-const sm = 'modal-sm'
-const openModal = () => {
-    toggleModal.value = true
-}
+ 
 const closeModal = () => {
     toggleModal.value = false;
+            resetAttr()
 };
 const errors = ref({});
 const exclusion = ref({
-    allowance: '',
+    allowance_pid: '',
     employees: '',
     begin: '',
     end: '',
@@ -149,11 +151,22 @@ const exclusion = ref({
 
 const edit = (ex) => {
     exclusion.value = {
-        allowance: ex.allowance,
+        allowance_pid: ex.allowance_pid,
         employees: ex.employees,
         begin: ex.begin,
         end: ex.end,
         pid: ex.pid,
+    }
+    toggleModal.value = true
+}
+
+const resetAttr = () => {
+      exclusion.value = {
+        allowance_pid: '',
+        employees: '',
+        begin: '',
+        end: '',
+        pid: '',
     }
 }
 const deleteData = (pid) => {
@@ -161,35 +174,26 @@ const deleteData = (pid) => {
 }
 
 function createAllowanceExclusion() {
-    store.commit('setSpinner', true)
     errors.value = []
     store.dispatch('postMethod', { url: '/create-allowance-exclusion', param: exclusion.value }).then((data) => {
-        if (data.status == 422) {
+        if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
-            let form = document.querySelector('#excForm')
-            form.reset()
-            // exclusion.value = [];
+        } else if (data?.status == 201) {
+            resetAttr()
         }
-        store.commit('setSpinner', false)
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
     })
 }
 const exclusions = ref({});
 
 function loadLog() {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-allowance-exclusion' }).then((data) => {
-        store.commit('setSpinner', false)
-        if (data.status == 200) {
+        if (data?.status == 200) {
             exclusions.value = data.data;
         }
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 }
 
@@ -201,7 +205,6 @@ function dropdownUser() {
         users.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownUser()
@@ -212,7 +215,6 @@ function dropdownAllow() {
         allowance.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownAllow()

@@ -149,7 +149,7 @@ const removeDamageItem = () =>{
     store.dispatch('postMethod', { url: '/remove-damage-item', param: dmgForm.value }).then((data) => {
         if (data?.status == 422) {
             errors.value = data.data
-        } else if (data.status == 201) {
+        } else if (data?.status == 201) {
             resetAttr()
             loadItem(stoe_pid.value)
             toggleModal.value = false;
