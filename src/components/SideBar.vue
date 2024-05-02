@@ -195,13 +195,28 @@
                             </router-link>
                         </span>
                     </a>
+
                     <ul class="sub-menu blank">
                         <li class="nav-item" title="Department">
                             <router-link to="/department" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Department </span> </router-link>
                         </li>
                     </ul>
+               
                 </li>
+                
+                <li>
+                    <a>
+                        <i class="bi bi-list-task"></i>
+                        <span class="link-name">
+                            <router-link to="/stores" class="nav-link"><span class="nav-name">Store </span>
+                            </router-link>
+                        </span>
+                    </a>
+
+               
+                </li>
+
                 <li>
                     <div class="icon-link">
                         <a>
@@ -412,7 +427,7 @@
                     <ul class="sub-menu">
                         <li class="nav-item" title="staff">
                             <router-link to="/deduction-name" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">deduction Name</span> </router-link>
+                                    class="nav-name">Deduction Name</span> </router-link>
                         </li>
                         <li class="nav-item" title="staff">
                             <router-link to="/deduction-account" class="nav-link"><i class="bi bi-record"></i> <span
@@ -479,10 +494,10 @@
                         <i class="bi bi-chevron-down arrow"></i>
                     </div>
                     <ul class="sub-menu">
-                        <li class="nav-item" title="staff">
+                        <!-- <li class="nav-item" title="staff">
                             <router-link to="/stores" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Store </span> </router-link>
-                        </li>
+                        </li> -->
                         <li class="nav-item" title="staff">
                             <router-link to="/items" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Items </span> </router-link>

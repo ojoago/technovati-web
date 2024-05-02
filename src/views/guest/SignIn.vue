@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="outer">
         <div class="form">
             <!-- <h1>Technovati</h1> -->
             <div class="ctainer">
@@ -7,9 +7,9 @@
                     <div class="content">
                         <h2>Sign In</h2>
                         <form  @submit.prevent="login">
-                            <input type="text" v-model="user.email"  placeholder="enter email/username/gsm">
+                            <input type="text" v-model="user.email"  placeholder="Enter Email/Username/GSM">
                             <p class="text-danger " v-if="errors?.email">{{ errors?.email[0] }}</p>
-                            <input type="password" v-model="user.password" name="" placeholder="enter password">
+                            <input type="password" v-model="user.password" name="" placeholder="Enter Password">
                             <p class="text-danger " v-if="errors?.password">{{ errors?.password[0] }}</p>
                             <button class="btn">Sign In</button>
                         </form>
@@ -64,23 +64,31 @@
     font-family: sans-serif;
     padding: 0;
     margin: 0;
+    /* height: 100vh; */
+}
+
+
+.ctainer{
+    height: 100%;
 }
 
 .form{
     position: relative;
-    min-height: 100vh;
     z-index: 0;
     background: #000;
     padding: 30px;
     justify-content: center;
     display: grid;
-    grid-template-rows: 1fr auto 1fr;
+    /* grid-template-rows: 1fr auto 1fr; */
     align-items: center;
 }
+
+
 .ctainer{
     max-width: 700px;
     margin-top: 0 auto;
 }
+
 
 .form h1{
     text-align: center;
@@ -91,6 +99,7 @@
     text-transform: uppercase;
 }
 
+
 .form h2{
     line-height: 40px;
     margin-bottom: 5px;
@@ -98,11 +107,15 @@
     font-weight: 500;
     text-align: center;
 }
+
+
 .form .main{
     position: relative;
     display: flex;
     margin: 30px 0;
 }
+
+
 .content{
     flex-basis: 50%;
     padding: 3em 3em;
@@ -110,9 +123,11 @@
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
     background: #fff;
+    margin: 2px;
 }
 
 .form-img{
+    margin: 2px;
     flex-basis: 50%;
     background: #f0f4f8;
     background-size: cover;
@@ -122,9 +137,12 @@
     align-items: center;
     display: grid;
 }
+
+
 .form-img img{
     max-width: 100%;
 }
+
 
 .btn,button,input{
     border-radius: 35px;
@@ -134,9 +152,10 @@
     transition: .5 ease;
 }
 
+/* 
 .form form{
     margin: 30px 0;
-}
+} */
 
 form input{
     outline: none;
@@ -167,6 +186,8 @@ form input:focus{
     padding: 14px 20px;
 }
 
+
+
 @media(max-width: 756px){
     .form .main{
         flex-direction: column;
@@ -176,14 +197,17 @@ form input:focus{
         margin-top: 30px;
         margin-bottom: 10px;
     }
-    .form img{
+    .form-img{
         border-radius: 0;
         border-bottom-left-radius: 8px;
         border-bottom-right-radius: 8px;
-        /* order: 1; */
+        order: 1;
+        padding: 20px;
     }
+
+
     .content{
-        /* order: 2; */
+        order: 2;
         border-top-left-radius: 8px;
         border-top-right-radius: 8px;
     }

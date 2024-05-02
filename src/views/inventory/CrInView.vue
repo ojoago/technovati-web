@@ -113,10 +113,10 @@ const addItem = (item) => {
             name: item.name,
         })
     } else {
-        if (request.value.items[index].quantity < item.quantity) {
+        if (request.value.items[index].quantity < item?.item?.quantity) {
             request.value.items[index].quantity++
         } else {
-            store.commit('notify', { message: `quantity remaining is : ${request.value.items[index].quantity}`, type: 'warninig' })
+            store.commit('notify', { message: `Quantity Remaining is : ${item?.item?.quantity}`, type: 'warning' })
         }
     }
 }

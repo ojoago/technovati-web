@@ -1,7 +1,7 @@
 <template>
-       <div >
+       <div id="outer">
         <section>
-            <div class="header">
+            <div class="header_">
                 <div class="header_left">
                     <div class="d-flex ">
                          <router-link to="/welcome" class="nav-link">
@@ -31,10 +31,27 @@
 </script>
 
 <style scoped>
-.header{
+
+
+#outer {
+    height: 100vh;
+}
+
+.header_{
     display: flex;
     justify-content: space-between;
     padding: 0 20px;
+    height: 60px;
+        display: flex;
+        align-items: center;
+        transition: all 0.5s;
+        box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
+        /* background-color: #fff; */
+        width: 100%;
+        /* position: fixed; */
+        top: 0;
+        z-index: 110;
+        margin-bottom: 10px;
 }
 .nav-brand{
     text-transform: uppercase;

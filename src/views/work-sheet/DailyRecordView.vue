@@ -43,10 +43,12 @@
                                                 <div class="form-group mb-3">
                                                     <select class="form-control form-control-sm" v-model="work.device">
                                                         <option selected value="">Select Activity</option>
-                                                        <option v-for="item in deviceDrop" :key="item.id" :value="item.id">
+                                                        <option v-for="item in deviceDrop" :key="item.id"
+                                                            :value="item.id">
                                                             {{ item.text }} </option>
                                                     </select>
-                                                    <p class="text-danger " v-if="errors?.device">{{ errors?.device[0] }}
+                                                    <p class="text-danger " v-if="errors?.device">{{ errors?.device[0]
+                                                        }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -55,13 +57,15 @@
                                                 <div class="form-group">
                                                     <input type="date" v-model="work.date"
                                                         class="form-control form-control-sm" placeholder="e.g 10">
-                                                    <p class="text-danger " v-if="errors?.date">{{ errors?.date[0] }} </p>
+                                                    <p class="text-danger " v-if="errors?.date">{{ errors?.date[0] }}
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-12" v-for="(member, loop) in members" :key="loop">
                                             <label class="form-label">{{ member.type == 2 ? member.casual.username :
-                                                member.user.username }} {{ member.type == 2 ? member.casual.staff_id :  member.user.staff_id }} </label>
+                                                member.user.username }} {{ member.type == 2 ? member.casual.staff_id :
+                                                member.user.staff_id }} </label>
                                             <div class="input-group">
                                                 <input type="number" v-model="record[member.pid]"
                                                     class="form-control form-control-sm" placeholder="e.g 10">
@@ -118,7 +122,6 @@ import store from "@/store";
 import { ref } from "vue";
 import OModal from "@/components/OModal.vue";
 
-
 const xs = 'modal-xs';
 const deviceModal = ref(false)
 const openDeviceModal = () => {
@@ -135,8 +138,6 @@ const device = ref({
     activity: '',
     description: '',
 });
-
-
 
 
 function createActivity() {
@@ -186,21 +187,29 @@ const work = ref({
     date: '',
     record: []
 })
+
+const resetAttr = () => {
+    work.value = {
+        team_pid: '',
+        team_lead: '',
+        device: '',
+        date: '',
+        record: []
+    }
+    record.value = {};
+}
 const record = ref({})
 function submitWorkSheet() {
-    store.commit('setSpinner', true)
     work.value.record.push(record.value);
     errors.value = '';
-    let form = document.querySelector('#workForm');
-    store.dispatch('postMethod', { url: 'submit-work-sheet', param: work.value, form: form }).then((data) => {
+    store.dispatch('postMethod', { url: 'submit-work-sheet', param: work.value }).then((data) => {
         if (data?.status == 422) {
             errors.value = data.data
+        }else if(data?.status ==201){
+            resetAttr()
         }
-        store.commit('setSpinner', false)
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 
 }
@@ -212,7 +221,6 @@ function dropdownUser() {
         userDrop.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownUser()
@@ -222,7 +230,6 @@ function dropdownDevice() {
         deviceDrop.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownDevice()
