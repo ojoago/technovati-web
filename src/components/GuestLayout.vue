@@ -13,9 +13,9 @@
                     <li class="nav-item" title="Item Request">
                      <router-link to="/sign-in" class="nav-link"><i class="bi bi-box-arrow-in-right"></i> Sign In</router-link>
                     </li>
-                    <li class="nav-item" title="Item Request">
+                    <!-- <li class="nav-item" title="Item Request">
                      <router-link to="/sign-up" class="nav-link"><i class="bi bi-box-arrow-in-up"></i> Sign Up</router-link>
-                    </li>
+                    </li> -->
                      
                 </div>
             </div>

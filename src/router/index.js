@@ -18,7 +18,7 @@ const routes = [
                 path:'/sign-up',name:'SignUp',component: () => import('@/views/guest/SignUp.vue')
             },
             {
-                path:'/welcome',name:'Welcome',component: () => import('@/views/guest/WelcomeView.vue')
+                path:'/welcome',name:'Welcome',component: () => import('@/views/guest/SignIn.vue')
             },
             // Catch-all route for unknown paths
             { path: '/:pathMatch(.*)*',name:'404', component: () => import('@/views/errors/_404.vue') },
