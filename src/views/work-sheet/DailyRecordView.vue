@@ -139,6 +139,8 @@ const device = ref({
     description: '',
 });
 
+const activeRole = ref(null)
+
 
 function createActivity() {
     errors.value = []
@@ -152,9 +154,12 @@ function createActivity() {
     })
 }
 
+activeRole.value = store?.state?.activeRole
+
+
 const team_data = ref({})
 function loadTeam() {
-    store.dispatch('getMethod', { url: '/load-team' }).then((data) => {
+    store.dispatch('getMethod', { url: '/load-team/'+activeRole.value }).then((data) => {
         if (data?.status == 200) {
             team_data.value = data.data;
         }

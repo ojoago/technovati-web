@@ -96,13 +96,13 @@
             <div v-if="activeRole == 'receptionist'">
 
             </div>
-            <div v-if="activeRole=='engineer'">
+            <div v-if="activeRole == 'head_engineer' || activeRole =='engineer_supervisor'">
 
-                <li>
+                <li v-if="activeRole == 'head_engineer'">
                     <div class="icon-link">
                         <a>
                             <i class="bi bi-book"></i>
-                            <span class="link-name">Engineering</span>
+                            <span class="link-name">Teams</span>
                         </a>
                         <i class="bi bi-chevron-down arrow"></i>
                     </div>
@@ -120,6 +120,18 @@
                                     class="nav-name">Tools </span> </router-link>
                         </li>
 
+                    </ul>
+                </li>
+
+                <li>
+                    <div class="icon-link">
+                        <a>
+                            <i class="bi bi-book"></i>
+                            <span class="link-name">Records</span>
+                        </a>
+                        <i class="bi bi-chevron-down arrow"></i>
+                    </div>
+                    <ul class="sub-menu">
 
                         <li class="nav-item" title="work">
                             <router-link to="/daily-record" class="nav-link"><i class="bi bi-record"></i> <span
@@ -136,6 +148,7 @@
 
                     </ul>
                 </li>
+
                 <li>
                     <div class="icon-link">
                         <a>
@@ -202,9 +215,9 @@
                                     class="nav-name">Department </span> </router-link>
                         </li>
                     </ul>
-               
+
                 </li>
-                
+
                 <li>
                     <a>
                         <i class="bi bi-list-task"></i>
@@ -214,7 +227,7 @@
                         </span>
                     </a>
 
-               
+
                 </li>
 
                 <li>
