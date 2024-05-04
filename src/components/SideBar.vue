@@ -209,7 +209,7 @@
                 <li>
                     <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#staff"
                         aria-expanded="true" arai-controls="staff">
-                        <i class="bi bi-book"></i>
+                        <i class="bi bi-people"></i>
                         <div class="icon-link">
                             <span class="link-name">Staff</span>
                         </div>
@@ -228,7 +228,7 @@
 
                 <li>
                     <a>
-                        <i class="bi bi-list-task"></i>
+                        <i class="bi bi-house-fill"></i>
                         <span class="link-name">
                             <router-link to="/stores" class="nav-link"><span class="nav-name">Store </span>
                             </router-link>
@@ -238,7 +238,7 @@
                 </li>
                 <li>
                     <a>
-                        <i class="bi bi-list-task"></i>
+                        <i class="bi bi-kanban-fill"></i>
                         <span class="link-name">
                             <router-link to="/task" class="nav-link"><span class="nav-name">Project/Task </span>
                             </router-link>
@@ -260,7 +260,7 @@
                 <li>
                     <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#appraisal"
                         aria-expanded="true" arai-controls="appraisal">
-                        <i class="bi bi-book"></i>
+                        <i class="bi bi-check2-all"></i>
                         <div class="icon-link">
                             <span class="link-name">appraisal</span>
                         </div>
@@ -298,7 +298,7 @@
                 <li>
                     <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#leave"
                         aria-expanded="true" arai-controls="leave">
-                        <i class="bi bi-book"></i>
+                        <i class="bi bi-bootstrap-reboot"></i>
                         <div class="icon-link">
                             <span class="link-name">leave</span>
                         </div>
@@ -319,7 +319,7 @@
                 <li>
                     <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
                         data-bs-target="#attendance" aria-expanded="true" arai-controls="attendance">
-                        <i class="bi bi-book"></i>
+                        <i class="bi bi-person-bounding-box"></i>
                         <div class="icon-link">
                             <span class="link-name">attendance</span>
                         </div>
@@ -341,7 +341,7 @@
                 <li>
                     <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#payroll"
                         aria-expanded="true" arai-controls="payroll">
-                        <i class="bi bi-book"></i>
+                        <i class="bi bi-cash-stack"></i>
                         <div class="icon-link">
                             <span class="link-name">payroll</span>
                         </div>
@@ -371,7 +371,7 @@
                 <li>
                     <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#allowance"
                         aria-expanded="true" arai-controls="allowance">
-                        <i class="bi bi-book"></i>
+                        <i class="bi bi-node-plus-fill"></i>
                         <div class="icon-link">
                             <span class="link-name">allowance</span>
                         </div>
@@ -397,7 +397,7 @@
                 <li>
                     <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#deduction"
                         aria-expanded="true" arai-controls="deduction">
-                        <i class="bi bi-book"></i>
+                        <i class="bi bi-node-minus-fill"></i>
                         <div class="icon-link">
                             <span class="link-name">deduction</span>
                         </div>
@@ -646,7 +646,7 @@
             <li>
                 <div class="icon-link">
                     <a>
-                        <i class="bi bi-grid"></i>
+                        <i class="bi bi-newspaper"></i>
                         <span class="link-name">
                             <router-link to="/announcement" class="nav-link"><span class="nav-name">Announcements</span>
                             </router-link>
@@ -658,7 +658,7 @@
             <li>
                 <div class="icon-link">
                     <a>
-                        <i class="bi bi-grid"></i>
+                        <i class="bi bi-rainbow"></i>
                         <span class="link-name">
                             <router-link to="/memo" class="nav-link"><span class="nav-name">Memo</span> </router-link>
                         </span>
