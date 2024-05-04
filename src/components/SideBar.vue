@@ -1,13 +1,8 @@
 <template>
     <div class="sidebar " id="sidebar">
 
-        <!-- <div class="sidebar " id="sidebar"> -->
-
-        <!-- <div class="brand-details">
-            <i class="bi bi-list toggleMenu pointer"></i>
-            <span class="brand-name">Optimal</span>
-        </div> -->
         <ul class="nav-links">
+
             <li>
                 <a>
                     <i class="bi bi-grid"></i>
@@ -19,8 +14,6 @@
                 </a>
             </li>
 
-
-
             <div v-if="activeRole == 'md'">
                 <li>
                     <div class="icon-link">
@@ -31,7 +24,7 @@
                                 </router-link>
                             </span>
                         </a>
-                        <i class="bi bi-chevron-right arrow"></i>
+                        <!-- <i class="bi bi-chevron-right arrow"></i> -->
                     </div>
                 </li>
                 <li>
@@ -43,12 +36,15 @@
                                 </router-link>
                             </span>
                         </a>
-                        <i class="bi bi-chevron-right arrow"></i>
+                        <!-- <i class="bi bi-chevron-right arrow"></i> -->
                     </div>
                 </li>
 
 
             </div>
+
+            <!-- end receptionist -->
+
             <div v-if="activeRole == 'receptionist'">
                 <li>
                     <div class="icon-link">
@@ -59,163 +55,175 @@
                                         class="nav-name">Schedule</span></router-link>
                             </span>
                         </a>
-                        <i class="bi bi-chevron-right arrow"></i>
                     </div>
-                    <ul class="sub-menu blank">
-                        <li class="nav-item" title="schedule">
-                            <router-link to="/schedule" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">schedule</span> </router-link>
-                        </li>
-                    </ul>
                 </li>
-
+                <!-- begin log  -->
                 <li>
-                    <div class="icon-link">
-                        <a>
-                            <i class="bi bi-book"></i>
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#log"
+                        aria-expanded="true" arai-controls="log">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
                             <span class="link-name">Log</span>
-                        </a>
-                        <i class="bi bi-chevron-down arrow"></i>
-                    </div>
-                    <ul class="sub-menu">
+                        </div>
+                    </a>
+                    <ul id="log" class="submenu sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="nav-item" title="Log">
                             <router-link to="/log" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">Create Staff </span> </router-link>
+                                    class="nav-name">New </span> </router-link>
                         </li>
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" title="Records">
                             <router-link to="/visitor-out-time" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">Staff List</span> </router-link>
+                                    class="nav-name">Records</span> </router-link>
                         </li>
-
                     </ul>
                 </li>
+                <!-- end log  -->
 
             </div>
+            <!-- end receptionist -->
 
-
-            <div v-if="activeRole == 'receptionist'">
-
-            </div>
-            <div v-if="activeRole == 'head_engineer' || activeRole =='engineer_supervisor'">
+            <!-- engineering team begin here  -->
+            <div v-if="activeRole == 'head_engineer' || activeRole == 'engineer_supervisor'">
 
                 <li v-if="activeRole == 'head_engineer'">
-                    <div class="icon-link">
-                        <a>
-                            <i class="bi bi-book"></i>
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#team"
+                        aria-expanded="true" arai-controls="team">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
                             <span class="link-name">Teams</span>
-                        </a>
-                        <i class="bi bi-chevron-down arrow"></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li class="nav-item" title="workers">
-                            <router-link to="/workers" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">Workers</span> </router-link>
-                        </li>
+                        </div>
+                    </a>
+                    <ul id="team" class="submenu sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="nav-item" title="team">
+                            <router-link to="/workers" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Workers </span> </router-link>
+                        </li>
+
+                        <li class="nav-item" title="Records">
                             <router-link to="/team" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Team</span> </router-link>
                         </li>
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" title="Records">
                             <router-link to="/tools" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">Tools </span> </router-link>
+                                    class="nav-name">Tools</span> </router-link>
                         </li>
-
                     </ul>
                 </li>
 
                 <li>
-                    <div class="icon-link">
-                        <a>
-                            <i class="bi bi-book"></i>
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#records"
+                        aria-expanded="true" arai-controls="records">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
                             <span class="link-name">Records</span>
-                        </a>
-                        <i class="bi bi-chevron-down arrow"></i>
-                    </div>
-                    <ul class="sub-menu">
+                        </div>
+                    </a>
+                    <ul id="records" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
 
-                        <li class="nav-item" title="work">
+                        <li class="nav-item" title="team">
                             <router-link to="/daily-record" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">Daily Record </span> </router-link>
-                        </li>
-                        <li class="nav-item" title="work">
-                            <router-link to="/work-sheet" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">Work Sheet </span> </router-link>
-                        </li>
-                        <li class="nav-item" title="work">
-                            <router-link to="/staff-record" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">Staff Record </span> </router-link>
+                                    class="nav-name">Daily Records </span> </router-link>
                         </li>
 
+                        <li class="nav-item" title="Records">
+                            <router-link to="/work-sheet" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Work Sheet</span> </router-link>
+                        </li>
+
+                        <li class="nav-item" title="Records">
+                            <router-link to="/staff-record" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Staff Records</span> </router-link>
+                        </li>
                     </ul>
                 </li>
 
                 <li>
-                    <div class="icon-link">
-                        <a>
-                            <i class="bi bi-book"></i>
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
+                        data-bs-target="#en_mat_req" aria-expanded="true" arai-controls="en_mat_req">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
                             <span class="link-name">Material Request</span>
-                        </a>
-                        <i class="bi bi-chevron-down arrow"></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li class="nav-item" title="raw materials">
+                        </div>
+                    </a>
+                    <ul id="en_mat_req" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+
+                        <li class="nav-item" title="team">
                             <router-link to="/material-request" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">New Request</span> </router-link>
+                                    class="nav-name">New Request </span> </router-link>
                         </li>
-                        <li class="nav-item" title="staff">
+
+                        <li class="nav-item" title="Records">
                             <router-link to="/my-raw-material-request" class="nav-link"><i class="bi bi-record"></i>
                                 <span class="nav-name">My Request</span> </router-link>
                         </li>
 
-
                     </ul>
                 </li>
-            </div>
 
-            <div v-if="activeRole =='logistics'">
+            </div>
+            <!-- engineering team end here -->
+
+
+            <!-- end receptionist -->
+
+            <div v-if="activeRole == 'logistics'">
+
+                <!-- begin log  -->
                 <li>
-                    <div class="icon-link">
-                        <a>
-                            <i class="bi bi-book"></i>
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#logistics"
+                        aria-expanded="true" arai-controls="logistics">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
                             <span class="link-name">Logistics</span>
-                        </a>
-                        <i class="bi bi-chevron-down arrow"></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li class="nav-item" title="staff">
+                        </div>
+                    </a>
+                    <ul id="logistics" class="submenu sidebar-dropdown list-unstyled collapse"
+                        data-bs-parent="#sidebar">
+                        <li class="nav-item" title="Records">
                             <router-link to="/vehicle" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">Vehicle </span> </router-link>
+                                    class="nav-name">Vehicle</span> </router-link>
                         </li>
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" title="Records">
                             <router-link to="/driver" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Driver</span> </router-link>
                         </li>
-
                     </ul>
                 </li>
+                <!-- end log  -->
             </div>
 
-
-
-            <!----------------------- HR role  -------------------------- -->
-
-            <div v-if="activeRole=='hr'">
+            <!-- end receptionist -->
+            <div v-if="activeRole == 'hr'">
                 <li>
-                    <a>
-                        <i class="bi bi-list-task"></i>
-                        <span class="link-name">
-                            <router-link to="/department" class="nav-link"><span class="nav-name">Department </span>
-                            </router-link>
-                        </span>
+                    <div class="icon-link">
+                        <a>
+                            <i class="bi bi-stack"></i>
+                            <span class="link-name">
+                                <router-link to="/department" class="nav-link"><span
+                                        class="nav-name">Department</span></router-link>
+                            </span>
+                        </a>
+                    </div>
+                </li>
+                <!-- begin log  -->
+                <li>
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#staff"
+                        aria-expanded="true" arai-controls="staff">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
+                            <span class="link-name">Staff</span>
+                        </div>
                     </a>
-
-                    <ul class="sub-menu blank">
-                        <li class="nav-item" title="Department">
-                            <router-link to="/department" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">Department </span> </router-link>
+                    <ul id="staff" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <li class="nav-item" title="staff">
+                            <router-link to="/staff" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Create Staff </span> </router-link>
+                        </li>
+                        <li class="nav-item" title="staff list">
+                            <router-link to="/staff-list" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Staff List</span> </router-link>
                         </li>
                     </ul>
-
                 </li>
 
                 <li>
@@ -227,28 +235,6 @@
                         </span>
                     </a>
 
-
-                </li>
-
-                <li>
-                    <div class="icon-link">
-                        <a>
-                            <i class="bi bi-book"></i>
-                            <span class="link-name">Staff</span>
-                        </a>
-                        <i class="bi bi-chevron-down arrow"></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li class="nav-item" title="staff">
-                            <router-link to="/staff" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">Create Staff </span> </router-link>
-                        </li>
-                        <li class="nav-item" title="staff list">
-                            <router-link to="/staff-list" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">Staff List</span> </router-link>
-                        </li>
-
-                    </ul>
                 </li>
                 <li>
                     <a>
@@ -258,14 +244,7 @@
                             </router-link>
                         </span>
                     </a>
-                    <ul class="sub-menu blank">
-                        <li class="nav-item" title="Project/Task">
-                            <router-link to="/task" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">Project/Task </span> </router-link>
-                        </li>
-                    </ul>
                 </li>
-
                 <li>
                     <a>
                         <i class="bi bi-list-task"></i>
@@ -275,23 +254,19 @@
                                 </span> </router-link>
                         </span>
                     </a>
-                    <ul class="sub-menu blank">
-                        <li class="nav-item" title="Travel Request">
-                            <router-link to="/staff-travel-request" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">Travel Request </span> </router-link>
-                        </li>
-                    </ul>
+
                 </li>
 
                 <li>
-                    <div class="icon-link">
-                        <a>
-                            <i class="bi bi-book"></i>
-                            <span class="link-name">Appraisal</span>
-                        </a>
-                        <i class="bi bi-chevron-down arrow"></i>
-                    </div>
-                    <ul class="sub-menu">
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#appraisal"
+                        aria-expanded="true" arai-controls="appraisal">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
+                            <span class="link-name">appraisal</span>
+                        </div>
+                    </a>
+                    <ul id="appraisal" class="submenu sidebar-dropdown list-unstyled collapse"
+                        data-bs-parent="#sidebar">
                         <li class="nav-item" title="staff">
                             <router-link to="/appraisal-title" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">appraisal title </span> </router-link>
@@ -317,22 +292,18 @@
                             <router-link to="/staff-appraisal-records" class="nav-link"><i class="bi bi-record"></i>
                                 <span class="nav-name">Appraisal Records</span> </router-link>
                         </li>
-
                     </ul>
                 </li>
-
+                <!-- leave begin  -->
                 <li>
-                    <div class="icon-link">
-                        <a>
-                            <i class="bi bi-bootstrap-reboot"></i>
-                            <span class="link-name">
-                                <router-link to="/leave" class="nav-link"><span
-                                        class="nav-name">Leave</span></router-link>
-                            </span>
-                        </a>
-                        <i class="bi bi-chevron-right arrow"></i>
-                    </div>
-                    <ul class="sub-menu">
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#leave"
+                        aria-expanded="true" arai-controls="leave">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
+                            <span class="link-name">leave</span>
+                        </div>
+                    </a>
+                    <ul id="leave" class="submenu sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="nav-item" title="leave">
                             <router-link to="/leave" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Leave</span> </router-link>
@@ -343,16 +314,18 @@
                         </li>
                     </ul>
                 </li>
-
+                <!-- leave end here  -->
+                <!-- attendance begin  -->
                 <li>
-                    <div class="icon-link">
-                        <a>
-                            <i class="bi bi-person-bounding-box"></i>
-                            <span class="link-name">Attendance</span>
-                        </a>
-                        <i class="bi bi-chevron-down arrow"></i>
-                    </div>
-                    <ul class="sub-menu">
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
+                        data-bs-target="#attendance" aria-expanded="true" arai-controls="attendance">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
+                            <span class="link-name">attendance</span>
+                        </div>
+                    </a>
+                    <ul id="attendance" class="submenu sidebar-dropdown list-unstyled collapse"
+                        data-bs-parent="#sidebar">
                         <li class="nav-item" title="staff">
                             <router-link to="/shift-config" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Shifts</span> </router-link>
@@ -361,22 +334,19 @@
                             <router-link to="/staff-attendance" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Attendance</span> </router-link>
                         </li>
-
                     </ul>
                 </li>
-
+                <!-- attendance end  -->
+                <!-- Payroll begin  -->
                 <li>
-                    <div class="icon-link">
-                        <a>
-                            <i class="bi bi-book"></i>
-                            <span class="link-name">Payroll</span>
-                        </a>
-                        <i class="bi bi-chevron-down arrow"></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <!-- <li class="nav-item" title="staff">
-                                <router-link to="/salary-steps" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Salary Steps  </span>  </router-link>
-                            </li> -->
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#payroll"
+                        aria-expanded="true" arai-controls="payroll">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
+                            <span class="link-name">payroll</span>
+                        </div>
+                    </a>
+                    <ul id="payroll" class="submenu sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="nav-item" title="staff">
                             <router-link to="/salary-structure" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Salary Structure</span> </router-link>
@@ -398,16 +368,16 @@
                         </li>
                     </ul>
                 </li>
-
                 <li>
-                    <div class="icon-link">
-                        <a>
-                            <i class="bi bi-book"></i>
-                            <span class="link-name">Allowance</span>
-                        </a>
-                        <i class="bi bi-chevron-down arrow"></i>
-                    </div>
-                    <ul class="sub-menu">
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#allowance"
+                        aria-expanded="true" arai-controls="allowance">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
+                            <span class="link-name">allowance</span>
+                        </div>
+                    </a>
+                    <ul id="allowance" class="submenu sidebar-dropdown list-unstyled collapse"
+                        data-bs-parent="#sidebar">
                         <li class="nav-item" title="staff">
                             <router-link to="/allowance-name" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Allowance Name</span> </router-link>
@@ -420,24 +390,20 @@
                             <router-link to="/allowance-exclusion" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Allowance Exclusion</span> </router-link>
                         </li>
-
-                        <!-- <li class="nav-item" title="staff">
-                            <router-link to="/nontaxable-allowance" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">Nontaxable Allowance</span> </router-link>
-                        </li> -->
-
                     </ul>
                 </li>
-
+                <!-- allowance end here  -->
+                <!-- deduction begin  -->
                 <li>
-                    <div class="icon-link">
-                        <a>
-                            <i class="bi bi-book"></i>
-                            <span class="link-name"> Deduction </span>
-                        </a>
-                        <i class="bi bi-chevron-down arrow"></i>
-                    </div>
-                    <ul class="sub-menu">
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#deduction"
+                        aria-expanded="true" arai-controls="deduction">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
+                            <span class="link-name">deduction</span>
+                        </div>
+                    </a>
+                    <ul id="deduction" class="submenu sidebar-dropdown list-unstyled collapse"
+                        data-bs-parent="#sidebar">
                         <li class="nav-item" title="staff">
                             <router-link to="/deduction-name" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Deduction Name</span> </router-link>
@@ -458,15 +424,14 @@
                             <router-link to="/deduction-exclusion" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Deduction Exclusions</span> </router-link>
                         </li>
-
                     </ul>
                 </li>
-
-
-
+                <!-- deduction end  -->
             </div>
-            <!-- ---------------------- store/Account -----------------  -->
-            <div v-if="activeRole=='store' || activeRole=='account'">
+            <!-- end receptionist -->
+
+            <!-- end receptionist -->
+            <div v-if="activeRole == 'store' || activeRole == 'account'">
                 <li>
                     <a>
                         <i class="bi bi-list-task"></i>
@@ -475,12 +440,7 @@
                             </router-link>
                         </span>
                     </a>
-                    <ul class="sub-menu blank">
-                        <li class="nav-item" title="Suppliers">
-                            <router-link to="/suppliers" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">Suppliers </span> </router-link>
-                        </li>
-                    </ul>
+
                 </li>
                 <li>
                     <a>
@@ -490,27 +450,18 @@
                             </router-link>
                         </span>
                     </a>
-                    <ul class="sub-menu blank">
-                        <li class="nav-item" title="Customers">
-                            <router-link to="/customers" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">Customers </span> </router-link>
-                        </li>
-                    </ul>
-                </li>
 
+                </li>
+                <!-- begin  -->
                 <li>
-                    <div class="icon-link">
-                        <a>
-                            <i class="bi bi-book"></i>
-                            <span class="link-name">Inventory</span>
-                        </a>
-                        <i class="bi bi-chevron-down arrow"></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <!-- <li class="nav-item" title="staff">
-                            <router-link to="/stores" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">Store </span> </router-link>
-                        </li> -->
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#inventory"
+                        aria-expanded="true" arai-controls="inventory">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
+                            <span class="link-name">inventory</span>
+                        </div>
+                    </a>
+                    <ul id="inventory" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="nav-item" title="staff">
                             <router-link to="/items" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Items </span> </router-link>
@@ -527,16 +478,17 @@
                         </li>
                     </ul>
                 </li>
-
+                <!-- end   -->
+                <!-- begin  -->
                 <li>
-                    <div class="icon-link">
-                        <a>
-                            <i class="bi bi-book"></i>
-                            <span class="link-name">Way Bill</span>
-                        </a>
-                        <i class="bi bi-chevron-down arrow"></i>
-                    </div>
-                    <ul class="sub-menu">
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#waybill"
+                        aria-expanded="true" arai-controls="waybill">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
+                            <span class="link-name">way bill</span>
+                        </div>
+                    </a>
+                    <ul id="waybill" class=" sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="nav-item" title="staff">
                             <router-link to="/cr-in" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Items </span> </router-link>
@@ -549,19 +501,19 @@
                             <router-link to="/cr-out-request" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Request List</span> </router-link>
                         </li>
-
                     </ul>
                 </li>
-
+                <!-- end   -->
+                <!-- begin  -->
                 <li>
-                    <div class="icon-link">
-                        <a>
-                            <i class="bi bi-book"></i>
-                            <span class="link-name">Item Request</span>
-                        </a>
-                        <i class="bi bi-chevron-down arrow"></i>
-                    </div>
-                    <ul class="sub-menu">
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#irequest"
+                        aria-expanded="true" arai-controls="irequest">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
+                            <span class="link-name">item request</span>
+                        </div>
+                    </a>
+                    <ul id="irequest" class=" sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="nav-item" title="staff">
                             <router-link to="/item-request" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name"> New Request </span> </router-link>
@@ -570,19 +522,19 @@
                             <router-link to="/staff-list" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Staff List</span> </router-link>
                         </li>
-
                     </ul>
                 </li>
-
+                <!-- end   -->
+                <!-- begin  -->
                 <li>
-                    <div class="icon-link">
-                        <a>
-                            <i class="bi bi-book"></i>
-                            <span class="link-name">Raw Materials</span>
-                        </a>
-                        <i class="bi bi-chevron-down arrow"></i>
-                    </div>
-                    <ul class="sub-menu">
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#rmaterial"
+                        aria-expanded="true" arai-controls="rmaterial">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
+                            <span class="link-name">raw material</span>
+                        </div>
+                    </a>
+                    <ul id="rmaterial" class=" sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="nav-item" title="raw materials">
                             <router-link to="/raw-material" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Add New </span> </router-link>
@@ -595,20 +547,19 @@
                             <router-link to="/consignments" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Consignments</span> </router-link>
                         </li>
-
                     </ul>
                 </li>
-
+                <!-- end   -->
+                <!-- begin  -->
                 <li>
-                    <div class="icon-link">
-                        <a>
-                            <i class="bi bi-book"></i>
-                            <span class="link-name">Materail Request</span>
-                        </a>
-                        <i class="bi bi-chevron-down arrow"></i>
-                    </div>
-                    <ul class="sub-menu">
-
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#mrequest"
+                        aria-expanded="true" arai-controls="mrequest">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
+                            <span class="link-name">material request</span>
+                        </div>
+                    </a>
+                    <ul id="mrequest" class="submenu sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="nav-item" title="staff">
                             <router-link to="/pending-raw-material-request" class="nav-link"><i
                                     class="bi bi-record"></i> <span class="nav-name">Pending</span> </router-link>
@@ -618,15 +569,14 @@
                             <router-link to="/processed-raw-material-request" class="nav-link"><i
                                     class="bi bi-record"></i> <span class="nav-name">Processed</span> </router-link>
                         </li>
-
                     </ul>
                 </li>
-
-
+                <!-- end   -->
             </div>
+            <!-- end receptionist -->
 
-            <!-- ---------- self service ------------------------------------ -->
-            <div v-if="activeRole=='staff'">
+            <!-- end receptionist -->
+            <div v-if="activeRole == 'staff'">
 
                 <li>
                     <div class="icon-link">
@@ -637,7 +587,6 @@
                                 </router-link>
                             </span>
                         </a>
-                        <i class="bi bi-chevron-right arrow"></i>
                     </div>
                 </li>
 
@@ -650,7 +599,6 @@
                                 </router-link>
                             </span>
                         </a>
-                        <i class="bi bi-chevron-right arrow"></i>
                     </div>
                 </li>
 
@@ -664,7 +612,6 @@
                                 </router-link>
                             </span>
                         </a>
-                        <i class="bi bi-chevron-right arrow"></i>
                     </div>
                 </li>
 
@@ -677,7 +624,6 @@
                                         Request </span> </router-link>
                             </span>
                         </a>
-                        <i class="bi bi-chevron-right arrow"></i>
                     </div>
                 </li>
 
@@ -691,10 +637,12 @@
                                         class="nav-name">Appraisal</span> </router-link>
                             </span>
                         </a>
-                        <i class="bi bi-chevron-right arrow"></i>
                     </div>
                 </li>
+                <!-- end log  -->
             </div>
+            <!-- end  -->
+
             <li>
                 <div class="icon-link">
                     <a>
@@ -704,7 +652,6 @@
                             </router-link>
                         </span>
                     </a>
-                    <i class="bi bi-chevron-right arrow"></i>
                 </div>
             </li>
 
@@ -716,10 +663,9 @@
                             <router-link to="/memo" class="nav-link"><span class="nav-name">Memo</span> </router-link>
                         </span>
                     </a>
-                    <i class="bi bi-chevron-right arrow"></i>
                 </div>
             </li>
-
+            <!-- end receptionist -->
             <li v-if="roles.includes('hod')">
                 <div class="icon-link">
                     <a>
@@ -729,7 +675,6 @@
                                     class="nav-name">Leave Request</span> </router-link>
                         </span>
                     </a>
-                    <i class="bi bi-chevron-right arrow"></i>
                 </div>
                 <div class="icon-link">
                     <a>
@@ -739,25 +684,26 @@
                                     class="nav-name">Appraisal</span> </router-link>
                         </span>
                     </a>
-                    <i class="bi bi-chevron-right arrow"></i>
                 </div>
+                <!-- end log  -->
             </li>
+            <!-- end receptionist -->
 
+
+
+
+
+            <!-- side-bar footer  -->
             <li>
                 <div class="sidebar-footer">
                     <div class="sidebar-footer-content">
                         <!-- <p>powered by</p> -->
                         <img src="../assets/images/optimal.png" alt="optimal">
                     </div>
-                    <!-- <div class="job-name">
-                        <div class="name">Prem Shahi</div>
-                        <div class="job">Web Designer</div>
-                    </div>
-                     -->
+
                 </div>
             </li>
         </ul>
-        <!-- </div> -->
 
     </div>
 </template>
@@ -772,7 +718,6 @@ const roles =  store?.state?.user?.roles;
 
 const activeRole = ref(null)
 activeRole.value = store?.state?.activeRole
-// console.log(activeRole.value)
 const goToDashboard = () =>{
     let name = activeRole.value;
     if(name =='staff'){
@@ -785,5 +730,74 @@ const goToDashboard = () =>{
 </script>
 
 <style scoped>
- 
+ a{
+    text-decoration: none;
+ }
+ li{
+    list-style: none;
+ }
+
+#sidebar{
+    transition: all .3s ease-in-out;
+}
+
+
+.sidebar-nav{
+    padding: 2rem 0;
+    flex: 1 1 auto;
+}
+
+
+
+#sidebar .sidebar-link[data-bs-toggle="collapse"]::after{
+    border: solid;
+    border-width: 0 0.15rem 0.15rem 0;
+    height: 12px;
+    width: 12px;
+    content: "";
+    display: inline-block;
+    padding: 2px;
+    position: absolute;
+    right: 1.5rem;
+    top:1.4rem;
+    transform: rotate(-135deg);
+    transition: all .3s ease-in-out;
+    color: #fff;
+}
+
+#sidebar .sidebar-link[data-bs-toggle="collapse"].collapsed::after {
+    transform: rotate(45deg);
+    transition: all .2s ease-out;
+}
+
+li  ul{
+    margin-left: 20px ;
+    padding: 6px 6px 14px 35px;
+}
+li ul li:hover {
+    border-top: 1px solid #000;
+}
+li  ul li .nav-link{
+    color: #fff;
+}
+
+.nav-name,.link-name{
+    text-transform: capitalize;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </style>

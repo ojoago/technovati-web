@@ -34,7 +34,7 @@
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li class="bg-warning"><a class="dropdown-item pointer" @click="editItem(item)">Edit</a> </li>
-                                                <li class="bg-danger"><a class="dropdown-item pointer"  @click="deleteItem(item.pid)">Delete</a> </li>
+                                                <!-- <li class="bg-danger"><a class="dropdown-item pointer"  @click="deleteItem(item.pid)">Delete</a> </li> -->
                                             </ul>
                                         </div>
                                     </td>
@@ -115,9 +115,19 @@ const editItem = (sec) => {
     }
     openModal.value = true
 }
-const deleteItem = (id) => {
-    alert(id)
+
+const resetAttr = () => {
+    storeFrom.value = {
+        location: '',
+        description: '',
+        name: '',
+        maanager_pid: '',
+    }
 }
+
+// const deleteItem = (id) => {
+//     alert(id)
+// }
 
 
 
@@ -127,8 +137,7 @@ function createStore() {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-            let form = document.querySelector('#itemForm');
-            form.reset();
+            resetAttr();
             loadItem()
         }
     })

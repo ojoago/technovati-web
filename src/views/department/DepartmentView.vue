@@ -79,7 +79,7 @@
                                         <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="form-label">Description</label>
-                                            <textarea type="text" v-model="desig.description" class="form-control" placeholder="for the drvie force"></textarea>
+                                            <textarea type="text" v-model="desig.description" class="form-control" placeholder="any description"></textarea>
                                             <p class="text-danger " v-if="desig_error?.description">{{ desig_error?.description[0] }}</p>
                                         </div>
                                     </div>

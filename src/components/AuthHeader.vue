@@ -26,19 +26,11 @@
                             data-bs-toggle="dropdown">
                             
                             <span
-                                class="d-none d-md-block uppercase-text dropdown-toggle ps-2 ellipsis-text">{{username}}
+                                class="dnone d-md-block uppercase-text dropdown-toggle ps-2 ellipsis-text">{{username}}
                             </span>
                         </a><!-- End Profile Iamge Icon -->
 
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-                            <!-- <li class="dropdown-header">
-                                     <h6 class="ellipsis-text">getAuthFullname</h6>
-                                     <span>Web Designer</span>
-                                 </li>
-                                
-                                 <li>
-                                     <hr class="dropdown-divider">
-                                 </li> -->
 
                             <li>
                                 <a class="dropdown-item align-items-center pointer">

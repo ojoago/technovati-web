@@ -34,7 +34,7 @@ onMounted(() => {
     let sidebarBtn = document.querySelector('.toggleMenu')
     // console.log(sidebarBtn);
     sidebarBtn.addEventListener('click', () => {
-        sidebar.classList.toggle('close')
+        sidebar.classList.toggle('expand')
     })
    
 })

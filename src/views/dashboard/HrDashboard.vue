@@ -34,7 +34,7 @@
 
                 </div>
                 <div class="col-md-6">
-                    <Qal :data="eventData" title="Events" v-if="eventData.length" />
+                    <Qal :data="eventData" title="Events"  />
                 </div>
             </div>
         </div>
