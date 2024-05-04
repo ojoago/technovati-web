@@ -13,8 +13,8 @@
 
                     <li class="nav-item dropdown">
                         <a class="nav-link nav-icon pointer" id="loadNotifications" data-bs-toggle="dropdown">
-                            <i class="bi bi-bell"></i>
-                            <span class="badge bg-primary badge-number" id="badge-number">0</span>
+                            <!-- <i class="bi bi-bell"></i> -->
+                            <span class="badge bg-dark badge-number" id="badge-number">0</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications"
                             id="notifications">

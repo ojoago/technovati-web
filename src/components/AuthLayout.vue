@@ -20,21 +20,21 @@ import SideBar from "./SideBar.vue";
 
 onMounted(() => {
     
-    let arrow = document.querySelectorAll(".arrow");
-    for (let i = 0; i < arrow.length; i++) {
-        arrow[i].addEventListener("click", (e) => {
-            // console.log(e);
-            let arrowParent = e.target.parentElement.parentElement;
-            // console.log(arrowParent);
-            arrowParent.classList.toggle("showMenu");
-        })
-        // const element = array[i];
-    }
-    let sidebar = document.querySelector('.sidebar')
+    // let arrow = document.querySelectorAll(".arrow");
+    // for (let i = 0; i < arrow.length; i++) {
+    //     arrow[i].addEventListener("click", (e) => {
+    //         // console.log(e);
+    //         let arrowParent = e.target.parentElement.parentElement;
+    //         // console.log(arrowParent);
+    //         arrowParent.classList.toggle("showMenu");
+    //     })
+    //     // const element = array[i];
+    // }
+    let sidebar = document.querySelector('#sidebar')
     let sidebarBtn = document.querySelector('.toggleMenu')
     // console.log(sidebarBtn);
     sidebarBtn.addEventListener('click', () => {
-        sidebar.classList.toggle('expand')
+        sidebar.classList.toggle('close')
     })
    
 })

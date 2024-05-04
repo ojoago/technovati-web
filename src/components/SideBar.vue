@@ -689,10 +689,6 @@
             </li>
             <!-- end receptionist -->
 
-
-
-
-
             <!-- side-bar footer  -->
             <li>
                 <div class="sidebar-footer">
@@ -783,21 +779,7 @@ li  ul li .nav-link{
 
 .nav-name,.link-name{
     text-transform: capitalize;
+    cursor: pointer;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 </style>
