@@ -54,16 +54,15 @@
                                                 
                                                 </div>
 
-                                                <div class="row">
+                                                <!-- <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group">
                                                             <label class="form-label">Address <span class="text-danger">*</span></label>
                                                             <textarea v-model="inst.address" class="form-control form-control-sm" placeholder="e.g Zaira, Kaduna, kaduna state"></textarea>
-                                                            <!-- <p class="text-danger " v-if="q_errors?.address">{{ q_errors?.loop?.address[0] }}</p> -->
                                                         </div>
                                                     </div>
                                 
-                                                </div>
+                                                </div> -->
                                             </fieldset>
                                         </template>
                                         <div class="float-end p-2">
@@ -93,7 +92,7 @@ const qualification = ref({
         year: '',
         field: '',
         grade: '',
-        address: '',
+        // address: '',
     }],
     'user_pid': props.user_pid,
 });
@@ -104,7 +103,7 @@ const addQualification = () => {
         'year': '',
         'field': '',
         'grade': '',
-        'address': '',
+        // 'address': '',
     })
 }
 const removeQualification = (i) => {

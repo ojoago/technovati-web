@@ -226,6 +226,16 @@ body{
 }
 
 
+.table-responsive{
+    overflow: visible
+}
+
+/* dropdown  */
+.dropdown .dropdown-menu{
+    overflow: hidden;
+    position: absolute;
+}
+
 /* media query */
 @media (max-width: 756px) {
     

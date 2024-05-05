@@ -94,16 +94,27 @@
                         </div>
                     </div>
                     <div class="col-md-4">
+
                         <div class="form-group">
-                            <label class="form-label">Bload Group <span class="text-danger">*</span></label>
-                            <input type="text" v-model="user.blood_group" class="form-control form-control-sm"
-                                placeholder="e.g B+">
+                            <label class="form-label">Blood Group <span class="text-danger">*</span></label>
+
+                            <select v-model="user.blood_group" class="form-control form-control-sm">
+                                <option value="" selected>Select Group</option>
+                                <option>A+</option>
+                                <option>A-</option>
+                                <option>B+</option>
+                                <option>B-</option>
+                                <option>O+</option>
+                                <option>O-</option>
+                                <option>AB+</option>
+                                <option>AB-</option>
+                            </select>
                             <p class="text-danger " v-if="errors?.blood_group">{{ errors?.blood_group[0] }}</p>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="form-label">Geno Type <span class="text-danger">*</span></label>
+                            <label class="form-label">Geno Type <span class="text-danger"></span></label>
                             <input type="text" v-model="user.geno_type" class="form-control form-control-sm"
                                 placeholder="e.g AA">
                             <p class="text-danger " v-if="errors?.geno_type">{{ errors?.geno_type[0] }}</p>
@@ -268,6 +279,8 @@ const user = ref({
     user_pid: props.user_pid,
     image: null,
     role: '',
+    geno_type: '',
+    blood_group: '',
 });
 
 let query = {}

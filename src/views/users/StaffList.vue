@@ -44,7 +44,8 @@
                                                 <th> <i class="bi bi-gear"></i> </th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody v-if="users.data">
+
                                             <tr v-for="(user,loop) in users.data" :key="loop">
                                                 <td>{{ loop+1 }}</td>
                                                 <td>{{ `${user.lastname} ${user.firstname}` }} {{ user.othername }}</td>
@@ -89,7 +90,11 @@
                                                 </td>
                                             </tr>
                                         </tbody>
-
+                                        <tfoot v-else class="text-center" style="width: 1005" width="100%">
+                                            <tr>
+                                                <td colspan="8">No Record Yet</td>
+                                            </tr>
+                                        </tfoot>
                                     </table>
                                     <div class="flex justify-center mt-4">
                                         <nav class="relative justify-center rounded-md shadow pagination">
@@ -203,47 +208,47 @@
                 <div>
                     <form id="rForm">
                         <div class="row">
-                                <form>
+                            <form>
 
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">Salary Structure</label>
-                                                <select class="form-control form-control-sm"
-                                                    v-model="salary.structure_pid" @change="loadGrades($event)">
-                                                    <option value="" selected>Make Selection</option>
-                                                    <option v-for="sec in structureDrop" :key="sec.id" :value="sec.id">
-                                                        {{ sec.text }}
-                                                    </option>
-                                                </select>
-                                                <p class="text-danger " v-if="errors?.structure_pid">{{
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label">Salary Structure</label>
+                                            <select class="form-control form-control-sm" v-model="salary.structure_pid"
+                                                @change="loadGrades($event)">
+                                                <option value="" selected>Make Selection</option>
+                                                <option v-for="sec in structureDrop" :key="sec.id" :value="sec.id">
+                                                    {{ sec.text }}
+                                                </option>
+                                            </select>
+                                            <p class="text-danger " v-if="errors?.structure_pid">{{
                                                 errors?.structure_pid[0] }} </p>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">Salary Grade</label>
-                                                <select class="form-control form-control-sm" v-model="salary.grade_pid"
-                                                    @change="loadSteps($event)">
-                                                    <option value="" selected>Make Selection</option>
-                                                    <option v-for="sec in grades" :key="sec.id" :value="sec.id">{{
-                                                sec.text }} </option>
-                                                </select>
-                                                <p class="text-danger " v-if="errors?.grade_pid">{{ errors?.grade_pid[0]
-                                                    }} </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">Salary Step</label>
-                                                <Select2 v-model="salary.step" :options="steps" id="pid"
-                                                    :settings="{ width: '100%' }" />
-                                                <p class="text-danger " v-if="errors?.step">{{ errors?.step[0] }} </p>
-                                            </div>
                                         </div>
                                     </div>
-                                </form>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label">Salary Grade</label>
+                                            <select class="form-control form-control-sm" v-model="salary.grade_pid"
+                                                @change="loadSteps($event)">
+                                                <option value="" selected>Make Selection</option>
+                                                <option v-for="sec in grades" :key="sec.id" :value="sec.id">{{
+                                                    sec.text }} </option>
+                                            </select>
+                                            <p class="text-danger " v-if="errors?.grade_pid">{{ errors?.grade_pid[0]
+                                                }} </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label">Salary Step</label>
+                                            <Select2 v-model="salary.step" :options="steps" id="pid"
+                                                :settings="{ width: '100%' }" />
+                                            <p class="text-danger " v-if="errors?.step">{{ errors?.step[0] }} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </form>
                 </div>
@@ -348,7 +353,9 @@ function loadDisabledStaff() {
 }
 
 const resetLink = (pid) =>{
-    store.dispatch('getMethod', { url: '/send-reset-password-link/'+pid })
+    if(confirm('Are you sure, you want to send a reset link to him/her')){
+        store.dispatch('getMethod', { url: '/send-reset-password-link/'+pid })
+    }
 }
 
 const newRole = ref([])
