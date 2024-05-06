@@ -198,18 +198,21 @@ form input:focus{
         margin-bottom: 10px;
     }
     .form-img{
-        border-radius: 0;
-        border-bottom-left-radius: 8px;
-        border-bottom-right-radius: 8px;
+        /* border-radius: 0; */
+        border-radius: 15px;
+        /* border-bottom-right-radius: 8px; */
         order: 1;
         padding: 20px;
+        justify-content: center;
+        align-items: center;
+        text-align: center !important;
     }
 
 
     .content{
         order: 2;
-        border-top-left-radius: 8px;
-        border-top-right-radius: 8px;
+        border-radius: 20px;
+        /* border-top-right-radius: 8px; */
     }
 }
 

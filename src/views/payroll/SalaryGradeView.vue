@@ -71,8 +71,8 @@
                                                     <ul class="dropdown-menu">
                                                         <li class="bg-warning"><a class="dropdown-item pointer"
                                                                 @click="editlog(lg)">Edit</a> </li>
-                                                        <li class="bg-danger"><a class="dropdown-item pointer"
-                                                                @click="deleteLog(lg.id)">Delete</a> </li>
+                                                        <!-- <li class="bg-danger"><a class="dropdown-item pointer"
+                                                                @click="deleteLog(lg.id)">Delete</a> </li> -->
                                                     </ul>
                                                 </div>
                                             </td>
@@ -116,9 +116,17 @@ const editlog = (stp) => {
         pensionable: stp.pensionable == 'Yes' ? 1 : 0,
     }
 }
-const deleteLog = (pid) => {
-    alert(pid)
+
+const resetAttr = () => {
+    grade.value = {
+        grade: '',
+        structure_pid: '',
+        pensionable: '',
+    }
 }
+// const deleteLog = (pid) => {
+//     alert(pid)
+// }
 
 function createSalaryGrade() {
     errors.value = []
@@ -126,7 +134,7 @@ function createSalaryGrade() {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-            grade.value = [];
+            resetAttr();
             loadGrades()
         }
     }).catch(e => {
@@ -152,12 +160,10 @@ function dropdownStructure() {
         structureDrop.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownStructure()
 function nextPage(link) {
-    alert()
     if (!link.url || link.active) {
         return;
     }

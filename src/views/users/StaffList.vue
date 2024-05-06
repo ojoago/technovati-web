@@ -90,7 +90,7 @@
                                                 </td>
                                             </tr>
                                         </tbody>
-                                        <tfoot v-else class="text-center" style="width: 1005" width="100%">
+                                        <tfoot v-else class="text-center" style="width: 100%" width="100%">
                                             <tr>
                                                 <td colspan="8">No Record Yet</td>
                                             </tr>

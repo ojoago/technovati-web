@@ -2,7 +2,7 @@
     <div>
         <form id="unitForm">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="form-group">
                         <label class="form-label">Tax %</label>
                         <input v-model="config.tax" type="number" step="0.5" class="form-control form-control-sm">
@@ -10,7 +10,7 @@
                     </div>
                 </div>
 
-                <!-- <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="form-group">
                         <label class="form-label">Company Contribution %</label>
                         <input v-model="config.company" type="number" step="0.5" class="form-control form-control-sm">
@@ -19,6 +19,7 @@
                         </p>
                     </div>
                 </div>
+                <!-- 
 
                 <div class="col-md-4">
                     <div class="form-group">

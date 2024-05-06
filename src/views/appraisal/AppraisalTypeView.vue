@@ -56,7 +56,7 @@
                                             <th> <i class="bi bi-pencil-fill"></i> </th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody v-if="sections.data">
                                         <tr v-for="(data, loop) in sections.data" :key="loop">
                                             <td>{{ loop + 1 }}</td>
                                             <td>{{ data.name }}</td>
@@ -71,13 +71,18 @@
                                                     <ul class="dropdown-menu">
                                                         <li class="bg-warning"><a class="dropdown-item pointer"
                                                                 @click="editSection(data)">Edit</a> </li>
-                                                        <li class="bg-danger"><a class="dropdown-item pointer"
-                                                                @click="deleteLog(data.pid)">Delete</a> </li>
+                                                        <!-- <li class="bg-danger"><a class="dropdown-item pointer"
+                                                                @click="deleteLog(data.pid)">Delete</a> </li> -->
                                                     </ul>
                                                 </div>
                                             </td>
                                         </tr>
                                     </tbody>
+                                    <tfoot v-else class="text-center" style="width: 100%" width="100%">
+                                        <tr>
+                                            <td colspan="50"><small class="small">No Record Yet</small> </td>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                                 <div class="flex justify-center mt-4">
                                     <nav class="relative justify-center rounded-md shadow pagination">
@@ -104,7 +109,7 @@ const sections = ref({});
 const type = ref({
     name: '',
     note: '' ,
-    obtainable: 0
+    obtainable: ''
 });
 
 const editSection = (sec) => {
@@ -126,9 +131,13 @@ const resetAttr = () => {
     }
 }
 
-const deleteLog = (id) => {
-    alert(id)
-}
+// const deleteLog = (id) => {
+//      store.dispatch('putMethod', { url: '/update-appraisal-section/0/' + id,prompt:'are you sure, you want to disable this ?' }).then((data) => {
+//         if (data?.status == 201) {
+//             loadLog()
+//         }
+//     })
+// }
 
 function createAppraisalSection() {
     errors.value = []

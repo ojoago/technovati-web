@@ -38,9 +38,7 @@
                                     <td>{{ tend.browser }}</td>
                                     <td>{{ tend.ip }}</td>
                                     <td>
-                                        <img :src="tend.path" alt="" class="img img-responsive tend-image"
-                                            id="student-img">
-
+                                        <img :src="tend.path" alt="" class="img img-responsive tend-image">
                                     </td>
 
                                 </tr>
@@ -155,7 +153,6 @@ function dropdownAllow() {
         users.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownAllow()
@@ -163,12 +160,25 @@ dropdownAllow()
 </script>
 
 <style scoped>
+
+.table-responsive {
+    overflow: visible
+}
+
+/* dropdown  */
+.dropdown .dropdown-menu {
+    overflow: hidden;
+    position: absolute;
+}
+
 .tend-image {
     width: 40px;
 }
 
 .tend-image:hover {
-    width: 150px;
-    position: relative;
+    width: 150px !important;
+    height: auto !important;
+    position: absolute !important;
+    right: 20px !important;
 }
 </style>

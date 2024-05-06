@@ -3,18 +3,34 @@
         <div class="container mt-2">
             <div class="card">
                 <div class="card-header">
+
                     <h5 class="card-title"> {{ task.task }}</h5>
-                    <p>{{ task.description }}</p>
-                    <nav class="d-flex float-start">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"> {{ task.start }}</li>
-                            <li class="breadcrumb-item"> {{ task.end }}</li>
-                            <li class="breadcrumb-item active">Day(s) left: {{ task.left}}</li>
-                        </ol>
-                    </nav>
+                    {{ task.description }}
                     <div class="float-end">
-                        <button class="btn btn-sm btn-primary m-2" @click="addSubTask(task)">Add Sub Task</button>
+                      
+                        <button class="btn btn-sm btn-primary m-2" @click="addSubTask(task)">Add Sub
+                            Task</button>
                         <!-- <button class="btn btn-sm btn-primary m-2" @click="addTeamModal">Add Team M</button> -->
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <nav class="d-flex float-start">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"> {{ task.start }} </li>
+                                    <li class="breadcrumb-item"> {{ task.end }}</li>
+                                </ol>
+                            </nav>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="float-end">
+                                <p>Status: {{ task.task_status }} </p>
+                                <b>Day(s) left: {{ task.left }}</b> <br>
+                              
+                                <!-- <button class="btn btn-sm btn-primary m-2" @click="addTeamModal">Add Team M</button> -->
+                            </div>
+                        </div>
                     </div>
                     <!-- <small>click on a task for details and right click to edit</small> -->
                 </div>

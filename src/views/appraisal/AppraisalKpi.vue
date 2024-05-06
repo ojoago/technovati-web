@@ -2,7 +2,6 @@
     <div>
         <div class="container mt-2">
             <div class="row">
-                
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-body">
@@ -12,7 +11,8 @@
                                     <label class="form-label">Appraisal Type</label>
                                     <select class="form-control" @change="loadSectionDetails($event)">
                                         <option disabled selected>Make Selection</option>
-                                        <option v-for="sec in sectionsDrop" :key="sec.pid" :value="sec.pid">{{ sec.name }} -- {{ sec.obtainable }}</option>
+                                        <option v-for="sec in sectionsDrop" :key="sec.pid" :value="sec.pid">{{ sec.name
+                                            }} -- {{ sec.obtainable }}</option>
                                     </select>
                                     <p class="text-danger email_error"></p>
                                 </div>
@@ -22,7 +22,8 @@
                                             <div class="col-md-8">
                                                 <div class="form-group">
                                                     <label class="form-label">Key</label>
-                                                    <input type="text" v-model="key.key" class="form-control" placeholder="e.g mode of request">
+                                                    <input type="text" v-model="key.key" class="form-control"
+                                                        placeholder="e.g mode of request">
                                                     <!-- <p class="text-danger " v-if="errors?.name">{{ errors?.name[0] }} </p> -->
                                                 </div>
                                             </div>
@@ -30,8 +31,12 @@
                                                 <div class="form-group">
                                                     <label class="form-label">Obtainable Score</label>
                                                     <div class="input-group">
-                                                         <input type="number" step="0.1" @change="sumVal" v-model="key.obtainable" class="form-control" placeholder="e.g 3">
-                                                            <button type="button" class="btn btn-sm btn-warning" @click="removeKey(i)"><i class="bi bi-patch-minus" ></i></button>
+                                                        <input type="number" step="0.1" @change="sumVal"
+                                                            v-model="key.obtainable" class="form-control"
+                                                            placeholder="e.g 3">
+                                                        <button type="button" class="btn btn-sm btn-warning"
+                                                            @click="removeKey(i)"><i
+                                                                class="bi bi-patch-minus"></i></button>
                                                     </div>
                                                     <!-- <p class="text-danger " v-if="errors?.note">{{ errors?.note[0] }}       </p> -->
                                                 </div>
@@ -39,10 +44,12 @@
                                         </div>
                                     </fieldset>
                                     {{ obtainable }} /{{ keys?.obtainable }}
-                                    <button type="button" class="btn btn-sm btn-primary mt-2"  @click="addKey"><i class="bi bi-plus" ></i></button>
+                                    <button type="button" class="btn btn-sm btn-primary mt-2" @click="addKey"><i
+                                            class="bi bi-plus"></i></button>
                                     <hr>
                                     <div class="float-end">
-                                        <button type="button" class="btn btn-success btn-sm mt-2" @click="createKpi">Submit</button>
+                                        <button type="button" class="btn btn-success btn-sm mt-2"
+                                            @click="createKpi">Submit</button>
                                     </div>
                                 </form>
 
@@ -90,7 +97,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -156,10 +163,10 @@ function createKpi() {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-            keys.value.keys = [[{
+            keys.value.keys = [{
                 key: '',
                 obtainable: '',
-            }]];
+            }];
         }
     }).catch(e => {
         console.log(e);
@@ -170,9 +177,15 @@ function loadSectionDetails(event) {
     store.dispatch('getMethod', { url: '/load-section-kpi/'+ event.target.value }).then((data) => {
         if (data?.status == 200) {
             type.value = data.data;
-            let k = data.data.keys
             kpis.value = data.data.keys;
-            keys.value.keys = k;
+            if(data?.data?.keys.length){
+                keys.value.keys =  data.data.keys
+            }else{
+                keys.value.keys = [{
+                key: '',
+                obtainable: '',
+            }];
+            }
             keys.value.type_pid = event.target.value;
             keys.value.obtainable = data.data.obtainable;
             sumVal()
@@ -186,7 +199,6 @@ function dropdownSection() {
         sectionsDrop.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownSection()

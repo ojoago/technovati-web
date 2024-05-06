@@ -54,8 +54,6 @@ props.data.forEach((el) => {
 
 <style scoped>
 
- @import "qalendar/dist/style.css";
-
  .vuecal--month-view .vuecal__cell {
      height: 60px;
  }

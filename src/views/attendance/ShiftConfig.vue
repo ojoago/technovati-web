@@ -41,7 +41,7 @@
                                                 <th>clock in start</th>
                                                 <th>shift start</th>
                                                 <th>shift end</th>
-                                                <th>shift days</th>
+                                                <!-- <th>shift days</th> -->
                                                 <th>working days</th>
                                                 <th>late</th>
                                                 <th> <i class="bi bi-gear-fill"></i> </th>
@@ -54,9 +54,9 @@
                                                 <td>{{ data.begin_clock }}</td>
                                                 <td>{{ data.end_clock }}</td>
                                                 <td>{{ data.clock_in_start }}</td>
-                                                <td>{{ data.shift_start }}</td>
-                                                <td>{{ data.shift_end }}</td>
-                                                <td>{{ data.shift_days }}</td>
+                                                <td>{{ data.begin }}</td>
+                                                <td>{{ data.end }}</td>
+                                                <!-- <td>{{ data.shift_days }}</td> -->
                                                 <td>{{ data.working_days }}</td>
                                                 <td>{{ data.late }}</td>
                                                 <td>
@@ -67,12 +67,12 @@
                                                             <i class="bi bi-tools"></i>
                                                         </button>
                                                         <ul class="dropdown-menu">
-                                                            <li><a class="bg-info dropdown-item pointer"
-                                                                    @click="shiftDtail(data)">Details </a> </li>
+                                                            <!-- <li><a class="bg-info dropdown-item pointer"
+                                                                    @click="shiftDtail(data)">Details </a> </li> -->
                                                             <li><a class="bg-warning dropdown-item pointer"
                                                                     @click="editShift(data)">Edit </a> </li>
-                                                            <li><a class="bg-danger dropdown-item pointer"
-                                                                    @click="deleteShift(data.pid)">Delete</a> </li>
+                                                            <!-- <li><a class="bg-danger dropdown-item pointer"
+                                                                    @click="deleteShift(data.pid)">Delete</a> </li> -->
                                                         </ul>
                                                     </div>
                                                 </td>
@@ -181,9 +181,9 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label">Working Days <span class="text-danger">*</span></label>
+                                <label class="form-label">Working Days </label>
                                 <input type="text" v-model="shift.working_days" class="form-control"
-                                    placeholder="e.g Sanusi ">
+                                    placeholder="e.g 388 ">
                                 <p class="text-danger " v-if="errors?.working_days">{{ errors?.working_days[0] }}
                                 </p>
                             </div>
@@ -299,6 +299,20 @@ const shift = ref({
     late : ''
 });
 
+const resetShift = () => {
+    shift.value = {
+        shift: '',
+        begin_clock: '',
+        clock_in_start: '',
+        end_clock: '',
+        shift_start: '',
+        shift_end: '',
+        shift_days: '',
+        working_days: '',
+        late: ''
+    }
+}
+
 
 const editShift = (data) => {
     shift.value = {
@@ -315,12 +329,12 @@ const editShift = (data) => {
     }
     toggleModal.value = true
 }
-const shiftDtail = (data) => {
-    console.log(data);
-}
-const deleteShift = (pid) => {
-    alert(pid)
-}
+// const shiftDtail = (data) => {
+//     console.log(data);
+// }
+// const deleteShift = (pid) => {
+//     alert(pid)
+// }
 
 const allocation = ref({
     shift_pid : '' ,
@@ -329,6 +343,14 @@ const allocation = ref({
     category: '' ,
 });
 
+const resetAllocate = () => {
+    allocation.value = {
+        shift_pid: '',
+        staff: '',
+        departments: '',
+        category: '',
+    }
+}
 // .
 function createShift() {
     errors.value = []
@@ -336,7 +358,8 @@ function createShift() {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-            shift.value = [];
+            resetShift()
+            loadShifts()
         }
     })
 }
@@ -373,7 +396,8 @@ function allocateShift() {
         if (data?.status == 422) {
             alo_errors.value = data.data
         } else if (data?.status == 201) {
-            shift.value = [];
+            resetAllocate()
+            loadShiftAllocation()
         }
     })
 }

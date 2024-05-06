@@ -16,7 +16,7 @@
                                     <th> <i class="bi bi-gear-fill"></i> </th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody v-if="titles?.data">
                                 <tr v-for="(data, loop) in titles?.data" :key="loop">
                                     <td>{{ loop + 1 }}</td>
                                     <td>{{ data?.username }}</td>
@@ -24,13 +24,17 @@
                                     <td>{{ data?.self }}</td>
                                     <td>{{ data?.rating }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-primary btn-sm"
-                                            data-bs-toggle="dropdown">
-                                            Details 
+                                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="dropdown">
+                                            Details
                                         </button>
                                     </td>
                                 </tr>
                             </tbody>
+                            <tfoot v-else class="text-center" style="width: 100%" width="100%">
+                                <tr>
+                                    <td colspan="50"><small class="small">No Record Yet</small> </td>
+                                </tr>
+                            </tfoot>
                         </table>
                         <div class="flex justify-center mt-4">
                             <nav class="relative justify-center rounded-md shadow pagination">

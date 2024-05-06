@@ -63,8 +63,8 @@
                                                     <ul class="dropdown-menu">
                                                         <li class="bg-warning"><a class="dropdown-item pointer"
                                                                 @click="editlog(lg)">Edit</a> </li>
-                                                        <li class="bg-danger"><a class="dropdown-item pointer"
-                                                                @click="deleteLog(lg.id)">Delete</a> </li>
+                                                        <!-- <li class="bg-danger"><a class="dropdown-item pointer"
+                                                                @click="deleteLog(lg.pid)">Delete</a> </li> -->
                                                     </ul>
                                                 </div>
                                             </td>
@@ -105,9 +105,9 @@ const editlog = (stp) => {
         pid: stp.pid,
     }
 }
-const deleteLog = (pid) => {
-    alert(pid)
-}
+// const deleteLog = (pid) => {
+//     alert(pid)
+// }
 
 function createSalaryStructure() {
     store.commit('setSpinner', true)

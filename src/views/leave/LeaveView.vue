@@ -30,7 +30,7 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label class="form-label">leave <span
+                                                        <label class="form-label">Leave <span
                                                                 class="text-danger">*</span></label>
                                                         <input type="text" v-model="leave.leave" class="form-control"
                                                             placeholder="e.g annual leave">
@@ -40,7 +40,7 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label class="form-label">days</label>
+                                                        <label class="form-label">Days</label>
                                                         <input type="number" v-model="leave.days" class="form-control"
                                                             placeholder="e.g 15 ">
                                                         <p class="text-danger " v-if="errors?.days">{{ errors?.days[0]
@@ -50,10 +50,10 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label class="form-label">description </label>
+                                                        <label class="form-label">Description </label>
                                                         <textarea type="text" v-model="leave.description"
                                                             class="form-control"
-                                                            placeholder="e.g this leave only applies to senior devs"></textarea>
+                                                            placeholder="e.g any description"></textarea>
                                                         <p class="text-danger " v-if="errors?.description">{{
                                                             errors?.description[0] }}</p>
                                                     </div>
@@ -75,10 +75,10 @@
                                                         <th>Leave</th>
                                                         <th>Days</th>
                                                         <th>Description</th>
-                                                        <th> <i class="bi bi-pencil-fill"></i> </th>
+                                                        <th> <i class="bi bi-gear-fill"></i> </th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody v-if="leaves.data">
                                                     <tr v-for="(lv, loop) in leaves.data" :key="loop">
                                                         <td>{{ loop + 1 }}</td>
                                                         <td>{{ lv.leave }}</td>
@@ -92,9 +92,11 @@
                                                                     <i class="bi bi-tools"></i>
                                                                 </button>
                                                                 <ul class="dropdown-menu">
-                                                                    <li><a class="dropdown-item pointer"
+                                                                    <li class="bg-warning"><a
+                                                                            class="dropdown-item pointer"
                                                                             @click="editLeave(lv)">Edit</a> </li>
-                                                                    <li><a class="dropdown-item pointer"
+                                                                    <li class="bg-danger"><a
+                                                                            class="dropdown-item pointer"
                                                                             @click="deleteLeave(lv.pid)">Delete</a>
                                                                     </li>
                                                                 </ul>
@@ -102,6 +104,12 @@
                                                         </td>
                                                     </tr>
                                                 </tbody>
+                                                <tfoot v-else class="text-center" style="width: 100%" width="100%">
+                                                    <tr>
+                                                        <td colspan="50"><small class="small">No Record Yet</small>
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
                                             </table>
                                             <div class="flex justify-center mt-4">
                                                 <nav class="relative justify-center rounded-md shadow pagination">
@@ -118,7 +126,7 @@
                         <div class="tab-pane fade" id="request" role="tabpanel" aria-labelledby="request-tab">
                             <fieldset class="border rounded-3 p-2 m-1">
                                 <legend class="float-none w-auto px-2">Assign Leave </legend>
-                                <button class="btn btn-primary btn-sm mb-2" @click="assignModal=true">Assign</button>
+                                <button class="btn btn-primary btn-sm mb-2" @click="assignFunc">Assign</button>
                                 <div class="table-responsive">
                                     <table class="table-hover table-stripped table-bordered table">
                                         <thead>
@@ -127,24 +135,30 @@
                                                 <th>Leave</th>
                                                 <th>Days</th>
                                                 <th>Designation</th>
-                                                <th> <i class="bi bi-setting"></i> </th>
+                                                <!-- <th> <i class="bi bi-gear-fill"></i> </th> -->
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody v-if="dlvx">
                                             <tr v-for="(lv, loop) in dlvx" :key="loop">
                                                 <td>{{ loop + 1 }}</td>
                                                 <td>{{ lv.leave }}</td>
                                                 <td>{{ lv.days }}</td>
                                                 <td>{{ lv.name }}</td>
-                                                <td>
+
+                                                <!-- <td>
                                                     <div class="dropdown">
                                                         <button type="button" class="btn btn-primary btn-sm">
                                                             Remove
                                                         </button>
                                                     </div>
-                                                </td>
+                                                </td> -->
                                             </tr>
                                         </tbody>
+                                        <tfoot v-else class="text-center" style="width: 100%" width="100%">
+                                            <tr>
+                                                <td colspan="50"><small class="small">No Record Yet</small> </td>
+                                            </tr>
+                                        </tfoot>
                                     </table>
                                 </div>
                             </fieldset>
@@ -206,6 +220,10 @@ const closeModal = () => {
     assignModal.value = false;
 };
 
+const assignFunc = () => {
+    assignModal.value = true;
+    dropdownLeave()
+}
 const errors = ref({});
 
 // const requests = ref({});
@@ -268,7 +286,11 @@ const editLeave = (lv) =>{
 }
 
 const deleteLeave = (pid) => {
-    alert(pid)
+    store.dispatch('deleteMethod',{url:'delete-leave/'+pid}).then((data)=>{
+        if(data?.status == 201){
+            loadLeaves()
+        }
+    })
 }
  
 loadLeaves()
@@ -298,7 +320,6 @@ function dropdownAllow() {
         desigs.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownAllow()
@@ -309,7 +330,6 @@ function dropdownLeave() {
         lvx.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownLeave()
