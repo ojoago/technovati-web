@@ -55,16 +55,12 @@ const items = ref({});
 
 loadItem()
 function loadItem() {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-cr-out-request' }).then((data) => {
-        store.commit('setSpinner', false)
         if (data?.status == 200) {
             items.value = data.data;
         }
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 }
 

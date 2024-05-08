@@ -11,12 +11,12 @@
                                 <table class="table-hover table-stripped table-bordered table">
                                     <thead>
                                         <tr>
-                                            <th>SN</th>
+                                            <th width="5%">SN</th>
                                             <th>Name</th>
                                             <!-- <th>Model</th> -->
                                             <th>Quantity</th>
                                             <!-- <th>Description</th> -->
-                                            <th align="center"> <i class="bi bi-pencil-fill"></i> </th>
+                                            <th align="center"> <i class="bi bi-gear-fill"></i> </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -42,7 +42,7 @@
                 <div class="col-md-5">
                     <div class="card">
                         <div class="card-body">
-                            <fieldset class="border rounded-3 p-2 m-1">
+                            <fieldset class="border rounded-3 p-2 m-1" id="requestBody">
                                 <legend class="float-none w-auto px-2 h5">Request Items</legend>
                                 <form id="itemForm" v-if="request.items.length">
                                     <fieldset class="border rounded-3 p-2 m-1">
@@ -66,6 +66,12 @@
                                             <p class="text-danger " v-if="errors?.comment">{{ errors?.comment[0] }} </p>
                                         </div>
                                         <div class="col-md-12">
+                                            <label class="form-label">Receiving Store</label>
+                                            <StoreDrop v-model="request.store_pid" />
+                                            <p class="text-danger " v-if="errors?.store_pid">{{ errors?.store_pid[0] }}
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12">
                                             <label class="form-label">Receiver</label>
                                             <Select2 v-model="request.reciver" :options="users"
                                                 :settings="{ width: '100%' }" />
@@ -74,7 +80,7 @@
                                     </div>
 
                                     <div class="float-end">
-                                        <button type="button" class="btn btn-success btn-sm mt-2"
+                                        <button type="button" class="btn btn-success btn-sm mt-2 mb-2"
                                             @click="requestMaterial">Submit</button>
                                     </div>
                                 </form>
@@ -93,18 +99,29 @@
 import store from "@/store";
 import { ref } from "vue";
 import Select2 from 'vue3-select2-component';
-
+import StoreDrop from '@/components/store/StoreDropdown.vue';
 const errors = ref({});
 const items = ref({});
 
 const request = ref({
     reciver: '',
     comment: '',
-    store_pid: '04430511J207011I90N211FR73A5',
+    store_pid: '',
     items: [],
 });
 
+const resetAttr = () => {
+    request.value = {
+        reciver: '',
+        comment: '',
+        store_pid: '',
+        items: [],
+    }
+}
+
 const addItem = (item) => {
+    // request.value.items[index].quantity++
+
     var index = request.value.items.findIndex(x => x.pid == item.pid)
     if (index === -1) {
         request.value.items.push({
@@ -113,11 +130,7 @@ const addItem = (item) => {
             name: item.name,
         })
     } else {
-        if (request.value.items[index].quantity < item?.item?.quantity) {
-            request.value.items[index].quantity++
-        } else {
-            store.commit('notify', { message: `Quantity Remaining is : ${item?.item?.quantity}`, type: 'warning' })
-        }
+        request.value.items[index].quantity++
     }
 }
 const removeitem = (i) => {
@@ -137,8 +150,7 @@ function requestMaterial() {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-            let form = document.querySelector('#itemForm');
-            form.reset();
+            resetAttr();
             loadItem()
         }
     })
@@ -159,12 +171,36 @@ function dropdownSupplier() {
         users.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownSupplier()
 
+// function loadStoreItem(pid) {
+//     store.dispatch('getMethod', { url: '/load-cr-out-items/' + pid }).then((data) => {
+//         if (data?.status == 200) {
+//             items.value = data.data;
+//         } else {
+//             items.value = []
+//         }
+//     }).catch(e => {
+//         console.log(e);
+//     })
+// }
 
 </script>
 
-<style scoped></style>
+<style scoped>
+/* #requestBody{
+    overflow-y: auto;
+    max-height: calc(100vh - 130px) !important;
+    overflow-x: hidden;
+}
+#requestBody{
+    scrollbar-width: thin !important;
+}
+
+#requestBody::-webkit-scrollbar{
+    width: 8px !important;
+} */
+
+</style>

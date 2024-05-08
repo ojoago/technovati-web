@@ -3,11 +3,11 @@
         <div class="container mt-2">
             <div class="card">
                     <div class="card-header">Raw Materials  <button class="btn btn-sm btn-success mb-2"> 
-                                    <router-link to="/raw-material" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Add New  </span>  </router-link>
+                                    <router-link to="/raw-material" class="nav-link"><i class="bi bi-record"></i> <span class="nav-name">Add Quantity  </span>  </router-link>
                                 </button></div>
                     <div class="card-body">
                         <button @click="toggleModal = true" class="btn btn-sm btn-primary mr-2">Add New</button> &nbsp;
-                        <button @click="unitModal = true" class="btn btn-sm btn-primary ml-2">Add Unit</button>
+                        <button @click="unitModal = true" class="btn btn-sm btn-primary ml-2">Add Item Unit</button>
                         <fieldset class="border rounded-3 p-2 m-1">
                             <legend class="float-none w-auto px-2">Lists</legend>
                             <div class="table-responsive">

@@ -61,7 +61,7 @@
                                                             data-bs-toggle="dropdown">
                                                             <i class="bi bi-tools"></i>
                                                         </button>
-                                                        <ul class="dropdown-menu">
+                                                        <ul class="dropdown-menu dropdown-menu-start">
                                                             <li><a class="dropdown-item pointer bg-info"
                                                                     @click="staffDetail(user)">Detail</a></li>
 

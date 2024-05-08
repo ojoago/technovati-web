@@ -47,9 +47,9 @@
 <script setup>
     import Qal from '@/components/dashboard/CalComponent.vue'
     import AttendanceComponent from '@/components/shift/AttendanceComponent.vue';
-    import Card from '@/components/CardComponent.vue'
     import store from '@/store';
     import { onMounted, ref } from 'vue';
+    import Card from '@/components/CardComponent.vue'
 const eventData = ref([])
 const counts = ref({})
 function loadEvents() {

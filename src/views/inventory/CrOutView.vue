@@ -11,7 +11,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <select class="form-control" @change="loadItem($event.target.value)">
-                                        <option disabled selected>Make Selection</option>
+                                        <option value="" selected>Select Store</option>
                                         <template v-for="sec in stores" :key="sec.id">
                                             <option v-if="stores.length == 1" selected :value="sec.id">{{ sec.text }}
                                             </option>
@@ -32,7 +32,7 @@
                                             <!-- <th>Model</th> -->
                                             <th>Quantity</th>
                                             <!-- <th>Description</th> -->
-                                            <th align="center"> <i class="bi bi-plus-fill"></i> </th>
+                                            <th align="center"> <i class="bi bi-gear-fill"></i> </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -42,8 +42,8 @@
                                             <!-- <td>{{ item.model }} </td> -->
                                             <td>{{ item?.quantity ?? 0 }} {{ item.unit }}</td>
                                             <td>
-                                                <button v-if="item?.quantity > 0" @click="addItem(item)"
-                                                    type="button" class="btn btn-primary btn-sm">
+                                                <button v-if="item?.quantity > 0" @click="addItem(item)" type="button"
+                                                    class="btn btn-primary btn-sm">
                                                     <i class="bi bi-plus"></i>
                                                 </button>
                                             </td>
@@ -58,7 +58,7 @@
                 <div class="col-md-5">
                     <div class="card">
                         <div class="card-body">
-                            <fieldset class="border rounded-3 p-2 m-1">
+                            <fieldset class="border rounded-3 p-1" id="requestBody">
                                 <legend class="float-none w-auto px-2 h5">Request Items</legend>
                                 <form id="itemForm" v-if="request.items.length">
 
@@ -68,9 +68,9 @@
                                             <div class="input-group">
                                                 <span class="bg-light p-1">#{{ item.qnt }}</span>
                                                 <input type="number" v-model="item.quantity" class="form-control"
-                                                    placeholder="e.g ABU Zaria">
+                                                    placeholder="e.g 31">
                                                 <button type="button" class="btn btn-danger btn-sm"
-                                                    @click="removeitem(loop)"> <i class="bi bi-patch-minus"></i>
+                                                    @click="removeitem(loop)"> <i class="bi bi-file-minus-fill"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -80,11 +80,11 @@
                                         <div class="col-md-12">
                                             <label class="form-label">Comment</label>
                                             <textarea type="text" v-model="request.comment"
-                                                class="form-control form-control-sm" placeholder="e.g UIU"></textarea>
+                                                class="form-control form-control-sm" placeholder="e.g enjoy Grade A Meter"></textarea>
                                             <p class="text-danger " v-if="errors?.comment">{{ errors?.comment[0] }} </p>
                                         </div>
                                         <div class="col-md-12">
-                                            <label class="form-label">Receiver</label>
+                                            <label class="form-label">DISCO</label>
                                             <!-- <input class="form-control form-control-sm" placeholder="" v-model="request.customer_pid"> -->
                                             <Select2 v-model="request.customer_pid" :options="customerDrop"
                                                 :settings="{ width: '100%' }" />
@@ -95,7 +95,7 @@
                                     </div>
 
                                     <div class="float-end">
-                                        <button type="button" class="btn btn-success btn-sm mt-2"
+                                        <button type="button" class="btn btn-success btn-sm mt-2 mb-2"
                                             @click="requestMaterial">Submit</button>
                                     </div>
                                 </form>
@@ -114,16 +114,26 @@
 import store from "@/store";
 import { ref } from "vue";
 import Select2 from 'vue3-select2-component';
-
+import { useRouter } from 'vue-router';
+const router = useRouter()
 const errors = ref({});
 const items = ref({});
 
 const request = ref({
     customer_pid: '',
     comment: '',
-    store_pid: '04430511J207011I90N211FR73A5',
+    // store_pid: '04430511J207011I90N211FR73A5',
     items: [],
 });
+
+const resetAttr = () => {
+    request.value = {
+        reciver: '',
+        comment: '',
+        store_pid: '',
+        items: [],
+    }
+}
 
 const addItem = (item) => {
     var index = request.value.items.findIndex(x => x.pid == item.pid)
@@ -159,9 +169,10 @@ function requestMaterial() {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-            let form = document.querySelector('#itemForm');
-            form.reset();
-            
+            // waybill
+            router.push({ name: 'CrOutRequestView' })
+
+            resetAttr();
         }
     }).catch(e => {
         console.log(e);
@@ -180,6 +191,7 @@ function loadItem(pid) {
         console.log(e);
     })
 }
+
 if(request.value.items){
     loadStateRes()
 }
@@ -208,6 +220,10 @@ function dropdownSection() {
 dropdownSection()
 
 
+
 </script>
 
-<style scoped></style>
+<style scoped>
+
+
+</style>

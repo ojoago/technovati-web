@@ -57,6 +57,17 @@ const raw = ref({
     unit: '',
     manufacturer: '',
 });
+
+const resetAttr = () => {
+    raw.value = {
+        name: '',
+        model: '',
+        description: '',
+        unit: '',
+        manufacturer: '',
+    }
+}
+
 const errors = ref({})
 function addMaterial() {
     errors.value = []
@@ -64,8 +75,7 @@ function addMaterial() {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-            let form = document.querySelector('#rForm');
-            form.reset()
+            resetAttr()
         }
     })
 }

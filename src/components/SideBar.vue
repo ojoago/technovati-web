@@ -535,14 +535,17 @@
                         </div>
                     </a>
                     <ul id="rmaterial" class=" sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="nav-item" title="raw materials">
-                            <router-link to="/raw-material" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">Add New </span> </router-link>
-                        </li>
+                        
                         <li class="nav-item" title="staff">
                             <router-link to="/raw-material-list" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">List</span> </router-link>
                         </li>
+
+                        <li class="nav-item" title="raw materials">
+                            <router-link to="/raw-material" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Add New </span> </router-link>
+                        </li>
+                        
                         <li class="nav-item" title="staff">
                             <router-link to="/consignments" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Consignments</span> </router-link>

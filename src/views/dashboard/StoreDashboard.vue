@@ -1,13 +1,13 @@
 <template>
     <div>
 
-        <div class="container">
             <div class="container mt-2">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <AttendanceComponent />
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-6">
+                        <Qal :data="eventData" title="Events" />
 
 
                     </div>
@@ -154,7 +154,6 @@
                 </div>
 
             </div>
-        </div>
 
         {{ datas }}
         suppliers
@@ -179,7 +178,9 @@
 import store from "@/store";
 import { onMounted, ref } from "vue";
 import AttendanceComponent from '@/components/shift/AttendanceComponent.vue';
+import Qal from '@/components/dashboard/CalComponent.vue'
 
+const eventData = ref([])
 
 const datas = ref({})
 const staffAssembled = () => {

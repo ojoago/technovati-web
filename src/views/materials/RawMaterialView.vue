@@ -85,14 +85,25 @@ const raw = ref({
 });
 
 
+const resetAttr = () => {
+    raw.value = {
+        manufactured_date: '',
+        expiring_date: '',
+        date_supplied: '',
+        consignment_number: '',
+        unit_cost: '',
+        quantity: '',
+        material_pid: '', 
+    }
+}
+
 function addMaterial() {
     errors.value = []
     store.dispatch('postMethod', { url: '/add-material-quantity', param: raw.value }).then((data) => {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-            let form = document.querySelector('#rForm');
-            form.reset()
+            resetAttr()
         }
     })
 }

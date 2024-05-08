@@ -1,60 +1,70 @@
 <template>
     <div>
         <div class="container mt-2">
-            
-                    <div class="card">
-                        <div class="card-header">Company Items
 
-                            <button class="btn btn-primary btn-sm" @click="toggleModal = true">Add New</button>
-                        </div>
-                        <div class="card-body">
+            <div class="card">
+                <div class="card-header">Company Items
 
-                            <div class="table-responsive">
-                                <table class="table-hover table-stripped table-bordered table">
-                                    <thead>
-                                        <tr>
-                                            <th>SN</th>
-                                            <th>Name</th>
-                                            <th>Unit</th>
-                                            <th>Description</th>
-                                            <th> <i class="bi bi-pencil-fill"></i> </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(item, loop) in items?.data" :key="loop">
-                                            <td>{{ loop + 1 }}</td>
-                                            <td>{{ item.name }}</td>
-                                            <td>{{ item.unit }}</td>
-                                            <td>{{ item.description }}</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
-                                                        data-bs-toggle="dropdown">
-                                                        <i class="bi bi-tools"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu">
-                                                        <li class="bg-warning"><a class="dropdown-item pointer"
-                                                                @click="editItem(item)">Edit</a> </li>
-                                                        <li class="bg-danger"><a class="dropdown-item pointer"
-                                                                @click="deleteItem(item.pid)">Delete</a> </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <div class="flex justify-center mt-4">
-                                    <nav class="relative justify-center rounded-md shadow pagination">
-                                        <pagination-links v-for="(link, i) of items.links" :link="link" :key="i"
-                                            @next="nextPage(link)"></pagination-links>
-                                    </nav>
-                                </div>
-                            </div>
+                    <button class="btn btn-primary btn-sm mr-2" @click="openToggleModal">Add New</button> &nbsp;
+                    <button @click="unitModal = true" class="btn btn-sm btn-primary ml-2">Add Item Unit</button>
+
+                </div>
+                <div class="card-body">
+
+                    <div class="table-responsive">
+                        <table class="table-hover table-stripped table-bordered table">
+                            <thead>
+                                <tr>
+                                    <th>SN</th>
+                                    <th>Name</th>
+                                    <th>Unit</th>
+                                    <th>Description</th>
+                                    <th> <i class="bi bi-gear-fill"></i> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(item, loop) in items?.data" :key="loop">
+                                    <td>{{ loop + 1 }}</td>
+                                    <td>{{ item.name }}</td>
+                                    <td>{{ item.unit }}</td>
+                                    <td>{{ item.description }}</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
+                                                data-bs-toggle="dropdown">
+                                                <i class="bi bi-tools"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li class="bg-warning"><a class="dropdown-item pointer"
+                                                        @click="editItem(item)">Edit</a> </li>
+                                                <!-- <li class="bg-danger"><a class="dropdown-item pointer"
+                                                                @click="deleteItem(item.pid)">Delete</a> </li> -->
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="flex justify-center mt-4">
+                            <nav class="relative justify-center rounded-md shadow pagination">
+                                <pagination-links v-for="(link, i) of items.links" :link="link" :key="i"
+                                    @next="nextPage(link)"></pagination-links>
+                            </nav>
                         </div>
                     </div>
                 </div>
-         
-     
+            </div>
+        </div>
+
+        <o-modal :isOpen="unitModal" modal-class="modal-xs" title="Add Item Unit" @modal-close="closeModal">
+            <template #content>
+                <UnitItemForm />
+            </template>
+            <template #footer>
+                <div></div>
+            </template>
+        </o-modal>
+
         <o-modal :isOpen="toggleModal" modal-class="modal-xs" title="Create Item Names" @submit="createItem"
             @modal-close="closeModal">
             <template #content>
@@ -70,7 +80,7 @@
                             <label class="form-label">Item Name</label>
                             <select v-model="item.unit" class="form-control form-control-sm">
                                 <option value="" selected>Select Unit</option>
-                                <option v-for="(unit, i) in units" :key="i">{{ unit }}</option>
+                                <option v-for="(unit, i) in units" :key="i">{{ unit.text }}</option>
                             </select>
                             <p class="text-danger " v-if="errors?.unit">{{ errors?.unit[0] }} </p>
                         </div>
@@ -94,13 +104,20 @@ import store from "@/store";
 import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
 import OModal from "@/components/OModal.vue";
+import UnitItemForm from "@/components/material/ItemUnitForm.vue"
 
+const unitModal = ref(false)
 const toggleModal = ref(false);
 
 const closeModal = () => {
     toggleModal.value = false;
+    unitModal.value = false;
 };
 
+const openToggleModal = ()=> {
+    toggleModal.value = true;
+    dropdownUnits()
+}
 
 
 const errors = ref({});
@@ -119,44 +136,41 @@ const editItem = (sec) => {
         name: sec.name ,
         pid: sec.pid ,
     }
+    toggleModal.value = true
 }
-const deleteItem = (id) => {
-    alert(id)
-}
-const units = [
-    'pieces', 'meters' , 'cartoon' , 'parket'
-]
 
+const resetAttr = () => {
+    item.value = {
+        unit: '',
+        name: '',
+        description: '',
+    }
+}
+// const deleteItem = (id) => {
+//     alert(id)
+// }
 
 function createItem() {
-    store.commit('setSpinner', true)
     errors.value = []
     store.dispatch('postMethod', { url: '/create-item', param: item.value }).then((data) => {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-            let form = document.querySelector('#itemForm');
-            form.reset();
+            resetAttr();
             loadItem()
         }
-        store.commit('setSpinner', false)
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
     })
 }
 loadItem()
 function loadItem() {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/load-items/' }).then((data) => {
-        store.commit('setSpinner', false)
         if (data?.status == 200) {
             items.value = data.data;
         }
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 }
 // function dropdownSection() {
@@ -169,6 +183,15 @@ function loadItem() {
 // }
 // dropdownSection()
 
+
+const units = ref({});
+
+function dropdownUnits() {
+    store.dispatch('loadDropdown', 'units').then(({ data }) => {
+        units.value = data;
+    })
+}
+dropdownUnits()
 
 </script>
 

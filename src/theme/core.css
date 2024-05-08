@@ -1,11 +1,17 @@
-*{
-    /* background: #f0f4f7; */
+:root {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Open Sans", sans-serif;
+    background: #fafafe;
+    position: relative;
+    /* color: #444444; */
 }
 body{
-    background: #fafafe;
     /* background: #f0f4f7; */
-    position: relative;
-    /* min-height: 100vh;
+    /* height: 100vh; */
+    /* 
         display: flex;
         flex-direction: column;
         position: relative; */
@@ -227,13 +233,31 @@ body{
 
 
 .table-responsive{
-    overflow: visible
+    /* overflow: visible; */
+    height: auto;
+    position: relative;
 }
 
 /* dropdown  */
 .dropdown .dropdown-menu{
     overflow: hidden;
-    position: absolute;
+    position: absolute !important;
+    z-index: 1000000 !important;
+}
+
+/* request item from store section  */
+#requestBody {
+    overflow-y: auto;
+    max-height: calc(100vh - 130px) !important;
+    overflow-x: hidden;
+}
+
+#requestBody {
+    scrollbar-width: thin !important;
+}
+
+#requestBody::-webkit-scrollbar {
+    width: 8px !important;
 }
 
 /* media query */
