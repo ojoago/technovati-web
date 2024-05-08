@@ -192,16 +192,12 @@ function createTeam() {
 }
 
 function loadTeam() {
-    store.commit('setSpinner', true)
-    store.dispatch('getMethod', { url: '/load-team' }).then((data) => {
-        store.commit('setSpinner', false)
+    store.dispatch('getMethod', { url: '/load-team/' + store?.state?.activeRole }).then((data) => {
         if (data?.status == 200) {
             team_data.value = data.data;
         }
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
    
 }

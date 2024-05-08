@@ -95,11 +95,10 @@
                     <template #content>
                         <form id="teamForm">
                             <div class="row">
-                                <div class="col-md-12">
+                                <!-- <div class="col-md-12">
                                     <label class="form-label">Departments</label>
                                     <Select2 :options="deptDrop"  />
-                                    <!-- <p class="text-danger " v-if="errors?.title">{{ errors?.title[0] }} </p> -->
-                                </div>
+                                </div> -->
 
                                 <div class="col-md-12">
                                     <label class="form-label">Staff</label>
@@ -165,18 +164,22 @@ const team = ref({
     user_pid: '' , 
     team_pid : '' ,
 })
+
+const resetTeam = ()=>{
+    team.value = {
+        user_pid: '',
+        team_pid: '',
+    }
+}
 const errors = ref({});
 
 function addStaff() {
     errors.value = []
-    // let data = new FormData;
-    // const  header = { "Content-Type": "multipart/form-data" };
     store.dispatch('postMethod', { url: '/add-staff-to-team', param: team.value }).then((data) => {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-            let form = document.querySelector('#teamForm');
-            form.reset();
+            resetTeam();
             loadWorker()
         }
     })
@@ -197,8 +200,7 @@ function addTeam() {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-            let form = document.querySelector('#assignForm');
-            form.reset();
+            resetTeam()
             loadWorker()
         }
     })
@@ -246,6 +248,13 @@ function dropdownDept() {
     })
 }
 dropdownDept()
+const userDrop = ref({});
+function dropdownUser() {
+    store.dispatch('loadDropdown', 'users').then(({ data }) => {
+        userDrop.value = data;
+    })
+}
+dropdownUser()
 
 function nextPage(link) {
     alert()

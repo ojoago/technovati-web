@@ -38,14 +38,17 @@
                                 <legend class="float-none w-auto px-2 h5">{{ team.team }} Members</legend>
                                 <form id="workForm">
                                     <fieldset class="border rounded-3 p-2 m-1">
+                                        <p class="text-danger " v-if="errors?.team_lead">{{ errors?.team_lead[0] }}</p>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group mb-3">
-                                                    <select class="form-control form-control-sm" v-model="work.device">
-                                                        <option selected value="">Select Activity</option>
-                                                        <option v-for="item in deviceDrop" :key="item.id"
-                                                            :value="item.id">
-                                                            {{ item.text }} </option>
+                                                    
+                                                    <select class="form-control form-control-sm"
+                                                        v-model="work.device">
+                                                            <option selected value="">Select Activity</option>
+                                                            <option v-for="item in deviceDrop" :key="item.id"   >
+                                                                {{ item.text }}
+                                                            </option>
                                                     </select>
                                                     <p class="text-danger " v-if="errors?.device">{{ errors?.device[0]
                                                         }}

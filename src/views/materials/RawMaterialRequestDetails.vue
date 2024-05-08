@@ -3,7 +3,7 @@
         <div class="container mt-2">
             <div class="card">
                 <div class="card-header">Raw Material Request Details</div>
-                 
+
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table-hover table-stripped table-bordered table">
@@ -23,7 +23,7 @@
                                 </tr>
                                 <tr>
                                     <th>Date </th>
-                                    <td>{{ item?.request_time }} <b>Status: {{ item?.request_status }}</b> </td>
+                                    <td>{{ item?.request_time }} <b>Status: {{ item?.request_status }} </b> </td>
                                 </tr>
 
                             </tbody>
@@ -54,7 +54,7 @@
                         </table>
 
                     </div>
-                    <button class="btn btn-primary btn-sm" @click="confirmItems">confirm</button>
+                    <button class="btn btn-primary btn-sm" v-if="item?.status==0" @click="confirmItems">confirm</button>
                 </div>
             </div>
         </div>

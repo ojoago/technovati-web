@@ -77,7 +77,7 @@ import { ref } from "vue";
 
 const team_data = ref({})
 function loadTeam() {
-    store.dispatch('getMethod', { url: '/load-team' }).then((data) => {
+    store.dispatch('getMethod', { url: '/load-team/' + store?.state?.activeRole }).then((data) => {
         if (data?.status == 200) {
             team_data.value = data.data;
         }

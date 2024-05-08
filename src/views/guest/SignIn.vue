@@ -46,6 +46,8 @@
             let name = data?.data.roles[0];
             if(name =='staff'){
                 name = 'Self'
+            } else if (name == 'head_engineer'){
+                name = 'Engineer'
             }
             name = name[0].toUpperCase() + name.substring(1)+'Dashboard'
             // alert(name)

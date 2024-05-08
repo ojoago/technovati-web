@@ -535,7 +535,7 @@
                         </div>
                     </a>
                     <ul id="rmaterial" class=" sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        
+
                         <li class="nav-item" title="staff">
                             <router-link to="/raw-material-list" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">List</span> </router-link>
@@ -545,7 +545,7 @@
                             <router-link to="/raw-material" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Add New </span> </router-link>
                         </li>
-                        
+
                         <li class="nav-item" title="staff">
                             <router-link to="/consignments" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Consignments</span> </router-link>
@@ -668,6 +668,7 @@
                     </a>
                 </div>
             </li>
+
             <!-- end receptionist -->
             <li v-if="roles.includes('hod')">
                 <div class="icon-link">
@@ -689,6 +690,23 @@
                     </a>
                 </div>
                 <!-- end log  -->
+            </li>
+
+            <li v-if="roles.length > 1">
+                <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#staff"
+                    aria-expanded="true" arai-controls="staff">
+                    <i class="bi bi-people"></i>
+                    <div class="icon-link">
+                        <span class="link-name">Switch Role</span>
+                    </div>
+                </a>
+                <ul id="staff" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <li class="nav-item" v-for="(role,i) in roles" :key="i" :title="role">
+                        <router-link to="#" @click="switchRole(role)" class="nav-link"><i class="bi bi-record"></i> <span
+                                class="link-name">{{role.replace('_',' ').toUpperCase()}} </span> </router-link>
+                    </li>
+
+                </ul>
             </li>
             <!-- end receptionist -->
 
@@ -719,13 +737,37 @@ const activeRole = ref(null)
 activeRole.value = store?.state?.activeRole
 const goToDashboard = () =>{
     let name = activeRole.value;
-    if(name =='staff'){
-        name = 'Self'
-    }
+    // if(name =='staff'){
+    //     name = 'Self'
+    // } else if (name == 'head_engineer') {
+    //     name = 'Engineer'
+    // }
+    name = roleName(name)
     name = name[0].toUpperCase() + name.substring(1)+'Dashboard'
     router.push({ name: name })
 }
 
+const switchRole = (role) => {
+    store.commit('setActiveRole', role)
+    localStorage.setItem('TVATI_ACTIVE_ROLE', role)
+    activeRole.value = role
+    role = roleName(role)
+    role = role[0].toUpperCase() + role.substring(1) + 'Dashboard'
+    router.push({ name: role })
+}
+
+const roleName = (role) => {
+    if (role == 'staff') {
+        role = 'Self'
+    }
+    else if (role == 'head_engineer') {
+        role = 'Engineer'
+    }
+    else if (role == 'engineer_supervisor') {
+        role = 'Supervisor'
+    }
+    return role;
+}
 </script>
 
 <style scoped>

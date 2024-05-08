@@ -65,6 +65,7 @@ const routes = [
             {   path:'/accountant-dashboard',name:'AccountantDashboard',component: () => import('@/views/dashboard/AccountantDashboard.vue') },
 
             {   path:'/engineer-dashboard',name:'EngineerDashboard',component: () => import('@/views/dashboard/EngineerDashboard.vue') },
+            {   path:'/supervisor-dashboard',name:'SupervisorDashboard',component: () => import('@/views/dashboard/SupervisorDashboard.vue') },
 
             {
                 path:'/staff',name:'StaffView',component: () => import('@/views/users/StaffView.vue')
