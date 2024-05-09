@@ -19,7 +19,7 @@
                                 </tr>
                                 <tr>
                                     <th>Receiver </th>
-                                    <td>{{ item?.receiver?.username ?? item?.requested_by?.username }}</td>
+                                    <td>{{ item?.receiver?.username ?? item?.user?.username }}</td>
                                 </tr>
                                 <tr>
                                     <th>Date </th>
@@ -37,7 +37,7 @@
                                     <th>Model</th>
                                     <th>Quantity Requested</th>
                                     <th>Quantity Supplied</th>
-                                    <th>Difference</th>
+                                    <th>Quantity Returned</th>
 
                                 </tr>
                             </thead>
@@ -48,13 +48,17 @@
                                     <td>{{ data.model }}</td>
                                     <td>{{ data.quantity_requested }}</td>
                                     <td>{{ data.quantity_supplied }}</td>
-                                    <td>{{ data.quantity_supplied - data.quantity_requested }}</td>
+                                    <td>{{ data.quantity_returned }}</td>
                                 </tr>
                             </tbody>
                         </table>
 
                     </div>
-                    <button class="btn btn-primary btn-sm" v-if="item?.status==0" @click="confirmItems">confirm</button>
+
+                    <button class="btn btn-primary btn-sm" v-if="item?.request_by == user_pid && item.status == 1"
+                        @click="confirmItems">Confirm</button>
+                    <button class="btn btn-primary btn-sm" v-if="item?.request_by != user_pid && item.status == 3"
+                        @click="closeRequest">Confirm Returned Items</button>
                 </div>
             </div>
         </div>
@@ -67,7 +71,8 @@ import store from "@/store";
 import { onMounted, ref } from "vue";
 import {  useRouter } from 'vue-router';
 const router = useRouter()
-
+const user_pid = ref(null)
+user_pid.value = store?.state?.user?.data?.pid;
 const item = ref({});
 // const requests = ref({});
 
@@ -81,6 +86,19 @@ const confirmItems = () => {
         console.log(e);
     })
 }
+
+const closeRequest = () => {
+    store.dispatch('putMethod', { url: '/close-raw-material-request/' + item.value?.pid, prompt: 'Mark Status Completed ?' }).then((data) => {
+        if (data?.status == 201) {
+            loadRequest(item.value?.pid)
+            // requests.value = data.data;
+        }
+    }).catch(e => {
+        console.log(e);
+    })
+}
+
+
 function loadRequest(pid) {
     store.dispatch('getMethod', { url: '/load-raw-material-receipt/'+pid }).then((data) => {
         console.log(data);
@@ -90,7 +108,6 @@ function loadRequest(pid) {
         }
     }).catch(e => {
         console.log(e);
-        alert('weting be this')
     })
 }
 

@@ -49,6 +49,9 @@
             } else if (name == 'head_engineer'){
                 name = 'Engineer'
             }
+            else if (name == 'engineer_supervisor') {
+                name = 'Supervisor'
+            }
             name = name[0].toUpperCase() + name.substring(1)+'Dashboard'
             // alert(name)
             router.push({ name: name })

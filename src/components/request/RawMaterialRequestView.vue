@@ -30,7 +30,7 @@
                                             <td>
                                                 <button v-if="item?.quantity?.quantity > 0" @click="addItem(item)" type="button"
                                                     class="btn btn-primary btn-sm">
-                                                    <i class="bi bi-patch-plus-fill"></i>
+                                                    <i class="bi bi-plus"></i>
                                                 </button>
                                             </td>
                                         </tr>

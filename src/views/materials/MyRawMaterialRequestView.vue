@@ -11,7 +11,7 @@
                                 <tr>
                                     <th>SN</th>
                                     <th>Request Note</th>
-                                    <th>Requested By</th>
+                                    <!-- <th>Requested By</th> -->
                                     <th>Items</th>
                                     <th>Receiver</th>
                                     <th>time</th>
@@ -23,9 +23,9 @@
                                 <tr v-for="(item, loop) in requests?.data" :key="loop">
                                     <td>{{ loop + 1 }}</td>
                                     <td>{{ item?.note }}</td>
-                                    <td>{{ item?.requested_by?.username }}</td>
+                                    <!-- <td>{{ item?.user?.username }}</td> -->
                                     <td>{{ item?.item_count }}</td>
-                                    <td>{{ item?.receiver?.username ?? item.requested_by?.username }}</td>
+                                    <td>{{ item?.receiver?.username ?? item.user?.username }}</td>
                                     <td>{{ item?.request_time }}</td>
                                     <td>{{ item?.request_status }}</td>
                                     <td>
@@ -37,10 +37,10 @@
                                             <ul class="dropdown-menu">
                                                 <li><a class="dropdown-item pointer"
                                                         @click="requestDetailPage(item)">Detail</a></li>
-                                                <li><a class="dropdown-item pointer bg-warning" v-if="item?.status==0" @click="editVehicle(item)">Cancel</a></li>
-                                                <!-- <li><a class="dropdown-item pointer bg-warning" v-if="item.status==0" @click="editVehicle(item)">Cancel</a></li> -->
+                                                <li><a class="dropdown-item pointer bg-warning" v-if="item?.status==0"
+                                                        @click="cancelRequest(item.request_pid)">Cancel</a></li>
                                                 <li><a class="dropdown-item pointer bg-info"
-                                                        v-if="item?.status==1"
+                                                        v-if=" item?.status > 0 && item?.status < 4 "
                                                         @click="returnItem(item)">Return</a></li>
                                             </ul>
                                         </div>
@@ -57,12 +57,12 @@
                 </div>
             </div>
         </div>
-        <o-modal :isOpen="toggleModal" modal-class="modal-lg" @submit="returnBackToStore" title="Returning Item to store"
-            @modal-close="closeModal">
+
+        <o-modal :isOpen="toggleModal" modal-class="modal-lg" @submit="returnBackToStore"
+            title="Returning Item to store" @modal-close="closeModal">
             <template #content>
                 <div>
                     <form id="rForm">
-                        {{ items }}
                         <table class="table-hover table-stripped table-bordered table">
                             <thead>
                                 <tr>
@@ -82,7 +82,8 @@
                                     <td>{{ data.model }}</td>
                                     <td>{{ data.quantity_requested }}</td>
                                     <td>{{ data.quantity_supplied }}</td>
-                                    <td> <input v-model="data.quantity_returned" type="text" class="form-control form-control-sm" placeholder=""></td>
+                                    <td> <input v-model="data.quantity_returned" type="text"
+                                            class="form-control form-control-sm" placeholder=""></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -131,9 +132,18 @@ function loadRequest() {
 
 
 const returnBackToStore = () => {
-    store.dispatch('postMethod', { url: '/return-requested-raw-materials' }).then((data) => {
-        if (data?.status == 200) {
-            requests.value = data.data;
+    store.dispatch('postMethod', { url: '/return-requested-raw-materials' , param : items.value }).then((data) => {
+        if (data?.status == 201) {
+            toggleModal.value = false;
+        }
+    }).catch(e => {
+        console.log(e);
+    })
+}
+const cancelRequest = (pid) => {
+    store.dispatch('postMethod', { url: '/cancel-raw-material-request/'+pid , param : items.value }).then((data) => {
+        if (data?.status == 201) {
+            toggleModal.value = false;
         }
     }).catch(e => {
         console.log(e);

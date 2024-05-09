@@ -12,34 +12,43 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label class="form-label">Activity</label>
-                                                <input type="text" v-model="schedule.schedule" class="form-control" placeholder="e.g meeting by 10am">
-                                                <p class="text-danger " v-if="errors?.schedule">{{ errors?.schedule[0] }}</p>
+                                                <textarea v-model="schedule.schedule" class="form-control"
+                                                    placeholder="e.g meeting by 10am"></textarea>
+                                                <p class="text-danger " v-if="errors?.schedule">{{ errors?.schedule[0]
+                                                    }}</p>
                                             </div>
                                         </div>
-                                       
+
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label class="form-label">Begin Date</label>
-                                                <input type="datetime-local" v-model="schedule.begin_time" class="form-control" >
-                                                <p class="text-danger " v-if="errors?.begin_time">{{ errors?.begin_time[0] }}</p>
+                                                <input type="datetime-local" v-model="schedule.begin_time"
+                                                    class="form-control">
+                                                <p class="text-danger " v-if="errors?.begin_time">{{
+                                                    errors?.begin_time[0] }}</p>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label class="form-label">End Date</label>
-                                                <input type="date" v-model="schedule.end_time" class="form-control" >
-                                                <p class="text-danger " v-if="errors?.end_time">{{ errors?.end_time[0] }}</p>
+                                                <input type="date" v-model="schedule.end_time" class="form-control">
+                                                <p class="text-danger " v-if="errors?.end_time">{{ errors?.end_time[0]
+                                                    }}</p>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="form-label">Staff <span class="text-danger">*</span></label>
-                                                    <Select2 v-model="schedule.user_pid" :options="users" :settings="{ width: '100%' }"  />
-                                                    <p class="text-danger " v-if="errors?.user_pid">{{ errors?.user_pid[0] }}</p>
-                                                </div>
+                                            <div class="form-group">
+                                                <label class="form-label">Staff <span
+                                                        class="text-danger">*</span></label>
+                                                <Select2 v-model="schedule.user_pid" :options="users"
+                                                    :settings="{ width: '100%' }" />
+                                                <p class="text-danger " v-if="errors?.user_pid">{{ errors?.user_pid[0]
+                                                    }}</p>
                                             </div>
+                                        </div>
                                     </div>
-                                    <button type="button" class="btn btn-success btn-sm mt-2" @click="createSchedule">Submit</button>
+                                    <button type="button" class="btn btn-success btn-sm mt-2"
+                                        @click="createSchedule">Submit</button>
                                 </form>
 
                             </fieldset>
@@ -66,9 +75,9 @@
                                         <tr v-for="(sch, loop) in schedules.data" :key="loop">
                                             <td>{{ loop + 1 }}</td>
                                             <td>{{ sch.schedule }}</td>
-                                            <td>{{ sch.new_date }}</td>
-                                            <td>{{ sch.end_time }}</td>
-                                            <td>{{ sch.status }}</td>
+                                            <td>{{ sch.begin }}</td>
+                                            <td>{{ sch.end }}</td>
+                                            <td>{{ sch.sch_status }}</td>
                                             <td>
                                                 <div class="dropdown">
                                                     <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
@@ -76,8 +85,15 @@
                                                         <i class="bi bi-tools"></i>
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                        <li><a class="dropdown-item pointer bg-warning" @click="editSchedule(sch)">Edit</a> </li>
-                                                        <li><a class="dropdown-item pointer bg-danger" @click="deleteSchedule(sch.id)">Delete</a> </li>
+
+                                                        <li><a class="dropdown-item pointer bg-warning"
+                                                                @click="editSchedule(sch)">Edit</a> </li>
+
+                                                        <!-- <li><a class="dropdown-item pointer bg-warning"
+                                                                @click="editSchedule(sch)">Mark Comp</a> </li> -->
+
+                                                        <li><a class="dropdown-item pointer bg-danger"
+                                                                @click="deleteSchedule(sch.id)">Delete</a> </li>
                                                     </ul>
                                                 </div>
                                             </td>
@@ -86,7 +102,8 @@
                                 </table>
                                 <div class="flex justify-center mt-4">
                                     <nav class="relative justify-center rounded-md shadow pagination">
-                                        <pagination-links v-for="(link, i) of schedules.links" :link="link" :key="i" @next="nextPage(link)"></pagination-links>
+                                        <pagination-links v-for="(link, i) of schedules.links" :link="link" :key="i"
+                                            @next="nextPage(link)"></pagination-links>
                                     </nav>
                                 </div>
                             </div>
@@ -113,6 +130,14 @@ const schedule = ref({
     user_pid : '' ,
 });
 
+const resetAttr = () => {
+    schedule.value = {
+        schedule: '',
+        begin_time: '',
+        end_time: '',
+        user_pid: '',
+    }
+}
 const editSchedule = (sch)=>{
     schedule.value = {
         schedule: sch.schedule,
@@ -129,8 +154,7 @@ function createSchedule() {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-            let form = document.querySelector('#scheduleForm');
-            form.reset()
+            resetAttr()
             loadSchedules()
         }
     })
@@ -148,7 +172,6 @@ function dropdownUser() {
         users.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownUser()

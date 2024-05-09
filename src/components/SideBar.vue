@@ -695,15 +695,15 @@
             <li v-if="roles.length > 1">
                 <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#staff"
                     aria-expanded="true" arai-controls="staff">
-                    <i class="bi bi-people"></i>
+                    <i class="bi bi-arrow-left-right"></i>
                     <div class="icon-link">
                         <span class="link-name">Switch Role</span>
                     </div>
                 </a>
                 <ul id="staff" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                     <li class="nav-item" v-for="(role,i) in roles" :key="i" :title="role">
-                        <router-link to="#" @click="switchRole(role)" class="nav-link"><i class="bi bi-record"></i> <span
-                                class="link-name">{{role.replace('_',' ').toUpperCase()}} </span> </router-link>
+                        <router-link to="#" @click="switchRole(role)" class="nav-link"><i class="bi bi-record"></i>
+                            <span class="link-name">{{role.replace('_',' ').toUpperCase()}} </span> </router-link>
                     </li>
 
                 </ul>

@@ -24,10 +24,10 @@
                                 <tr v-for="(item, loop) in requests?.data" :key="loop">
                                     <td>{{ loop + 1 }}</td>
                                     <td>{{ item.note }}</td>
-                                    <td>{{ item.requested_by?.username }}</td>
+                                    <td>{{ item?.user?.username }}</td>
                                     <td>{{ item.item_count }}</td>
                                     <td>{{ item.request_status }}</td>
-                                    <td>{{ item.receiver?.username ?? item.requested_by?.username }}</td>
+                                    <td>{{ item?.receiver?.username ?? item?.user?.username }}</td>
                                     <td>{{ item.request_time }}</td>
 
                                     <td>

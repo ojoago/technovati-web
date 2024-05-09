@@ -17,22 +17,22 @@
                                             <th>Items</th>
                                             <th>Receiver</th>
                                             <th>time</th>
-                                            <th align="center"> <i class="bi bi-pencil-fill"></i> </th>
+                                            <th align="center"> <i class="bi bi-gear-fill"></i> </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="(item, loop) in requests?.data" :key="loop">
                                             <td>{{ loop + 1 }}</td>
                                             <td>{{ item.note }}</td>
-                                            <td>{{ item.requested_by?.username }}</td>
+                                            <td>{{ item?.user?.username }}</td>
                                             <td>{{ item.item_count }}</td>
-                                            <td>{{ item.receiver?.username ?? item.requested_by?.username }}</td>
+                                            <td>{{ item?.receiver?.username ?? item?.user?.username }}</td>
                                             <td>{{ item.request_time }}</td>
 
                                             <td>
                                                 <button v-if="item.status == 0" @click="loadItems(item.pid)"
                                                     type="button" class="btn btn-primary btn-sm">
-                                                    <i class="bi bi-patch-plus-fill"></i>
+                                                    <i class="bi bi-plus"></i>
                                                 </button>
                                             </td>
                                         </tr>
@@ -177,7 +177,6 @@ function dropdownSupplier() {
         users.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownSupplier()

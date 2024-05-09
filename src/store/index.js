@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
 import axiosClient from '@/axios'
+import router from "@/router";
 
 const store = createStore({
     state:{
@@ -50,7 +51,7 @@ const store = createStore({
                                     store.commit('setSpinner', false)
                                     if(data?.status === 200){
                                         commit('setUser', data.data)
-                                        console.log(data.data.roles);
+                                        // console.log(data.data.roles);
                                         commit('setActiveRole',data?.data?.roles[0])
                                         commit('notify',{message:data.message})
                                     }else if(data?.status != 422){
@@ -73,6 +74,9 @@ const store = createStore({
                 console.log(e?.response);
                 sessionStorage.setItem('TOKEN', null)
                 commit('logout');
+                if(e?.response?.status == 401){
+                    router.push({ name: 'SignIn' })
+                }
             })
         },
         // end of auth 
@@ -166,7 +170,12 @@ const store = createStore({
                     }).catch(e => {
                         commit('setSpinner', false)
                         console.log(e);
-                        alert('weting be this')
+                        if(e?.response?.status == 401){
+                            // commit('logout');
+                            router.push({ name: 'SignIn' })
+
+                        }
+                        // alert('weting be this')
                     })
             },
             //load staff  
@@ -189,6 +198,9 @@ const store = createStore({
                         return data;  
                     }).catch(e => {
                         commit('setSpinner', false)
+                        if(e?.response?.status == 401){
+                            router.push({ name: 'SignIn' })
+                        }
                         console.log(e);
                         alert('weting be this')
                     })
@@ -213,6 +225,9 @@ const store = createStore({
                         return data;  
                     }).catch(e => {
                         commit('setSpinner', false)
+                        if(e?.response?.status == 401){
+                            router.push({ name: 'SignIn' })
+                        }
                         console.log(e);
                     })
                
@@ -236,6 +251,9 @@ const store = createStore({
                         return data;  
                     }).catch(e => {
                         commit('setSpinner', false)
+                        if(e?.response?.status == 401){
+                            router.push({ name: 'SignIn' })
+                        }
                         console.log(e);
                     })
             },

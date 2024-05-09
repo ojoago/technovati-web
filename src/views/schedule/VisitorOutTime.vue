@@ -58,33 +58,24 @@ import PaginationLinks from "@/components/PaginationLinks.vue";
 
 const logs = ref({});
 
-
-
 const logOut = (id) => {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/sign-visitor-out/'+id }).then(() => {
-        store.commit('setSpinner', false)
         loadLog()
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 }
 
 
-
 function loadLog() {
-    store.commit('setSpinner', true)
     store.dispatch('getMethod', { url: '/visitor-log' }).then((data) => {
-        store.commit('setSpinner', false)
         if (data?.status == 200) {
             logs.value = data.data;
+        }else{
+            logs.value = {}
         }
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 }
 

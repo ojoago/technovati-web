@@ -61,7 +61,7 @@
                     </template>
                     <div class="float-end p-2">
                         <button type="button" class="btn btn-success btn-sm mt-2" @click="addQualification"> <i
-                                class="bi bi-patch-plus-fill"></i> </button>
+                                class="bi bi-plus"></i> </button>
                     </div>
                 </fieldset>
 
