@@ -14,21 +14,23 @@
                         <!-- <th>initial_oil_level</th> -->
                         <!-- <th>oil_level_after</th> -->
                         <th>driver</th>
+                        <th>Status</th>
                         <th> <i class="bi bi-gear-fill"></i> </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(mile, loop) in mileage" :key="loop">
+                    <tr v-for="(ml, loop) in mileage" :key="loop">
                         <td>{{ loop + 1 }}</td>
-                        <td>{{ mile.journey }}</td>
-                        <td>{{ mile.format_date }} </td>
-                        <td>{{ mile.distance }} </td>
-                        <td>{{ mile.initial_fuel_level }} </td>
-                        <td>{{ mile.fuel_level_after }} </td>
-                        <!-- <td>{{ mile.initial_oil_level }} </td> -->
-                        <!-- <td>{{ mile.oil_level_after }} </td> -->
-                        <td>{{ mile.driver }} </td>
-                        <td> <span class="bi bi-pen" @click="editRecord(mile)"></span> </td>
+                        <td>{{ ml.journey }}</td>
+                        <td>{{ ml.format_date }} </td>
+                        <td>{{ ml.distance }} </td>
+                        <td>{{ ml.initial_fuel_level }} </td>
+                        <td>{{ ml.fuel_level_after }} </td>
+                        <!-- <td>{{ ml.initial_oil_level }} </td> -->
+                        <!-- <td>{{ ml.oil_level_after }} </td> -->
+                        <td>{{ ml.driver }} </td>
+                        <td>{{ ml.status }} </td>
+                        <td> <span class="bi bi-pen-fill" @click="editRecord(ml)" v-if="ml.status != 'Returned'"></span> </td>
                     </tr>
                 </tbody>
             </table>
@@ -43,14 +45,14 @@
                 <form id="milForm">
                     <div class="row">
 
-                        <div class="col-md-12">
+                        <div class="col-md-8">
                             <label class="form-label">Journey *</label>
                             <input type="text" v-model="mile.journey" class="form-control form-control-sm"
                                 placeholder="e.g taking meters to T7, Jos">
                             <p class="text-danger " v-if="error?.journey">{{ error?.journey[0] }} </p>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label class="form-label">distance *</label>
                             <input type="number" step="0.1" v-model="mile.distance" class="form-control form-control-sm"
                                 placeholder="e.g 138">
@@ -65,12 +67,6 @@
                             </p>
                         </div>
 
-                        <div class="col-md-6">
-                            <label class="form-label">Fuel level after</label>
-                            <input type="number" step="0.1" v-model="mile.oil_level_after"
-                                class="form-control form-control-sm" placeholder="e.g 9">
-                            <p class="text-danger " v-if="error?.oil_level_after">{{ error?.oil_level_after[0] }} </p>
-                        </div>
 
                         <!-- <div class="col-md-6">
                             <label class="form-label">Initial Oil level </label>
@@ -105,6 +101,22 @@
                             <input type="date" v-model="mile.return_date" class="form-control form-control-sm">
                             <p class="text-danger " v-if="error?.return_date">{{ error?.return_date[0] }} </p>
                         </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Fuel level after</label>
+                            <input type="number" step="0.1" v-model="mile.fuel_level_after"
+                                class="form-control form-control-sm" placeholder="e.g 9">
+                            <p class="text-danger " v-if="error?.fuel_level_after">{{ error?.fuel_level_after[0] }} </p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Status</label>
+                            <select  v-model="mile.status" class="form-control form-control-sm" >
+                                <option value="" selected>Select Status</option>
+                                <option selected>Going</option>
+                                <option >Returned</option>
+                            </select>
+                            
+                            <p class="text-danger " v-if="error?.status">{{ error?.status[0] }} </p>
+                        </div>
 
                     </div>
                 </form>
@@ -125,9 +137,9 @@ const toggleMileage = ref(false)
 const closeModal = () => {
     toggleMileage.value = false;
 };
-
+let dtl
 onMounted(() => {
-    let dtl = localStorage.getItem('TVATI_VEHICLE_DETAIL') ? JSON.parse(localStorage.getItem('TVATI_VEHICLE_DETAIL')) : 'null'
+    dtl = localStorage.getItem('TVATI_VEHICLE_DETAIL') ? JSON.parse(localStorage.getItem('TVATI_VEHICLE_DETAIL')) : 'null'
     if (dtl != 'null') {
         mile.value.vehicle_pid = dtl?.pid;
         loadVehicleMileage(dtl?.pid)
@@ -151,9 +163,24 @@ const mile = ref({
     vehicle_pid : '' , 
     driver : '' ,
     date: '',
-    return_date: ''
+    return_date: '' ,
+    status: ''
 }) 
-
+ const resetAttr = () => {
+    mile.value = {
+        journey: '' , 
+    distance: '' , 
+    initial_oil_level: '' , 
+    initial_fuel_level: '' , 
+    oil_level_after: '' ,
+    fuel_level_after: '',
+    driver : '' ,
+    date: '',
+    return_date: '' ,
+    status: '',
+    vehicle_pid : dtl?.pid
+    }
+ }
 const editRecord = (data) =>{
     mile.value = {
         journey: data.journey,
@@ -166,6 +193,7 @@ const editRecord = (data) =>{
         driver: data.driver,
         date: data.date,
         return_date: data.return_date ,
+        status: data.status ,
         id: data.id ,
     }
     toggleMileage.value = true
@@ -177,9 +205,10 @@ const addVehicleMileage = () => {
         if (data?.status == 422) {
             error.value = data.data
         } else if (data?.status == 201) {
-            let form = document.querySelector('#milForm');
             loadVehicleMileage(mile.value.vehicle_pid)
-            form.reset()
+            resetAttr()
+    toggleMileage.value = false;
+
         }
     })
 }

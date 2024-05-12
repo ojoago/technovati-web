@@ -183,10 +183,16 @@
                             <router-link to="/vehicle" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Vehicle</span> </router-link>
                         </li>
+
                         <li class="nav-item" title="Records">
                             <router-link to="/driver" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Driver</span> </router-link>
                         </li>
+                        <li class="nav-item" title="Records">
+                            <router-link to="/driver" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Delivery</span> </router-link>
+                        </li>
+
                     </ul>
                 </li>
                 <!-- end log  -->

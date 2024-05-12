@@ -20,9 +20,9 @@
                         <td>{{ loop + 1 }}</td>
                         <td>{{ item.side }}</td>
                         <td>{{ item.brand }} </td>
-                        <td>{{ item.date_purchased }} </td>
-                        <td>{{ item.date_manufactured }} </td>
-                        <td>{{ item.expiring_date }} </td>
+                        <td>{{ item.purchased }} </td>
+                        <td>{{ item.manufactured }} </td>
+                        <td>{{ item.expiring }} </td>
                         <td>{{ item?.type }} </td>
                         <td>
                             <div class="dropdown">
@@ -31,9 +31,9 @@
                                     <i class="bi bi-tools"></i>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item pointer " @click="replaceTyre(item.pid)">Replace</a></li>
+                                    <li><a class="dropdown-item pointer " @click="replaceTyre(item)">Replace</a></li>
                                     <li><a class="dropdown-item pointer bg-warning" @click="editTyre(item)">Edit</a></li>
-                                    <li><a class="dropdown-item pointer text-danger" @click="deleteTyre(item.pid)">Delete</a></li>
+                                    <!-- <li><a class="dropdown-item pointer text-danger" @click="deleteTyre(item.pid)">Delete</a></li> -->
                                 </ul>
                             </div>
                         </td>
@@ -114,10 +114,11 @@ const tyreModal = ref(false)
 
 const closeModal = () => {
     tyreModal.value = false;
+    resetAttr()
 };
-
+let dtl 
 onMounted(() => {
-    let dtl = localStorage.getItem('TVATI_VEHICLE_DETAIL') ? JSON.parse(localStorage.getItem('TVATI_VEHICLE_DETAIL')) : 'null'
+    dtl = localStorage.getItem('TVATI_VEHICLE_DETAIL') ? JSON.parse(localStorage.getItem('TVATI_VEHICLE_DETAIL')) : 'null'
     if (dtl != 'null') {
         tyre.value.vehicle_pid = dtl?.pid;
         loadVehicleTyres(dtl?.pid)
@@ -141,6 +142,18 @@ const tyre = ref({
     type: ''
 })
 
+const resetAttr = ()=> {
+    tyre.value = {
+        vehicle_pid: dtl?.pid,
+    side: '',
+    date_purchased: '',
+    date_manufactured: '',
+    expiring_date: '',
+    brand: '',
+    type: '',
+    }
+}
+
 const editTyre = (data) =>{
     tyre.value = {
         vehicle_pid: data.vehicle_pid,
@@ -154,6 +167,23 @@ const editTyre = (data) =>{
     }
     tyreModal.value = true
 }
+
+const replaceTyre = (data) =>{
+    tyre.value = {
+        vehicle_pid: data.vehicle_pid,
+        side: data.side,
+        date_purchased: data.date_purchased,
+        date_manufactured: data.date_manufactured,
+        expiring_date: data.expiring_date,
+        brand: data.brand,
+        type: data.type ,
+        replace: true ,
+        id: data.id ,
+    }
+    tyreModal.value = true
+}
+
+
 const t_error = ref({})
 function addTyre() {
     t_error.value = []
@@ -161,9 +191,8 @@ function addTyre() {
         if (data?.status == 422) {
             t_error.value = data.data
         } else if (data?.status == 201) {
-            let form = document.querySelector('#assignForm');
-            form.reset();
             loadVehicleTyres(tyre.value.vehicle_pid)
+            resetAttr();
         }
     }).catch(e => {
         console.log(e);

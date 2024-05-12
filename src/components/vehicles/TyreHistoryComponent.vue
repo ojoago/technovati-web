@@ -1,6 +1,7 @@
 <template>
     <div>
-        <div class="table-responsive" v-if="histories">
+        
+        <div class="table-responsive" >
             <table class="table-hover table-stripped table-bordered table">
                 <thead>
                     <tr>
@@ -13,8 +14,8 @@
                         <th>Date Change</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr v-for="(item, loop) in histories" :key="loop">
+                <tbody v-if="histories.data">
+                    <tr v-for="(item, loop) in histories.data" :key="loop">
                         <td>{{ loop + 1 }}</td>
                         <td>{{ item.side }}</td>
                         <td>{{ item.brand }} </td>
@@ -24,9 +25,15 @@
                         <td>{{ item.created_at }} </td>
                     </tr>
                 </tbody>
+                <div v-else class="text-center text-uppercase">No Record Yet</div>
             </table>
+            <div class="flex justify-center mt-4">
+                                        <nav class="relative justify-center rounded-md shadow pagination">
+                                            <pagination-links v-for="(link, i) of histories.links" :link="link" :key="i"
+                                                @next="nextPage(link)"></pagination-links>
+                                        </nav>
+                                    </div>
         </div>
-        <div v-else class="text-center text-uppercase">No Record Yet</div>
     </div>
 </template>
 
@@ -34,6 +41,7 @@
      
 import store from "@/store";
 import { onMounted, ref } from "vue";
+    import PaginationLinks from "@/components/PaginationLinks.vue";
 
 
 onMounted(() => {
@@ -50,6 +58,13 @@ function loadVehicleTyreHistory(pid) {
     })
 }
 
+ function nextPage(link) {
+        alert()
+        if (!link.url || link.active) {
+            return;
+        }
+        alert(link.url)
+    }
 
 
 </script>

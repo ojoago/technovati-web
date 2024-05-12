@@ -5,40 +5,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <AttendanceComponent />
-                    <hr>
-                    Announcements
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-stripped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>SN</th>
-                                    <th>Title</th>
-                                    <th>status</th>
-                                    <th> <i class="bi bi-gear-fill"></i> </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <hr>
-                    Memo
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-stripped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>SN</th>
-                                    <th>Title</th>
-                                    <th>status</th>
-                                    <th> <i class="bi bi-gear-fill"></i> </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </table>
-                    </div>
+                    <Todo/>
                 </div>
                 <div class="col-md-6">
                     <Qal :data="eventData" v-if="eventData?.length" />
@@ -52,6 +19,7 @@
 <script setup>
     import AttendanceComponent from '@/components/shift/AttendanceComponent.vue';
     import Qal from '@/components/dashboard/CalComponent.vue'
+    import Todo from '@/components/TodoComponent.vue'
     
     import store from '@/store';
     import { ref } from 'vue';

@@ -2,81 +2,41 @@
     <div>
         <div class="container mt-2">
             {{ logistics }}
-            <div class="row">
-                <div class="col-md-4">
-                    <AttendanceComponent />
-                    <hr>
-                    Announcements
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-stripped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>SN</th>
-                                    <th>Title</th>
-                                    <th>status</th>
-                                    <th> <i class="bi bi-gear-fill"></i> </th>
-                                </tr>
-                            </thead>
-                            <tbody>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <AttendanceComponent />
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <Card title="Number of Vehicle" :count="logistics.vehicle"  icon="bi-cash" />
+                                </div>
+                                <div class="col-md-6">
+                                    <Card title="Drivers" :count="logistics.vehicle"  icon="bi-hash" />
 
-                            </tbody>
-                        </table>
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
-                    <hr>
-                    Memo
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-stripped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>SN</th>
-                                    <th>Title</th>
-                                    <th>status</th>
-                                    <th> <i class="bi bi-gear-fill"></i> </th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                    <div class="row">
+                        <div class="col-md-3 mb-1">
+                            <Card title="Number of Vehicles" :count="logistics.vehicle"  icon="bi-hash" />
+                        </div>
 
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-md-8">
-                    Leave Request
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-stripped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>SN</th>
-                                    <th>Leave</th>
-                                    <th>From</th>
-                                    <th>to</th>
-                                    <th>status</th>
-                                    <th> <i class="bi bi-gear-fill"></i> </th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                        <div class="col-md-3 mb-1">
+                            <Card title="Spent on Fuel, this month" :count="logistics.fuel_month"  icon="bi-cash" />
+                        </div>
 
-                            </tbody>
-                        </table>
-                    </div>
-                    <hr>
-                    Visitor
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-stripped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>SN</th>
-                                    <th>Leave</th>
-                                    <th>From</th>
-                                    <th>to</th>
-                                    <th>status</th>
-                                    <th> <i class="bi bi-gear-fill"></i> </th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                        <div class="col-md-3 mb-1">
+                            <Card title="Spent on Fuel, this year" :count="logistics.fuel_year"  icon="bi-cash" />
+                        </div>
+                        <div class="col-md-3 mb-1">
+                            <Card title="Spent on Oil, this month" :count="logistics.oil_month"  icon="bi-cash" />
+                        </div>
 
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
@@ -88,6 +48,7 @@
 import AttendanceComponent from '@/components/shift/AttendanceComponent.vue';
 import store from '@/store';
 import { onMounted, ref } from 'vue';
+import Card from '@/components/CardComponent.vue'
 
 
 const logistics = ref({})

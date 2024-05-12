@@ -3,7 +3,7 @@
         <div class="container mt-2">
 
             <div class="card">
-                <div class="card-header">Senior Staff Schedules</div>
+                <div class="card-header">My Schedules</div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table-hover table-stripped table-bordered table">

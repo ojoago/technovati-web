@@ -198,48 +198,6 @@ dropdownUser()
 </script>
 
 <style scoped>
-.horizontal-scrollable {
-    padding: 5px !important;
-    padding-bottom: 10px !important;
-}
-
-.horizontal-scrollable>.row {
-    overflow-x: auto;
-    white-space: nowrap;
-}
-
-.row,
-.flex-nowrap {
-    margin-bottom: 5px !important;
-    padding-bottom: 10px !important;
-}
 
 
-
-.col-4:nth-child(3n+1) {
-    background: #c69;
-}
-
-.col-4:nth-child(3n+2) {
-    background: #9c6;
-}
-
-.col-4:nth-child(3n+3) {
-    background: #69c;
-}
-
-.sub-task-card {
-    overflow-y: scroll;
-    position: relative;
-    max-height: 350px;
-    padding: 5px 10px;
-    justify-content: center;
-}
-
-/* .sub-task-card {
-    scrollbar-width: thin;
-}
-
-.sub-task-card::-webkit-scrollbar {
-    width: 10px !important;
-} */</style>
+</style>

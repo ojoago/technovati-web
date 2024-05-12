@@ -1,6 +1,6 @@
 <template>
     <div >
-        <div class="card shadow">
+        <div class="card com-card">
             <!-- <h5 class="card-title h6 text-center"> Text</h5> -->
             <div class="card-header p-1"> <span class="text-ellipsis">{{title}}</span> </div>
             <div class="card-body p-2">
@@ -27,6 +27,15 @@
 </script>
 
 <style scoped>
+
+.com-card{
+    transition: box-shadow 0.3s ease-in-out;
+}
+.com-card:hover{
+    box-shadow: 20px 20px 20px rgba(0, 0, 10, 0.3);
+}
+
+
 .card{
     min-height: 140px;
 }
