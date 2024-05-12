@@ -43,12 +43,16 @@ import store from "@/store";
 import { onMounted, ref } from "vue";
     import PaginationLinks from "@/components/PaginationLinks.vue";
 
-
+let dtl 
 onMounted(() => {
-    let dtl = localStorage.getItem('TVATI_VEHICLE_DETAIL') ? JSON.parse(localStorage.getItem('TVATI_VEHICLE_DETAIL')) : 'null'
-    if (dtl != 'null') {
+    dtl = localStorage.getItem('TVATI_VEHICLE_DETAIL') ? JSON.parse(localStorage.getItem('TVATI_VEHICLE_DETAIL')) : 'null'
+    // if (dtl != 'null') {
+    //     loadVehicleTyreHistory(dtl?.pid)
+    // }
+    const disableTab = document.querySelector('#tyre-history');
+    disableTab.addEventListener('click',()=>{
         loadVehicleTyreHistory(dtl?.pid)
-    }
+    })
 });
 
 const histories = ref({})

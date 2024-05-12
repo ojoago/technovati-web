@@ -24,13 +24,13 @@
                         <td>{{ ml.journey }}</td>
                         <td>{{ ml.format_date }} </td>
                         <td>{{ ml.distance }} </td>
-                        <td>{{ ml.initial_fuel_level }} </td>
-                        <td>{{ ml.fuel_level_after }} </td>
+                        <td>{{ ml.initial }} </td>
+                        <td>{{ ml.after }} </td>
                         <!-- <td>{{ ml.initial_oil_level }} </td> -->
                         <!-- <td>{{ ml.oil_level_after }} </td> -->
                         <td>{{ ml.driver }} </td>
                         <td>{{ ml.status }} </td>
-                        <td> <span class="bi bi-pen-fill" @click="editRecord(ml)" v-if="ml.status != 'Returned'"></span> </td>
+                        <td> <span class="bi bi-pen-fill pointer" @click="editRecord(ml)" v-if="ml.status != 'Returned'"></span> </td>
                     </tr>
                 </tbody>
             </table>

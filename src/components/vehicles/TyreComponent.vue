@@ -121,8 +121,12 @@ onMounted(() => {
     dtl = localStorage.getItem('TVATI_VEHICLE_DETAIL') ? JSON.parse(localStorage.getItem('TVATI_VEHICLE_DETAIL')) : 'null'
     if (dtl != 'null') {
         tyre.value.vehicle_pid = dtl?.pid;
-        loadVehicleTyres(dtl?.pid)
+        // loadVehicleTyres(dtl?.pid)
     }
+    const disableTab = document.querySelector('#tyre-tab');
+    disableTab.addEventListener('click',()=>{
+        loadVehicleTyres(tyre.value.vehicle_pid)
+    })
 });
 
 const tyres = ref({})

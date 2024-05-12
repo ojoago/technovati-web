@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="container mt-2">
-            {{ logistics }}
+            <!-- {{ logistics }} -->
             <div class="card">
                 <div class="card-body">
                     <div class="row">
@@ -11,7 +11,7 @@
                         <div class="col-md-8">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <Card title="Number of Vehicle" :count="logistics.vehicle"  icon="bi-cash" />
+                                    <Card title="Number of Vehicle" link="vehicle" :count="logistics.vehicle"  icon="bi-hash" />
                                 </div>
                                 <div class="col-md-6">
                                     <Card title="Drivers" :count="logistics.vehicle"  icon="bi-hash" />

@@ -12,11 +12,19 @@
 
                     <!-- {{ vehicle }} -->
                     <ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
+
                         <li class="nav-item flex-fill" role="presentation">
                             <button class="nav-link w-100 active" id="jorney-tab" data-bs-toggle="tab"
                                 data-bs-target="#jorneyTab" type="button" role="tab" aria-controls="jorneyTab"
                                 aria-selected="true">Journey</button>
                         </li>
+                        
+                        <li class="nav-item flex-fill" role="presentation">
+                            <button class="nav-link w-100" id="repair-tab" data-bs-toggle="tab"
+                                data-bs-target="#repairTab" type="button" role="tab" aria-controls="repairTab"
+                                aria-selected="true">Repairs</button>
+                        </li>
+
                         <li class="nav-item flex-fill" role="presentation">
                             <button class="nav-link w-100 " id="tyre-tab" data-bs-toggle="tab" data-bs-target="#tyreTab"
                                 type="button" role="tab" aria-controls="tyreTab" aria-selected="true">Tyres</button>
@@ -42,9 +50,15 @@
                     </ul>
 
                     <div class="tab-content pt-2">
+
                         <div class="tab-pane fade show active" id="jorneyTab" role="tabpanel"
                             aria-labelledby="worker-tab">
                             <Mileage />
+                        </div>
+
+                        <div class="tab-pane fade" id="repairTab" role="tabpanel"
+                            aria-labelledby="worker-tab">
+                            <Repairs />
                         </div>
 
                         <div class="tab-pane fade" id="tyreTab" role="tabpanel" aria-labelledby="worker-tab">
@@ -82,6 +96,7 @@ import Tyre from '@/components/vehicles/TyreComponent.vue'
 import TyreHistory from '@/components/vehicles/TyreHistoryComponent.vue'
 import FuelHistory from '@/components/vehicles/FuelHistoryComponent.vue'
 import OilHistory from '@/components/vehicles/OilHistoryComponent.vue'
+import Repairs from '@/components/vehicles/RepairComponent.vue'
 const vehicle = ref({});
 // const detail = ref({});
 // const staff_pid = ref(null);

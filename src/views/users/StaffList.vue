@@ -263,7 +263,7 @@
     import OModal from "@/components/OModal.vue";
     import PaginationLinks from "@/components/PaginationLinks.vue";
     import assignDepartmentForm from "@/components/forms/department/AssignDepartmentForm.vue";
-import Select2 from 'vue3-select2-component';
+    import Select2 from 'vue3-select2-component';
 
     import store from "@/store";
     import {  onMounted, ref } from "vue";

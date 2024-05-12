@@ -70,13 +70,17 @@ const closeModal = () => {
     toggleModal.value = false;
 };
 const toggleModal = ref(false)
-
+let dtl 
 onMounted(() => {
-    let dtl = localStorage.getItem('TVATI_VEHICLE_DETAIL') ? JSON.parse(localStorage.getItem('TVATI_VEHICLE_DETAIL')) : 'null'
+    dtl = localStorage.getItem('TVATI_VEHICLE_DETAIL') ? JSON.parse(localStorage.getItem('TVATI_VEHICLE_DETAIL')) : 'null'
     if (dtl != 'null') {
         oil.value.vehicle_pid = dtl?.pid; 
-        loadVehicleOilHistory(dtl?.pid)
+        // loadVehicleOilHistory(dtl?.pid)
     }
+    const disableTab = document.querySelector('#fuel-history');
+    disableTab.addEventListener('click',()=>{
+        loadVehicleOilHistory(oil.value.vehicle_pid)
+    })
 });
 
 const histories = ref({})

@@ -87,8 +87,12 @@ onMounted(() => {
     let dtl = localStorage.getItem('TVATI_VEHICLE_DETAIL') ? JSON.parse(localStorage.getItem('TVATI_VEHICLE_DETAIL')) : 'null'
     if (dtl != 'null') {
         fuel.value.vehicle_pid = dtl?.pid; 
-        loadVehicleTyreHistory(dtl?.pid)
+        // loadVehicleTyreHistory(dtl?.pid)
     }
+    const disableTab = document.querySelector('#fuel-history');
+    disableTab.addEventListener('click',()=>{
+        loadVehicleTyreHistory(fuel.value.vehicle_pid)
+    })
 });
 
 const histories = ref({})
