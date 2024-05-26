@@ -111,7 +111,8 @@
                             <label class="form-label">Status</label>
                             <select  v-model="mile.status" class="form-control form-control-sm" >
                                 <option value="" selected>Select Status</option>
-                                <option selected>Going</option>
+                                <option selected>Awaiting Departure</option>
+                                <option >On Transit</option>
                                 <option >Returned</option>
                             </select>
                             

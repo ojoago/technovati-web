@@ -29,6 +29,7 @@
             </table>
         </div>
         <div v-else class="text-center text-uppercase">No Record Yet</div>
+        
         <o-modal :isOpen="toggleModal" modal-class="modal-xs" title="Add Fuel" @submit="topFuel" @modal-close="closeModal">
             <template #content>
                 <form id="assignForm">

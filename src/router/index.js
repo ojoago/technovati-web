@@ -339,7 +339,11 @@ const routes = [
             {
                 path:'/deduction-exclusion',name:'DeductionExclusion',component: () => import('@/views/payroll/deduction/DeductionExclusionView.vue')
             },
-
+            
+            // account 
+            {
+                path:'/accounts',name:'AccountView',component: () => import('@/views/accounts/coa/AccountView.vue')
+            },
             
          ]
     },

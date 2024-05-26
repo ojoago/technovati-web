@@ -585,6 +585,154 @@
             <!-- end receptionist -->
 
             <!-- end receptionist -->
+            <div v-if="activeRole == 'accountant' ">
+                <li>
+                    <a>
+                        <i class="bi bi-list-task"></i>
+                        <span class="link-name">
+                            <router-link to="/accounts" class="nav-link"><span class="nav-name">Account </span>
+                            </router-link>
+                        </span>
+                    </a>
+
+                </li>
+                <li>
+                    <a>
+                        <i class="bi bi-list-task"></i>
+                        <span class="link-name">
+                            <router-link to="/customers" class="nav-link"><span class="nav-name">Customers </span>
+                            </router-link>
+                        </span>
+                    </a>
+
+                </li>
+                <!-- begin  -->
+                <li>
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#inventory"
+                        aria-expanded="true" arai-controls="inventory">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
+                            <span class="link-name">inventory</span>
+                        </div>
+                    </a>
+                    <ul id="inventory" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <li class="nav-item" title="staff">
+                            <router-link to="/items" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Items </span> </router-link>
+                        </li>
+
+                        <li class="nav-item" title="Store Item">
+                            <router-link to="/store-item" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Store Item </span> </router-link>
+                        </li>
+
+                        <li class="nav-item" title="Damaged Item">
+                            <router-link to="/damaged-items" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Damaged Items </span> </router-link>
+                        </li>
+                    </ul>
+                </li>
+                <!-- end   -->
+                <!-- begin  -->
+                <li>
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#waybill"
+                        aria-expanded="true" arai-controls="waybill">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
+                            <span class="link-name">way bill</span>
+                        </div>
+                    </a>
+                    <ul id="waybill" class=" sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <li class="nav-item" title="staff">
+                            <router-link to="/cr-in" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Items </span> </router-link>
+                        </li>
+                        <li class="nav-item" title="staff">
+                            <router-link to="/cr-out" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">New Request</span> </router-link>
+                        </li>
+                        <li class="nav-item" title="staff">
+                            <router-link to="/cr-out-request" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Request List</span> </router-link>
+                        </li>
+                    </ul>
+                </li>
+                <!-- end   -->
+                <!-- begin  -->
+                <li>
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#irequest"
+                        aria-expanded="true" arai-controls="irequest">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
+                            <span class="link-name">item request</span>
+                        </div>
+                    </a>
+                    <ul id="irequest" class=" sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <li class="nav-item" title="staff">
+                            <router-link to="/item-request" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name"> New Request </span> </router-link>
+                        </li>
+                        <li class="nav-item" title="staff">
+                            <router-link to="/staff-list" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Staff List</span> </router-link>
+                        </li>
+                    </ul>
+                </li>
+                <!-- end   -->
+                <!-- begin  -->
+                <li>
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#rmaterial"
+                        aria-expanded="true" arai-controls="rmaterial">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
+                            <span class="link-name">raw material</span>
+                        </div>
+                    </a>
+                    <ul id="rmaterial" class=" sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+
+                        <li class="nav-item" title="staff">
+                            <router-link to="/raw-material-list" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">List</span> </router-link>
+                        </li>
+
+                        <li class="nav-item" title="raw materials">
+                            <router-link to="/raw-material" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Add New </span> </router-link>
+                        </li>
+
+                        <li class="nav-item" title="staff">
+                            <router-link to="/consignments" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Consignments</span> </router-link>
+                        </li>
+                    </ul>
+                </li>
+                <!-- end   -->
+                <!-- begin  -->
+                <li>
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#mrequest"
+                        aria-expanded="true" arai-controls="mrequest">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
+                            <span class="link-name">material request</span>
+                        </div>
+                    </a>
+                    <ul id="mrequest" class="submenu sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <li class="nav-item" title="staff">
+                            <router-link to="/pending-raw-material-request" class="nav-link"><i
+                                    class="bi bi-record"></i> <span class="nav-name">Pending</span> </router-link>
+                        </li>
+
+                        <li class="nav-item" title="staff">
+                            <router-link to="/processed-raw-material-request" class="nav-link"><i
+                                    class="bi bi-record"></i> <span class="nav-name">Processed</span> </router-link>
+                        </li>
+                    </ul>
+                </li>
+                <!-- end   -->
+            </div>
+
+
+            <!-- end receptionist -->
             <div v-if="activeRole == 'staff'">
 
                 <li>

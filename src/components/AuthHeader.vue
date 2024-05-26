@@ -33,7 +33,7 @@
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
 
                             <li>
-                                <a class="dropdown-item align-items-center pointer">
+                                <a class="dropdown-item align-items-center pointer" @click="staffDetail">
                                     <i class="bi bi-person"></i>
                                     <span>profile</span>
                                 </a>
@@ -42,18 +42,12 @@
                                 <hr class="dropdown-divider">
                             </li>
                             <li>
-                                <a class="dropdown-item d-flex align-items-center pointer" data-bs-toggle="modal"
-                                    data-bs-target="#updatePwd">
+                                <a class="dropdown-item d-flex align-items-center pointer" @click="toggleModal=true">
                                     <i class="bi bi-lock-fill"></i>
                                     <span>Update Password</span>
                                 </a>
                             </li>
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center pointer" id="updateAccount">
-                                    <i class="bi bi-file-earmark-person-fill"></i>
-                                    <span>Update Account</span>
-                                </a>
-                            </li>
+                           
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -71,15 +65,72 @@
                 </ul>
             </nav><!-- End Icons Navigation -->
         </div>
+        <o-modal :isOpen="toggleModal" modal-class="modal-xs" title="Update Password" @submit="updatePassword" @modal-close="closeModal">
+            <template #content>
+                <form >
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <label class="form-label">Old Password *</label>
+                            <input type="password" v-model="password.old" class="form-control form-control-sm"
+                                placeholder="">
+                            <p class="text-danger " v-if="error?.old">{{ error?.old[0] }} </p>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label">New Password *</label>
+                            <input type="password" step="0.1" v-model="password.new" class="form-control form-control-sm"
+                                placeholder="Minimum of 6 character">
+                            <p class="text-danger " v-if="error?.new">{{ error?.new[0] }} </p>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label">Confirm Password *</label>
+                            <input type="password" v-model="password.password_confirmation" class="form-control form-control-sm"
+                                placeholder="">
+                            <p class="text-danger " v-if="error?.password_confirmation">{{ error?.password_confirmation[0] }} </p>
+                        </div>
+                    </div>
+                </form>
+            </template>
+        </o-modal>
     </div>
 </template>
 
 <script setup>
-    import {  defineEmits,computed } from "vue";
+    import {  defineEmits,computed, ref } from "vue";
     import store from "@/store";
+    import OModal from "@/components/OModal.vue";
+import { useRouter } from 'vue-router';
+    
+    const router = useRouter()
+    let query = {}
+    router.push({ query: query })
     defineEmits(['logout'])
     const username = computed(() => store?.state?.user?.data?.username);
- 
+    
+    const password = ref({new:'',old:'',password_confirmation:''})
+    const toggleModal = ref(false)
+    const closeModal = () => {
+        toggleModal.value = false;
+    };
+
+    function staffDetail() {
+        let data = store?.state?.user?.data 
+        localStorage.setItem('TVATI_STAFF_DETAIL', JSON.stringify(data, null, 2))
+        router.push({ path: 'staff-detail', query: { staff: data.pid } })
+    }
+
+    const error = ref({})
+    const updatePassword =() =>{
+        error.value = []
+    store.dispatch('postMethod', { url: '/update-password', param: password.value }).then((data) => {
+        if (data?.status == 422) {
+            error.value = data.data
+        } else if (data?.status == 201) {
+            password.value ={new:'',old:'',password_confirmation:''}
+            toggleModal.value = false
+        }
+    })
+    }
 </script>
 
 <style scoped>
