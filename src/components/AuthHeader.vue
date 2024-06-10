@@ -3,8 +3,8 @@
         <div class="header">
             <div class="brand-details">
                 <i class="bi bi-list toggleMenu pointer"></i>
-                <!-- <span class="brand-name">Optimal</span> -->
-                <span class="brand-name">Technovati</span>
+                <span class="brand-name">Optimal</span>
+                <!-- <span class="brand-name">Technovati</span> -->
             </div>
 
             <!-- <span class="text">Drop Down Sidebar </span> -->
@@ -24,7 +24,7 @@
                     <li class="nav-item dropdown pe-3">
                         <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#"
                             data-bs-toggle="dropdown">
-                            
+
                             <span
                                 class="dnone d-md-block uppercase-text dropdown-toggle ps-2 ellipsis-text">{{username}}
                             </span>
@@ -47,7 +47,7 @@
                                     <span>Update Password</span>
                                 </a>
                             </li>
-                           
+
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -55,7 +55,8 @@
                             <li>
                                 <a class="dropdown-item d-flex align-items-center bg-danger pointer text-white"
                                     @click="$emit('logout')">
-                                    <i class="bi bi-box-arrow-right text-white mr-1"></i> <span class="ml-1"> Sign Out</span>
+                                    <i class="bi bi-box-arrow-right text-white mr-1"></i> <span class="ml-1"> Sign
+                                        Out</span>
                                 </a>
                             </li>
 
@@ -65,28 +66,30 @@
                 </ul>
             </nav><!-- End Icons Navigation -->
         </div>
-        <o-modal :isOpen="toggleModal" modal-class="modal-xs" title="Update Password" @submit="updatePassword" @modal-close="closeModal">
+        <o-modal :isOpen="toggleModal" modal-class="modal-xs" title="Update Password" @submit="updatePassword"
+            @modal-close="closeModal">
             <template #content>
-                <form >
+                <form>
                     <div class="row">
 
                         <div class="col-md-12">
                             <label class="form-label">Old Password *</label>
                             <input type="password" v-model="password.old" class="form-control form-control-sm"
-                                placeholder="">
+                                placeholder="Current Password">
                             <p class="text-danger " v-if="error?.old">{{ error?.old[0] }} </p>
                         </div>
                         <div class="col-md-12">
                             <label class="form-label">New Password *</label>
-                            <input type="password" step="0.1" v-model="password.new" class="form-control form-control-sm"
+                            <input type="password" v-model="password.password" class="form-control form-control-sm"
                                 placeholder="Minimum of 6 character">
-                            <p class="text-danger " v-if="error?.new">{{ error?.new[0] }} </p>
+                            <p class="text-danger " v-if="error?.password">{{ error?.password[0] }} </p>
                         </div>
                         <div class="col-md-12">
                             <label class="form-label">Confirm Password *</label>
-                            <input type="password" v-model="password.password_confirmation" class="form-control form-control-sm"
-                                placeholder="">
-                            <p class="text-danger " v-if="error?.password_confirmation">{{ error?.password_confirmation[0] }} </p>
+                            <input type="password" v-model="password.password_confirmation"
+                                class="form-control form-control-sm" placeholder="Password Confirmation">
+                            <p class="text-danger " v-if="error?.password_confirmation">{{
+                                error?.password_confirmation[0] }} </p>
                         </div>
                     </div>
                 </form>
@@ -107,7 +110,7 @@ import { useRouter } from 'vue-router';
     defineEmits(['logout'])
     const username = computed(() => store?.state?.user?.data?.username);
     
-    const password = ref({new:'',old:'',password_confirmation:''})
+const password = ref({ password:'',old:'',password_confirmation:''})
     const toggleModal = ref(false)
     const closeModal = () => {
         toggleModal.value = false;

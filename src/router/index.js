@@ -340,10 +340,27 @@ const routes = [
                 path:'/deduction-exclusion',name:'DeductionExclusion',component: () => import('@/views/payroll/deduction/DeductionExclusionView.vue')
             },
             
+            // accounts
+             
             // account 
             {
                 path:'/accounts',name:'AccountView',component: () => import('@/views/accounts/coa/AccountView.vue')
             },
+            // journal 
+            {  path:'/journal-entry',name:'JournalEntryView',component: () => import('@/views/accounts/journal/JournalEntryView.vue') },
+            {  path:'/journal-list',name:'JournalListView',component: () => import('@/views/accounts/journal/JournalListView.vue') },
+            
+            // purchase 
+            {  path:'/add-purchase',name:'AddPurchase',component: () => import('@/views/accounts/purchase/AddPurchase.vue') },
+            {  path:'/purchase-list',name:'PurchaseList',component: () => import('@/views/accounts/purchase/PurchaseList.vue') },
+            {  path:'/purchase-order',name:'PurchaseOrder',component: () => import('@/views/accounts/purchase/PurchaseOrder.vue') },
+            {  path:'/purchase-order-list',name:'PurchaseOrderList',component: () => import('@/views/accounts/purchase/PurchaseOrderList.vue') },
+            
+            // purchase 
+            {  path:'/add-expense',name:'AddExpense',component: () => import('@/views/accounts/expense/AddExpense.vue') },
+            {  path:'/expense-list',name:'ExpenseList',component: () => import('@/views/accounts/expense/ExpenseList.vue') },
+            // {  path:'/purchase-order',name:'PurchaseOrder',component: () => import('@/views/accounts/purchase/PurchaseOrder.vue') },
+            // {  path:'/purchase-order-list',name:'PurchaseOrderList',component: () => import('@/views/accounts/purchase/PurchaseOrderList.vue') },
             
          ]
     },

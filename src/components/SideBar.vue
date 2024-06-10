@@ -586,6 +586,7 @@
 
             <!-- end receptionist -->
             <div v-if="activeRole == 'accountant' ">
+
                 <li>
                     <a>
                         <i class="bi bi-list-task"></i>
@@ -594,8 +595,94 @@
                             </router-link>
                         </span>
                     </a>
-
                 </li>
+
+                <li>
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#journal"
+                        aria-expanded="true" arai-controls="journal">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
+                            <span class="link-name">Journal</span>
+                        </div>
+                    </a>
+                    <ul id="journal" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <li class="nav-item" title="staff">
+                            <router-link to="/journal-entry" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Add Journal </span> </router-link>
+                        </li>
+
+                        <li class="nav-item" title="Store Item">
+                            <router-link to="/journal-list" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Journal List </span> </router-link>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li>
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#purchase"
+                        aria-expanded="true" arai-controls="purchase">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
+                            <span class="link-name">Purchase</span>
+                        </div>
+                    </a>
+                    <ul id="purchase" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <li class="nav-item" title="staff">
+                            <router-link to="/add-purchase" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Add New</span> </router-link>
+                        </li>
+
+                        <li class="nav-item" title="Store Item">
+                            <router-link to="/purchase-list" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Purchase List </span> </router-link>
+                        </li>
+
+                        <!-- <li class="nav-item" title="Store Item">
+                            <router-link to="/journal-list" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">New Purchase Order </span> </router-link>
+                        </li>
+                        <li class="nav-item" title="Store Item">
+                            <router-link to="/journal-list" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Purchase Order List </span> </router-link>
+                        </li> -->
+
+                    </ul>
+                </li>
+
+
+                <li>
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#expense"
+                        aria-expanded="true" arai-controls="expense">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
+                            <span class="link-name">Expense</span>
+                        </div>
+                    </a>
+                    <ul id="expense" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <li class="nav-item" title="staff">
+                            <router-link to="/add-expense" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Add New</span> </router-link>
+                        </li>
+
+                        <li class="nav-item" title="Store Item">
+                            <router-link to="/expense-list" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Expense List </span> </router-link>
+                        </li>
+
+                        <!-- <li class="nav-item" title="Store Item">
+                            <router-link to="/journal-list" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">New Purchase Order </span> </router-link>
+                        </li>
+                        <li class="nav-item" title="Store Item">
+                            <router-link to="/journal-list" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Purchase Order List </span> </router-link>
+                        </li> -->
+
+                    </ul>
+                </li>
+
+
                 <li>
                     <a>
                         <i class="bi bi-list-task"></i>
