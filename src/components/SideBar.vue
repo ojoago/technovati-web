@@ -682,6 +682,38 @@
                     </ul>
                 </li>
 
+                <li>
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#sales"
+                        aria-expanded="true" arai-controls="sales">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
+                            <span class="link-name">Sales</span>
+                        </div>
+                    </a>
+                    <ul id="sales" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <li class="nav-item" title="staff">
+                            <router-link to="/add-sales" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Add New</span> </router-link>
+                        </li>
+
+                        <li class="nav-item" title="Store Item">
+                            <router-link to="/sales-list" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Sales List </span> </router-link>
+                        </li>
+
+                        <!-- <li class="nav-item" title="Store Item">
+                            <router-link to="/journal-list" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">New Purchase Order </span> </router-link>
+                        </li>
+                        <li class="nav-item" title="Store Item">
+                            <router-link to="/journal-list" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Purchase Order List </span> </router-link>
+                        </li> -->
+
+                    </ul>
+                </li>
+
+
 
                 <li>
                     <a>

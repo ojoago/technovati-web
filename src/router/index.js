@@ -356,9 +356,14 @@ const routes = [
             {  path:'/purchase-order',name:'PurchaseOrder',component: () => import('@/views/accounts/purchase/PurchaseOrder.vue') },
             {  path:'/purchase-order-list',name:'PurchaseOrderList',component: () => import('@/views/accounts/purchase/PurchaseOrderList.vue') },
             
-            // purchase 
+            // expense 
             {  path:'/add-expense',name:'AddExpense',component: () => import('@/views/accounts/expense/AddExpense.vue') },
             {  path:'/expense-list',name:'ExpenseList',component: () => import('@/views/accounts/expense/ExpenseList.vue') },
+            // {  path:'/purchase-order',name:'PurchaseOrder',component: () => import('@/views/accounts/purchase/PurchaseOrder.vue') },
+            // {  path:'/purchase-order-list',name:'PurchaseOrderList',component: () => import('@/views/accounts/purchase/PurchaseOrderList.vue') },
+            // sales 
+            {  path:'/add-sales',name:'AddSales',component: () => import('@/views/accounts/sales/AddSales.vue') },
+            {  path:'/sales-list',name:'SalesList',component: () => import('@/views/accounts/sales/SalesList.vue') },
             // {  path:'/purchase-order',name:'PurchaseOrder',component: () => import('@/views/accounts/purchase/PurchaseOrder.vue') },
             // {  path:'/purchase-order-list',name:'PurchaseOrderList',component: () => import('@/views/accounts/purchase/PurchaseOrderList.vue') },
             
