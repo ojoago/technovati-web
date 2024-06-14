@@ -20,6 +20,9 @@ const routes = [
             {
                 path:'/welcome',name:'Welcome',component: () => import('@/views/guest/SignIn.vue')
             },
+            {
+                path:'/reset-password/:hash',name:'ResetPassword',component: () => import('@/views/guest/ResetPassword.vue')
+            },
             // Catch-all route for unknown paths
             { path: '/:pathMatch(.*)*',name:'404', component: () => import('@/views/errors/_404.vue') },
          ]
@@ -343,9 +346,8 @@ const routes = [
             // accounts
              
             // account 
-            {
-                path:'/accounts',name:'AccountView',component: () => import('@/views/accounts/coa/AccountView.vue')
-            },
+            {  path:'/accounts',name:'AccountView',component: () => import('@/views/accounts/coa/AccountView.vue')     },
+            {  path:'/account-list',name:'AccountListView',component: () => import('@/views/accounts/coa/AccountListView.vue')     },
             // journal 
             {  path:'/journal-entry',name:'JournalEntryView',component: () => import('@/views/accounts/journal/JournalEntryView.vue') },
             {  path:'/journal-list',name:'JournalListView',component: () => import('@/views/accounts/journal/JournalListView.vue') },

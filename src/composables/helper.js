@@ -2,7 +2,7 @@
 // import { ref } from 'vue';
 
 export function useHelper() {
-    const formatUpperCase = (str) => str.toUpperCase();
+    const formatUpperCase = (str) =>str == null ? null : str.toUpperCase();
     const formatLowerCase = (str) => str.toLowerCase();
     const capitalizeFirstLetter = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     const reverseString = (str) => str.split('').reverse().join('');

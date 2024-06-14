@@ -30,9 +30,10 @@
 
 .com-card{
     transition: box-shadow 0.3s ease-in-out;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
 }
 .com-card:hover{
-    box-shadow: 20px 20px 20px rgba(0, 0, 10, 0.3);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
 }
 
 

@@ -78,8 +78,12 @@
 
                                         <div class="form-group">
                                             <label class="form-label small">Record Purchase In</label>
-                                            <Select2 v-model="purchase.account_pid" :options="accountDrop"
-                                                :settings="{ width: '100%' }" placeholder="Select Account" />
+                                            <select class="form-control form-control-sm" v-model="purchase.account_pid"
+                                                @change="dropDownAccount($event.target.value)">
+                                                <option value="" selected>Select Type</option>
+                                                <option v-for="sec in accountTypeDrop" :key="sec.id" :value="sec.id">{{
+                                                    sec.text }} </option>
+                                            </select>
                                             <p class="text-danger " v-if="errors?.account_pid">{{ errors?.account_pid[0]
                                                 }}
                                             </p>
@@ -136,6 +140,7 @@
                                         <input type="text" :value="numberFormat(purchase.payment.sub_total)"
                                             class="form-control form-control-sm" disabled placeholder="Sub Total">
                                         <br>
+                                        <label for="">Discount</label>
                                         <input type="number" step="0.5" v-model="purchase.payment.discount"
                                             class="form-control form-control-sm" placeholder="Discount">
 
@@ -192,8 +197,8 @@ import store from "@/store";
 import { ref } from "vue";
 import Select2 from 'vue3-select2-component';
 
-import { useStringFormatter } from '@/composables/helper';
-const {  numberFormat } = useStringFormatter()
+import { useHelper } from '@/composables/helper';
+const {  numberFormat } = useHelper()
 
 const purchase = ref({
     account_pid: '' , 
@@ -311,13 +316,26 @@ const addPurchase = () => {
 const errors = ref({})
 
 const accountDrop = ref({});
-function dropDownAccount() {
-    store.dispatch('loadDropdown', 'accounts').then(({ data }) => {
+function dropDownAccount(pid) {
+    store.dispatch('loadDropdown', 'type-accounts/' + pid).then(({ data }) => {
         accountDrop.value = data;
     }).catch(e => {
         console.log(e);
     })
 }
+
+dropDownAccount()
+
+
+const accountTypeDrop = ref({});
+function dropDownAccountType() {
+    store.dispatch('loadDropdown', 'account-types').then(({ data }) => {
+        accountTypeDrop.value = data;
+    }).catch(e => {
+        console.log(e);
+    })
+}
+dropDownAccountType()
 
 dropDownSuppliers()
 const supplierDrop = ref({});

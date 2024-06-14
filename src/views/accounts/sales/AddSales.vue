@@ -367,6 +367,7 @@ const addItem = (item) => {
         }
     }
 }
+
 const removeitem = (i) => {
     // let len = request.value.items.length;
     // if (len === 1) {
@@ -387,6 +388,7 @@ const subTotal = () => {
         sumPaid()
     })
 }
+
 const grand_total = ref(0)
 const sumPaid = () => {
     let s=0

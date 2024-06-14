@@ -5,14 +5,15 @@
             <div class="ctainer">
                 <div class="main">
                     <div class="content">
-                        <h2>Sign In</h2>
-                        <form @submit.prevent="login">
-                            <input type="text" v-model="user.email" placeholder="Enter Email/Username/GSM">
-                            <p class="text-danger " v-if="errors?.email">{{ errors?.email[0] }}</p>
-                            <input type="password" v-model="user.password" name="" placeholder="Enter Password">
+                        <h2>Reset Password</h2>
+                        <form @submit.prevent="resetPassword">
+                            <input type="password" v-model="password.password" placeholder="Enter New Password">
                             <p class="text-danger " v-if="errors?.password">{{ errors?.password[0] }}</p>
-                            <button class="btn">Sign In</button>
-                            <p class="pointer text-info" @click="forgotPassword">Forgot Password?</p>
+                            <input type="password" v-model="password.password_confirmation" name=""
+                                placeholder="Enter Password Confirmation">
+                            <p class="text-danger " v-if="errors?.password_confirmation">{{
+                                errors?.password_confirmation[0] }}</p>
+                            <button class="btn">Reset</button>
                         </form>
                     </div>
 
@@ -23,91 +24,50 @@
             </div>
         </div>
 
-        <o-modal :isOpen="toggleModal" modal-class="modal-sm" title="Forgot Password" @submit="resetPasswordLink"
-            @modal-close="closeModal">
-            <template #content>
-                <form id="anForm">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label class="form-label">Email</label>
-                            <input type="text"  class="form-control form-control-sm"
-                                placeholder="Registred EMail" v-model="forgot.email_">
-                            <p class="text-danger " v-if="errors?.email_">{{ errors?.email_[0] }} </p>
-                        </div>
-
-                    </div>
-
-                </form>
-            </template>
-
-        </o-modal>
     </div>
 </template>
 
 <script setup>
-    import { ref } from 'vue';
+    import { onMounted, ref } from 'vue';
     import store from "../../store";
-    import { useRouter } from 'vue-router';
-    import OModal from "@/components/OModal.vue";
+    import { useRoute, useRouter } from 'vue-router';
 
     const router = useRouter()
-    const user = {
-        'email': '',
+    const route = useRoute()
+
+    const password = ref({
         'password': '',
-        'remember': false
-    }
+        'password_confirmation': '',
+        token: ''
+    })
     const errors = ref({})
-    function login() {
-        errors.value = [];
-        store.dispatch('signIn', user).then((data) => {
-            if(data?.status==422){
-                errors.value = data.data;
-                return false
-            }
-            let name = data?.data.roles[0];
-            if(name =='staff'){
-                name = 'Self'
-            } else if (name == 'head_engineer'){
-                name = 'Engineer'
-            }
-            else if (name == 'engineer_supervisor') {
-                name = 'Supervisor'
-            }
-            name = name[0].toUpperCase() + name.substring(1)+'Dashboard'
-            // alert(name)
-            router.push({ name: name })
-        }).catch(e => {
-            store.commit('setSpinner', false)
-            console.log(e);
-        })
+    async function getUrlQueryParams() {
+        await router.isReady()
+        password.value.token = route.params.hash
     }
 
-
-const forgot = ref({email_:''})
-
-const toggleModal = ref(false);
-
-const closeModal = () => {
-    toggleModal.value = false;
-};
-
-const forgotPassword = () => {
-    toggleModal.value = true;
-}
+onMounted(() => {
+    getUrlQueryParams()
+});
 
 
-const resetPasswordLink = () => {
+const resetPassword = () => {
     errors.value = []
-    store.dispatch('postMethod', { url: '/forgot-password', param: forgot.value }).then((data) => {
+    store.dispatch('postMethod', { url: '/reset-password', param: password.value }).then((data) => {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-            forgot.value.email_ = ''
+            password.value.password = ''
+            password.value.password_confirmation = ''
+            password.value.token = ''
+            router.push({ name: 'SignIn' })
+
         }
     }).catch(e => {
         console.log(e);
     })
 }
+
 
 </script>
 

@@ -10,7 +10,21 @@
 
                     <fieldset>
                         <form action="">
-
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label small">Record Expense In</label>
+                                    <select class="form-control form-control-sm" v-model="expense.account_type_pid"
+                                        @change="dropDownAccount($event.target.value)">
+                                        <option value="" selected>Select Type</option>
+                                        <option v-for="sec in accountTypeDrop" :key="sec.id" :value="sec.id">{{
+                                            sec.text }} </option>
+                                    </select>
+                                    <p class="text-danger " v-if="errors?.account_type_pid">{{
+                                        errors?.account_type_pid[0]
+                                        }}
+                                    </p>
+                                </div>
+                            </div>
                             <fieldset class="border rounded-3 p-2 m-1">
                                 <legend class="float-none w-auto px-2">Expense Details</legend>
 
@@ -65,6 +79,7 @@
                                 <div class="col-md-4">
                                     <fieldset class="border rounded-3 p-2 m-1">
                                         <legend class="float-none w-auto px-2">Summary</legend>
+
                                         <input type="text" :value="numberFormat(expense.sub_total)"
                                             class="form-control form-control-sm" disabled placeholder="Sub Total">
 
@@ -86,28 +101,33 @@
                                 <div class="col-md-8">
                                     <fieldset class="border rounded-3 p-2 m-1">
                                         <legend class="float-none w-auto px-2">Payment</legend>
-                                       
+                                        <select class="form-control form-control-sm" v-model="expense.payment_account"
+                                            @change="dropDownPayment($event.target.value)">
+                                            <option value="" selected>Select Type</option>
+                                            <option v-for="sec in accountTypeDrop" :key="sec.id" :value="sec.id">{{
+                                                sec.text }} </option>
+                                        </select>
                                         <div class="row" v-for="(pay, loop) in expense.accounts" :key="loop">
-                                            
+
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label small">Account</label>
-                                                    <Select2 v-model="pay.account_pid" :options="accountDrop"
+                                                    <Select2 v-model="pay.account_pid" :options="paymentDrop"
                                                         :settings="{ width: '100%' }" placeholder="Select Account" />
                                                     <p class="text-danger " v-if="errors?.account_pid">{{
                                                         errors?.account_pid[0] }}
                                                     </p>
                                                 </div>
                                             </div>
-                                            
+
 
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label small">Amount</label>
-                                                        <input type="number" v-model="pay.amount" step=".05"
-                                                            class="form-control form-control-sm"
-                                                            placeholder="Enter Amount" />
-                                                        
+                                                    <input type="number" v-model="pay.amount" step=".05"
+                                                        class="form-control form-control-sm"
+                                                        placeholder="Enter Amount" />
+
                                                     <p class="text-danger " v-if="errors?.account_pid">{{
                                                         errors?.account_pid[0] }} </p>
                                                 </div>
@@ -157,13 +177,15 @@ import { useHelper } from '@/composables/helper';
 const { numberFormat } = useHelper()
 
 const expense = ref({
+    account_type_pid : '' ,
+    payment_account : '' ,
     sub_total : 0 ,
     discount: 0 ,
     date: '' ,
     details: [{
         account_pid : '' ,        
         description :'' ,
-        amount :''
+        amount :0
     }],
     accounts: [{
         date: '',
@@ -175,28 +197,31 @@ const expense = ref({
 
 const resetAttr = () => {
     expense.value = {
+        payment_account: '',
+        account_type_pid: '',
         sub_total: 0,
         discount: 0,
         paid: 0,
         details: [{
             account_pid: '',
             description: '',
-            amount: ''
+            amount: 0
         }],
         accounts: [{
+            date: '',
+
             account_pid: '',
             description: '',
-            amount: ''
+            amount: 0
         }]
     }
 }
 
 const addProduct = () => {
     expense.value.details.push({
-        item_pid: '',
-        quantity: '',
-        rate: '',
+        account_pid: '',
         description: '',
+        amount: 0
     })
 }
 
@@ -249,14 +274,34 @@ const addexpense = () => {
 
 const errors = ref({})
 
+const accountTypeDrop = ref({});
+function dropDownAccountType() {
+    store.dispatch('loadDropdown', 'account-types').then(({ data }) => {
+        accountTypeDrop.value = data;
+    }).catch(e => {
+        console.log(e);
+    })
+}
+dropDownAccountType()
+
 const accountDrop = ref({});
-function dropDownAccount() {
-    store.dispatch('loadDropdown', 'accounts').then(({ data }) => {
+function dropDownAccount(pid) {
+    store.dispatch('loadDropdown', 'type-accounts/' + pid).then(({ data }) => {
         accountDrop.value = data;
     }).catch(e => {
         console.log(e);
     })
 }
+
+const paymentDrop = ref({});
+function dropDownPayment(pid) {
+    store.dispatch('loadDropdown', 'type-accounts/' + pid).then(({ data }) => {
+        paymentDrop.value = data;
+    }).catch(e => {
+        console.log(e);
+    })
+}
+
 
 dropDownSuppliers()
 const supplierDrop = ref({});
@@ -267,7 +312,6 @@ function dropDownSuppliers() {
         console.log(e);
     })
 }
-dropDownAccount()
 
 // load-expense
 </script>

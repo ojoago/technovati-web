@@ -23,7 +23,8 @@
                                     <div class="form-group">
                                         <label class="form-label small">Comment</label>
                                         <input v-model="journal.comments" type="text"
-                                            class="form-control form-control-sm" placeholder="e.g all entries for today">
+                                            class="form-control form-control-sm"
+                                            placeholder="e.g all entries for today">
                                         <p class="text-danger " v-if="errors?.comments">{{ errors?.comments[0] }} </p>
                                     </div>
                                 </div>
@@ -35,12 +36,14 @@
                                     <div class="col-md-5">
                                         <div class="form-group">
                                             <label class="form-label small">Account</label>
-                                            <select v-model="entry.account" @change="reduceArray($event)"
+                                            <Select2 v-model="entry.account" :options="accountDrop"
+                                                :settings="{ width: '100%' }" placeholder="Select Account" />
+                                            <!-- <select v-model="entry.account" @change="reduceArray($event)"
                                                 class="form-control form-control-sm">
                                                 <option value="" selected>Select Account</option>
                                                 <option v-for="(op,i) in accountDrop" :value="op.id" :key="i"> {{
                                                     op.text }}</option>
-                                            </select>
+                                            </select> -->
                                             <!-- <p class="text-danger " v-if="errors?.customer_pid">{{ errors?.customer_pid[0] }} </p> -->
                                         </div>
                                     </div>
@@ -95,7 +98,7 @@
 <script setup>
 import store from "@/store";
 import { ref } from "vue";
-// import Select2 from 'vue3-select2-component';
+import Select2 from 'vue3-select2-component';
 import CustomRadio from '@/components/forms/CustomRadioReadOnly.vue';
 const journal = ref({
     date : '',
@@ -136,11 +139,12 @@ const resetAttr = () => {
 //     addJournal()
 // }
 
-const reduceArray = (event) => {
-    let x = accountDrop.value.filter(obj => obj.id !== event.target.value);
-   console.log(x);
-    // accountDrop.value = x
-}
+// const reduceArray = (event) => {
+//     let x = accountDrop.value.filter(obj => obj.id !== event.target.value);
+//    console.log(x);
+//     // accountDrop.value = x
+// }
+
 let iteration = 1;
 
 const addItem = () => {
