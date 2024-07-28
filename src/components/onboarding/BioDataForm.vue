@@ -131,7 +131,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="form-label">Place of Birth</label>
+                            <label class="form-label">Place of Birth <span class="text-danger">*</span></label>
                             <input type="text" v-model="user.pob" class="form-control form-control-sm"
                                 placeholder="e.g Jos North ">
                             <p class="text-danger " v-if="errors?.pob">{{ errors?.pob[0] }}</p>
@@ -195,7 +195,7 @@
 
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label class="form-label">Sub Department <span class="text-danger">*</span></label>
+                            <label class="form-label">Sub Department </label>
                             <Select2 v-model="user.sub_department" :options="sub" :settings="{ width: '100%' }" />
                             <p class="text-danger " v-if="errors?.sub_department">{{ errors?.sub_department[0] }}</p>
                         </div>
@@ -253,9 +253,11 @@ import { ref, onMounted } from "vue";
 // import { useRoute, useRouter } from 'vue-router';
 
 const errors = ref({});
+
 const props = defineProps({
     user_pid: String,
 });
+
 const user = ref({
     email: '',
     username: '',
@@ -410,6 +412,8 @@ const handleImageChange = (event) => {
             if(tsk.action=='edit'){
                 loadStaff(tsk?.staff?.pid)
             }
+        }else{
+            user.value.user_pid = null;
         }
     })
 

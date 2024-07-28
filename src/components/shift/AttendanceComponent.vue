@@ -173,19 +173,20 @@ const getLocation = () => {
 };
 
 function getLocationName(lat, lng) {
+    
     // Replace 'YOUR_API_KEY' with your Google Maps API key
     const apiKey = 'YOUR_API_KEY';
     const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}`;
-
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            const locationName = data.results[0].formatted_address;
-            document.getElementById('locationName').textContent = `Location Name: ${locationName}`;
-        })
-        .catch(error => {
-            console.error('Error fetching location data:', error);
-        });
+    return apiUrl
+    // fetch(apiUrl)
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         const locationName = data.results[0].formatted_address;
+    //         document.getElementById('locationName').textContent = `Location Name: ${locationName}`;
+    //     })
+    //     .catch(error => {
+    //         console.log('Error fetching location data:', error);
+    //     });
 }
 
 // Example coordinates (replace with your actual coordinates)

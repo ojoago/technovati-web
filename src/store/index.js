@@ -160,11 +160,11 @@ const store = createStore({
                 commit('setSpinner', true)
                 return axiosClient.get(url)
                     .then(({data})=>{
-                        if(data?.status == 200){
-                        commit('notify',{message:data?.message})
-                    }else{
-                            commit('notify',{message:data?.message,type:'danger'})
-                        }
+                    //     if(data?.status == 200){
+                    //     commit('notify',{message:data?.message})
+                    // }else{
+                    //         commit('notify',{message:data?.message,type:'danger'})
+                    //     }
                         commit('setSpinner', false)
                         return data;  
                     }).catch(e => {
@@ -232,6 +232,7 @@ const store = createStore({
                     })
                
             },
+
             putMethod({commit},{url,prompt = null, param = null}){
                 if(prompt != null){
                     if(!confirm(prompt)){

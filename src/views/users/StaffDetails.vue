@@ -112,6 +112,7 @@
                             <div id="img-container">
                                 <img :src="detail?.path" alt="" class="img img-responsive" id="staff-img">
                             </div>
+
                             <table class="table table-hover table-striped table-bordered">
                                 <tr>
                                     <td colspan="2" align="center"
@@ -471,9 +472,10 @@ function loadStaffDetail() {
             align-items: center;
             justify-content: center;
             /* border: 1px solid #000; */
-            max-height: 150px !important;
+            max-height: 200px !important;
             margin-top: 5px;
             text-align: center;
+            margin-bottom: 20px;
     }
         #staff-img {
             width: 120px;

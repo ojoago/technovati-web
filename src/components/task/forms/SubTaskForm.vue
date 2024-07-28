@@ -55,8 +55,7 @@
 import store from "@/store";
 import { defineProps, defineEmits, ref } from "vue";
 // import { Multiselect } from 'vue-multiselect';
-
-defineEmits(['next'])
+const emit = defineEmits(['customEvent']);
 // @click="$emit('next',link)"
 const props = defineProps({
     
@@ -89,6 +88,7 @@ const resetAttr = () =>{
 const errors = ref({})
 function createTask() {
     errors.value = [];
+    emit('customEvent')
     store.dispatch('postMethod', { url: '/create-sub-task', param: subTask.value }).then((data) => {
         if (data?.status == 422) {
             errors.value = data.data;

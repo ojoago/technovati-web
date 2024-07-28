@@ -199,7 +199,7 @@
             </div>
 
             <!-- end receptionist -->
-            <div v-if="activeRole == 'Hr'">
+            <div v-if="activeRole == 'Hr' || activeRole == 'hr'">
                 <li>
                     <div class="icon-link">
                         <a>

@@ -7,7 +7,7 @@
                     <h5 class="card-title"> {{ task.task }}</h5>
                     {{ task.description }}
                     <div class="float-end">
-                      
+
                         <button class="btn btn-sm btn-primary m-2" @click="addSubTask(task)">Add Sub
                             Task</button>
                         <!-- <button class="btn btn-sm btn-primary m-2" @click="addTeamModal">Add Team M</button> -->
@@ -27,7 +27,7 @@
                             <div class="float-end">
                                 <p>Status: {{ task.task_status }} </p>
                                 <b>Day(s) left: {{ task.left }}</b> <br>
-                              
+
                                 <!-- <button class="btn btn-sm btn-primary m-2" @click="addTeamModal">Add Team M</button> -->
                             </div>
                         </div>
@@ -35,7 +35,7 @@
                     <!-- <small>click on a task for details and right click to edit</small> -->
                 </div>
                 <div class="card-body">
-                    <div class="horizontal-scrollable" v-if="subtasks.length> 0">
+                    <div class="horizontal-scrollable" v-if="subtasks.length > 0">
                         <div class="row flex-nowrap">
                             <!-- <div class="kanban"> -->
                             <div class="column" v-for="(column, columnIndex) in subtasks" :key="columnIndex">
@@ -71,7 +71,7 @@
 
         <o-modal :isOpen="toggleModal" modal-class="modal-sm" subtitle="add sub task to task" @modal-close="closeModal">
             <template #content>
-                <SubTaskForm :task="task" />
+                <SubTaskForm :task="task" @customEvent="reloadTaskDetails" />
             </template>
             <template #footer>
                 <div></div>
@@ -203,15 +203,15 @@
 <script setup>    
 import store from "@/store";
 import { onMounted, ref } from "vue";
-import { useRoute,useRouter  } from 'vue-router';
+// import { useRoute,useRouter  } from 'vue-router';
 import SubTaskForm from "@/components/task/forms/SubTaskForm.vue";
 import OModal from "@/components/OModal.vue";
 import { Multiselect } from 'vue-multiselect';
 import Draggable from 'vuedraggable';
 
 const header = ref([])
-const router = useRouter()
-const route = useRoute()
+// const router = useRouter()
+// const route = useRoute()
 const task = ref({});
 const subtasks = ref({});
 const task_pid = ref(null);
@@ -234,20 +234,21 @@ onMounted(() => {
       let tsk = localStorage.getItem('TVATI_TASK_DETAIL') ? JSON.parse(localStorage.getItem('TVATI_TASK_DETAIL')) : 'null'
          if (tsk != 'null') {
             task.value = tsk;
+            task_pid.value = tsk.pid;
+            loadSubTask()
          }
-    getUrlQueryParams()
-    loadSubTask()
+   
 });
 
- async function  getUrlQueryParams(){
-     await router.isReady()
-     task_pid.value = route.query.task;
-}
 
 function loadSubTask() {
-   store.dispatch('getMethod', {url:'/task-detail/'+ route.query.task }).then(({data}) => {
+    store.dispatch('getMethod', { url: '/task-detail/' + task_pid.value }).then(({data}) => {
         subtasks.value = data;
-        
+    })
+}
+const reloadTaskDetails = () => {
+    store.dispatch('getMethod', { url: '/task-detail/' + task_pid.value }).then(({ data }) => {
+        subtasks.value = data;
     })
 }
 

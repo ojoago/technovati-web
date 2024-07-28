@@ -3,8 +3,8 @@
         <div class="header">
             <div class="brand-details">
                 <i class="bi bi-list toggleMenu pointer"></i>
-                <span class="brand-name">Optimal</span>
-                <!-- <span class="brand-name">Technovati</span> -->
+                <!-- <span class="brand-name">Optimal</span> -->
+                <span class="brand-name">Technovati</span> 
             </div>
 
             <!-- <span class="text">Drop Down Sidebar </span> -->

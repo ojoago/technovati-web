@@ -12,6 +12,7 @@
                             <thead>
                                 <tr>
                                     <th>SN</th>
+                                    <th>Author</th>
                                     <th>Subject</th>
                                     <th>Body</th>
                                     <th>Category</th>
@@ -22,6 +23,7 @@
                             <tbody>
                                 <tr v-for="(memo, loop) in memos.data" :key="loop">
                                     <td>{{ loop + 1 }}</td>
+                                    <td class="line-break">{{ memo?.author?.username }}</td>
                                     <td class="line-break">{{ memo.subject }}</td>
                                     <td class="line-break">{{ memo.body }}</td>
                                     <td>{{ memo.memo_category }}</td>
@@ -56,7 +58,7 @@
             </div>
 
         </div>
-        <o-modal :isOpen="toggleModal" @submit="createMemo" modal-class="modal-xs" title="Create Memo"
+        <o-modal :isOpen="toggleModal" @submit="createMemo" modal-class="modal-lg" title="Create Memo"
             @modal-close="closeModal">
             <template #content>
                 <div>
@@ -79,7 +81,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12">
+                            <!-- <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="form-label">Category</label>
                                     <select v-model="memoForm.category" class="form-control form-control-sm">
@@ -90,7 +92,16 @@
                                     </select>
                                     <p class="text-danger " v-if="errors?.category">{{ errors?.category[0] }}</p>
                                 </div>
+                            </div> -->
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">File <span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control form-control-sm" id="image"
+                                        @change="handleImageChange" accept=".pdf,.docs,.png,.jpg,.jpeg" a required />
+                                    <p class="text-danger " v-if="errors?.image">{{ errors?.image[0] }}</p>
+                                </div>
                             </div>
+
                             <div class="col-md-12" v-if="memoForm.category == 3">
                                 <div class="form-group">
                                     <label class="form-label">Staff</label>
@@ -119,7 +130,6 @@
                 </div>
             </template>
         </o-modal>
-
     </div>
 </template>
 
@@ -141,9 +151,9 @@ const closeModal = () => {
     const memoForm = ref({
             subject : '',
             body : '' , 
-            category : '' , 
+            category : '1' , 
             staff : '' , 
-            departments : '' , 
+            departments : '3cdr' , 
     });
      
 
@@ -165,6 +175,28 @@ const closeModal = () => {
     //     Informal study results
     // ];
 
+
+const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        var ext = file['name'].substring(file['name'].lastIndexOf('.') + 1);
+        if (!['png', 'jpeg', 'jpg','pdf','docx','csv','xlsx'].includes(ext)) {
+            event.target.value = null;
+            store.commit('notify', { message: 'Only Image,excel and pdf', type: 'warning' })
+            return;
+        }
+        if ((file.size / (1024 * 1024)) > 6) {
+            event.target.value = null;
+            store.commit('notify', { message: 'File cannot be more 5MB', type: 'warning' })
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = () => {
+            memoForm.value.image = reader.result;
+        };
+        reader.readAsDataURL(file);
+    }
+}
 
     const errors = ref({})
     const memos = ref({})
