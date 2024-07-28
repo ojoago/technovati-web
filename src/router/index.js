@@ -40,12 +40,12 @@ const routes = [
                 path:'/dashboard',name:'DashboardView',component: () => import('@/views/DashboardView.vue')
             },
 
-            {  path:'/self-service',name:'SelfDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
-            {  path:'/self-service',name:'HodDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
-            {  path:'/self-service',name:'SupervisorDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
-            {  path:'/self-service',name:'CooDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
-            {  path:'/self-service',name:'GmDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
-            {  path:'/self-service',name:'AdminDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
+            {  path:'/staff',name:'StaffDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
+            {  path:'/staff',name:'HodDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
+            {  path:'/staff',name:'SupervisorDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
+            {  path:'/staff',name:'CooDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
+            {  path:'/staff',name:'GmDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
+            {  path:'/staff',name:'AdminDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
             // self services 
             
             // HR 
@@ -62,6 +62,7 @@ const routes = [
             {   path:'/store-dashboard',name:'StoreDashboard',component: () => import('@/views/dashboard/StoreDashboard.vue') },
 
             {   path:'/logistic-dashboard',name:'LogisticsDashboard',component: () => import('@/views/dashboard/LogisticsDashboard.vue') },
+            {   path:'/driver-dashboard',name:'DriverDashboard',component: () => import('@/views/dashboard/LogisticsDashboard.vue') },
 
             {   path:'/secretary-dashboard',name:'SecretaryDashboard',component: () => import('@/views/dashboard/SecretaryDashboard.vue') },
 

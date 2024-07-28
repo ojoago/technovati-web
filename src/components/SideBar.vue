@@ -907,7 +907,7 @@ import store from "@/store";
 import { ref } from "vue";
 import { useRouter } from 'vue-router';
 import { useHelper } from '@/composables/helper';
-const { capitalizeFirstLetter } = useHelper()
+const { formatLowerCase } = useHelper()
 const router = useRouter()
 const roles =  store?.state?.user?.roles;
 
@@ -915,36 +915,32 @@ const activeRole = ref(null)
 activeRole.value = store?.state?.activeRole
 const goToDashboard = () =>{
     let name = activeRole.value;
-    // if(name =='staff'){
-    //     name = 'Self'
-    // } else if (name == 'head_engineer') {
-    //     name = 'Engineer'
-    // }
     name = roleName(name)
     name = name[0].toUpperCase() + name.substring(1)+'Dashboard'
     router.push({ name: name })
 }
 
 const switchRole = (role) => {
-    store.commit('setActiveRole', capitalizeFirstLetter(role))
-    localStorage.setItem('TVATI_ACTIVE_ROLE', capitalizeFirstLetter(role))
-    activeRole.value = capitalizeFirstLetter(role)
+    role = formatLowerCase(role)
+    store.commit('setActiveRole', role)
+    localStorage.setItem('TVATI_ACTIVE_ROLE', role)
+    activeRole.value = role
     role = roleName(role)
     role = role[0].toUpperCase() + role.substring(1) + 'Dashboard'
     router.push({ name: role })
 }
 
 const roleName = (role) => {
-    if (role == 'staff') {
-        role = 'Self'
-    }
-    else if (role == 'head_engineer') {
+    // if (role == 'staff') {
+    //     role = 'Self'
+    // }
+     if (role == 'head_engineer') {
         role = 'Engineer'
     }
     else if (role == 'engineer_supervisor') {
         role = 'Supervisor'
     }
-    return capitalizeFirstLetter(role);
+    return role
 }
 </script>
 
