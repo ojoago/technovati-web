@@ -906,6 +906,8 @@
 import store from "@/store";
 import { ref } from "vue";
 import { useRouter } from 'vue-router';
+import { useHelper } from '@/composables/helper';
+const { capitalizeFirstLetter } = useHelper()
 const router = useRouter()
 const roles =  store?.state?.user?.roles;
 
@@ -924,9 +926,9 @@ const goToDashboard = () =>{
 }
 
 const switchRole = (role) => {
-    store.commit('setActiveRole', role)
-    localStorage.setItem('TVATI_ACTIVE_ROLE', role)
-    activeRole.value = role
+    store.commit('setActiveRole', capitalizeFirstLetter(role))
+    localStorage.setItem('TVATI_ACTIVE_ROLE', capitalizeFirstLetter(role))
+    activeRole.value = capitalizeFirstLetter(role)
     role = roleName(role)
     role = role[0].toUpperCase() + role.substring(1) + 'Dashboard'
     router.push({ name: role })
@@ -942,7 +944,7 @@ const roleName = (role) => {
     else if (role == 'engineer_supervisor') {
         role = 'Supervisor'
     }
-    return role;
+    return capitalizeFirstLetter(role);
 }
 </script>
 
