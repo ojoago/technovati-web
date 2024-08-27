@@ -18,6 +18,11 @@
                                 data-bs-target="#jorneyTab" type="button" role="tab" aria-controls="jorneyTab"
                                 aria-selected="true">Journey</button>
                         </li>
+                        <li class="nav-item flex-fill" role="presentation">
+                            <button class="nav-link w-100" id="paper-tab" data-bs-toggle="tab"
+                                data-bs-target="#paperTab" type="button" role="tab" aria-controls="paperTab"
+                                aria-selected="true">Papers</button>
+                        </li>
                         
                         <li class="nav-item flex-fill" role="presentation">
                             <button class="nav-link w-100" id="repair-tab" data-bs-toggle="tab"
@@ -54,6 +59,10 @@
                         <div class="tab-pane fade show active" id="jorneyTab" role="tabpanel"
                             aria-labelledby="worker-tab">
                             <Mileage />
+                        </div>
+                        <div class="tab-pane fade" id="paperTab" role="tabpanel"
+                            aria-labelledby="worker-tab">
+                            <Papers />
                         </div>
 
                         <div class="tab-pane fade" id="repairTab" role="tabpanel"
@@ -97,6 +106,7 @@ import TyreHistory from '@/components/vehicles/TyreHistoryComponent.vue'
 import FuelHistory from '@/components/vehicles/FuelHistoryComponent.vue'
 import OilHistory from '@/components/vehicles/OilHistoryComponent.vue'
 import Repairs from '@/components/vehicles/RepairComponent.vue'
+import Papers from '@/components/vehicles/PaperComponent.vue'
 const vehicle = ref({});
 // const detail = ref({});
 // const staff_pid = ref(null);

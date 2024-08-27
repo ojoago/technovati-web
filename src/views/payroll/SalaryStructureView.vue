@@ -110,7 +110,7 @@ const editlog = (stp) => {
 // }
 
 function createSalaryStructure() {
-    store.commit('setSpinner', true)
+   
     errors.value = []
     store.dispatch('postMethod', { url: '/create-salary-structure', param: structure.value }).then((data) => {
         if (data?.status == 422) {
@@ -119,24 +119,22 @@ function createSalaryStructure() {
             structure.value = [];
             loadLog()
         }
-        store.commit('setSpinner', false)
+        
     }).catch(e => {
-        store.commit('setSpinner', false)
+        
         console.log(e);
     })
 }
 
-function loadLog() {
-    store.commit('setSpinner', true)
-    store.dispatch('getMethod', { url: '/load-salary-structure' }).then((data) => {
-        store.commit('setSpinner', false)
+function loadLog(url ='/load-salary-structure') {
+    store.dispatch('getMethod', { url: url }).then((data) => {
         if (data?.status == 200) {
             structures.value = data.data;
+        }else{
+            structures.value = {}
         }
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 }
 
@@ -144,11 +142,10 @@ function loadLog() {
 
 loadLog()
 function nextPage(link) {
-    alert()
     if (!link.url || link.active) {
         return;
     }
-    alert(link.url)
+    loadLog(link.url)
 }
 
 </script>

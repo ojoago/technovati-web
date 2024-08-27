@@ -372,6 +372,7 @@ function createUnitAllowance() {
             errors.value = data.data
         } else if (data?.status == 201) {
             resetAttr()
+            closeModal()
             loadLog()
         }
     }).catch(e => {

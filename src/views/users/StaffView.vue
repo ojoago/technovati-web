@@ -138,4 +138,7 @@
 
 <style scoped>
 
+.text-small{
+  font-size: 12px;
+}
 </style>

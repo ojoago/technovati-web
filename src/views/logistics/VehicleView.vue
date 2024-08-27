@@ -7,7 +7,7 @@
                         Vehicles
                         <button class="btn btn-sm btn-primary" @click="openVehicleModal">Add Vehicle</button>
                     </div>
-                    <input type="text" class=" form-control form-control-sm" placeholder="search Item" >
+                    <input type="text" class=" form-control form-control-sm" placeholder="search Item">
                     <div class="table-responsive">
                         <table class="table-hover table-stripped table-bordered table">
                             <thead>
@@ -19,7 +19,7 @@
                                     <th>Engine Number</th>
                                     <th>Color</th>
                                     <th>Driver</th>
-                                    <th align = "center"> <i class="bi bi-gear-fill"></i> </th>
+                                    <th align="center"> <i class="bi bi-gear-fill"></i> </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -33,16 +33,20 @@
                                     <td>{{ item?.driver?.username }} </td>
                                     <td>
                                         <div class="dropdown">
-                                            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+                                            <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
+                                                data-bs-toggle="dropdown">
                                                 <i class="bi bi-tools"></i>
                                             </button>
                                             <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item pointer" @click="vehilceDetail(item)">Detail</a></li>
+                                                <li><a class="dropdown-item pointer"
+                                                        @click="vehilceDetail(item)">Detail</a></li>
                                                 <!-- <li><a class="dropdown-item pointer" @click="addFuel(item.pid)">Add Fuel Level</a></li> -->
                                                 <!-- <li><a class="dropdown-item pointer" @click="changeOilModal(item.pid)">Change Oil</a></li> -->
                                                 <!-- <li><a class="dropdown-item pointer" @click="addType(item.pid)">Add Tyre</a></li> -->
-                                                <li><a class="dropdown-item pointer text-warning" @click="editVehicle(item)" >Edit</a></li>
-                                                <li><a class="dropdown-item pointer text-danger" @click="deleteVehicleRecord(item.pid)">Delete</a></li>
+                                                <li><a class="dropdown-item pointer text-warning"
+                                                        @click="editVehicle(item)">Edit</a></li>
+                                                <li><a class="dropdown-item pointer text-danger"
+                                                        @click="deleteVehicleRecord(item.pid)">Delete</a></li>
                                             </ul>
                                         </div>
                                     </td>
@@ -56,57 +60,65 @@
                             </nav>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
 
-        <o-modal :isOpen="vehicleModal" modal-class="modal-lg" title="Add New Vehicle" @submit="addVehicle" @modal-close="closeModal">
+        <o-modal :isOpen="vehicleModal" modal-class="modal-lg" title="Add New Vehicle" @submit="addVehicle"
+            @modal-close="closeModal">
             <template #content>
                 <form id="toolForm">
                     <div class="row">
                         <div class="col-md-6">
                             <label class="form-label">Model *</label>
-                            <input type="text" v-model="vehicle.name" placeholder="e.g Corola S" class="form-control form-control-sm">
+                            <input type="text" v-model="vehicle.name" placeholder="e.g Corola S"
+                                class="form-control form-control-sm">
                             <p class="text-danger " v-if="errors?.name">{{ errors?.name[0] }} </p>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Brand *</label>
-                            <input type="text" v-model="vehicle.brand" placeholder="e.g Toyota" class="form-control form-control-sm">
+                            <input type="text" v-model="vehicle.brand" placeholder="e.g Toyota"
+                                class="form-control form-control-sm">
                             <p class="text-danger " v-if="errors?.brand">{{ errors?.brand[0] }} </p>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Engine Number *</label>
-                            <input type="text" v-model="vehicle.engine_number" placeholder="e.g xkev1" class="form-control form-control-sm">
+                            <input type="text" v-model="vehicle.engine_number" placeholder="e.g xkev1"
+                                class="form-control form-control-sm">
                             <p class="text-danger " v-if="errors?.engine_number">{{ errors?.engine_number[0] }} </p>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Plate Number *</label>
-                            <input type="text" v-model="vehicle.plate_number" placeholder="e.g kd12sk" class="form-control form-control-sm">
+                            <input type="text" v-model="vehicle.plate_number" placeholder="e.g kd12sk"
+                                class="form-control form-control-sm">
                             <p class="text-danger " v-if="errors?.plate_number">{{ errors?.plate_number[0] }} </p>
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label">Color *</label>
-                            <input type="text" v-model="vehicle.color" placeholder="e.g Navy Blue" class="form-control form-control-sm">
+                            <input type="text" v-model="vehicle.color" placeholder="e.g Navy Blue"
+                                class="form-control form-control-sm">
                             <p class="text-danger " v-if="errors?.color">{{ errors?.color[0] }} </p>
                         </div>
-                       
+
 
                         <div class="col-md-6">
                             <label class="form-label">Fuel Capacity *</label>
-                            <input type="number" v-model="vehicle.fuel_capacity" placeholder="e.g 50" class="form-control form-control-sm">
+                            <input type="number" v-model="vehicle.fuel_capacity" placeholder="e.g 50"
+                                class="form-control form-control-sm">
                             <p class="text-danger " v-if="errors?.fuel_capacity">{{ errors?.fuel_capacity[0] }} </p>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Mileage *</label>
-                            <input type="number" v-model="vehicle.mileage" placeholder="e.g 600" class="form-control form-control-sm">
+                            <input type="number" v-model="vehicle.mileage" placeholder="e.g 600"
+                                class="form-control form-control-sm">
                             <p class="text-danger " v-if="errors?.mileage">{{ errors?.mileage[0] }} </p>
                         </div>
 
-                         <div class="col-md-6">
+                        <div class="col-md-6">
                             <label class="form-label">Driver</label>
-                             <Select2 v-model="vehicle.vehicle_pid" :options="userDrop"  />
+                            <Select2 v-model="vehicle.driver" :options="userDrop" />
                             <p class="text-danger " v-if="errors?.driver">{{ errors?.driver[0] }} </p>
                         </div>
 
@@ -115,7 +127,7 @@
             </template>
         </o-modal>
 
-        
+
     </div>
 </template>
 

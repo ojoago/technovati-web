@@ -72,7 +72,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="form-label">Amount</label>
-                                                    <input type="text" v-model="over.amount" class="form-control"  placeholder="e.g deductable">
+                                                    <input type="number" step="0.5" v-model="over.amount" class="form-control"  placeholder="e.g 5000">
                                                 </div>
                                                 <p class="text-danger " v-if="errors?.amount">{{ errors?.amount[0] }} </p>
                                             </div>
@@ -117,6 +117,7 @@ const openModal = () => {
 }
 const closeModal = () => {
     toggleModal.value = false;
+    resetAttr()
 };
 const errors = ref({});
 const over = ref({
@@ -125,6 +126,15 @@ const over = ref({
     comment: '',
     amount: ''
 });
+
+const resetAttr = () => {
+    over.value = {
+        employees: '',
+        date: '',
+        comment: '',
+        amount: ''
+    }
+}
 
 const editInfo = (info) => {
     over.value = {
@@ -136,25 +146,22 @@ const editInfo = (info) => {
     }
     toggleModal.value = true
 }
+
 const deleteLog = (pid) => {
     alert(pid)
 }
 
 function createDeductionName() {
-    store.commit('setSpinner', true)
     errors.value = []
     store.dispatch('postMethod', { url: '/add-over-payments', param: over.value }).then((data) => {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-            let form = document.getElementsByName('form');
-            form.reset()
+            closeModal()
             loadOverPayments()
             // deduction.value = [];
         }
-        store.commit('setSpinner', false)
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
     })
 }
@@ -162,17 +169,15 @@ function createDeductionName() {
 
 const payments = ref({});
 
-function loadOverPayments() {
-    store.commit('setSpinner', true)
-    store.dispatch('getMethod', { url: '/load-over-payments' }).then((data) => {
-        store.commit('setSpinner', false)
+function loadOverPayments(url= '/load-over-payments') {
+    store.dispatch('getMethod', { url:url}).then((data) => {
         if (data?.status == 200) {
             payments.value = data.data;
+        }else{
+            payments.value ={}
         }
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 }
 
@@ -184,17 +189,16 @@ function dropdownUser() {
         users.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownUser()
 
 function nextPage(link) {
-    alert()
+ 
     if (!link.url || link.active) {
         return;
     }
-    alert(link.url)
+    loadOverPayments(link.url)
 }
 
 </script>

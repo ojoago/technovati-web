@@ -42,7 +42,9 @@
                     </div>
                 </fieldset>
 
-                <button type="button" class="btn btn-success btn-sm mt-2" @click="staffQualification">Submit</button>
+                <button type="button" class="btn btn-success btn-sm mt-2" @click="saveDocument">Save & Exit</button>
+                <i class="m-3"></i>
+                <button type="button" class="btn btn-success btn-sm mt-2" @click="staffDocument">Save & Continue</button>
             </form>
         </fieldset>
     </div>
@@ -80,7 +82,8 @@ const removeQualification = (i) => {
     documents.value.media.splice(i, 1);
 }
 let query = {}
-function staffQualification() {
+
+function staffDocument() {
     let str = localStorage.getItem('TVATI_ONBOARD_TAB') ? JSON.parse(localStorage.getItem('TVATI_ONBOARD_TAB')) : 'null'
     documents.value.user_pid = str.id;
     store.dispatch('postMethod', { url: '/add-documents', param: documents.value }).then((data) => {
@@ -95,6 +98,24 @@ function staffQualification() {
         }
     })
 }
+
+function saveDocument() {
+    let str = localStorage.getItem('TVATI_ONBOARD_TAB') ? JSON.parse(localStorage.getItem('TVATI_ONBOARD_TAB')) : 'null'
+    documents.value.user_pid = str.id;
+    store.dispatch('postMethod', { url: '/add-documents', param: documents.value }).then((data) => {
+        if (data?.status == 422) {
+            q_errors.value = data.data;
+        } else if (data?.status == 201) {
+            q_errors.value = []
+            documents.value = [];
+            query = { tab: 'personal-tab' }
+            localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
+            localStorage.setItem('TVATI_EDIT_STAFF', JSON.stringify(query, null, 2))
+            switchTab()
+        }
+    })
+}
+
 const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {

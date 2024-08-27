@@ -65,7 +65,9 @@
                     </div>
                 </fieldset>
 
-                <button type="button" class="btn btn-success btn-sm mt-2" @click="staffQualification">Submit</button>
+                <button type="button" class="btn btn-success btn-sm mt-2" @click="saveExperience">Save & Exit</button>
+                <i class="m-3"></i>
+                <button type="button" class="btn btn-success btn-sm mt-2" @click="staffExperience">Save & Continue</button>
             </form>
         </fieldset>
     </div>
@@ -109,7 +111,8 @@ const removeQualification = (i) => {
     work.value.expirence.splice(i, 1);
 }
 let query = {}
-function staffQualification() {
+
+function staffExperience() {
     let str = localStorage.getItem('TVATI_ONBOARD_TAB') ? JSON.parse(localStorage.getItem('TVATI_ONBOARD_TAB')) : 'null'
     work.value.user_pid = str.id
     store.dispatch('postMethod', { url: '/add-experience', param: work.value }).then((data) => {
@@ -120,6 +123,21 @@ function staffQualification() {
             work.value = [];
             query = { tab: 'skill-tab', 'id': data?.data?.user_pid }
             localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
+            switchTab()
+        }
+    })
+}
+
+function saveExperience() {
+    let str = localStorage.getItem('TVATI_ONBOARD_TAB') ? JSON.parse(localStorage.getItem('TVATI_ONBOARD_TAB')) : 'null'
+    work.value.user_pid = str.id
+    store.dispatch('postMethod', { url: '/add-experience', param: work.value }).then((data) => {
+        if (data?.status == 422) {
+            q_errors.value = data.data;
+        } else if (data?.status == 201) {
+           query = { tab: 'personal-tab' }
+            localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
+            localStorage.setItem('TVATI_EDIT_STAFF', JSON.stringify(query, null, 2))
             switchTab()
         }
     })

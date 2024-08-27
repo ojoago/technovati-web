@@ -304,7 +304,7 @@ const addPurchase = () => {
     store.dispatch('postMethod', { url: '/add-purchase', param: purchase.value }).then((data) => {
         if (data?.status == 422) {
             errors.value = data.data
-            console.log(data.data)
+            // console.log(data.data)
         } else if (data?.status == 201) {
             resetAttr()
         }

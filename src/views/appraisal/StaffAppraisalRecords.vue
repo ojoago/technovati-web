@@ -69,8 +69,8 @@ const titles = ref({});
 // }
 
 
-function loadStafffAppraisalRecord() {
-    store.dispatch('getMethod', { url: '/load-staff-appraisal-record' }).then((data) => {
+function loadStafffAppraisalRecord(url='/load-staff-appraisal-record') {
+    store.dispatch('getMethod', { url:url }).then((data) => {
         if (data?.status == 200) {
             titles.value = data.data;
         }
@@ -81,11 +81,11 @@ function loadStafffAppraisalRecord() {
 
 loadStafffAppraisalRecord()
 function nextPage(link) {
-    alert()
+  
     if (!link.url || link.active) {
         return;
     }
-    alert(link.url)
+    loadStafffAppraisalRecord(link.url)
 }
 
 </script>

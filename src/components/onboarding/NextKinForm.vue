@@ -41,8 +41,8 @@
                             <label class="form-label">religion <span class="text-danger">*</span></label>
                             <select v-model="next.religion" class="form-control form-control-sm">
                                 <option value="" selected>Select Religion</option>
-                                <option>Muslim</option>
-                                <option>Christain</option>
+                                <option>Islam</option>
+                                <option>Christainity</option>
                                 <option>Other</option>
                             </select>
                             <p class="text-danger " v-if="errors?.religion">{{ errors?.religion[0] }}</p>
@@ -50,7 +50,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="form-label">relationship<span class="text-danger">*</span></label>
+                            <label class="form-label">Relationship<span class="text-danger">*</span></label>
                             <input type="text" v-model="next.relationship" class="form-control form-control-sm"
                                 placeholder="null">
                             <p class="text-danger " v-if="errors?.relationship">{{ errors?.relationship[0] }}</p>
@@ -70,7 +70,9 @@
 
                 </div>
 
-                <button type="button" class="btn btn-success btn-sm mt-2" @click="staffNextofKin">Submit</button>
+                <button type="button" class="btn btn-success btn-sm mt-2" @click="saveNextofKin">Save & Exit</button>
+                <i class="m-3"></i>
+                <button type="button" class="btn btn-success btn-sm mt-2" @click="staffNextofKin">Save & Continue</button>
             </form>
         </fieldset>
     </div>
@@ -96,6 +98,7 @@
 
 });
 let query = {}
+
 function staffNextofKin() {
     errors.value = []
     let str = localStorage.getItem('TVATI_ONBOARD_TAB') ? JSON.parse(localStorage.getItem('TVATI_ONBOARD_TAB')) : 'null'
@@ -109,6 +112,23 @@ function staffNextofKin() {
             errors.value = []
             let form = document.querySelector('#nextForm')
             form.reset()
+            switchTab()
+        }
+    })
+}
+
+function saveNextofKin() {
+    errors.value = []
+    let str = localStorage.getItem('TVATI_ONBOARD_TAB') ? JSON.parse(localStorage.getItem('TVATI_ONBOARD_TAB')) : 'null'
+    next.value.user_pid = str.id;
+    store.dispatch('postMethod', { url: '/add-next-of-kin', param: next.value }).then((data) => {
+        if (data?.status == 422) {
+            errors.value = data.data;
+        } else if (data?.status == 201) {
+            // resetAttr()
+            query = { tab: 'personal-tab' }
+            localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
+            localStorage.setItem('TVATI_EDIT_STAFF', JSON.stringify(query, null, 2))
             switchTab()
         }
     })

@@ -13,21 +13,21 @@
                                             <div class="form-group">
                                                 <label class="form-label">Type</label>
                                                 <input type="text" v-model="type.name" class="form-control" placeholder="e.g first half apparisal">
-                                                <p class="text-danger " v-if="errors?.name">{{ errors?.name[0] }} </p>
+                                                <p class="text-danger " v-if="errors?.name">{{ errors?.name }} </p>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label class="form-label">Obtainable Score</label>
                                                 <input type="number" step="0.1" v-model="type.obtainable" class="form-control" placeholder="e.g 45">
-                                                <p class="text-danger " v-if="errors?.obtainable">{{ errors?.obtainable[0] }} </p>
+                                                <p class="text-danger " v-if="errors?.obtainable">{{ errors?.obtainable }} </p>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label class="form-label">Note</label>
                                                 <textarea type="text" v-model="type.note" class="form-control" placeholder="enter note"></textarea>
-                                                <p class="text-danger " v-if="errors?.note">{{ errors?.note[0] }}  </p>
+                                                <p class="text-danger " v-if="errors?.note">{{ errors?.note }}  </p>
                                             </div>
                                         </div>
 
@@ -103,7 +103,8 @@
 import store from "@/store";
 import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
-
+import { formatError } from "@/composables/formatError";
+const {transformValidationErrors} = formatError()
 const errors = ref({});
 const sections = ref({});
 const type = ref({
@@ -143,7 +144,7 @@ function createAppraisalSection() {
     errors.value = []
     store.dispatch('postMethod', { url: '/create-appraisal-section', param: type.value }).then((data) => {
         if (data?.status == 422) {
-            errors.value = data.data
+            errors.value = transformValidationErrors(data.data)
         } else if (data?.status == 201) {
             resetAttr()
             loadLog()
@@ -153,10 +154,12 @@ function createAppraisalSection() {
     })
 }
 
-function loadLog() {
-    store.dispatch('getMethod', { url: '/load-appraisal-section' }).then((data) => {
+function loadLog(url =  '/load-appraisal-section') {
+    store.dispatch('getMethod', { url: url }).then((data) => {
         if (data?.status == 200) {
             sections.value = data.data;
+        }else{
+            sections.value = {};
         }
     }).catch(e => {
         console.log(e);
@@ -165,11 +168,10 @@ function loadLog() {
 
 loadLog()
 function nextPage(link) {
-    alert()
     if (!link.url || link.active) {
         return;
     }
-    alert(link.url)
+    loadLog(link.url)
 }
 
 </script>

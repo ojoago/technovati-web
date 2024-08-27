@@ -137,6 +137,7 @@ const notification = computed(() => store.state.notification);
                 margin-top: 0;
             }
         } */
+         
 .loader {
   width: 48px;
   height: 48px;

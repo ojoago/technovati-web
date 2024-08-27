@@ -43,7 +43,7 @@
                         </table>
                         <div class="flex justify-center mt-4">
                             <nav class="relative justify-center rounded-md shadow pagination">
-                                <pagination-links v-for="(link, i) of stores.links" :link="link" :key="i" @next="nextPage(link)"></pagination-links>
+                                <pagination-links v-for="(link, i) of stores.links" :link="link" :key="i" @next="nextPage($event,link)"></pagination-links>
                             </nav>
                         </div>
                     </div>
@@ -102,7 +102,7 @@ const storeFrom = ref({
     location: '',
     name: '',
     description: '',
-    maanager_pid: '',
+    manager_pid: '',
 });
 
 const editItem = (sec) => {
@@ -110,7 +110,7 @@ const editItem = (sec) => {
         location: sec.location,
         description: sec.description,
         name: sec.name,
-        maanager_pid: sec.maanager_pid,
+        manager_pid: sec.maanager_pid,
         pid: sec.pid,
     }
     openModal.value = true
@@ -121,7 +121,7 @@ const resetAttr = () => {
         location: '',
         description: '',
         name: '',
-        maanager_pid: '',
+        manager_pid: '',
     }
 }
 
@@ -137,14 +137,15 @@ function createStore() {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
+            openModal.value = false;
             resetAttr();
             loadItem()
         }
     })
 }
 loadItem()
-function loadItem() {
-    store.dispatch('getMethod', { url: '/load-stores' }).then((data) => {
+function loadItem(url ='/load-stores') {
+    store.dispatch('getMethod', { url: url }).then((data) => {
         if (data?.status == 200) {
             stores.value = data.data;
         }
@@ -158,6 +159,12 @@ function dropdownSection() {
 }
 dropdownSection()
 
+  function nextPage(link) {
+        if (!link.url || link.active) {
+            return;
+        }
+        loadItem(link.url)
+    }
 
 </script>
 

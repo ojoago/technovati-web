@@ -15,7 +15,7 @@
                         <table class="table-hover table-stripped table-bordered table">
                             <thead>
                                 <tr>
-                                    <th>SN</th>
+                                    <th width="5%">SN</th>
                                     <th>Name</th>
                                     <th>Unit</th>
                                     <th>Description</th>
@@ -164,8 +164,8 @@ function createItem() {
     })
 }
 loadItem()
-function loadItem() {
-    store.dispatch('getMethod', { url: '/load-items/' }).then((data) => {
+function loadItem(url='/load-items/') {
+    store.dispatch('getMethod', { url: url }).then((data) => {
         if (data?.status == 200) {
             items.value = data.data;
         }
@@ -173,17 +173,13 @@ function loadItem() {
         console.log(e);
     })
 }
-// function dropdownSection() {
-//     store.dispatch('loadDropdown', 'appraisal-section').then(({ data }) => {
-//         sectionsDrop.value = data;
-//     }).catch(e => {
-//         console.log(e);
-//         alert('Something Went Wrong')
-//     })
-// }
-// dropdownSection()
 
-
+function nextPage(link) {
+    if (!link.url || link.active) {
+        return;
+    }
+    loadItem(link.url)
+}
 const units = ref({});
 
 function dropdownUnits() {

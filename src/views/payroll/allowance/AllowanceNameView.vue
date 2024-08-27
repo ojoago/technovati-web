@@ -146,10 +146,12 @@ function createSalaryAllowance() {
     })
 }
 
-function loadAllowance() {
-    store.dispatch('getMethod', { url: '/load-allowance-names' }).then((data) => {
+function loadAllowance(url ='/load-allowance-names') {
+    store.dispatch('getMethod', { url: url }).then((data) => {
         if (data?.status == 200) {
             allowances.value = data.data;
+        }else{
+            allowances.value = {}
         }
     }).catch(e => {
         console.log(e);
@@ -158,11 +160,10 @@ function loadAllowance() {
 
 loadAllowance()
 function nextPage(link) {
-    alert()
     if (!link.url || link.active) {
         return;
     }
-    alert(link.url)
+    loadAllowance(link.url)
 }
 
 </script>

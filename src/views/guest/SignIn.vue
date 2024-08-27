@@ -61,23 +61,27 @@
         errors.value = [];
         store.dispatch('signIn', user).then((data) => {
             if(data?.status==422){
-                errors.value = data.data;
+                errors.value = data?.data;
                 return false
             }
-            let name = data?.data.roles[0];
-            if(name =='staff'){
-                name = 'Self'
-            } else if (name == 'head_engineer'){
+            else if(data?.status == 204){
+                store.commit('notify', { message: data?.message, type: 'danger' })
+                return false
+            }
+            let name = data?.data?.roles[0];
+             if (name == 'head_engineer'){
                 name = 'Engineer'
             }
             else if (name == 'engineer_supervisor') {
                 name = 'Supervisor'
             }
             name = name[0].toUpperCase() + name.substring(1)+'Dashboard'
-            // alert(name)
             router.push({ name: name })
         }).catch(e => {
             store.commit('setSpinner', false)
+            if(e?.code == '"ERR_NETWORK"'){
+                store.commit('notify', { message: e?.message, type: 'danger' })
+            }
             console.log(e);
         })
     }
@@ -105,6 +109,7 @@ const resetPasswordLink = () => {
             forgot.value.email_ = ''
         }
     }).catch(e => {
+        store.commit('notify', { message: e?.message, type: 'danger' })
         console.log(e);
     })
 }

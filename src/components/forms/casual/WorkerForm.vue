@@ -29,7 +29,7 @@
 
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="form-label">Email <span class="text-danger">*</span></label>
+                        <label class="form-label">Email </label>
                         <input type="text" v-model="staff.email" class="form-control form-control-sm"
                             placeholder="e.g aminu@technovati.com.ng">
                         <p class="text-danger " v-if="errors?.email">{{ errors?.email[0] }}</p>
@@ -54,7 +54,7 @@
 
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="form-label">gender <span class="text-danger">*</span></label>
+                        <label class="form-label">Gender <span class="text-danger">*</span></label>
                         <select v-model="staff.gender" class="form-control form-control-sm">
                             <option value="" selected>Select Gender</option>
                             <option>Female</option>
@@ -66,11 +66,11 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="form-label">religion <span class="text-danger">*</span></label>
+                        <label class="form-label">Religion <span class="text-danger">*</span></label>
                         <select v-model="staff.religion" class="form-control form-control-sm">
                             <option value="" selected>Select Status</option>
-                            <option>Muslim</option>
-                            <option>Christian</option>
+                            <option>Islam</option>
+                            <option>Christianity</option>
                             <option>Other</option>
                         </select>
                         <p class="text-danger " v-if="errors?.religion">{{ errors?.religion[0] }}</p>
@@ -78,7 +78,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="form-label">marital status <span class="text-danger">*</span></label>
+                        <label class="form-label">Marital Status <span class="text-danger">*</span></label>
                         <select v-model="staff.marital_status" class="form-control form-control-sm">
                             <option value="" selected>Select Status</option>
                             <option>Single</option>
@@ -134,7 +134,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="form-label">state of origin <span class="text-danger">*</span></label>
+                        <label class="form-label">State of Origin <span class="text-danger">*</span></label>
                         <select v-model="staff.state_of_origin" class="form-control form-control-sm"
                             @change="loadStateLga($event)">
                             <option value="" selected>Select Option</option>
@@ -175,7 +175,7 @@
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label class="form-label">address <span class="text-danger">*</span> </label>
+                        <label class="form-label">Address <span class="text-danger">*</span> </label>
                         <textarea type="text" v-model="staff.address" class="form-control form-control-sm"
                             placeholder="e.g Zaria road"></textarea>
                         <p class="text-danger " v-if="errors?.address">{{ errors?.address[0] }}</p>

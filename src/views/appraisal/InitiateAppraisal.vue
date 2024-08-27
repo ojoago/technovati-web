@@ -321,10 +321,12 @@ function initiateAppraisal() {
 }
 
 loadSectionDetails()
-function loadSectionDetails() {
-    store.dispatch('getMethod', { url: '/load-appraisal-cycle'}).then((data) => {
+function loadSectionDetails(url= '/load-appraisal-cycle') {
+    store.dispatch('getMethod', { url:url}).then((data) => {
         if (data?.status == 200) {
             apparisals.value = data.data;
+        }else{
+            apparisals.value = {}
         }
     }).catch(e => {
         console.log(e);
@@ -345,7 +347,6 @@ function dropdownDept() {
         depts.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 
@@ -356,7 +357,6 @@ function dropdownTypes() {
         types.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 
@@ -367,18 +367,16 @@ function dropdownDesig() {
         desig.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownSection()
 
 
 function nextPage(link) {
-    alert()
     if (!link.url || link.active) {
         return;
     }
-    alert(link.url)
+    loadSectionDetails(link.url)
 }
 
 

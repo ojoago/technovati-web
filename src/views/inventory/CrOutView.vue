@@ -50,11 +50,17 @@
                                         </tr>
                                     </tbody>
                                 </table>
-
+                                 <div class="flex justify-center mt-4">
+                                    <nav class="relative justify-center rounded-md shadow pagination">
+                                        <pagination-links v-for="(link, i) of items.links" :link="link" :key="i"
+                                            @next="nextPage(link)"></pagination-links>
+                                    </nav>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="col-md-5">
                     <div class="card">
                         <div class="card-body">
@@ -64,14 +70,17 @@
 
                                     <fieldset class="border rounded-3 p-2 m-1">
                                         <div class="col-md-12" v-for="(item, loop) in request.items" :key="loop">
-                                            <label class="form-label">{{ item.name }} </label>
-                                            <div class="input-group">
-                                                <span class="bg-light p-1">#{{ item.qnt }}</span>
-                                                <input type="number" v-model="item.quantity" class="form-control"
-                                                    placeholder="e.g 31">
-                                                <button type="button" class="btn btn-danger btn-sm"
-                                                    @click="removeitem(loop)"> <i class="bi bi-file-minus-fill"></i>
-                                                </button>
+                                            <div class="form-group">
+                                                <label class="form-label">{{ item.name }} </label>
+                                                <div class="input-group">
+                                                    <span class="bg-light p-1">#{{ item.qnt }}</span>
+                                                    <input type="number" v-model="item.quantity" class="form-control"
+                                                        placeholder="e.g 31">
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        @click="removeitem(loop)"> <i class="bi bi-file-minus-fill"></i>
+                                                    </button>
+                                                </div>
+                                                <p class="text-danger " v-if="errors[loop]">{{ errors[loop] }} </p>
                                             </div>
                                         </div>
                                     </fieldset>
@@ -90,7 +99,7 @@
                                                 :settings="{ width: '100%' }" />
 
                                             <p class="text-danger " v-if="errors?.customer_pid">{{
-                                                errors?.customer_pid[0] }} </p>
+                                                errors?.customer_pid }} </p>
                                         </div>
                                     </div>
 
@@ -115,6 +124,10 @@ import store from "@/store";
 import { ref } from "vue";
 import Select2 from 'vue3-select2-component';
 import { useRouter } from 'vue-router';
+import { formatError } from '@/composables/formatError';
+import PaginationLinks from "@/components/PaginationLinks.vue";
+
+const { transformValidationErrors } = formatError()
 const router = useRouter()
 const errors = ref({});
 const items = ref({});
@@ -165,9 +178,10 @@ const removeitem = (i) => {
 
 function requestMaterial() {
     errors.value = []
-    store.dispatch('postMethod', { url: '/item-cr-out', param: request.value }).then((data) => {
+store.dispatch('postMethod', { url: '/item-cr-out', param: request.value }).then((data) => {
         if (data?.status == 422) {
-            errors.value = data.data
+            // errors.value = data.data
+            errors.value = transformValidationErrors(data.data)
         } else if (data?.status == 201) {
             // waybill
             router.push({ name: 'CrOutRequestView' })
@@ -218,6 +232,22 @@ function dropdownSection() {
     })
 }
 dropdownSection()
+
+function nextPage(link) {
+
+    if (!link.url || link.active) {
+        return;
+    }
+    store.dispatch('getMethod', { url: link.url }).then((data) => {
+        if (data?.status == 200) {
+            items.value = data.data;
+        }else{
+            items.value = []
+        }
+    }).catch(e => {
+        console.log(e);
+    })
+}
 
 
 

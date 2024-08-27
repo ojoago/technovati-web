@@ -42,7 +42,7 @@
                                                     </button>
                                                     <ul class="dropdown-menu">
                                                         <li @click="editMaterial(data)"><a class="dropdown-item pointer">Edit</a> </li>
-                                                        <li><a class="dropdown-item pointer">details</a> </li>
+                                                        <!-- <li><a class="dropdown-item pointer">details</a> </li> -->
                                                     </ul>
                                                 </div>
                                             </td>
@@ -60,13 +60,50 @@
                 </div>
             </div>
         </div>
-        <o-modal :isOpen="toggleModal" modal-class="modal-lg" title="Add Full time Staff" @submit="addStaff" @modal-close="closeModal" >
+        <o-modal :isOpen="toggleModal" modal-class="modal-lg" title="Add New Item" @submit="addMaterial" @modal-close="closeModal" >
             <template #content>
-                <MaterialForm/>
+                 <form >
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Name</label>
+                                <input type="text" v-model="raw.name" class="form-control" placeholder="e.g box">
+                                <p class="text-danger " v-if="errors?.name">{{ errors?.name[0] }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">model</label>
+                                <input type="text" v-model="raw.model" class="form-control" placeholder="e.g 20121212">
+                                <p class="text-danger " v-if="errors?.model">{{ errors?.model[0] }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">description</label>
+                                <textarea type="text" v-model="raw.description" class="form-control" placeholder="e.g this is from japan"></textarea>
+                                <p class="text-danger " v-if="errors?.description">{{ errors?.description[0] }}</p>
+                            </div>
+                        </div>
+                        
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Unit</label>
+                                    <Select2 v-model="raw.unit" :options="units" :settings="{ width: '100%' }"  />
+                                    <p class="text-danger " v-if="errors?.unit">{{ errors?.unit[0] }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">manufacturer</label>
+                                    <Select2 v-model="raw.manufacturer" :options="suppliers" :settings="{ width: '100%' }"  />
+                                    <p class="text-danger " v-if="errors?.manufacturer">{{ errors?.manufacturer[0] }}</p>
+                                </div>
+                            </div>
+                    </div>
+                </form>
             </template>
-             <template #footer>
-                    <div></div>
-                </template>
+             
         </o-modal>
 
         <o-modal :isOpen="unitModal" modal-class="modal-xs" title="Add Item Unit" @modal-close="closeModal" >
@@ -86,8 +123,7 @@ import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
 import OModal from "@/components/OModal.vue";
 import UnitItemForm from "@/components/material/ItemUnitForm.vue"
-import MaterialForm from "@/components/material/MaterialForm.vue"
-
+import Select2 from 'vue3-select2-component';
 
 
 const toggleModal = ref(false)
@@ -96,6 +132,7 @@ const unitModal = ref(false)
 const closeModal = () => {
     toggleModal.value = false;
     unitModal.value = false;
+    resetAttr()
 };
 
 
@@ -103,26 +140,87 @@ const closeModal = () => {
 const rawMaterials = ref({});
 
 loadRawMaterials()
-function loadRawMaterials() {
-    store.dispatch('getMethod', { url: '/load-materials' }).then((data) => {
+function loadRawMaterials(url = '/load-materials') {
+    store.dispatch('getMethod', { url: url }).then((data) => {
         if (data?.status == 200) {
             rawMaterials.value = data.data;
         }
     })
 }
 
+
+const raw = ref({
+    name: '',
+    model: '',
+    description: '',
+    unit: '',
+    manufacturer: '',
+});
+
+const resetAttr = () => {
+    raw.value = {
+        name: '',
+        model: '',
+        description: '',
+        unit: '',
+        manufacturer: '',
+    }
+}
+
+const errors = ref({})
+function addMaterial() {
+    errors.value = []
+    store.dispatch('postMethod', { url: '/create-material', param: raw.value }).then((data) => {
+        if (data?.status == 422) {
+            errors.value = data.data
+        } else if (data?.status == 201) {
+            closeModal()
+        }
+    })
+}
+
+
+
+
+const suppliers = ref({});
+
+function dropdownSupplier() {
+    store.dispatch('loadDropdown', 'suppliers').then(({ data }) => {
+        suppliers.value = data;
+    })
+}
+dropdownSupplier()
+
+const units = ref({});
+
+function dropdownUnits() {
+    store.dispatch('loadDropdown', 'units').then(({ data }) => {
+        units.value = data;
+    })
+}
+dropdownUnits()
+
+
 const editMaterial = (data) => {
-    console.log(data);
+     raw.value = {
+        name: data.name,
+        model: data.model,
+        description: data.description,
+        unit: data.unit?.pid,
+        manufacturer: data.manufacturer?.pid,
+        pid: data.pid,
+    }
+    toggleModal.value = true
 }
 
 
 
 function nextPage(link) {
-    alert()
+    
     if (!link.url || link.active) {
         return;
     }
-    alert(link.url)
+    loadRawMaterials(link.url)
 }
 
 </script>

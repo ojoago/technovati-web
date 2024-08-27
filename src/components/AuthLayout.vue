@@ -57,16 +57,18 @@ var TIMEOUT_PERIOD = 1200000; // log user out after 20 minutes of in activity
 var logoutTimer;
 
 // Function to reset the logout timer
-function resetLogoutTimer() {
+function resetIdleTimer() {
     // Clear the existing timer
     clearTimeout(logoutTimer);
     // Set a new timer
     logoutTimer = setTimeout(logout, TIMEOUT_PERIOD);
 }
 // Event listeners for user activity
-window.onload = resetLogoutTimer;
-document.onmousemove = resetLogoutTimer;
-document.keydown = resetLogoutTimer;
+window.onload = resetIdleTimer;
+document.onmousemove = resetIdleTimer;
+document.onkeydown = resetIdleTimer;
+document.onclick = resetIdleTimer;
+document.onscroll = resetIdleTimer;
 
 
 </script>

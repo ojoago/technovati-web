@@ -50,12 +50,12 @@ const store = createStore({
                                 .then(({data})=>{
                                     store.commit('setSpinner', false)
                                     if(data?.status === 200){
-                                        commit('setUser', data.data)
+                                        commit('setUser', data?.data)
                                         // console.log(data.data.roles);
-                                        commit('setActiveRole',data?.data?.roles[0])
-                                        commit('notify',{message:data.message})
+                                        commit('setActiveRole',data?.data?.roles[0].toLowerCase())
+                                        commit('notify',{message:data?.message})
                                     }else if(data?.status != 422){
-                                        commit('notify',{message:data.message,type:'danger'})
+                                        commit('notify',{message:data?.message,type:'danger'})
                                     }
                                     return data;  
                                 })
@@ -72,6 +72,9 @@ const store = createStore({
             })).catch(e=>{
                 store.commit('setSpinner', false)
                 console.log(e?.response);
+                if(e?.code == '"ERR_NETWORK"'){
+                    store.commit('notify', { message: e?.message, type: 'danger' })
+                }
                 sessionStorage.setItem('TOKEN', null)
                 commit('logout');
                 if(e?.response?.status == 401){
@@ -160,9 +163,10 @@ const store = createStore({
                 commit('setSpinner', true)
                 return axiosClient.get(url)
                     .then(({data})=>{
-                    //     if(data?.status == 200){
-                    //     commit('notify',{message:data?.message})
-                    // }else{
+                        if(data?.status == 205){
+                            commit('notify',{message:data?.message,type:'danger'})
+                        }
+                    //else{
                     //         commit('notify',{message:data?.message,type:'danger'})
                     //     }
                         commit('setSpinner', false)
@@ -170,24 +174,25 @@ const store = createStore({
                     }).catch(e => {
                         commit('setSpinner', false)
                         console.log(e);
+                        commit('notify', { message: e?.code, type: 'danger' })
                         if(e?.response?.status == 401){
                             // commit('logout');
                             router.push({ name: 'SignIn' })
 
                         }
+                        if(e?.code == '"ERR_NETWORK"'){
+                            store.commit('notify', { message: e?.message, type: 'danger' })
+                        }
                         // alert('weting be this')
                     })
             },
             //load staff  
-            postMethod({commit},{url,param,form=null}){
+            postMethod({commit},{url,param}){
                 commit('setSpinner', true)
                 return axiosClient.post(url,param)
                     .then(({data})=>{
                         if(data?.status == 201){
                             commit('notify',{message:data.message})
-                            if(form != null){
-                                form.reset()
-                            }
                         }
                         else if(data?.status == 422){
                             commit('notify',{message:data.message,type:'warning'})
@@ -198,11 +203,14 @@ const store = createStore({
                         return data;  
                     }).catch(e => {
                         commit('setSpinner', false)
+                        if(e?.code == '"ERR_NETWORK"'){
+                            store.commit('notify', { message: e?.message, type: 'danger' })
+                        }
                         if(e?.response?.status == 401){
                             router.push({ name: 'SignIn' })
                         }
                         console.log(e);
-                        alert('weting be this')
+                        
                     })
             },
 
@@ -224,6 +232,9 @@ const store = createStore({
                         commit('setSpinner', false)
                         return data;  
                     }).catch(e => {
+                        if(e?.code == '"ERR_NETWORK"'){
+                            store.commit('notify', { message: e?.message, type: 'danger' })
+                        }
                         commit('setSpinner', false)
                         if(e?.response?.status == 401){
                             router.push({ name: 'SignIn' })
@@ -251,6 +262,10 @@ const store = createStore({
                         commit('setSpinner', false)
                         return data;  
                     }).catch(e => {
+                        
+                        if(e?.code == '"ERR_NETWORK"'){
+                            store.commit('notify', { message: e?.message, type: 'danger' })
+                        }
                         commit('setSpinner', false)
                         if(e?.response?.status == 401){
                             router.push({ name: 'SignIn' })
@@ -284,7 +299,6 @@ const store = createStore({
             localStorage.setItem('TVATI_USERDATA', JSON.stringify(userData?.user,null,2));
             localStorage.setItem('TVATI_USER_ROLES', JSON.stringify(userData?.roles,null,2));
             localStorage.setItem('TVATI_TOKEN', userData?.token);
-            
         },
         setProfile:(state,user)=>{
             state.user.data = user

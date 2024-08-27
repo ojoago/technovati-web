@@ -141,8 +141,8 @@ const leaves = ref({});
  
 loadLeaves()
 
-function loadLeaves() {
-    store.dispatch('getMethod', { url: '/leave-request'}).then((data) => {
+function loadLeaves(url = '/leave-request') {
+    store.dispatch('getMethod', { url: url}).then((data) => {
         if (data?.status == 200) {
             leaves.value = data.data;
         }
@@ -152,11 +152,10 @@ function loadLeaves() {
 }
 
 function nextPage(link) {
-    alert()
     if (!link.url || link.active) {
         return;
     }
-    alert(link.url)
+    loadLeaves(link.url)
 }
 
 

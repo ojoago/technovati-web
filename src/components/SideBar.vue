@@ -94,19 +94,20 @@
                         </div>
                     </a>
                     <ul id="team" class="submenu sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="nav-item" title="team">
+                        <li class="nav-item" title="worker">
                             <router-link to="/workers" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Workers </span> </router-link>
                         </li>
 
-                        <li class="nav-item" title="Records">
+                        <li class="nav-item" title="team">
                             <router-link to="/team" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Team</span> </router-link>
                         </li>
-                        <li class="nav-item" title="Records">
+
+                        <!-- <li class="nav-item" title="Records">
                             <router-link to="/tools" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Tools</span> </router-link>
-                        </li>
+                        </li> -->
                     </ul>
                 </li>
 
@@ -120,17 +121,17 @@
                     </a>
                     <ul id="records" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
 
-                        <li class="nav-item" title="team">
+                        <li class="nav-item" title="Daily Records">
                             <router-link to="/daily-record" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Daily Records </span> </router-link>
                         </li>
 
-                        <li class="nav-item" title="Records">
+                        <li class="nav-item" title="Work Sheet">
                             <router-link to="/work-sheet" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Work Sheet</span> </router-link>
                         </li>
 
-                        <li class="nav-item" title="Records">
+                        <li class="nav-item" title="Staff Records">
                             <router-link to="/staff-record" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Staff Records</span> </router-link>
                         </li>
@@ -147,12 +148,12 @@
                     </a>
                     <ul id="en_mat_req" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
 
-                        <li class="nav-item" title="team">
+                        <li class="nav-item" title="New Request">
                             <router-link to="/material-request" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">New Request </span> </router-link>
                         </li>
 
-                        <li class="nav-item" title="Records">
+                        <li class="nav-item" title="My Request">
                             <router-link to="/my-raw-material-request" class="nav-link"><i class="bi bi-record"></i>
                                 <span class="nav-name">My Request</span> </router-link>
                         </li>
@@ -179,19 +180,20 @@
                     </a>
                     <ul id="logistics" class="submenu sidebar-dropdown list-unstyled collapse"
                         data-bs-parent="#sidebar">
-                        <li class="nav-item" title="Records">
+                        <li class="nav-item" title="Vehicle">
                             <router-link to="/vehicle" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Vehicle</span> </router-link>
                         </li>
 
-                        <li class="nav-item" title="Records">
+                        <li class="nav-item" title="Comapany Driver">
                             <router-link to="/driver" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Driver</span> </router-link>
                         </li>
-                        <li class="nav-item" title="Records">
+
+                        <!-- <li class="nav-item" title="Records">
                             <router-link to="/driver" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Delivery</span> </router-link>
-                        </li>
+                        </li> -->
 
                     </ul>
                 </li>
@@ -221,9 +223,9 @@
                         </div>
                     </a>
                     <ul id="staff" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="nav-item" title="staff">
-                            <router-link to="/staff" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">Create Staff </span> </router-link>
+                        <li class="nav-item" title="Onboarding">
+                            <router-link to="/onboarding" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Onboarding </span> </router-link>
                         </li>
                         <li class="nav-item" title="staff list">
                             <router-link to="/staff-list" class="nav-link"><i class="bi bi-record"></i> <span
@@ -251,11 +253,23 @@
                         </span>
                     </a>
                 </li>
+
                 <li>
                     <a>
                         <i class="bi bi-list-task"></i>
                         <span class="link-name">
                             <router-link to="/staff-travel-request" class="nav-link"><span class="nav-name">Travel
+                                    Request
+                                </span> </router-link>
+                        </span>
+                    </a>
+
+                </li>
+                <li>
+                    <a>
+                        <i class="bi bi-list-task"></i>
+                        <span class="link-name">
+                            <router-link to="/staff-fund-request" class="nav-link"><span class="nav-name">Fund
                                     Request
                                 </span> </router-link>
                         </span>
@@ -273,28 +287,28 @@
                     </a>
                     <ul id="appraisal" class="submenu sidebar-dropdown list-unstyled collapse"
                         data-bs-parent="#sidebar">
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/appraisal-title" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">appraisal title </span> </router-link>
                         </li>
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/appraisal-type" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">appraisal Type</span> </router-link>
                         </li>
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/appraisal-kpi" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">appraisal Kpi</span> </router-link>
                         </li>
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/initiate-appraisal" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Initiate Appraisal</span> </router-link>
                         </li>
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/staff-appraisal-list" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Appraisal List</span> </router-link>
                         </li>
 
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/staff-appraisal-records" class="nav-link"><i class="bi bi-record"></i>
                                 <span class="nav-name">Appraisal Records</span> </router-link>
                         </li>
@@ -332,11 +346,11 @@
                     </a>
                     <ul id="attendance" class="submenu sidebar-dropdown list-unstyled collapse"
                         data-bs-parent="#sidebar">
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/shift-config" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Shifts</span> </router-link>
                         </li>
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/staff-attendance" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Attendance</span> </router-link>
                         </li>
@@ -353,22 +367,22 @@
                         </div>
                     </a>
                     <ul id="payroll" class="submenu sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/salary-structure" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Salary Structure</span> </router-link>
                         </li>
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/salary-grade" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Salary Grade</span> </router-link>
                         </li>
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/basic-salary" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Basic Salary</span> </router-link>
                         </li>
 
 
 
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/compute-salaries" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Salaries</span> </router-link>
                         </li>
@@ -384,15 +398,15 @@
                     </a>
                     <ul id="allowance" class="submenu sidebar-dropdown list-unstyled collapse"
                         data-bs-parent="#sidebar">
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/allowance-name" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Allowance Name</span> </router-link>
                         </li>
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/unit-allowance" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Unit Allowance</span> </router-link>
                         </li>
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/allowance-exclusion" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Allowance Exclusion</span> </router-link>
                         </li>
@@ -410,23 +424,23 @@
                     </a>
                     <ul id="deduction" class="submenu sidebar-dropdown list-unstyled collapse"
                         data-bs-parent="#sidebar">
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/deduction-name" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Deduction Name</span> </router-link>
                         </li>
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/deduction-account" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Deduction Account</span> </router-link>
                         </li>
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/unit-deduction" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Unit Deduction</span> </router-link>
                         </li>
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/over-payment" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Over Payment</span> </router-link>
                         </li>
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/deduction-exclusion" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Deduction Exclusions</span> </router-link>
                         </li>
@@ -468,7 +482,7 @@
                         </div>
                     </a>
                     <ul id="inventory" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/items" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Items </span> </router-link>
                         </li>
@@ -495,15 +509,15 @@
                         </div>
                     </a>
                     <ul id="waybill" class=" sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" title="Bring Item to Store" >
                             <router-link to="/cr-in" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Items </span> </router-link>
                         </li>
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" title="Take Item out" >
                             <router-link to="/cr-out" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">New Request</span> </router-link>
                         </li>
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" title="Items Request List" >
                             <router-link to="/cr-out-request" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Request List</span> </router-link>
                         </li>
@@ -520,11 +534,11 @@
                         </div>
                     </a>
                     <ul id="irequest" class=" sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/item-request" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name"> New Request </span> </router-link>
                         </li>
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/staff-list" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Staff List</span> </router-link>
                         </li>
@@ -542,9 +556,9 @@
                     </a>
                     <ul id="rmaterial" class=" sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
 
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/raw-material-list" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">List</span> </router-link>
+                                    class="nav-name">Material List </span> </router-link>
                         </li>
 
                         <li class="nav-item" title="raw materials">
@@ -552,13 +566,14 @@
                                     class="nav-name">Add New </span> </router-link>
                         </li>
 
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/consignments" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Consignments</span> </router-link>
                         </li>
                     </ul>
                 </li>
                 <!-- end   -->
+
                 <!-- begin  -->
                 <li>
                     <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#mrequest"
@@ -569,12 +584,34 @@
                         </div>
                     </a>
                     <ul id="mrequest" class="submenu sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/pending-raw-material-request" class="nav-link"><i
                                     class="bi bi-record"></i> <span class="nav-name">Pending</span> </router-link>
                         </li>
 
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
+                            <router-link to="/processed-raw-material-request" class="nav-link"><i
+                                    class="bi bi-record"></i> <span class="nav-name">Processed</span> </router-link>
+                        </li>
+                    </ul>
+                </li>
+                <!-- end   -->
+                <!-- begin  -->
+                <li>
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#mrequest"
+                        aria-expanded="true" arai-controls="mrequest">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
+                            <span class="link-name">Pending Supply</span>
+                        </div>
+                    </a>
+                    <ul id="mrequest" class="submenu sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <li class="nav-item" >
+                            <router-link to="/pending-raw-material-request" class="nav-link"><i
+                                    class="bi bi-record"></i> <span class="nav-name">Pending</span> </router-link>
+                        </li>
+
+                        <li class="nav-item" >
                             <router-link to="/processed-raw-material-request" class="nav-link"><i
                                     class="bi bi-record"></i> <span class="nav-name">Processed</span> </router-link>
                         </li>
@@ -597,7 +634,7 @@
                         </div>
                     </a>
                     <ul id="account" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/accounts" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Add Account </span> </router-link>
                         </li>
@@ -619,7 +656,7 @@
                         </div>
                     </a>
                     <ul id="journal" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/journal-entry" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Add Journal </span> </router-link>
                         </li>
@@ -642,7 +679,7 @@
                         </div>
                     </a>
                     <ul id="purchase" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/add-purchase" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Add New</span> </router-link>
                         </li>
@@ -674,7 +711,7 @@
                         </div>
                     </a>
                     <ul id="expense" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/add-expense" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Add New</span> </router-link>
                         </li>
@@ -705,7 +742,7 @@
                         </div>
                     </a>
                     <ul id="sales" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="nav-item" title="staff">
+                        <li class="nav-item" >
                             <router-link to="/add-sales" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Add New</span> </router-link>
                         </li>
@@ -804,6 +841,17 @@
                             </span>
                         </a>
                     </div>
+                </li>
+                <li>
+                    <a>
+                        <i class="bi bi-list-task"></i>
+                        <span class="link-name">
+                            <router-link to="/fund-request" class="nav-link"><span class="nav-name">Fund
+                                    Request
+                                </span> </router-link>
+                        </span>
+                    </a>
+
                 </li>
 
 

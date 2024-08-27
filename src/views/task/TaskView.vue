@@ -39,7 +39,7 @@
                                                 <li><a class="dropdown-item pointer"
                                                         @click="taskDetail(task)">Details</a> </li>
                                                 <li><a class="dropdown-item pointer" v-if="task.status==0"
-                                                        @click="addSubTask(task)">ADD SUB TASK</a> </li>
+                                                        @click="addSubTask(task)">Add Sub Task</a> </li>
                                                 <li><a class="dropdown-item pointer"
                                                         v-if="task.creator == creator && task.status==0"
                                                         @click="editTask(task)">Edit Task</a> </li>
@@ -67,7 +67,7 @@
         <o-modal :isOpen="toggleModal" modal-class="modal-sm" titles="Add Sub Task" subtitle="add sub task to task"
             @modal-close="closeModal">
             <template #content>
-                <SubTaskForm :task="_task" />
+                <SubTaskForm :task="_task" @customEvent="closeModal" />
             </template>
             <template #footer>
                 <div></div>
@@ -145,11 +145,11 @@ import { Multiselect } from 'vue-multiselect';
 import PaginationLinks from "@/components/PaginationLinks.vue";
 import SubTaskForm from "@/components/task/forms/SubTaskForm.vue";
 import OModal from "@/components/OModal.vue";
+import { useRouter } from 'vue-router';
+const router = useRouter()
 const creator = ref(null);
 creator.value = store?.state?.user?.data?.pid;
 
-import { useRouter } from 'vue-router';
-const router = useRouter()
  
 const errors = ref({});
 const tasks = ref({});
@@ -167,30 +167,37 @@ const lgModal = ref(false);
 const closeModal = () => {
     toggleModal.value = false;
     lgModal.value = false;
+    resetAttr()
 };
 
 const addTask = () => {
     lgModal.value = true
 }
 
-
+const resetAttr = () => {
+    task.value = {
+        'task': '',
+        'description': '',
+        'from': '',
+        'to': '',
+        teams: '',
+        heading: ''
+    }
+}
 
 
 
 function createTask() {
     errors.value = [];
-    store.commit('setSpinner', true)
     store.dispatch('postMethod', { url: '/create-task', param: task.value }).then((data) => {
-        store.commit('setSpinner', false)
         if (data?.status == 422) {
             errors.value = data.data;
         } else if (data?.status == 201) {
             errors.value = [];
-            // memoForm.value = [];
+            closeModal()
             loadTask()
         }
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
         alert('weting be this')
     })
@@ -198,14 +205,14 @@ function createTask() {
 
 function deleteTask(tsk) {
     if(confirm(`are you sure you want to delete ${tsk.task} ?`)){
-        store.commit('setSpinner', true)
+        
         store.dispatch('getMethod', { url: '/delete-task/' + tsk.pid }).then((data) => {
-            store.commit('setSpinner', false)
+            
             if (data?.status == 201) {
                 loadTask()
             }
         }).catch(e => {
-            store.commit('setSpinner', false)
+            
             console.log(e);
         })
     }
@@ -213,18 +220,27 @@ function deleteTask(tsk) {
 
 loadTask()
 
-function loadTask() {
-    store.commit('setSpinner', true)
-    store.dispatch('getMethod', { url: '/load-task' }).then((data) => {
-        store.commit('setSpinner', false)
+function loadTask(url= '/load-task') {
+   
+    store.dispatch('getMethod', { url: url }).then((data) => {
+        
         if (data?.status == 200) {
             tasks.value = data.data
+        }else{
+            tasks.value = {}
         }
     }).catch(e => {
-        store.commit('setSpinner', false)
+       
         console.log(e);
     })
 }
+
+function nextPage(link) {
+        if (!link.url || link.active) {
+            return;
+        }
+        loadTask(link.url)
+    }
   
     function taskDetail(task) {
         localStorage.setItem('TVATI_TASK_DETAIL', JSON.stringify(task, null, 2))
@@ -248,7 +264,6 @@ function dropdownUser() {
         users.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownUser()

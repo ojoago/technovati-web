@@ -38,7 +38,7 @@
             </template>
             <template #footer>
                 <div>
-                    <button class="btn btn-info btn-sm" @modal-close="closeModal">CLose Modal</button>
+                    <button class="btn btn-info btn-sm" @click="closeModal">Close Modal</button>
                 </div>
             </template>
         </o-modal>

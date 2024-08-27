@@ -116,7 +116,7 @@
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="form-label">Items</label>
+                                <label class="form-label">Purpose</label>
                                 <textarea v-model="travel.itinerary" class="form-control form-control-sm"></textarea>
                                 <p class="text-danger " v-if="errors?.itinerary">{{ errors?.itinerary[0] }}</p>
                             </div>
@@ -142,6 +142,48 @@
                                 <p class="text-danger " v-if="errors?.mode">{{ errors?.mode[0] }}</p>
                             </div>
                         </div>
+
+
+                        <div class="col-md-12">
+                            <label>Budgets</label>
+                            <template v-for="(item, loop) in budget.items" :key="loop">
+
+                                <fieldset class="border rounded-3 p-2 m-1">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="form-label">Budget Item <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" v-model="item.budget"
+                                                    class="form-control form-control-sm" placeholder="e.g feeding">
+                                                <!-- <p class="text-danger " v-if="errors?.title">{{ errors?.title[0] }}</p> -->
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="form-label">Amount <span
+                                                        class="text-danger">*</span></label>
+                                                <div class="input-group">
+                                                    <input type="number" step="0.1" v-model="item.amount"
+                                                        class="form-control form-control-sm">
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        @click="removeQualification(loop)"> <i
+                                                            class="bi bi-patch-minus"></i>
+                                                    </button>
+                                                </div>
+                                                <!-- <p class="text-danger " v-if="errors?.destination">{{ errors?.destination[0] }}   </p> -->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </fieldset>
+                            </template>
+                            <div class="float-end p-2">
+                                <button type="button" class="btn btn-success btn-sm mt-2" @click="addQualification"> <i
+                                        class="bi bi-plus"></i> </button>
+                            </div>
+                        </div>
+
 
 
                     </div>
@@ -253,6 +295,8 @@ import { Multiselect } from 'vue-multiselect';
 import PaginationLinks from "@/components/PaginationLinks.vue";
 import { useRouter } from 'vue-router';
 // import BudgetComponent from '@/components/travel/BudgetComponent.vue'
+import { useHelper } from "@/composables/helper";
+const { handleFile } = useHelper()
 const creator = ref(null);
 creator.value = store?.state?.user?.data?.pid;
 const router = useRouter()
@@ -316,21 +360,24 @@ const errors = ref({})
 
 function makeRequest(){
     errors.value = []
+    travel.value.budget = budget.value;
     store.dispatch('postMethod', { url: '/travel-request', param: travel.value }).then((data) => {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-            resetAttr()
+            closeModal()
             loadRequest()
         }
     })
 }
 
 const requests = ref({})
-function loadRequest() {
-    store.dispatch('getMethod', { url: '/load-request' }).then((data) => {
+function loadRequest(url = '/load-request' ) {
+    store.dispatch('getMethod', { url: url }).then((data) => {
         if (data?.status == 200) {
             requests.value = data.data
+        }else{
+            requests.value = {}
         }
     })
 }
@@ -349,6 +396,7 @@ const budget = ref({
         amount: '',
     }]
 });
+
 const resetBud = ()=>{
     budget.value = {
         travel_pid: '',
@@ -363,12 +411,14 @@ const addBudget = (pid) =>{
     budget.value.travel_pid = pid;
     budgetModal.value = true ;
 }
+
 const addQualification = () => {
     budget.value.items.push({
         budget: '',
         amount: '',
     })
 }
+
 const removeQualification = (i) => {
     let len = budget.value.items.length;
     if (len === 1) {
@@ -378,12 +428,13 @@ const removeQualification = (i) => {
     budget.value.items.splice(i, 1);
 }
 
+
 function addRequestBudget(){
      store.dispatch('postMethod', { url: '/add-travel-request-budget', param: budget.value }).then((data) => {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-            resetBud()
+            closeModal()
             loadRequest()
         }
     })
@@ -440,26 +491,9 @@ const cancelTrip = (pid) => {
 //     }
 //     expense.value.items.splice(i, 1);
 // }
+
 const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-        var ext = file['name'].substring(file['name'].lastIndexOf('.') + 1);
-        if (!['png', 'jpeg', 'jpg'].includes(ext)) {
-            event.target.value = null;
-            store.commit('notify', { message: 'Only Image is allowed', type: 'warning' })
-            return;
-        }
-        if (file.size > 1024 * 1024) {
-            event.target.value = null;
-            store.commit('notify', { message: 'Image cannot be more 1MB', type: 'warning' })
-            return;
-        }
-        const reader = new FileReader();
-        reader.onload = () => {
-            expense.value.image = reader.result;
-        };
-        reader.readAsDataURL(file);
-    }
+    expense.value.image = handleFile(event)
 }
 const ex_errors = ref([]);
 function addRequestExpense(){
@@ -483,11 +517,10 @@ function dropdownUser() {
 dropdownUser()
 
 function nextPage(link) {
-    alert()
     if (!link.url || link.active) {
         return;
     }
-    alert(link.url)
+    loadRequest(link.url)
 }
 
 

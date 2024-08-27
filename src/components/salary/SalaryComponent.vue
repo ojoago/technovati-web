@@ -12,7 +12,7 @@
                         <th>Allowance</th>
                         <th>Deduction</th>
                         <th> Payment Date</th>
-                        <th> <i class="bi bi-gear-fill"></i>  </th>
+                        <th> <i class="bi bi-gear-fill"></i> </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -20,12 +20,13 @@
                         <td>{{ loop + 1 }}</td>
                         <td>{{ data?.month }}, {{ data?.year }}</td>
                         <td>{{ data?.payment_status }}</td>
-                        <td>{{ data?.basic }} </td>
-                        <td>{{ data?.allowance }}</td>
-                        <td>{{ data?.deduction }}</td>
+                        <td>{{ numberFormat(data?.basic) }} </td>
+                        <td>{{ numberFormat(data?.allowance) }}</td>
+                        <td>{{ numberFormat(data?.deduction) }}</td>
                         <td>{{ data?.paid_on }}</td>
-                        <td> <button v-if="data.status==0" class="btn btn-sm btn-primary" @click="paySalary(data.pid)">Pay</button> </td>
-                        
+                        <td> <button v-if="data.status==0" class="btn btn-sm btn-primary"
+                                @click="paySalary(data.pid)">Pay</button> </td>
+
                     </tr>
                 </tbody>
             </table>
@@ -36,7 +37,8 @@
 <script setup>
 import store from "@/store";
 import { ref } from "vue";
-
+import { useHelper } from '@/composables/helper';
+const { numberFormat } = useHelper()
 const salaries = ref({})
 
 function loadSalary() {

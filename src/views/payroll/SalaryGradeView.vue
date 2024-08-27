@@ -142,8 +142,8 @@ function createSalaryGrade() {
     })
 }
 
-function loadGrades() {
-    store.dispatch('getMethod', { url: '/load-salary-grade' }).then((data) => {
+function loadGrades(url='/load-salary-grade') {
+    store.dispatch('getMethod', { url: url}).then((data) => {
         if (data?.status == 200) {
             grades.value = data.data;
         }
@@ -167,7 +167,7 @@ function nextPage(link) {
     if (!link.url || link.active) {
         return;
     }
-    alert(link.url)
+    loadGrades(link.url)
 }
 
 </script>

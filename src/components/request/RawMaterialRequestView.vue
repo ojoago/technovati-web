@@ -47,16 +47,16 @@
                             <fieldset class="border rounded-3 p-2 m-1">
                                 <legend class="float-none w-auto px-2 h5">Request Items</legend>
                                 <form id="itemForm" v-if="request.items.length">
-
                                     <fieldset class="border rounded-3 p-2 m-1">
                                         <div class="col-md-12" v-for="(item, loop) in request.items" :key="loop">
                                             <label class="form-label">{{ item.name }} </label>
                                             <div class="input-group">
                                                 <input type="number" v-model="item.quantity" class="form-control"
-                                                    placeholder="e.g ABU Zaria">
+                                                    placeholder="e.g 30">
                                                 <button type="button" class="btn btn-danger btn-sm"
                                                     @click="removeitem(loop)"> <i class="bi bi-patch-minus"></i> </button>
                                             </div>
+                                            <p class="text-danger " v-if="errors[loop]">{{ errors[loop] }} </p>
                                         </div>
                                     </fieldset>
 
@@ -65,12 +65,12 @@
                                             <label class="form-label">Note</label>
                                             <textarea type="text" v-model="request.note"
                                                 class="form-control form-control-sm" placeholder="e.g UIU"></textarea>
-                                            <p class="text-danger " v-if="errors?.note">{{ errors?.note[0] }} </p>
+                                            <p class="text-danger " v-if="errors?.note">{{ errors?.note }} </p>
                                         </div>
                                         <div class="col-md-12">
                                             <label class="form-label">Receiver</label>
                                             <Select2 v-model="request.reciver" :options="users" :settings="{ width: '100%' }" />
-                                            <p class="text-danger " v-if="errors?.reciver">{{ errors?.reciver[0] }} </p>
+                                            <p class="text-danger " v-if="errors?.reciver">{{ errors?.reciver }} </p>
                                         </div>
                                     </div>
 
@@ -94,7 +94,8 @@
 import store from "@/store";
 import { ref } from "vue";
 import Select2 from 'vue3-select2-component';
-
+import { formatError } from '@/composables/formatError';
+const { transformValidationErrors } = formatError()
 const errors = ref({});
 const items = ref({});
 
@@ -106,13 +107,13 @@ const request = ref({
 });
 
 const addItem = (item) => {
-     
     var index = request.value.items.findIndex(x => x.pid == item?.quantity?.pid)
     if (index === -1) {
         request.value.items.push({
             pid: item?.quantity?.pid,
             quantity: 1,
             name: item.name,
+            qnt:item?.quantity?.quantity
         })
     } else {
         if (request.value.items[index].quantity < item?.quantity?.quantity) {
@@ -132,19 +133,16 @@ const removeitem = (i) => {
     request.value.items.splice(i, 1);
 }
 
-
 function requestMaterial() {
     errors.value = []
     store.dispatch('postMethod', { url: '/request-materials', param: request.value }).then((data) => {
         if (data?.status == 422) {
             errors.value = data.data
+            console.log(data.data);
+            
+            errors.value = transformValidationErrors(data.data) 
         } else if (data?.status == 201) {
-            let form = document.querySelector('#itemForm');
-            request.value.items = []
-            request.value.note = ''
-            request.value.reciver = ''
-            request.value.comment = ''
-            form.reset();
+            resetAttr();
             loadItem()
         }
     })
@@ -156,6 +154,15 @@ function loadItem() {
             items.value = data.data;
         }
     })
+}
+
+const resetAttr = ()=>{
+    request.value = {
+        note: '',
+        reciver: '',
+        comment: '',
+        items: [],
+    } 
 }
 
 const users = ref({})

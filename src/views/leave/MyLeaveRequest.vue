@@ -136,7 +136,8 @@ import store from "@/store";
 import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
 import OModal from "@/components/OModal.vue";
-
+import { useHelper } from "@/composables/helper";
+const { handleFile } = useHelper()
 const errors = ref({});
 
 
@@ -211,10 +212,12 @@ const remindLeave = (pid) => {
  
 loadLeaves()
 
-function loadLeaves() {
-    store.dispatch('getMethod', { url: '/load-my-leave-request'}).then((data) => {
+function loadLeaves(url = '/load-my-leave-request') {
+    store.dispatch('getMethod', { url: url}).then((data) => {
         if (data?.status == 200) {
             leaves.value = data.data;
+        }else{
+            leaves.value = {}
         }
     }).catch(e => {
         console.log(e);
@@ -222,33 +225,15 @@ function loadLeaves() {
 }
 
 function nextPage(link) {
-    alert()
+    
     if (!link.url || link.active) {
         return;
     }
-    alert(link.url)
+    loadLeaves(link.url)
 }
 
 const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-        var ext = file['name'].substring(file['name'].lastIndexOf('.') + 1);
-        if (!['png', 'jpeg', 'jpg'].includes(ext)) {
-            event.target.value = null;
-            store.commit('notify', { message: 'Only Image is allowed', type: 'warning' })
-            return;
-        }
-        if (file.size > 1024 * 1024) {
-            event.target.value = null;
-            store.commit('notify', { message: 'Image cannot be more 1MB', type: 'warning' })
-            return;
-        }
-        const reader = new FileReader();
-        reader.onload = () => {
-            request.value.image = reader.result;
-        };
-        reader.readAsDataURL(file);
-    }
+    request.value.image = handleFile(event)
 }
 
 const leaveDrop = ref({})

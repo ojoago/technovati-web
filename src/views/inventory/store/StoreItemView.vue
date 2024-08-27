@@ -129,12 +129,14 @@ const resetAttr = () => {
         date: '',
     }
 }
+
 const dmgForm = ref({
     quantity: '',
     inventroy_pid: '',
     note: '',
     date: '',
 })
+
 function moveDamage(item){
     toggleModal.value = true;
     dmgForm.value = {
@@ -171,6 +173,20 @@ function dropdownSection() {
 }
 dropdownSection()
 
+function nextPage(link) {
+    if (!link.url || link.active) {
+        return;
+    }
+     store.dispatch('getMethod', { url: link.url }).then((data) => {
+        if (data?.status == 200) {
+            items.value = data.data;
+        }else{
+            items.value = []
+        }
+    }).catch(e => {
+        console.log(e);
+    })
+}
 
 </script>
 

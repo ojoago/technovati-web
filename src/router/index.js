@@ -40,12 +40,12 @@ const routes = [
                 path:'/dashboard',name:'DashboardView',component: () => import('@/views/DashboardView.vue')
             },
 
-            {  path:'/staff',name:'StaffDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
-            {  path:'/staff',name:'HodDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
-            {  path:'/staff',name:'SupervisorDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
-            {  path:'/staff',name:'CooDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
-            {  path:'/staff',name:'GmDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
-            {  path:'/staff',name:'AdminDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
+            {  path:'/staff-dashboard',name:'StaffDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
+            {  path:'/staff-dashboard',name:'HODDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
+            {  path:'/staff-dashboard',name:'SupervisorDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
+            {  path:'/staff-dashboard',name:'COODashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
+            {  path:'/staff-dashboard',name:'GMDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
+            {  path:'/staff-dashboard',name:'AdminDashboard',component: () => import('@/views/dashboard/SelfDashboard.vue')  },
             // self services 
             
             // HR 
@@ -54,12 +54,12 @@ const routes = [
             },
             // md 
             {
-                path:'/md-dashboard',name:'MdDashboard',component: () => import('@/views/dashboard/MdDashboard.vue')
+                path:'/md-dashboard',name:'MDDashboard',component: () => import('@/views/dashboard/MdDashboard.vue')
             },
             // md 
             {   path:'/receptionist-dashboard',name:'ReceptionistDashboard',component: () => import('@/views/dashboard/ReceptionistDashboard.vue') },
             
-            {   path:'/store-dashboard',name:'StoreDashboard',component: () => import('@/views/dashboard/StoreDashboard.vue') },
+            {   path:'/store-dashboard',name:'StoreDashboard',component: () => import('@/views/dashboard/StoreDashboard.vue') },   
 
             {   path:'/logistic-dashboard',name:'LogisticsDashboard',component: () => import('@/views/dashboard/LogisticsDashboard.vue') },
             {   path:'/driver-dashboard',name:'DriverDashboard',component: () => import('@/views/dashboard/LogisticsDashboard.vue') },
@@ -72,7 +72,7 @@ const routes = [
             {   path:'/supervisor-dashboard',name:'SupervisorDashboard',component: () => import('@/views/dashboard/SupervisorDashboard.vue') },
 
             {
-                path:'/staff',name:'StaffView',component: () => import('@/views/users/StaffView.vue')
+                path:'/onboarding',name:'StaffView',component: () => import('@/views/users/StaffView.vue')
             },
              
             {
@@ -169,15 +169,13 @@ const routes = [
            
             // Travel request 
 
-            {
-                path:'/travel-request',name:'TravelRequestView',component: () => import('@/views/travel/TravelRequestView.vue')
-            },
-            {
-                path:'/staff-travel-request',name:'StaffTravelRequest',component: () => import('@/views/travel/StaffTravelRequest.vue')
-            },
+            {   path:'/travel-request',name:'TravelRequestView',component: () => import('@/views/travel/TravelRequestView.vue')   },
+            {   path:'/fund-request',name:'FundRequest',component: () => import('@/views/funds/FundRequest.vue')   },
+            {   path:'/staff-travel-request',name:'StaffTravelRequest',component: () => import('@/views/travel/StaffTravelRequest.vue')  },
             {   path:'/travel-request-detail',name:'TravelRequestDetailView',component: () => import('@/views/travel/TravelRequestDetailView.vue')  },
             {   path:'/travel-request-detail-hr-view',name:'TravelRequestDetailHrView',component: () => import('@/views/travel/TravelRequestDetailHrView.vue')  },
-
+            
+            {   path:'/staff-fund-request',name:'StaffFundRequest',component: () => import('@/views/funds/StaffFundRequest.vue')  },
 
             // Receptionisht 
 

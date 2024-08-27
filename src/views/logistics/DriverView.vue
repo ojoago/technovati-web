@@ -3,7 +3,7 @@
         <div class="container mt-2">
             <div class="card">
                 <div class="card-body">
-                    <div class="card-header">Engineering Tools</div>
+                    <div class="card-header">Company Drivers</div>
                     <ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
                         <li class="nav-item flex-fill" role="presentation">
                             <button class="nav-link w-100 active" id="worker-tab" data-bs-toggle="tab"
@@ -98,7 +98,7 @@
                                         <div class="flex justify-center mt-4">
                                             <nav class="relative justify-center rounded-md shadow pagination">
                                                 <pagination-links v-for="(link, i) of history.links" :link="link" :key="i"
-                                                    @next="nextPage(link)"></pagination-links>
+                                                    @next="nextHPage(link)"></pagination-links>
                                             </nav>
                                         </div>
                                     </div>

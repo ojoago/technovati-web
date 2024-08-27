@@ -157,10 +157,12 @@ function createSupplier() {
     
 }
 
-function loadSuppliers() {
-    store.dispatch('getMethod', { url: '/load-suppliers' }).then((data) => {
+function loadSuppliers(url = '/load-suppliers') {
+    store.dispatch('getMethod', { url: url }).then((data) => {
         if (data?.status == 200) {
             suppliers.value = data.data;
+        }else{
+            supplier.value = {}
         }
     })
 }
@@ -184,11 +186,11 @@ loadSuppliers()
 
 
 function nextPage(link) {
-    alert()
+ 
     if (!link.url || link.active) {
         return;
     }
-    alert(link.url)
+    loadSuppliers(link.url)
 }
 
 </script>

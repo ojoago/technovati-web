@@ -85,7 +85,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label">Account Number</label>
-                                    <input type="text" v-model="deduction.account_number" class="form-control" placeholder="e.g xxxxxxxxxx">
+                                    <input type="text" v-model="deduction.account_number" class="form-control" maxlength="10" placeholder="e.g xxxxxxxxxx">
                                     <p class="text-danger " v-if="errors?.account_number">{{ errors?.account_number[0] }}  </p>
                                 </div>
                             </div>
@@ -133,6 +133,7 @@ const openModal = () => {
 }
 const closeModal = () => {
     toggleModal.value = false;
+    resetAttr()
 };
 const errors = ref({});
 const deduction = ref({
@@ -158,38 +159,45 @@ const editData = (data) => {
     }
     toggleModal.value = true
 }
+
+const resetAttr = () => {
+    deduction.value = {
+        department_pid: '',
+        deduction_pid: '',
+        amount: '',
+        account_number: '',
+        account_name: '',
+        bank: '',
+        bank_branch: ''
+    }
+}
+
 const deleteData = (pid) => {
     alert(pid)
 }
 
 function createDeductionAccount() {
-    store.commit('setSpinner', true)
     errors.value = []
     store.dispatch('postMethod', { url: '/create-deduction-account', param: deduction.value }).then((data) => {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-            deduction.value = [];
+            closeModal()
+            loadLog()
         }
-        store.commit('setSpinner', false)
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
     })
 }
 const accounts = ref({});
 
-function loadLog() {
-    store.commit('setSpinner', true)
-    store.dispatch('getMethod', { url: '/load-deduction-accounts' }).then((data) => {
-        store.commit('setSpinner', false)
+function loadLog(url= '/load-deduction-accounts') {
+    store.dispatch('getMethod', { url:url }).then((data) => {
         if (data?.status == 200) {
             accounts.value = data.data;
         }
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 }
 const department = ref([]);
@@ -198,7 +206,6 @@ function dropdownDept() {
         department.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownDept()
@@ -209,17 +216,16 @@ function dropdownDeduct() {
         deducts.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownDeduct()
 loadLog()
 function nextPage(link) {
-    alert()
+
     if (!link.url || link.active) {
         return;
     }
-    alert(link.url)
+    loadLog(link.url)
 }
 
 </script>

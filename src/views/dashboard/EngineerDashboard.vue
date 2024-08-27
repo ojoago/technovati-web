@@ -29,25 +29,28 @@
             
             <div class="row">
                 <div class="col-md-5">
-                    <GChart v-if="pieChart.data.length" type="PieChart" :data="pieChart.data"
+                    <Chart :length="pieChart.data.length" chart="PieChart" :data="pieChart.data" :options="pieChart.options" />
+                     <!-- <GChart v-if="pieChart.data.length> 1" type="PieChart" :data="pieChart.data"
                         :options="pieChart.options" />
+                        <span v-else> {{ pieChart.options.title }}, No Data loaded</span> -->
                 </div>
 
                 <div class="col-md-7">
-                    <GChart type="ColumnChart" v-if="dailyColumn.data.length" :data="dailyColumn.data"
-                        :options="dailyColumn.options" />
+                    <Chart :length="dailyColumn.data.length" chart="ColumnChart" :data="dailyColumn.data" :options="dailyColumn.options" />
+                    
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-8">
-                    <GChart type="ColumnChart" v-if="monthlyColumn.data.length" :data="monthlyColumn.data"
+                    <GChart type="ColumnChart" v-if="monthlyColumn.data.length>1" :data="monthlyColumn.data"
                         :options="monthlyColumn.options" />
-                    
+                    <span v-else>No Data loaded</span>
+                    <Chart :length="monthlyColumn.data.length" chart="ColumnChart" :data="monthlyColumn.data" :options="monthlyColumn.options" />
+
                 </div>
 
                 <div class="col-md-4">
-                    <GChart type="PieChart" v-if="pieYearly.data.length" :data="pieYearly.data"
-                        :options="pieYearly.options" />
+                    <Chart :length="pieYearly.data.length" chart="ColumnChart" :data="pieYearly.data" :options="pieYearly.options" />
                 </div>
             </div>
                 
@@ -65,7 +68,7 @@
 import store from "@/store";
 import { onMounted, ref } from "vue";
 import AttendanceComponent from '@/components/shift/AttendanceComponent.vue';
-import { GChart } from 'vue-google-charts'
+import Chart from '@/components/ChartComponent.vue';
 import Card from '@/components/CardComponent.vue'
 
 const monthNames = ['','Jan','Feb', 'Mar', 'Apr', 'May', 'Jun','Jul','Aug','Sep','Oct','Nov','Dec'];

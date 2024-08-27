@@ -71,8 +71,8 @@
                             <label class="form-label">Religion <span class="text-danger">*</span></label>
                             <select v-model="user.religion" class="form-control form-control-sm">
                                 <option value="" selected>Select Religion</option>
-                                <option>Muslim</option>
-                                <option>Christain</option>
+                                <option>Islam</option>
+                                <option>Christainity</option>
                                 <option>Other</option>
                             </select>
                             <p class="text-danger " v-if="errors?.religion">{{ errors?.religion[0] }}</p>
@@ -142,7 +142,7 @@
                             <label class="form-label">State of Origin <span class="text-danger">*</span></label>
                             <!-- <Select2 v-model="user.state_of_origin" :options="states" :settings="{ width: '100%' }"  /> -->
                             <select v-model="user.state_of_origin" class="form-control form-control-sm"
-                                @change="loadStateLga($event)">
+                                @change="loadStateLga($event?.target?.value)">
                                 <option value="" selected>Select State</option>
                                 <option v-for="state in states" :key="state.id" :value="state.id">{{ state.text }}
                                 </option>
@@ -154,7 +154,8 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label class="form-label">LGA of Origin <span class="text-danger">*</span></label>
-                            <Select2 v-model="user.lga_of_origin" :options="stateLgas" :settings="{ width: '100%' }" />
+                            <Select2 v-model="user.lga_of_origin" :options="stateLgas" :settings="{ width: '100%' }"
+                                aria-placeholder="Select Option" />
                             <p class="text-danger " v-if="errors?.lga_of_origin">{{ errors?.lga_of_origin[0] }}</p>
                         </div>
                     </div>
@@ -163,7 +164,7 @@
                             <label class="form-label">State of Residence <span class="text-danger">*</span></label>
                             <!-- <Select2 v-model="user.state_of_residence" :options="states" :settings="{ width: '100%' }"  /> -->
                             <select v-model="user.state_of_residence" class="form-control form-control-sm"
-                                @change="loadStateRes($event)">
+                                @change="loadStateRes($event?.target?.value)">
                                 <option value="" selected>Select Option</option>
                                 <option v-for="state in states" :key="state.id" :value="state.id">{{ state.text }}
                                 </option>
@@ -175,7 +176,8 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label class="form-label">LGA of Residence <span class="text-danger">*</span></label>
-                            <Select2 v-model="user.lga_of_residence" :options="resLga" :settings="{ width: '100%' }" />
+                            <Select2 v-model="user.lga_of_residence" :options="resLga" :settings="{ width: '100%' }"
+                                aria-placeholder="Select LGA" />
                             <p class="text-danger " v-if="errors?.lga_of_residence">{{ errors?.lga_of_residence[0] }}
                             </p>
                         </div>
@@ -196,7 +198,8 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="form-label">Sub Department </label>
-                            <Select2 v-model="user.sub_department" :options="sub" :settings="{ width: '100%' }" />
+                            <Select2 v-model="user.sub_department" :options="sub" :settings="{ width: '100%' }"
+                                aria-placeholder="Select Sub Department" />
                             <p class="text-danger " v-if="errors?.sub_department">{{ errors?.sub_department[0] }}</p>
                         </div>
                     </div>
@@ -204,7 +207,8 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="form-label">Designation <span class="text-danger">*</span></label>
-                            <Select2 v-model="user.designation_pid" :options="desig" :settings="{ width: '100%' }" />
+                            <Select2 v-model="user.designation_pid" :options="desig" :settings="{ width: '100%' }"
+                                aria-placeholder="Select Designation" />
                             <p class="text-danger " v-if="errors?.designation_pid">{{ errors?.designation_pid[0] }}</p>
                         </div>
                     </div>
@@ -212,7 +216,8 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="form-label">Roles </label>
-                            <Select2 v-model="user.role" :options="roles" :settings="{ width: '100%' }" />
+                            <Select2 v-model="user.role" :options="roles" :settings="{ width: '100%' }"
+                                aria-placeholder="Select Role" />
                             <p class="text-danger " v-if="errors?.role">{{ errors?.role[0] }}</p>
                         </div>
                     </div>
@@ -235,10 +240,13 @@
                     </div>
                     <img v-if="user.image" :src="user.image" alt="Selected Image"
                         style="max-width: 200px; margin-top: 10px;" />
-
+                    <img v-if="user.path" :src="user.path" alt="Selected Image"
+                        style="max-width: 200px; margin-top: 10px;" />
 
                 </div>
-                <button type="button" class="btn btn-success btn-sm mt-2" @click="createStaff">Submit</button>
+                <button type="button" class="btn btn-success btn-sm mt-2 mr-3" @click="saveStaff">Save & Exit</button> 
+                <i class="m-3"></i>
+                <button type="button" class="btn btn-success btn-sm mt-2" @click="createStaff">Save & Continue</button>
             </form>
         </fieldset>
 
@@ -250,6 +258,8 @@ import store from "@/store";
 import {  defineEmits } from "vue";
 import Select2 from 'vue3-select2-component';
 import { ref, onMounted } from "vue";
+// import { useHelper } from "@/composables/helper";
+// const {handleFile}  = useHelper()
 // import { useRoute, useRouter } from 'vue-router';
 
 const errors = ref({});
@@ -283,6 +293,7 @@ const user = ref({
     role: '',
     geno_type: '',
     blood_group: '',
+    pid:null,
 });
 
 let query = {}
@@ -297,6 +308,20 @@ function createStaff() {
             localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
             errors.value = []
             resetAttr()
+            switchTab()
+        }
+    })
+}
+function saveStaff() {
+    errors.value = []
+    store.dispatch('postMethod', { url: '/create-staff', param: user.value }).then((data) => {
+        if (data?.status == 422) {
+            errors.value = data.data;
+        } else if (data?.status == 201) {
+            resetAttr()
+            query = {}
+            localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
+            localStorage.setItem('TVATI_EDIT_STAFF', JSON.stringify(query, null, 2))
             switchTab()
         }
     })
@@ -360,6 +385,8 @@ function loadRoles() {
 loadRoles()
 
 const handleImageChange = (event) => {
+    // user.value.image = handleFile(event);
+
     const file = event.target.files[0];
     if (file) {
         var ext = file['name'].substring(file['name'].lastIndexOf('.') + 1);
@@ -391,7 +418,7 @@ const handleImageChange = (event) => {
 
     const stateLgas = ref([]);
      function loadStateLga(event) {
-        store.dispatch('loadDropdown', 'state-lga/' + event.target.value).then(({ data }) => {
+        store.dispatch('loadDropdown', 'state-lga/' + event).then(({ data }) => {
             stateLgas.value = data;
         })
     }
@@ -399,7 +426,7 @@ const handleImageChange = (event) => {
     const resLga = ref([]);
 
      function loadStateRes(event) {
-        store.dispatch('loadDropdown', 'state-lga/' + event.target.value).then(({ data }) => {
+        store.dispatch('loadDropdown', 'state-lga/' + event).then(({ data }) => {
             resLga.value = data;
         }).catch(e => {
             console.log(e);
@@ -421,6 +448,12 @@ const handleImageChange = (event) => {
     store.dispatch('getMethod', { url: '/load-personal-detail/'+pid }).then((data) => {
         if (data?.status == 200) {
             user.value = data.data;
+            user.value.email = data?.data?.user?.email 
+            user.value.pid = data?.data?.user?.pid 
+            user.value.username = data.data?.user?.username
+            user.value.gsm = data.data?.user?.gsm
+            loadStateLga(user.value.state_of_origin)
+            loadStateRes(user.value.state_of_residence)
         }
     })
 }
@@ -429,27 +462,28 @@ const handleImageChange = (event) => {
 const resetAttr = () => {
     user.value = {
         email: '',
-    username: '',
-    gsm: '',
-    group: '',
-    firstname: '',
-    othername: '',
-    marital_status: '',
-    gender: '',
-    religion: '',
-    pob: '',
-    dob: '',
-    state_of_origin: '',
-    lga_of_origin: '',
-    state_of_residence: '',
-    lga_of_residence: '',
-    address: '',
-    department_pid: '',
-    sub_department: '',
-    designation_pid: '',
-    user_pid: props.user_pid,
-    image: null,
-    role: '',
+        username: '',
+        gsm: '',
+        group: '',
+        firstname: '',
+        othername: '',
+        marital_status: '',
+        gender: '',
+        religion: '',
+        pob: '',
+        dob: '',
+        state_of_origin: '',
+        lga_of_origin: '',
+        state_of_residence: '',
+        lga_of_residence: '',
+        address: '',
+        department_pid: '',
+        sub_department: '',
+        designation_pid: '',
+        user_pid: props.user_pid,
+        image: null,
+        pid:null,
+        role: '',
     }
 }
      

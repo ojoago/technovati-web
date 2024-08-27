@@ -179,7 +179,8 @@ function createAllowanceExclusion() {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-            resetAttr()
+            closeModal()
+            loadLog()
         }
     }).catch(e => {
         console.log(e);
@@ -187,10 +188,12 @@ function createAllowanceExclusion() {
 }
 const exclusions = ref({});
 
-function loadLog() {
-    store.dispatch('getMethod', { url: '/load-allowance-exclusion' }).then((data) => {
+function loadLog(url = '/load-allowance-exclusion') {
+    store.dispatch('getMethod', { url:url}).then((data) => {
         if (data?.status == 200) {
             exclusions.value = data.data;
+        }else{
+            exclusions.value = {}
         }
     }).catch(e => {
         console.log(e);
@@ -220,11 +223,11 @@ function dropdownAllow() {
 dropdownAllow()
 
 function nextPage(link) {
-    alert()
+
     if (!link.url || link.active) {
         return;
     }
-    alert(link.url)
+    loadLog(link.url)
 }
 
 </script>

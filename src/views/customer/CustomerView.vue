@@ -259,6 +259,7 @@ const mModal = () => {
 }
 const errors = ref({});
 const customers = ref({});
+
 const customer = ref({
     name: '',
     rc: '',
@@ -299,6 +300,8 @@ const editCustomer = (data) => {
     }
     toggleCModal.value = true;
 }
+
+
 const editCustomerStore = (data) => {
     manager.value = {
         customer_pid: data.customer_pid ,
@@ -325,10 +328,12 @@ function createCustomer() {
 }
 
 
-function loadCustomer() {
-    store.dispatch('getMethod', { url: '/load-customers' }).then((data) => {
+function loadCustomer(url= '/load-customers' ) {
+    store.dispatch('getMethod', { url:url }).then((data) => {
         if (data?.status == 200) {
             customers.value = data.data;
+        }else{
+            customer.value = {}
         }
     })
 }
@@ -399,11 +404,10 @@ function customerDetail(cst) {
 loadCustomer()
 
 function nextPage(link) {
-    alert()
     if (!link.url || link.active) {
         return;
     }
-    alert(link.url)
+    loadCustomer(link.url)
 }
 
 </script>

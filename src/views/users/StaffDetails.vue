@@ -34,7 +34,7 @@
                                         Date of Birth
                                     </td>
                                     <td>
-                                        {{ detail?.dob }}
+                                        {{ detail?.birthday }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -444,7 +444,7 @@ onMounted(() => {
 
 
 function loadStaffDetail() {
-    store.dispatch('getMethod', { url: '/ataff-detail/' + staff_pid.value }).then(({ data }) => {
+    store.dispatch('getMethod', { url: '/staff-detail/' + staff_pid.value }).then(({ data }) => {
         detail.value = data;
     })
 }

@@ -51,7 +51,8 @@
                 </div>
             </div>
         </div>
-         <o-modal :isOpen="toggleModal" @submit="createDeductionName" :modal-class="xs" title="Deduction Name" @modal-close="closeModal">
+
+         <o-modal :isOpen="toggleModal" @submit="createDeductionName" modal-class="modal-xs" title="Deduction Name" @modal-close="closeModal">
             <template #content>
                 <div>
                      <form>
@@ -98,12 +99,14 @@ import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
 import OModal from "@/components/OModal.vue";
 const toggleModal = ref(false)
-const xs = 'modal-xs'
+
+
 const openModal = () => {
     toggleModal.value = true
 }
 const closeModal = () => {
     toggleModal.value = false;
+    resetAttr()
 };
 const errors = ref({});
 const deduction = ref({
@@ -121,25 +124,29 @@ const editData = (stp) => {
     }
     toggleModal.value = true
 }
+
+const resetAttr = () => {
+    deduction.value = {
+        name: '',
+        description: '',
+        payment: 0,
+    }
+}
 const deleteLog = (pid) => {
     alert(pid)
 }
 
 function createDeductionName() {
-    store.commit('setSpinner', true)
     errors.value = []
     store.dispatch('postMethod', { url: '/create-deduction-name', param: deduction.value }).then((data) => {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-            let form = document.getElementsByName('form');
-            form.reset()
+            closeModal()
             loadDeductionName()
             // deduction.value = [];
         }
-        store.commit('setSpinner', false)
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
     })
 }
@@ -147,27 +154,25 @@ function createDeductionName() {
 
 const deductions = ref({});
 
-function loadDeductionName() {
-    store.commit('setSpinner', true)
-    store.dispatch('getMethod', { url: '/load-deduction-names' }).then((data) => {
-        store.commit('setSpinner', false)
+function loadDeductionName(url = '/load-deduction-names') {
+    store.dispatch('getMethod', { url: url }).then((data) => {
         if (data?.status == 200) {
             deductions.value = data.data;
+        }else{
+            deductions.value = {}
         }
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 }
 
 loadDeductionName()
 function nextPage(link) {
-    alert()
+
     if (!link.url || link.active) {
         return;
     }
-    alert(link.url)
+    loadDeductionName(link.url)
 }
 
 </script>

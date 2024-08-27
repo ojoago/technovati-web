@@ -200,7 +200,6 @@ const publishAnnouncement = (pid) => {
 
 
 function makeAnnouncement() {
-    store.commit('setSpinner', true)
     errors.value = []
     store.dispatch('postMethod', { url: '/make-announcement', param: announce.value }).then((data) => {
         if (data?.status == 422) {
@@ -219,10 +218,11 @@ function loadAnnouncements() {
     store.dispatch('getMethod', { url: '/load-announcements' }).then((data) => {
         if (data?.status == 200) {
             announcements.value = data.data;
+        }else{
+            announcements.value = {}
         }
     }).catch(e => {
         console.log(e);
-        alert('weting be this')
     })
 }
 
@@ -232,7 +232,6 @@ function dropdownUser() {
         users.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownUser()
@@ -243,17 +242,16 @@ function dropdownDepts() {
         departments.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownDepts()
  
 function nextPage(link) {
-    alert()
+  
     if (!link.url || link.active) {
         return;
     }
-    alert(link.url)
+    loadAnnouncements(link.url)
 }
 
 

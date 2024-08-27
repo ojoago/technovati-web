@@ -81,10 +81,12 @@ const evaluateSelf = (data) => {
 }
 
 
-function loadLog() {
-    store.dispatch('getMethod', { url: '/load-appraisal' }).then((data) => {
+function loadLog(url = '/load-appraisal') {
+    store.dispatch('getMethod', { url: url }).then((data) => {
         if (data?.status == 200) {
             titles.value = data.data;
+        }else{
+            titles.value = {}
         }
     }).catch(e => {
         console.log(e);
@@ -93,11 +95,11 @@ function loadLog() {
 
 loadLog()
 function nextPage(link) {
-    alert()
+ 
     if (!link.url || link.active) {
         return;
     }
-    alert(link.url)
+    loadLog(link.url)
 }
 
 </script>

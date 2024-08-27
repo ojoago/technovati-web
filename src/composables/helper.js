@@ -1,6 +1,8 @@
 // src/composables/useStringFormatter.js
-// import { ref } from 'vue';
 
+import store from "@/store";
+
+// import { ref } from 'vue';
 export function useHelper() {
     const formatUpperCase = (str) =>str == null ? null : str.toUpperCase();
     const formatLowerCase = (str) => str.toLowerCase();
@@ -58,12 +60,42 @@ export function useHelper() {
         
     }
 
+    const handleFile = (event) => {
+        const file = event.target.files[0];
+        
+      if (file) {
+          var ext = file['name'].substring(file['name'].lastIndexOf('.') + 1);
+          if (!['png', 'jpeg', 'jpg'].includes(ext)) {
+              event.target.value = null;
+              store.commit('notify', { message: 'Only Image is allowed', type: 'warning' })
+              return;
+          }
+          if (file.size > 1024 * 1024) {
+              event.target.value = null;
+              store.commit('notify', { message: 'Image cannot be more 1MB', type: 'warning' })
+              return;
+          }
+          
+          let basefile 
+          const reader = new FileReader();
+           reader.onload = () => {
+            basefile = reader.result;
+          };
+          reader.readAsDataURL(file);
+          return basefile;
+      }else{
+
+          return null
+      }
+    }
+
   return {
     formatUpperCase,
     formatLowerCase,
     capitalizeFirstLetter,
     reverseString,
     numberFormat,
-    cardAble
+    cardAble,
+    handleFile
   };
 }

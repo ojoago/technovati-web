@@ -70,7 +70,9 @@
                                         </div>
                                     </fieldset>
                                  
-                                    <button type="button" class="btn btn-success btn-sm mt-2" @click="staffQualification">Submit</button>
+                                    <button type="button" class="btn btn-success btn-sm mt-2" @click="saveQualification">Save & Exit</button>
+                                    <i class="m-3"></i>
+                                    <button type="button" class="btn btn-success btn-sm mt-2" @click="staffQualification">Save & Continue</button>
                                 </form>
                             </fieldset>
     </div>
@@ -115,6 +117,7 @@ const removeQualification = (i) => {
     qualification.value.institutions.splice(i, 1);
 }
 let query = {}
+
 function staffQualification() {
     let str = localStorage.getItem('TVATI_ONBOARD_TAB') ? JSON.parse(localStorage.getItem('TVATI_ONBOARD_TAB')) : 'null'
     qualification.value.user_pid = str.id;
@@ -127,6 +130,23 @@ function staffQualification() {
             form.reset()
             query = { tab: 'bank-tab', 'id': data?.data?.user_pid }
             localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
+            switchTab()
+        }
+    })
+}
+
+
+function saveQualification() {
+    let str = localStorage.getItem('TVATI_ONBOARD_TAB') ? JSON.parse(localStorage.getItem('TVATI_ONBOARD_TAB')) : 'null'
+    qualification.value.user_pid = str.id;
+    store.dispatch('postMethod', { url: '/add-qualification', param: qualification.value }).then((data) => {
+        if (data?.status == 422) {
+            q_errors.value = data.data;
+        } else if (data?.status == 201) {
+            q_errors.value = []
+            query = { tab: 'personal-tab' }
+            localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
+            localStorage.setItem('TVATI_EDIT_STAFF', JSON.stringify(query, null, 2))
             switchTab()
         }
     })

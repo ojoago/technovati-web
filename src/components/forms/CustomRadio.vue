@@ -5,12 +5,12 @@
             <!-- option one  -->
             <div v-if="checked==1">
                 <input @input="$emit('update:modelValue', $event.target.value)" type="radio" :id="`radio${name}`"
-                    :name="`switch${name}`" :value="value1" checked readonly />
+                    :name="`switch${name}`" :value="value1" checked  />
                 <label for="radio-one">{{ label1 }}</label>
             </div>
             <div v-else>
                 <input @input="$emit('update:modelValue', $event.target.value)" type="radio" :id="`radio${name}`"
-                    :name="`switch${name}`" :value="value1" readonly />
+                    :name="`switch${name}`" :value="value1"  />
                 <label for="radio-one">{{ label1 }}</label>
             </div>
             <!-- option 1 end here  -->
@@ -18,7 +18,7 @@
             <!-- option 2  -->
             <div v-if="checked==0">
                 <input @input="$emit('update:modelValue', $event.target.value)" type="radio" :id="`radio${name}`"
-                    :name="`switch${name}`" :value="value2" checked readonly />
+                    :name="`switch${name}`" :value="value2" checked  />
                 <label for="radio-two">{{ label2 }}</label>
             </div>
             <div v-else>

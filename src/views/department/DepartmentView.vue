@@ -54,6 +54,12 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                <div class="flex justify-center mt-4">
+                                        <nav class="relative justify-center rounded-md shadow pagination">
+                                            <pagination-links v-for="(link, i) of departments.links" :link="link" :key="i"
+                                                @next="nextPage($event,link)"></pagination-links>
+                                        </nav>
+                                    </div>
                             </div>
                         </div>
 
@@ -121,6 +127,12 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <div class="flex justify-center mt-4">
+                                        <nav class="relative justify-center rounded-md shadow pagination">
+                                            <pagination-links v-for="(link, i) of designations.links" :link="link" :key="i"
+                                                @next="nextPage($event,link)"></pagination-links>
+                                        </nav>
+                                    </div>
                                 </div>
                                 </div>
                             </div>
@@ -198,6 +210,7 @@ import { ref, onMounted } from "vue";
 import Select2 from 'vue3-select2-component';
 import OModal from "@/components/OModal.vue";
 import SubDepartment from "@/components/department/SubDepartment.vue"
+import PaginationLinks from "@/components/PaginationLinks.vue";
 
 const isModalOpened = ref(false);
 
@@ -257,8 +270,6 @@ const toggleModal = ref(false);
     })
 }
 
- 
-  
 
      const assign_sub = ref({
         sub_department: '',
@@ -274,43 +285,14 @@ const toggleModal = ref(false);
             }
         })
     }
-    // const s_error = ref({})
-    // function assignSubDepartnemt() {
-    //     store.commit('setSpinner', true)
-    //     s_error.value = []
-    //     store.dispatch('postMethod', { url: '/assign-sub-department-head', param: assign_sub.value }).then((data) => {
-    //         if (data?.status == 422) {
-    //             s_error.value = data.data
-    //         } else if (data?.status == 201) {
-    //             assign_sub.value = [];
-    //         }
-    //         store.commit('setSpinner', false)
-    //     }).catch(e => {
-    //         store.commit('setSpinner', false)
-    //         console.log(e);
-    //     })
-    // }
-
-
-//     const sub_depts = ref({})    
-// function loadSubDepartment() {
-//     store.commit('setSpinner', true)
-//     store.dispatch('getMethod', { url: '/load-sub-departments' }).then((data) => {
-//         store.commit('setSpinner', false)
-//         if (data?.status == 200) {
-//             sub_depts.value = data.data;
-//         }
-//     }).catch(e => {
-//         store.commit('setSpinner', false)
-//         console.log(e);
-//         alert('weting be this')
-//     })
-// }
+    
+    
 
 const desig = ref({
     name : '' ,
     description: '',
 })
+
 const editDesig = (ds) => {
     desig.value = {
         name :ds.name ,
@@ -341,8 +323,8 @@ function createDesignation(){
 
     loadDepartment()
     
-    function loadDepartment() {
-        store.dispatch('getMethod', { url: '/load-departments' }).then((data) => {
+    function loadDepartment(url ='/load-departments') {
+        store.dispatch('getMethod', { url: url }).then((data) => {
             if (data?.status == 200) {
                 departments.value = data.data;
             }
@@ -395,6 +377,13 @@ function createDesignation(){
             loadDesignation()
         })
      })
+
+     function nextPage(link) {
+    if (!link.url || link.active) {
+        return;
+    }
+     loadDepartment(link.url)
+}
 </script>
 
 <style scoped>

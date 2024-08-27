@@ -4,7 +4,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    Accounts
+                    Sub Accounts
                     <button class="btn btn-primary btn-sm" @click="openModal">New</button>
                 </div>
                 <div class="card-body">
@@ -59,7 +59,7 @@
             </div>
         </div>
 
-        <o-modal :isOpen="toggleModal" modal-class="modal-sm" title="KPI account" @submit="createAccount"
+        <o-modal :isOpen="toggleModal" modal-class="modal-sm" title="Sub Account" @submit="createAccount"
             @modal-close="closeModal">
             <template #content>
                 <form id="configForm">
@@ -77,6 +77,15 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label">Account Name </label>
+                                <input type="text" class="form-control form-control-sm" v-model="account.account_name"
+                                    placeholder="e.g Salary Account">
+                                <p v-if="errors.account_name" class="text-danger">{{ errors.account_name[0] }} </p>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Account Code </label>
                                 <input type="text" class="form-control form-control-sm" v-model="account.account_name"
                                     placeholder="e.g Salary Account">
                                 <p v-if="errors.account_name" class="text-danger">{{ errors.account_name[0] }} </p>
@@ -200,7 +209,7 @@ function createAccount() {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-            resetAttr()
+            closeModal()
             loadAccount()
         }
     }).catch(e => {

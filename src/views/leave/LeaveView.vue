@@ -170,6 +170,7 @@
             </div>
 
         </div>
+        
         <o-modal :isOpen="assignModal" @submit="assignLeave" modal-class="modal-sm" title="Assign Leave"
             @modal-close="closeModal">
             <template #content>
@@ -264,6 +265,7 @@ const resetA = () => {
         designation_pid: ''        
     }
 }
+
 function assignLeave() {
     errors.value = []
     store.dispatch('postMethod', {url:'/assign-leave',param:assign.value}).then((data) => {
@@ -295,10 +297,12 @@ const deleteLeave = (pid) => {
  
 loadLeaves()
 
-function loadLeaves() {
-    store.dispatch('getMethod', { url: '/load-leaves'}).then((data) => {
+function loadLeaves(url = '/load-leaves') {
+    store.dispatch('getMethod', { url: url}).then((data) => {
         if (data?.status == 200) {
             leaves.value = data.data;
+        }else{
+            leaves.value = {}
         }
     })
 }
@@ -335,11 +339,11 @@ function dropdownLeave() {
 dropdownLeave()
 
 function nextPage(link) {
-    alert()
+
     if (!link.url || link.active) {
         return;
     }
-    alert(link.url)
+    loadLeaves(link.url)
 }
 
 

@@ -107,10 +107,12 @@ const rejectRequest = (pid) => {
 
 
 const requests = ref({})
-function loadRequest() {
-    store.dispatch('getMethod', { url: '/load-staff-request' }).then((data) => {
+function loadRequest(url = '/load-staff-request') {
+    store.dispatch('getMethod', { url:url }).then((data) => {
         if (data?.status == 200) {
             requests.value = data.data
+        }else{
+            requests.value = {}
         }
     })
 }
@@ -133,11 +135,10 @@ function dropdownUser() {
 dropdownUser()
 
 function nextPage(link) {
-    alert()
     if (!link.url || link.active) {
         return;
     }
-    alert(link.url)
+    loadRequest(link.url)
 }
 
 

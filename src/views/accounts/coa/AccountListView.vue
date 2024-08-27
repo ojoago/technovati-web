@@ -119,8 +119,8 @@ function loadAccount() {
     store.dispatch('getMethod', { url: '/load-account-list' }).then((data) => {
         if (data?.status == 200) {
             accounts.value = data.data
-            let pid = data.data[0].accounts[0].pid;
-            let name = data.data[0].accounts[0].account_name;
+            let pid = data?.data[0]?.accounts[0]?.pid;
+            let name = data?.data[0]?.accounts[0]?.account_name;
             loadJournal(pid,name)
         }else{
             accounts.value = {}
@@ -136,7 +136,7 @@ const loadJournal = (pid,name) =>{
     journal.value = name;
     store.dispatch('getMethod', { url: '/load-account-journal/'+pid }).then((data) => {
         if (data?.status == 200) {
-            journals.value = data.data
+            journals.value = data?.data
         } else {
             journals.value = {}
         }

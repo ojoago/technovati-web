@@ -83,6 +83,7 @@ function staffQualification() {
             resetAttr()
             query = { tab: 'personal-tab' }
             localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
+            localStorage.setItem('TVATI_EDIT_STAFF', JSON.stringify(query, null, 2))
             switchTab()
         }
     })

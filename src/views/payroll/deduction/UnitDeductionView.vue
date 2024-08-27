@@ -341,7 +341,7 @@ function createUnitDeduction() {
             errors.value = data.data
         } else if (data?.status == 201) {
             loadLog()
-            resetAttr();
+            closeModal();
         }
     }).catch(e => {
         console.log(e);
@@ -359,10 +359,12 @@ function deleteData(id) {
 
 const deductions = ref({});
 
-function loadLog() {
-    store.dispatch('getMethod', { url: '/load-unit-deductions' }).then((data) => {
+function loadLog(url= '/load-unit-deductions') {
+    store.dispatch('getMethod', { url: url }).then((data) => {
         if (data?.status == 200) {
             deductions.value = data.data;
+        }else{
+             deductions.value = {};
         }
     }).catch(e => {
         console.log(e);
@@ -433,6 +435,13 @@ function loadSectionDetails(event) {
     })
 }
 
+function nextPage(link) {
+
+    if (!link.url || link.active) {
+        return;
+    }
+    loadLog(link.url)
+}
 
 </script>
 

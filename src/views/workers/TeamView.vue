@@ -140,6 +140,15 @@ const team = ref({
     pid : '',
 });
 
+const resetAttr = () =>{
+    team.value = {
+        'team': '' ,
+        'description': '' ,
+        'team_lead': '' ,
+        'pid': '' ,
+    }
+    teamModal.value = false;
+}
 const editTeam = (tm)=>{
     team.value = {
         'team': tm.team ,
@@ -184,8 +193,7 @@ function createTeam() {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-            let form = document.querySelector('#teamForm');
-            form.reset();
+            resetAttr();
             loadTeam()
         }
     })
@@ -212,7 +220,7 @@ function dropdownUser() {
         userDrop.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
+        
     })
 }
 dropdownUser()

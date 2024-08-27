@@ -15,7 +15,8 @@
                                     <th>Author</th>
                                     <th>Subject</th>
                                     <th>Body</th>
-                                    <th>Category</th>
+                                    <!-- <th>Category</th> -->
+                                    <th>File</th>
                                     <th>Status</th>
                                     <th> <i class="bi bi-gear-fill"></i> </th>
                                 </tr>
@@ -26,8 +27,13 @@
                                     <td class="line-break">{{ memo?.author?.username }}</td>
                                     <td class="line-break">{{ memo.subject }}</td>
                                     <td class="line-break">{{ memo.body }}</td>
-                                    <td>{{ memo.memo_category }}</td>
+                                   <!-- <td>{{ memo.memo_category }}</td> -->
                                     <td>{{ memo.memo_status }}</td>
+                                    <td>
+                                        
+                                        <a :href="memo.path"  v-if="memo.path" target="_blank" rel="noopener noreferrer"
+                                            :download="memo?.path"> Download</a>
+                                    </td>
                                     <td>
                                         <div class="dropdown" v-if="memo.status==0">
                                             <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
@@ -139,6 +145,7 @@ import store from "@/store";
 import PaginationLinks from "@/components/PaginationLinks.vue";
 import { Multiselect } from 'vue-multiselect';
 import OModal from "@/components/OModal.vue";
+
 const toggleModal = ref(false)
 const openModal = () => {
     toggleModal.value = true
@@ -153,7 +160,8 @@ const closeModal = () => {
             body : '' , 
             category : '1' , 
             staff : '' , 
-            departments : '3cdr' , 
+            departments : '' , 
+            image : '' , 
     });
      
 
@@ -161,9 +169,10 @@ const closeModal = () => {
         memoForm.value = {
             subject: '',
             body: '',
-            category: '',
+            category: '1',
             staff: '',
             departments: '', 
+            image: '', 
         }
     }
     
@@ -177,17 +186,17 @@ const closeModal = () => {
 
 
 const handleImageChange = (event) => {
-    const file = event.target.files[0];
+     const file = event.target.files[0];
     if (file) {
         var ext = file['name'].substring(file['name'].lastIndexOf('.') + 1);
-        if (!['png', 'jpeg', 'jpg','pdf','docx','csv','xlsx'].includes(ext)) {
+        if (!['png', 'jpeg', 'jpg','docs','pdf'].includes(ext)) {
             event.target.value = null;
-            store.commit('notify', { message: 'Only Image,excel and pdf', type: 'warning' })
+            store.commit('notify', { message: 'Only Image is allowed', type: 'warning' })
             return;
         }
-        if ((file.size / (1024 * 1024)) > 6) {
+        if (file.size > 1024 * 1024) {
             event.target.value = null;
-            store.commit('notify', { message: 'File cannot be more 5MB', type: 'warning' })
+            store.commit('notify', { message: 'Image cannot be more 1MB', type: 'warning' })
             return;
         }
         const reader = new FileReader();
@@ -206,13 +215,15 @@ const handleImageChange = (event) => {
         store.dispatch('postMethod', { url: '/create-memo', param: memoForm.value }).then((data) => {
             if (data?.status == 422) {
                 errors.value = data.data;
+                console.log(data.data);
+                
             } else if (data?.status == 201) {
-                resetAttr()
-
+                closeModal()
                 loadMemo()
             }
         })
     }
+
    const editMemo = (memo) => {
         memoForm.value = {
             subject: memo.subject ,
@@ -244,14 +255,15 @@ const handleImageChange = (event) => {
    }
 
     loadMemo()
-    function loadMemo(){
-        store.dispatch('getMethod', { url: '/load-memo', param: memoForm.value }).then((data) => {
+    function loadMemo(url= '/load-memo'){
+        store.dispatch('getMethod', { url: url}).then((data) => {
               if (data?.status == 200) {
                 memos.value = data.data;
+            }else{
+                memos.value ={}
             }
         }).catch(e => {
             console.log(e);
-            alert('weting be this')
         })
     }
     const users = ref([]);
@@ -260,7 +272,6 @@ const handleImageChange = (event) => {
             users.value = data;
         }).catch(e => {
             console.log(e);
-            alert('Something Went Wrong')
         })
     }
     dropdownUser()
@@ -271,17 +282,15 @@ const handleImageChange = (event) => {
             departments.value = data;
         }).catch(e => {
             console.log(e);
-            alert('Something Went Wrong')
         })
     }
     dropdownDepts()
 
     function nextPage(link) {
-        alert()
         if (!link.url || link.active) {
             return;
         }
-        alert(link.url)
+        loadMemo(link.url)
     }
 </script>
 

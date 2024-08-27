@@ -66,7 +66,9 @@
                 </div>
 
 
-                <button type="button" class="btn btn-success btn-sm mt-2" @click="staffBankDetail">Submit</button>
+                <button type="button" class="btn btn-success btn-sm mt-2" @click="saveBankDetail">Save & Exit</button>
+                <i class="m-3"></i>
+                <button type="button" class="btn btn-success btn-sm mt-2" @click="staffBankDetail">Save & Continue</button>
             </form>
         </fieldset>
     </div>
@@ -102,6 +104,22 @@ function staffBankDetail() {
             bank.value = [];
             query = { tab: 'work-tab', 'id': data?.data?.user_pid }
             localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
+            switchTab()
+        }
+    })
+}
+
+function saveBankDetail() {
+    b_errors.value = []
+    let str = localStorage.getItem('TVATI_ONBOARD_TAB') ? JSON.parse(localStorage.getItem('TVATI_ONBOARD_TAB')) : 'null'
+    bank.value.user_pid = str.id;
+    store.dispatch('postMethod', { url: '/add-bank-detail', param: bank.value }).then((data) => {
+        if (data?.status == 422) {
+             b_errors.value = data.data
+        } else if (data?.status == 201) {
+           query = { tab: 'personal-tab' }
+            localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
+            localStorage.setItem('TVATI_EDIT_STAFF', JSON.stringify(query, null, 2))
             switchTab()
         }
     })

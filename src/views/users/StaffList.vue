@@ -99,7 +99,7 @@
                                     <div class="flex justify-center mt-4">
                                         <nav class="relative justify-center rounded-md shadow pagination">
                                             <pagination-links v-for="(link, i) of users.links" :link="link" :key="i"
-                                                @next="nextPage(link)"></pagination-links>
+                                                @next="nextPage($event,link)"></pagination-links>
                                         </nav>
                                     </div>
                                 </div>
@@ -274,19 +274,20 @@
     router.push({ query: query })
   
     function nextPage(link) {
-        alert()
         if (!link.url || link.active) {
             return;
         }
-        alert(link.url)
+        loadStaff(link.url)
     }
 
     const users = ref({});
     loadStaff()
    
-    function loadStaff() {
-    store.dispatch('getMethod', { url: '/load-staff/1' }).then((data) => {
+    function loadStaff(url = '/load-staff/1') {
+    store.dispatch('getMethod', { url: url }).then((data) => {
         if (data?.status == 200) {
+            users.value = data.data;
+        }else{
             users.value = data.data;
         }
     })

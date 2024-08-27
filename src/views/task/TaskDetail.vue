@@ -247,8 +247,12 @@ function loadSubTask() {
     })
 }
 const reloadTaskDetails = () => {
+    // subtasks.value = {};
+    // loadSubTask()
     store.dispatch('getMethod', { url: '/task-detail/' + task_pid.value }).then(({ data }) => {
         subtasks.value = data;
+        toggleModal.value = false;
+
     })
 }
 
@@ -283,6 +287,7 @@ const editSubTask = ()=>{
             errors.value = data.data;
         } else if (data?.status == 201) {
             subTask.value = {}
+            loadSubTask()
         }
     })
 }

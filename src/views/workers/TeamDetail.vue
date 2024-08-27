@@ -13,21 +13,22 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-5">
-                            <GChart v-if="pieChart.data.length" type="PieChart" :data="pieChart.data"
-                                :options="pieChart.options" />
+                            {{ pieChart }}
+                            <Chart :length="pieChart.data.length" chart="PieChart" :data="pieChart.data" :options="pieChart.options" />
+
                         </div>
                         <div class="col-md-7">
-                            <GChart v-if="totalChart.data.length" type="PieChart" :data="totalChart.data"
-                                :options="totalChart.options" />
+                            <Chart :length="totalChart.data.length" chart="PieChart" :data="totalChart.data" :options="totalChart.options" />
+
                         </div>
 
                         <div class="col-md-12">
-                            <GChart type="ColumnChart" v-if="monthlyColumn.data.length" :data="monthlyColumn.data"
-                                :options="monthlyColumn.options" />
+                            <Chart :length="monthlyColumn.data.length" chart="ColumnChart" :data="monthlyColumn.data" :options="monthlyColumn.options" />
+                            
                         </div>
                         <div class="col-md-12">
-                            <GChart type="ColumnChart" v-if="yearlyColumn.data.length" :data="yearlyColumn.data"
-                                :options="yearlyColumn.options" />
+                            <Chart :length="yearlyColumn.data.length" chart="ColumnChart" :data="yearlyColumn.data" :options="yearlyColumn.options" />
+                            
                         </div>
                     </div>
                     gcahrt
@@ -84,7 +85,8 @@
 <script setup>
 import store from "@/store";
 import { onMounted, ref } from "vue";
-import { GChart } from 'vue-google-charts'
+import Chart from '@/components/ChartComponent.vue';
+
 
 // const chartOptions = {
 //     title: 'Assembled this Month',

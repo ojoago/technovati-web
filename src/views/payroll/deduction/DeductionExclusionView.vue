@@ -15,7 +15,7 @@
                                     <th> Employees</th>
                                     <th> start</th>
                                     <th> End</th>
-                                    <th> <i class="bi bi-pencil-fill"></i> </th>
+                                    <th> <i class="bi bi-gear-fill"></i> </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -54,6 +54,7 @@
                 </div>
             </div>
         </div>
+
         <o-modal :isOpen="toggleModal" @submit="createAllowanceExclusion" modal-class="modal-sm" title="Deduction Exclusion" @modal-close="closeModal">
                         <template #content>
                             <div>
@@ -123,6 +124,7 @@ const openModal = () => {
 }
 const closeModal = () => {
     toggleModal.value = false;
+    resetAttr()
 };
 const errors = ref({});
 const exclusion = ref({
@@ -132,6 +134,15 @@ const exclusion = ref({
     end: '',
 });
 
+
+const resetAttr = () => {
+    exclusion.value = {
+        deduction: '',
+        employees: '',
+        begin: '',
+        end: '',
+    }
+}
 const editData = (ex) => {
     exclusion.value = {
         deduction: ex.deduction_pid,
@@ -142,39 +153,35 @@ const editData = (ex) => {
     }
     toggleModal.value = true
 }
+
+
 const deleteData = (pid) => {
     alert(pid)
 }
 
 function createAllowanceExclusion() {
-    store.commit('setSpinner', true)
     errors.value = []
     store.dispatch('postMethod', { url: '/add-deduction-exclusion', param: exclusion.value }).then((data) => {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-            exclusion.value = [];
+            closeModal();
+            loadLog();
         }
-        store.commit('setSpinner', false)
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
     })
 }
 
 const exclusions = ref({});
 
-function loadLog() {
-    store.commit('setSpinner', true)
-    store.dispatch('getMethod', { url: '/load-deduction-exclusion' }).then((data) => {
-        store.commit('setSpinner', false)
+function loadLog(url='/load-deduction-exclusion' ) {
+    store.dispatch('getMethod', { url: url }).then((data) => {
         if (data?.status == 200) {
             exclusions.value = data.data;
         }
     }).catch(e => {
-        store.commit('setSpinner', false)
         console.log(e);
-        alert('weting be this')
     })
 }
 
@@ -186,7 +193,6 @@ function dropdownUser() {
         users.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownUser()
@@ -197,17 +203,16 @@ function dropdownAllow() {
         deduction.value = data;
     }).catch(e => {
         console.log(e);
-        alert('Something Went Wrong')
     })
 }
 dropdownAllow()
 
 function nextPage(link) {
-    alert()
+
     if (!link.url || link.active) {
         return;
     }
-    alert(link.url)
+    loadLog(link.url)
 }
 
 </script>

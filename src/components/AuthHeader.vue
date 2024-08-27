@@ -102,7 +102,7 @@
     import {  defineEmits,computed, ref } from "vue";
     import store from "@/store";
     import OModal from "@/components/OModal.vue";
-import { useRouter } from 'vue-router';
+    import { useRouter } from 'vue-router';
     
     const router = useRouter()
     let query = {}
@@ -125,13 +125,13 @@ const password = ref({ password:'',old:'',password_confirmation:''})
     const error = ref({})
     const updatePassword =() =>{
         error.value = []
-    store.dispatch('postMethod', { url: '/update-password', param: password.value }).then((data) => {
-        if (data?.status == 422) {
-            error.value = data.data
-        } else if (data?.status == 201) {
-            password.value ={new:'',old:'',password_confirmation:''}
-            toggleModal.value = false
-        }
+        store.dispatch('postMethod', { url: '/update-password', param: password.value }).then((data) => {
+            if (data?.status == 422) {
+                error.value = data.data
+            } else if (data?.status == 201) {
+                password.value ={new:'',old:'',password_confirmation:''}
+                toggleModal.value = false
+            }
     })
     }
 </script>
