@@ -21,9 +21,10 @@
 
                     <div class="card card-item">
                         <div class="card-header">
-                            <p>{{ data?.department?.department }}</p>
+                            <p>Department {{ data?.department?.department }}</p>
                         </div>
                         <div class="card-body">
+                            <p> Mode of Transporation: {{ data.mode }}</p>
                             <p> Destination: {{ data.destination }}</p>
 
                             Crew
@@ -36,10 +37,10 @@
 
                     <div class="card  card-item">
                         <div class="card-header">
-                            Items
+                            Purpose
                         </div>
                         <div class="card-body">
-                            <span class="badge bg-dark p-1 m-1">
+                            <span class="badge-bg-dark p-1 m-1">
                                 {{ data.itinerary }}
                             </span>
                         </div>

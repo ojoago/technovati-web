@@ -130,7 +130,7 @@
                                     <div class="flex justify-center mt-4">
                                         <nav class="relative justify-center rounded-md shadow pagination">
                                             <pagination-links v-for="(link, i) of designations.links" :link="link" :key="i"
-                                                @next="nextPage($event,link)"></pagination-links>
+                                                @next="nextDPage($event,link)"></pagination-links>
                                         </nav>
                                     </div>
                                 </div>
@@ -332,10 +332,12 @@ function createDesignation(){
     }
     // load-designation
     const designations = ref({});
-    function loadDesignation() {
-        store.dispatch('getMethod', { url: '/load-designation' }).then((data) => {
+    function loadDesignation(url = '/load-designation') {
+        store.dispatch('getMethod', { url: url }).then((data) => {
             if (data?.status == 200) {
                 designations.value = data.data;
+            }else{
+                designations.value = {}
             }
         })
     }
@@ -378,12 +380,18 @@ function createDesignation(){
         })
      })
 
-     function nextPage(link) {
-    if (!link.url || link.active) {
-        return;
+    function nextPage(link) {
+        if (!link.url || link.active) {
+            return;
+        }
+        loadDepartment(link.url)
     }
-     loadDepartment(link.url)
-}
+    function nextDPage(link) {
+        if (!link.url || link.active) {
+            return;
+        }
+        loadDesignation(link.url)
+    }
 </script>
 
 <style scoped>

@@ -107,8 +107,7 @@ import { ref } from "vue";
 import OModal from "@/components/OModal.vue";
 import store from "@/store";
 import PaginationLinks from "@/components/PaginationLinks.vue";
-import { useHelper } from "@/composables/helper";
-const { handleFile } = useHelper()
+
 
 
 // import { useRouter } from 'vue-router';
@@ -175,26 +174,26 @@ loadRequest()
 
 
 const handleImageChange = (event) => {
-    fundRequestData.value.image = handleFile(event)
-    // const file = event.target.files[0];
-    // if (file) {
-    //     var ext = file['name'].substring(file['name'].lastIndexOf('.') + 1);
-    //     if (!['png', 'jpeg', 'jpg'].includes(ext)) {
-    //         event.target.value = null;
-    //         store.commit('notify', { message: 'Only Image is allowed', type: 'warning' })
-    //         return;
-    //     }
-    //     if (file.size > 1024 * 1024) {
-    //         event.target.value = null;
-    //         store.commit('notify', { message: 'Image cannot be more 1MB', type: 'warning' })
-    //         return;
-    //     }
-    //     const reader = new FileReader();
-    //     reader.onload = () => {
-    //         fundRequestData.value.image = reader.result;
-    //     };
-    //     reader.readAsDataURL(file);
-    // }
+    // fundRequestData.value.image = handleFile(event)
+    const file = event.target.files[0];
+    if (file) {
+        var ext = file['name'].substring(file['name'].lastIndexOf('.') + 1);
+        if (!['png', 'jpeg', 'jpg'].includes(ext)) {
+            event.target.value = null;
+            store.commit('notify', { message: 'Only Image is allowed', type: 'warning' })
+            return;
+        }
+        if (file.size > 1024 * 1024) {
+            event.target.value = null;
+            store.commit('notify', { message: 'Image cannot be more 1MB', type: 'warning' })
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = () => {
+            fundRequestData.value.image = reader.result;
+        };
+        reader.readAsDataURL(file);
+    }
 }
 
 

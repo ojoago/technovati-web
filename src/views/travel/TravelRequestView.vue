@@ -4,6 +4,7 @@
 
             <div class="card">
                 <div class="card-body">
+                    
                     <button class="btn btn-sm btn-primary m-2" @click="openModal">Request</button>
                     <div class="table-responsive">
                         <table class="table-hover table-stripped table-bordered table">
@@ -87,14 +88,14 @@
                                 <label class="form-label">Tittle <span class="text-danger">*</span></label>
                                 <input type="text" v-model="travel.title" class="form-control form-control-sm"
                                     placeholder="e.g work shop">
-                                <p class="text-danger " v-if="errors?.title">{{ errors?.title[0] }}</p>
+                                <p class="text-danger " v-if="errors?.title">{{ errors?.title }}</p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-label">Destination <span class="text-danger">*</span></label>
                                 <input type="text" v-model="travel.destination" class="form-control form-control-sm">
-                                <p class="text-danger " v-if="errors?.destination">{{ errors?.destination[0] }}
+                                <p class="text-danger " v-if="errors?.destination">{{ errors?.destination }}
                                 </p>
                             </div>
                         </div>
@@ -102,7 +103,7 @@
                             <div class="form-group">
                                 <label class="form-label">Begin Date</label>
                                 <input type="date" v-model="travel.begin" class="form-control form-control-sm">
-                                <p class="text-danger " v-if="errors?.begin">{{ errors?.begin[0] }}</p>
+                                <p class="text-danger " v-if="errors?.begin">{{ errors?.begin }}</p>
                             </div>
                         </div>
 
@@ -110,7 +111,7 @@
                             <div class="form-group">
                                 <label class="form-label">End Date<span class="text-danger">*</span></label>
                                 <input type="date" v-model="travel.end" class="form-control form-control-sm">
-                                <p class="text-danger " v-if="errors?.end">{{ errors?.end[0] }}</p>
+                                <p class="text-danger " v-if="errors?.end">{{ errors?.end }}</p>
                             </div>
                         </div>
 
@@ -118,7 +119,7 @@
                             <div class="form-group">
                                 <label class="form-label">Purpose</label>
                                 <textarea v-model="travel.itinerary" class="form-control form-control-sm"></textarea>
-                                <p class="text-danger " v-if="errors?.itinerary">{{ errors?.itinerary[0] }}</p>
+                                <p class="text-danger " v-if="errors?.itinerary">{{ errors?.itinerary }}</p>
                             </div>
                         </div>
 
@@ -129,7 +130,7 @@
                                     <Multiselect v-model="travel.crew" :options="userDrop" :multiple="true"
                                         :close-on-select="true" placeholder="Pick Crew" label="text" track-by="id" />
                                 </div>
-                                <p class="text-danger " v-if="errors?.crew">{{ errors?.crew[0] }}</p>
+                                <p class="text-danger " v-if="errors?.crew">{{ errors?.crew }}</p>
                             </div>
                         </div>
 
@@ -139,14 +140,14 @@
                                 <label class="form-label">Mode of Transpotation<span
                                         class="text-danger">*</span></label>
                                 <input type="text" v-model="travel.mode" class="form-control">
-                                <p class="text-danger " v-if="errors?.mode">{{ errors?.mode[0] }}</p>
+                                <p class="text-danger " v-if="errors?.mode">{{ errors?.mode }}</p>
                             </div>
                         </div>
 
 
                         <div class="col-md-12">
                             <label>Budgets</label>
-                            <template v-for="(item, loop) in budget.items" :key="loop">
+                            <template v-for="(item, loop) in travel.budget" :key="loop">
 
                                 <fieldset class="border rounded-3 p-2 m-1">
                                     <div class="row">
@@ -156,7 +157,7 @@
                                                         class="text-danger">*</span></label>
                                                 <input type="text" v-model="item.budget"
                                                     class="form-control form-control-sm" placeholder="e.g feeding">
-                                                <!-- <p class="text-danger " v-if="errors?.title">{{ errors?.title[0] }}</p> -->
+                                                    <p class="text-danger " v-if="errors[`budget${loop}`]" >{{ errors[`budget${loop}`] }}</p>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
@@ -167,10 +168,12 @@
                                                     <input type="number" step="0.1" v-model="item.amount"
                                                         class="form-control form-control-sm">
                                                     <button type="button" class="btn btn-danger btn-sm"
-                                                        @click="removeQualification(loop)"> <i
+                                                        @click="removeBudgetItem(loop)"> <i
                                                             class="bi bi-patch-minus"></i>
                                                     </button>
                                                 </div>
+                                                <p class="text-danger " v-if="errors[`amount${loop}`]" >{{ errors[`amount${loop}`] }}</p>
+
                                                 <!-- <p class="text-danger " v-if="errors?.destination">{{ errors?.destination[0] }}   </p> -->
                                             </div>
                                         </div>
@@ -179,7 +182,7 @@
                                 </fieldset>
                             </template>
                             <div class="float-end p-2">
-                                <button type="button" class="btn btn-success btn-sm mt-2" @click="addQualification"> <i
+                                <button type="button" class="btn btn-success btn-sm mt-2" @click="addBudgetItem"> <i
                                         class="bi bi-plus"></i> </button>
                             </div>
                         </div>
@@ -296,7 +299,9 @@ import PaginationLinks from "@/components/PaginationLinks.vue";
 import { useRouter } from 'vue-router';
 // import BudgetComponent from '@/components/travel/BudgetComponent.vue'
 import { useHelper } from "@/composables/helper";
+import { formatError } from "@/composables/formatError";
 const { handleFile } = useHelper()
+const {transformValidationErrors} = formatError()
 const creator = ref(null);
 creator.value = store?.state?.user?.data?.pid;
 const router = useRouter()
@@ -326,7 +331,13 @@ const travel = ref({
     end : '' ,
     crew: '' ,
     itinerary : '' ,
-    mode : ''
+    mode : '' ,
+    budget:[
+        {
+        budget: '',
+        amount: '',
+    }
+    ],
 })
 
 const resetAttr = ()=>{
@@ -338,7 +349,13 @@ const resetAttr = ()=>{
         end: '',
         crew: '',
         itinerary: '',
-        mode: ''
+        mode: '',
+         budget:[
+        {
+            budget: '',
+            amount: '',
+        }
+        ],
     }
 }
 
@@ -352,7 +369,8 @@ function editRequest(data){
         crew: data.crew,
         itinerary: data.itinerary,
         pid: data.pid,
-        mode: data.mode
+        mode: data.mode,
+        budget:data.budgets,
     }
     toggleModal.value = true;
 }
@@ -360,10 +378,12 @@ const errors = ref({})
 
 function makeRequest(){
     errors.value = []
-    travel.value.budget = budget.value;
+    // travel.value.busdget = budget.value;
     store.dispatch('postMethod', { url: '/travel-request', param: travel.value }).then((data) => {
         if (data?.status == 422) {
-            errors.value = data.data
+            errors.value = transformValidationErrors(data.data)
+            console.log(errors.value);
+            
         } else if (data?.status == 201) {
             closeModal()
             loadRequest()
@@ -411,6 +431,25 @@ const addBudget = (pid) =>{
     budget.value.travel_pid = pid;
     budgetModal.value = true ;
 }
+
+const addBudgetItem = () => {
+    travel.value.budget.push({
+        budget: '',
+        amount: '',
+    })
+}
+
+
+const removeBudgetItem = (i) => {
+    let len = travel.value.budget.length;
+    if (len === 1) {
+        store.commit('notify', { message: 'One Item is required to proceed ', type: 'warning' })
+        return;
+    }
+    travel.value.budget.splice(i, 1);
+}
+
+
 
 const addQualification = () => {
     budget.value.items.push({

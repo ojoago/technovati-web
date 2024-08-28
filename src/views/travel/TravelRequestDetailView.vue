@@ -10,7 +10,7 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="">Budgets</label>
+                            <label for="" class="h4">Budgets</label>
                             <!-- <button class="btn btn-primary btn-sm m-1">Add</button> -->
                             {{ budget_status }}
                             <div class="table-responsive">
@@ -20,6 +20,7 @@
                                             <th width="5%">S/N</th>
                                             <th>Item</th>
                                             <th>Amount</th>
+                                            <th>Approved Amount</th>
                                             <th>Status</th>
                                         </tr>
                                     </thead>
@@ -28,6 +29,7 @@
                                             <td>{{ loop + 1 }}</td>
                                             <td>{{ budget.budget }}</td>
                                             <td>{{ budget.amount }}</td>
+                                            <td>{{ budget.approved }}</td>
                                             <td>{{ status[budget.status] }}</td>
 
                                         </tr>
@@ -37,7 +39,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="">Expenses</label>
+                            <label for="" class="h4">Expenses</label>
                             <!-- <button class="btn btn-primary btn-sm m-1">Add</button> -->
                             <div class="table-responsive">
                                 <table class="table table-hover table-stripped table-bordered">

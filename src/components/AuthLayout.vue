@@ -30,6 +30,16 @@ onMounted(() => {
     //     })
     //     // const element = array[i];
     // }
+
+    let navName = document.querySelectorAll(".nav-name");
+    for (let i = 0; i < navName.length; i++) {
+        navName[i].addEventListener("click", () => {
+            if(window.innerWidth < 756){
+                sidebar.classList.toggle('close')
+            }
+        })
+    }
+    
     let sidebar = document.querySelector('#sidebar')
     let sidebarBtn = document.querySelector('.toggleMenu')
     // console.log(sidebarBtn);

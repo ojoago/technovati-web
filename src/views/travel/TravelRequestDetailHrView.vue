@@ -10,7 +10,7 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="">Budgets</label>
+                            <label for="" class="h4">Budgets</label>
                             <!-- <button class="btn btn-primary btn-sm m-1">Add</button> -->
                             {{ budget_status }}
                             <div class="table-responsive">
@@ -20,8 +20,9 @@
                                             <th width="5%">S/N</th>
                                             <th>Item</th>
                                             <th>Amount</th>
+                                            <th>Approved Amount</th>
                                             <th>Status</th>
-                                            <th> <i class="bi bi-gear-fill"></i> </th>
+                                            <th> Approve? </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -29,32 +30,40 @@
                                             <td>{{ loop + 1 }}</td>
                                             <td>{{ budget.budget }}</td>
                                             <td>{{ budget.amount }}</td>
+                                            <td> <input type="number" step=".5" v-model="budget.approved" class="form-control form-control-sm"> </td>
                                             <td>{{ status[budget.status] }}</td>
                                             <td>
-                                                <input type="checkbox" v-if="!budget.status" :value="budget.id"
-                                                    v-model="approval.budgets">
+
+                                                <div class="input-group">
+                                                    <input type="radio" id="yes" :name="budget.id" value="1" v-model="budget.status" />
+                                                    <label for="yes">Yes</label> <i class="m-2"></i>
+                                                    <input type="radio" id="no" :name="budget.id" value="2" v-model="budget.status" />
+                                                    <label for="no">No</label>
+                                                </div>
+
                                             </td>
                                         </tr>
                                     </tbody>
-                                    <tbody v-if="approval.budgets.length">
+                                    <tbody >
                                         <tr>
-                                            <td colspan="3"></td>
+                                            <td colspan="5"></td>
                                             <td>
                                                 <button class="btn btn-sm btn-success"
-                                                    @click="approveBudget">Approve</button>
+                                                    @click="approveBudget">Update</button>
 
                                             </td>
-                                            <td>
+                                           <!--  <td>
                                                 <button class="btn btn-sm btn-secondary"
                                                     @click="rejectBudget">Reject</button>
-                                            </td>
+                                            </td> -->
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
+
                         <div class="col-md-6">
-                            <label for="">Expenses</label>
+                            <label for="" class="h4">Expenses</label>
                             <!-- <button class="btn btn-primary btn-sm m-1">Add</button> -->
                             <div class="table-responsive">
                                 <table class="table table-hover table-stripped table-bordered">
@@ -136,30 +145,30 @@ onMounted(() => {
 });
 
 // approve and reject budgets
-const approval = ref({
-    travel_pid: '',
-    budgets: []
-})
+// const approval = ref({
+//     travel_pid: '',
+//     budgets: []
+// })
 
 const approveBudget = () =>{
-    approval.value.travel_pid = details.value.pid;
-    store.dispatch('putMethod', { url: '/approve-travel-request-budget/', prompt: 'Are you sure you want to approve the selected budget(s)?', param:approval.value }).then((data) => {
+    // approval.value.travel_pid = details.value.pid;
+    store.dispatch('putMethod', { url: '/approve-travel-request-budget/', prompt: 'Are you sure you want to approve the selected budget(s)?', param:budgets.value }).then((data) => {
         if (data?.status == 201) {
-            approval.value.budgets = []
+            // approval.value.budgets = []
             loadBudget()
         }
     })
 }
 
-const rejectBudget = () =>{
-    approval.value.travel_pid = details.value.pid;
-    store.dispatch('putMethod', { url: '/reject-travel-request-budgets/', prompt: 'Are you sure you want to reject the selected budget(s)?', param:approval.value }).then((data) => {
-        if (data?.status == 201) {
-            approval.value.budgets = []
-            loadBudget()
-        }
-    })
-}
+// const rejectBudget = () =>{
+//     approval.value.travel_pid = details.value.pid;
+//     store.dispatch('putMethod', { url: '/reject-travel-request-budgets/', prompt: 'Are you sure you want to reject the selected budget(s)?', param:approval.value }).then((data) => {
+//         if (data?.status == 201) {
+//             approval.value.budgets = []
+//             loadBudget()
+//         }
+//     })
+// }
 
 const loadBudget = () => {
     store.dispatch('getMethod', { url: '/load-travel-request-budgets/'+ details.value.pid }).then((data) => {
