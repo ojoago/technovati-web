@@ -5,7 +5,6 @@
             <div class="card">
                 <div class="card-header">
                     Accounts
-                    <button class="btn btn-primary btn-sm" @click="openModal">New</button>
                 </div>
                 <div class="card-body">
                     {{ journals.data }}

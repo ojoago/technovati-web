@@ -16,6 +16,7 @@
                                     <th>SN</th>
                                     <th>Type</th>
                                     <th>Name</th>
+                                    <th>Code/ID</th>
                                     <th>opening balance</th>
                                     <th>Opened date</th>
                                     <th>Balance</th>
@@ -29,6 +30,7 @@
                                     <td>{{ loop + 1 }}</td>
                                     <td>{{ data.type.name }}</td>
                                     <td>{{ data.account_name }}</td>
+                                    <td>{{ data.account_code }}</td>
                                     <td>{{ data.opening }}</td>
                                     <td>{{ data.date }}</td>
                                     <td>{{ data.balance }}</td>
@@ -49,6 +51,7 @@
                             </tfoot>
                         </table>
                         <div class="flex justify-center mt-4">
+                         
                             <nav class="relative justify-center rounded-md shadow pagination">
                                 <pagination-links v-for="(link, i) of accounts.links" :link="link" :key="i"
                                     @next="nextPage(link)"></pagination-links>
@@ -86,9 +89,9 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label">Account Code </label>
-                                <input type="text" class="form-control form-control-sm" v-model="account.account_name"
+                                <input type="text" class="form-control form-control-sm" v-model="account.account_code"
                                     placeholder="e.g Salary Account">
-                                <p v-if="errors.account_name" class="text-danger">{{ errors.account_name[0] }} </p>
+                                <p v-if="errors.account_code" class="text-danger">{{ errors.account_code[0] }} </p>
 
                             </div>
                         </div>
@@ -170,6 +173,7 @@ const closeModal = () => {
 const account = ref({
     type_pid:'' , 
     account_name: '' , 
+    account_code: '' , 
     opening_balance: '', 
     opening_balance_type:'' , 
     opening_date:'', 
@@ -179,6 +183,7 @@ const resetAttr = () => {
     account.value = {
         type_pid: '',
         account_name: '',
+        account_code: '',
         opening_balance: '',
         opening_balance_type: '',
         opening_date: '',
@@ -190,6 +195,7 @@ const editAccount = (data) => {
     account.value = {
         type_pid: data.type_pid,
         account_name: data.account_name,
+        account_code: data.account_code,
         opening_balance: data.opening_balance,
         opening_balance_type: data.opening_balance_type,
         opening_date: data.opening_date,
@@ -219,8 +225,8 @@ function createAccount() {
 
 const accounts = ref({})
 
-function loadAccount() {
-    store.dispatch('getMethod', { url: '/load-accounts' }).then((data) => {
+function loadAccount(url = '/load-accounts') {
+    store.dispatch('getMethod', { url: url }).then((data) => {
         if (data?.status == 200) {
             accounts.value = data.data
         }else{
@@ -243,6 +249,12 @@ function dropDownAccount() {
 dropDownAccount()
 loadAccount()
 
+  function nextPage(link) {
+        if (!link.url || link.active) {
+            return;
+        }
+        loadAccount(link.url)
+    }
 </script>
 
 <style scoped></style>
