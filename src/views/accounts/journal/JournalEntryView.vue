@@ -38,13 +38,6 @@
                                             <label class="form-label small">Account</label>
                                             <Select2 v-model="entry.account" :options="accountDrop"
                                                 :settings="{ width: '100%' }" placeholder="Select Account" />
-                                            <!-- <select v-model="entry.account" @change="reduceArray($event)"
-                                                class="form-control form-control-sm">
-                                                <option value="" selected>Select Account</option>
-                                                <option v-for="(op,i) in accountDrop" :value="op.id" :key="i"> {{
-                                                    op.text }}</option>
-                                            </select> -->
-                                            <!-- <p class="text-danger " v-if="errors?.customer_pid">{{ errors?.customer_pid[0] }} </p> -->
                                         </div>
                                     </div>
 
@@ -58,12 +51,12 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label class="form-label small">Type</label>
+                                            <label class="form-label small">Type {{ entry.type }}</label>
                                             <div class="input-group">
-                                                <CustomRadio v-model="entry.type" value1="cr" label1="Credit"
-                                                    value2="dr" label2="Debit" :name="`${i}`" :checked="entry.check" />
+                                                <RadioButton v-model="entry.type" value1="cr" label1="Credit"
+                                                    value2="dr" label2="Debit" :name="`${i}`" :checked="entry.check"/>
                                                 <i class="mx-1">|</i> <button type="button"
-                                                    class="btn btn-danger btn-sm" @click="removeKey"> <i
+                                                    class="btn btn-danger btn-sm" @click="removeKey(i)"> <i
                                                         class="bi bi-file-minus-fill"></i>
                                                 </button>
                                             </div>
@@ -99,7 +92,7 @@
 import store from "@/store";
 import { ref } from "vue";
 import Select2 from 'vue3-select2-component';
-import CustomRadio from '@/components/forms/CustomRadioReadOnly.vue';
+import RadioButton from '@/components/forms/RadioButton.vue';
 const journal = ref({
     date : '',
     comments : '' ,

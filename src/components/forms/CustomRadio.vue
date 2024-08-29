@@ -23,7 +23,7 @@
             </div>
             <div v-else>
                 <input @input="$emit('update:modelValue', $event.target.value)" type="radio" :id="`radio${name}`"
-                    :name="`switch${name}`" :value="value2" readonly />
+                    :name="`switch${name}`" :value="value2"  />
                 <label for="radio-two">{{ label2 }}</label>
             </div>
             <!-- option 2 end here  -->
@@ -91,6 +91,7 @@ defineProps({
     border: 0;
     overflow: hidden;
 }
+
 
 .switch-field label {
     background-color: #e4e4e4;
