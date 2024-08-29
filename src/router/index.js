@@ -83,6 +83,9 @@ const routes = [
             },
             // hr end here
             {
+                path:'/approval-level',name:'ApprovalLevel',component: () => import('@/views/users/ApprovalLevel.vue')
+            },
+            {
                 path:'/department',name:'DepartmentView',component: () => import('@/views/department/DepartmentView.vue')
             },
             {

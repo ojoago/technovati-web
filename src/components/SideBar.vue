@@ -231,6 +231,10 @@
                             <router-link to="/staff-list" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Staff List</span> </router-link>
                         </li>
+                        <li class="nav-item" title="Approval Levels">
+                            <router-link to="/approval-level" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Approvals</span> </router-link>
+                        </li>
                     </ul>
                 </li>
 
@@ -530,7 +534,7 @@
                         aria-expanded="true" arai-controls="irequest">
                         <i class="bi bi-book"></i>
                         <div class="icon-link">
-                            <span class="link-name">item request</span>
+                            <span class="link-name">Store item request</span>
                         </div>
                     </a>
                     <ul id="irequest" class=" sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
@@ -598,14 +602,14 @@
                 <!-- end   -->
                 <!-- begin  -->
                 <li>
-                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#mrequest"
-                        aria-expanded="true" arai-controls="mrequest">
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#pendingsupply"
+                        aria-expanded="true" arai-controls="pendingsupply">
                         <i class="bi bi-book"></i>
                         <div class="icon-link">
                             <span class="link-name">Pending Supply</span>
                         </div>
                     </a>
-                    <ul id="mrequest" class="submenu sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <ul id="pendingsupply" class="submenu sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="nav-item" >
                             <router-link to="/pending-raw-material-request" class="nav-link"><i
                                     class="bi bi-record"></i> <span class="nav-name">Pending</span> </router-link>

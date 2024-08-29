@@ -33,6 +33,12 @@
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
 
                             <li>
+                                
+                                 <span
+                                class="dnone d-md-block uppercase-text text-center ps-2 ellipsis-text">{{activeRole}}
+                            </span>
+                            </li>
+                            <li>
                                 <a class="dropdown-item align-items-center pointer" @click="staffDetail">
                                     <i class="bi bi-person"></i>
                                     <span>profile</span>
@@ -109,6 +115,7 @@
     router.push({ query: query })
     defineEmits(['logout'])
     const username = computed(() => store?.state?.user?.data?.username);
+    const activeRole = computed(() => store?.state?.activeRole);
     
 const password = ref({ password:'',old:'',password_confirmation:''})
     const toggleModal = ref(false)

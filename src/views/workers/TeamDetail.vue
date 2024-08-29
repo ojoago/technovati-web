@@ -1,19 +1,11 @@
 <template>
     <div>
         <div class="container">
-            <div class="card m-2">
-                <div class="card-header">
-                    <h5 class="card-title"> {{ team.team }} </h5>
-                    <span class="badge bg-dark p-1 m-1 ellipsis">
-                        Status: {{ team?.team_status }}
-                    </span>
-                    <p>{{ team.description }}</p>
-                    <!-- {{ team }} -->
-                </div>
+            <div class="card">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-5">
-                            {{ pieChart }}
+                            <!-- {{ pieChart }} -->
                             <Chart :length="pieChart.data.length" chart="PieChart" :data="pieChart.data" :options="pieChart.options" />
 
                         </div>
@@ -31,12 +23,12 @@
                             
                         </div>
                     </div>
-                    gcahrt
+                    <!-- gcahrt
                     <p>load work done by each member in the current month </p>
                     <p>load work done by team group by month</p>
                     <p>load work done by team group by year</p>
                     <p>load work done by team group</p>
-                    {{ reports }}
+                    {{ reports }} -->
                     <hr>
                     <label for="">Team Members</label>
                     <div class="table-responsive">
@@ -71,7 +63,12 @@
                     </div>
                 </div>
                 <div class="card-footer">
-
+                    <h5 class="card-title"> {{ team.team }} </h5>
+                    <span class="badge bg-dark p-1 m-1 ellipsis">
+                        Status: {{ team?.team_status }}
+                    </span>
+                    <!--<p>{{ team.description }}</p>-->
+                    <!-- {{ team }} -->
                 </div>
             </div>
         </div>
@@ -131,7 +128,7 @@ const pieChart = ref({options: {
 
 const monthlyColumn = ref({
     options:  {
-            title: 'Assembled Monthly',
+            title: 'Assembled Monthly ',
             // subtitle: 'Sales, Expenses, and Profit: 2014-2017',        
 },
  data:[]})
@@ -147,7 +144,7 @@ const totalChart = ref({
     {
         title: 'Assembled so far',
         width: 500,
-        height: 500, 
+        height: 400, 
     }, 
     data: []
     }

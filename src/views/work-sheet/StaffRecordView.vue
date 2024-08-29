@@ -4,7 +4,7 @@
 
             <div class="card">
                 <div class="card-header h3">Work Sheet
-                    <button class="btn btn-sm btn-primary m-2" @click="openDeviceModal">Add Device</button>
+                    <!-- <button class="btn btn-sm btn-primary m-2" @click="openDeviceModal">Add Device</button> -->
 
                     <div class="row float-right">
                         <div class="col-md-6">

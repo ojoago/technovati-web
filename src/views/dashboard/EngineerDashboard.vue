@@ -121,9 +121,11 @@ const staffAssembled = () => {
                 dailyColumn.value.data.push([element?.team , element.total])
             })
             let monthly = data?.data?.monthly
-            monthlyColumn.value.data.push(['Month','total'])
-            monthly.forEach((element) => {
-                monthlyColumn.value.data.push([monthNames[element?.month] , element.total])
+            console.log(monthly);
+            
+            monthlyColumn.value.data.push(['Month','team','total'])
+            monthly.forEach((el) => {
+                monthlyColumn.value.data.push([monthNames[el?.month] , el.team,el.total])
             })
 
             let yearly = data?.data?.yearly
