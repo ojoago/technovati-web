@@ -6,7 +6,8 @@
                 <div class="card-header">
                     Add Journal
                 </div>
-                <div class="card-body">
+                <div class="card-body"> 
+                 {{ journal }}
                     <form>
                         <fieldset class="border rounded-3 p-1 m-1">
                             <legend class="float-none w-auto px-2  small">Entries</legend>
@@ -29,9 +30,9 @@
                                     </div>
                                 </div>
                             </div>
+                           
                             <template v-for="(entry, i) in journal.entries" :key="i">
-
-
+                              
                                 <div class="row">
                                     <div class="col-md-5">
                                         <div class="form-group">
@@ -49,11 +50,28 @@
                                             <!-- <p class="text-danger " v-if="errors?.customer_pid">{{ errors?.customer_pid[0] }} </p> -->
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+
+                                   <!--- <div class="col-md-3">
                                         <div class="form-group">
-                                            <label class="form-label small">Type {{ entry.type }}</label>
+                                            <label class="form-label small">Type </label>
                                             <div class="input-group">
                                                 <RadioButton v-model="entry.type" value1="cr" label1="Credit"
+                                                    value2="dr" label2="Debit" :name="`${i}`" :checked="entry.check"/>
+                                                <i class="mx-1">|</i> <button type="button"
+                                                    class="btn btn-danger btn-sm" @click="removeKey(i)"> <i
+                                                        class="bi bi-file-minus-fill"></i>
+                                                </button>
+                                            </div>
+
+                                        </div>
+
+                                    </div> -->
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="form-label small">Type </label>
+                                            <div class="input-group">
+                                                <CustomRadio v-model="entry.type" value1="cr" label1="Credit"
                                                     value2="dr" label2="Debit" :name="`${i}`" :checked="entry.check"/>
                                                 <i class="mx-1">|</i> <button type="button"
                                                     class="btn btn-danger btn-sm" @click="removeKey(i)"> <i
@@ -90,9 +108,10 @@
 
 <script setup>
 import store from "@/store";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import Select2 from 'vue3-select2-component';
-import RadioButton from '@/components/forms/RadioButton.vue';
+// import RadioButton from '@/components/forms/RadioButton.vue';
+import CustomRadio from '@/components/forms/CustomRadio.vue';
 const journal = ref({
     date : '',
     comments : '' ,
@@ -107,12 +126,16 @@ const journal = ref({
 })
 const resetAttr = () => {
     journal.value = {
-        type_pid: '',
-        account_name: '',
-        opening_balance: '',
-        opening_balance_type: '',
-        opening_date: '',
-        note: ''
+        date : '',
+    comments : '' ,
+    entries:[
+        {
+            account : '', 
+            amount: '', 
+            type : 'cr',
+            check:1,
+        }
+    ]
     }
 }
 
@@ -173,21 +196,6 @@ function addJournal() {
             errors.value = data.data
         } else if (data?.status == 201) {
             resetAttr()
-            loadAccount()
-        }
-    }).catch(e => {
-        console.log(e);
-    })
-}
-
-const accounts = ref({})
-
-function loadAccount() {
-    store.dispatch('getMethod', { url: '/load-accounts' }).then((data) => {
-        if (data?.status == 200) {
-            accounts.value = data.data
-        } else {
-            accounts.value = {}
         }
     }).catch(e => {
         console.log(e);
@@ -204,7 +212,17 @@ function dropDownAccount() {
     })
 }
 dropDownAccount()
-loadAccount()
+
+
+
+onMounted(() => {
+      let tsk = localStorage.getItem('TVATI_EDIT_JVC') ? JSON.parse(localStorage.getItem('TVATI_EDIT_JVC')) : 'null'
+         if (tsk != 'null') {
+            journal.value = tsk;
+            
+         }
+   
+});
 
 </script>
 

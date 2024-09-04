@@ -20,6 +20,7 @@ export function formatError() {
     function trimKey(key){
         const parts = key.split('.').filter(part => (part));
         const part = key.split('.').filter(part => !isNaN(part));
+       
         // const numericValues = parts.map(Number);
         return parts[2]+part.map(Number);
 

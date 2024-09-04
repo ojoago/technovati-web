@@ -24,7 +24,9 @@
                                     <td>{{ loop + 1 }}</td>
                                     <td >{{ data.purpose }}</td>
                                     <td>{{ data.requested }}</td>
-                                    <td>{{ data.approved }}</td>
+                                    <td>
+                                      {{ data.approved }}
+                                    </td>
                                     <td>{{ data.request_status }}</td>
                                     <td>{{ data.date }}</td>
                                     <td>
@@ -32,7 +34,12 @@
                                     </td>
                                     
                                     <td>
-                                        <button class="btn btn-sm btn-success" v-if="data.status == 1" @click="approveRequest(data.pid)">Action</button>
+                                        <button class="btn btn-sm btn-success" v-if="level == 2 && data.status == 1" @click="approveRequest(data)">Respond</button>
+                                        <div v-else-if="data.status < level || data.line_manager == manager">
+
+                                            <button class="btn btn-sm btn-success"  @click="approveRequest(data.pid)">Approve</button>
+                                            <button class="btn btn-sm btn-secondary"  @click="approveRequest(data.pid)">Reject</button>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -57,8 +64,10 @@ import store from "@/store";
 import PaginationLinks from "@/components/PaginationLinks.vue";
 // import { useRouter } from 'vue-router';
 // import BudgetComponent from '@/components/travel/BudgetComponent.vue'
-const creator = ref(null);
-creator.value = store?.state?.user?.data?.pid;
+const manager = ref(null);
+const level = ref(null);
+manager.value = store?.state?.user?.data?.pid;
+level.value = store?.state?.approvalLevel;
 
 const requests = ref({})
 function loadRequest() {

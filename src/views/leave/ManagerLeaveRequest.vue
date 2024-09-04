@@ -4,7 +4,6 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Staff Leave
-                        <button class="btn btn-primary btn-sm" @click="openModal">New Leave</button>
                     </h5>
 
                     <fieldset class="border rounded-3 p-2 m-1">
@@ -115,9 +114,7 @@ const errors = ref({});
 
 
 const assignModal = ref(false)
-const openModal = () => {
-    assignModal.value = true
-}
+
 const closeModal = () => {
     assignModal.value = false;
 };

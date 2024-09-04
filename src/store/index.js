@@ -10,6 +10,7 @@ const store = createStore({
             roles: localStorage.getItem('TVATI_USER_ROLES') ? JSON.parse(localStorage.getItem('TVATI_USER_ROLES')) : 'null'
         },
         activeRole: localStorage.getItem('TVATI_ACTIVE_ROLE'),
+        approvalLevel: localStorage.getItem('TVATI_APPROVAL_LEVEL'),
         spinnerLoader:false,
         notification: {
             status: false,
@@ -295,10 +296,12 @@ const store = createStore({
             state.user.token = userData?.token;
             state.user.data = userData?.user;
             state.user.roles = userData?.roles;
+            state.user.approvalLevel = userData?.user?.approvalLevel;
             sessionStorage.setItem('USERDATA', JSON.stringify(userData?.user,null,2));
             localStorage.setItem('TVATI_USERDATA', JSON.stringify(userData?.user,null,2));
             localStorage.setItem('TVATI_USER_ROLES', JSON.stringify(userData?.roles,null,2));
             localStorage.setItem('TVATI_TOKEN', userData?.token);
+            localStorage.setItem('TVATI_APPROVAL_LEVEL', userData?.user?.approval_level)
         },
         setProfile:(state,user)=>{
             state.user.data = user
@@ -312,7 +315,9 @@ const store = createStore({
             state.user.token = null
             state.user.data = ''
             localStorage.setItem('TVATI_USERDATA','')
+            localStorage.setItem('TVATI_TOKEN','')
             localStorage.setItem('TVATI_USER_ROLES','')
+            localStorage.setItem('TVATI_APPROVAL_LEVEL','')
             commit('setActiveRole','')
         },
          

@@ -101,7 +101,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="form-label">Begin Date</label>
+                                <label class="form-label">Begin Date <span class="text-danger">*</span></label>
                                 <input type="date" v-model="travel.begin" class="form-control form-control-sm">
                                 <p class="text-danger " v-if="errors?.begin">{{ errors?.begin }}</p>
                             </div>
@@ -117,7 +117,7 @@
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="form-label">Purpose</label>
+                                <label class="form-label">Purpose <span class="text-danger">*</span></label>
                                 <textarea v-model="travel.itinerary" class="form-control form-control-sm"></textarea>
                                 <p class="text-danger " v-if="errors?.itinerary">{{ errors?.itinerary }}</p>
                             </div>

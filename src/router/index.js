@@ -147,7 +147,7 @@ const routes = [
                 path:'/my-leave-request',name:'MyLeaveRequest',component: () => import('@/views/leave/MyLeaveRequest.vue')
             },
             {
-                path:'/line-manager-view-leave-request',name:'LineManagerViewLeaveRequest',component: () => import('@/views/leave/LineManagerViewLeaveRequest.vue')
+                path:'/manage-leave-request',name:'ManagerLeaveRequest',component: () => import('@/views/leave/ManagerLeaveRequest.vue')
             },
             {
                 path:'/request',name:'RequestView',component: () => import('@/views/request/InventoryItemRequestView.vue')
@@ -174,11 +174,11 @@ const routes = [
 
             {   path:'/travel-request',name:'TravelRequestView',component: () => import('@/views/travel/TravelRequestView.vue')   },
             {   path:'/fund-request',name:'FundRequest',component: () => import('@/views/funds/FundRequest.vue')   },
-            {   path:'/staff-travel-request',name:'StaffTravelRequest',component: () => import('@/views/travel/StaffTravelRequest.vue')  },
+            {   path:'/manage-travel-request',name:'ManageTravelRequest',component: () => import('@/views/travel/ManageTravelRequest.vue')  },
             {   path:'/travel-request-detail',name:'TravelRequestDetailView',component: () => import('@/views/travel/TravelRequestDetailView.vue')  },
             {   path:'/travel-request-detail-hr-view',name:'TravelRequestDetailHrView',component: () => import('@/views/travel/TravelRequestDetailHrView.vue')  },
             
-            {   path:'/staff-fund-request',name:'StaffFundRequest',component: () => import('@/views/funds/StaffFundRequest.vue')  },
+            {   path:'/manage-fund-request',name:'ManageFundRequest',component: () => import('@/views/funds/ManageFundRequest.vue')  },
 
             // Receptionisht 
 

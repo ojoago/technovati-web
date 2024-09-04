@@ -47,12 +47,11 @@
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li ><a class="dropdown-item pointer bg-info" @click="requestDetail(data)">Details</a> </li>
-                                            <li ><a class="dropdown-item pointer bg-success" v-if="data?.status == 0" @click="approveRequest(data.pid)">Approve</a> </li>
-                                            <li ><a class="dropdown-item pointer bg-secondary" v-if="data?.status == 0" @click="rejectRequest(data.pid)">Reject</a> </li>
-                                            <!-- <li ><a class="dropdown-item pointer bg-warning" v-if="data?.status == 0 && data?.user_pid == creator" @click="editRequest(data)">Edit</a> </li> -->
-                                            <!-- <li ><a class="dropdown-item pointer bg-primary" v-if="data?.status != 3  && data?.user_pid == creator" @click="addBudget(data.pid)">Add Budget</a> </li> -->
-                                            <!-- <li ><a class="dropdown-item pointer bg-info" v-if="(data?.status == 3 || data?.status == 1)  && data?.user_pid == creator" @click="addExpense(data.pid)">Add Expense</a> </li> -->
-                                            <!-- <li ><a class="dropdown-item pointer bg-danger" v-if="data?.status == 0  && data?.user_pid == creator" @click="deleteShift(data.pid)">Delete</a> </li> -->
+                                            <div v-if="data.status < level || data.line_manager == manager">
+                                                
+                                                <li ><a class="dropdown-item pointer bg-success" v-if="data?.status == 0" @click="approveRequest(data.pid)">Approve</a> </li>
+                                                <li ><a class="dropdown-item pointer bg-secondary" v-if="data?.status == 0" @click="rejectRequest(data.pid)">Reject</a> </li>
+                                            </div>
                                         </ul>
                                     </div>
                                 </td>
@@ -83,8 +82,11 @@ import store from "@/store";
 import PaginationLinks from "@/components/PaginationLinks.vue";
 import { useRouter } from 'vue-router';
 // import BudgetComponent from '@/components/travel/BudgetComponent.vue'
-const creator = ref(null);
-creator.value = store?.state?.user?.data?.pid;
+const manager = ref(null);
+const level = ref(null);
+manager.value = store?.state?.user?.data?.pid;
+level.value = store?.state?.approvalLevel;
+
 const router = useRouter()
 let query = {}
 router.push({ query: query })

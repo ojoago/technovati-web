@@ -87,7 +87,7 @@
                                     <p class="text-danger " v-if="errors?.leave_pid">{{ errors?.leave_pid[0] }}</p>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label">Begin <span class="text-danger">*</span></label>
                                     <input type="date" v-model="request.from" class="form-control  form-control-sm"
@@ -95,7 +95,7 @@
                                     <p class="text-danger " v-if="errors?.from">{{ errors?.from[0] }}</p>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label">End</label>
                                     <input type="date" v-model="request.to" class="form-control form-control-sm"

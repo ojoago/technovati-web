@@ -897,38 +897,56 @@
                 </div>
             </li>
 
-            <!-- end receptionist -->
-            <li v-if="roles.includes('hod')">
-                <div class="icon-link">
-                    <a>
-                        <i class="bi bi-bootstrap-reboot"></i>
-                        <span class="link-name">
-                            <router-link to="/line-manager-view-leave-request" class="nav-link"><span
-                                    class="nav-name">Leave Request</span> </router-link>
-                        </span>
+            <!-- end extra role -->
+            <div v-if="roles.includes('hod') || approvalLevel">
+                <li>
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#manage"
+                        aria-expanded="true" arai-controls="manage">
+                        <i class="bi bi-receipt"></i>
+                        <div class="icon-link">
+                            <span class="link-name">Requests</span>
+                        </div>
                     </a>
-                </div>
-                <div class="icon-link">
+                    <ul id="manage" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                         <li class="nav-item mt-2" >
+                            <router-link to="/manage-travel-request" class="nav-link">
+                                <i class="bi bi-record"></i>
+                                <span class="nav-name">Travel</span> </router-link>
+                        </li>
+                         <li class="nav-item mt-2" >
+                            <router-link to="/manage-fund-request" class="nav-link">
+                                <i class="bi bi-record"></i>
+                                <span class="nav-name">Fund</span> </router-link>
+                        </li>
+                         <li class="nav-item mt-2" >
+                            <router-link to="/manage-leave-request" class="nav-link">
+                                <i class="bi bi-record"></i>
+                                <span class="nav-name">Leave</span> </router-link>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li>
                     <a>
-                        <i class="bi bi-grid"></i>
+                       <i class="bi bi-bootstrap-reboot"></i>
                         <span class="link-name">
                             <router-link to="/supervisor-appraisal-list" class="nav-link"><span
                                     class="nav-name">Appraisal</span> </router-link>
                         </span>
                     </a>
-                </div>
-                <!-- end log  -->
-            </li>
+                </li>
+            </div>
 
             <li v-if="roles.length > 1">
-                <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#staff"
-                    aria-expanded="true" arai-controls="staff">
+                <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#swap"
+                    aria-expanded="true" arai-controls="swap">
                     <i class="bi bi-arrow-left-right"></i>
                     <div class="icon-link">
                         <span class="link-name">Switch Role</span>
                     </div>
                 </a>
-                <ul id="staff" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                <ul id="swap" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                     <li class="nav-item" v-for="(role,i) in roles" :key="i" :title="role">
                         <router-link to="#" @click="switchRole(role)" class="nav-link"><i class="bi bi-record"></i>
                             <span class="link-name">{{role.replace('_',' ').toUpperCase()}} </span> </router-link>
@@ -964,7 +982,9 @@ const router = useRouter()
 const roles =  store?.state?.user?.roles;
 
 const activeRole = ref(null)
+const approvalLevel = ref(null)
 activeRole.value = store?.state?.activeRole
+approvalLevel.value = store?.state?.approvalLevel
 const goToDashboard = () =>{
     let name = activeRole.value;
     name = roleName(name)

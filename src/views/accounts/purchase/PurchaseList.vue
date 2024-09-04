@@ -27,9 +27,9 @@
                             <tbody class="mb-2" v-if="purchases.data">
                                 <tr v-for="(data, loop) in purchases.data" :key="loop">
                                     <td>{{ loop + 1 }}</td>
-                                    <td>{{ data.purchase_date }}</td>
+                                    <td>{{ data.date }}</td>
                                     <td>{{ data.purchase_no }}</td>
-                                    <td>{{ data?.account?.account_name }}</td>
+                                    <td>{{ data?.account?.name }}</td>
                                     <td>{{ data?.supplier?.name }}</td>
                                     <td>
                                         <span class="badge bg-success" v-if="data?.payment?.status">Paid</span>
@@ -41,7 +41,7 @@
                                     <td>{{ data?.payment?.balance }}</td>
                                     <td>{{ data?.store?.name }}</td>
                                     <td>
-                                        <button type="button" @click="editEntry(data.pid)"
+                                        <button type="button" @click="editEntry(data)"
                                             class="btn btn-primary btn-sm">
                                             Edit
                                         </button>
@@ -73,12 +73,13 @@
 import store from "@/store";
 import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
-
+import { useRouter } from 'vue-router';
+const router = useRouter()
 
 const purchases = ref({})
 
-function loadPurchase() {
-    store.dispatch('getMethod', { url: '/load-purchase' }).then((data) => {
+function loadPurchase(url = '/load-purchase') {
+    store.dispatch('getMethod', { url: url }).then((data) => {
         if (data?.status == 200) {
             purchases.value = data.data
         } else {
@@ -91,9 +92,19 @@ function loadPurchase() {
 
 loadPurchase()
 
-const editEntry = (pid) => {
-    alert(pid)
+const editEntry = (data) => {
+    localStorage.setItem('TVATI_EDIT_PRC', JSON.stringify(data, null, 2))
+    router.push({ path: 'add-purchase', query: { id: data.pid, action: 'edit' } })
 }
+
+
+function nextPage(link) {
+    if (!link.url || link.active) {
+        return;
+    }
+    loadPurchase(link.url)
+}
+
 </script>
 
 <style scoped></style>

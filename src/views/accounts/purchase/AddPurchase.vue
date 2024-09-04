@@ -7,7 +7,6 @@
                     Purchase
                 </div>
                 <div class="card-body">
-
                     <fieldset>
                         <form action="">
 
@@ -21,8 +20,8 @@
                                             <label class="form-label small">Item</label>
                                             <Select2 v-model="item.item_pid" :options="itemDrop"
                                                 :settings="{ width: '100%' }" placeholder="Select Items" />
-                                            <p v-if="errors.item_pid" class="text-danger"> {{
-                                                errors.item_pid[0] }} </p>
+                                            <p v-if="errors[`item_pid${loop}`]" class="text-danger"> {{
+                                                errors[`item_pid${loop}`] }} </p>
                                         </div>
                                     </div>
 
@@ -32,8 +31,8 @@
                                             <input type="number" step="0.5" @change="subTotal"
                                                 class="form-control form-control-sm" v-model="item.quantity"
                                                 placeholder="e.g 128">
-                                            <p v-if="errors.quantity" class="text-danger">{{
-                                                errors.quantity[0] }} </p>
+                                            <p v-if="errors[`quantity${loop}`]" class="text-danger">{{
+                                                errors[`quantity${loop}`] }} </p>
                                         </div>
                                     </div>
 
@@ -44,8 +43,8 @@
                                             <input type="number" step="0.5" @change="subTotal"
                                                 class="form-control form-control-sm" v-model="item.rate"
                                                 placeholder="e.g 300000">
-                                            <p v-if="errors.rate" class="text-danger">
-                                                {{ errors.rate[0] }} </p>
+                                            <p v-if="errors[`rate${loop}`]" class="text-danger">
+                                                {{ errors[`rate${loop}`] }} </p>
                                         </div>
                                     </div>
                                     <div class="col-md-5">
@@ -59,7 +58,7 @@
                                                     <i class="bi bi-patch-minus"></i> </button>
                                             </div>
                                             <p v-if="errors.description" class="text-danger">
-                                                {{ errors.description[0] }} </p>
+                                                {{ errors.description }} </p>
                                         </div>
                                     </div>
 
@@ -84,7 +83,7 @@
                                                 <option v-for="sec in accountTypeDrop" :key="sec.id" :value="sec.id">{{
                                                     sec.text }} </option>
                                             </select>
-                                            <p class="text-danger " v-if="errors?.account_pid">{{ errors?.account_pid[0]
+                                            <p class="text-danger " v-if="errors?.account_pid">{{ errors?.account_pid
                                                 }}
                                             </p>
                                         </div>
@@ -96,7 +95,7 @@
                                                     <Select2 v-model="purchase.supplier_pid" :options="supplierDrop"
                                                         :settings="{ width: '100%' }" placeholder="Select Supplier" />
                                                     <p class="text-danger " v-if="errors?.supplier_pid">{{
-                                                        errors?.supplier_pid[0] }} </p>
+                                                        errors?.supplier_pid }} </p>
                                                 </div>
                                             </div>
 
@@ -106,7 +105,7 @@
                                                     <Select2 v-model="purchase.store_pid" :options="storeDrop"
                                                         :settings="{ width: '100%' }" placeholder="Select Store" />
                                                     <p class="text-danger " v-if="errors?.store_pid">{{
-                                                        errors?.store_pid[0]
+                                                        errors?.store_pid
                                                         }} </p>
                                                 </div>
                                             </div>
@@ -116,7 +115,7 @@
                                                     <input type="date" class="form-control form-control-sm"
                                                         v-model="purchase.purchase_date">
                                                     <p class="text-danger " v-if="errors?.purchase_date">{{
-                                                        errors?.purchase_date[0] }} </p>
+                                                        errors?.purchase_date }} </p>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -126,7 +125,7 @@
                                                     <input type="text" class="form-control form-control-sm"
                                                         v-model="purchase.reference_number" placeholder="e.g 01234">
                                                     <p v-if="errors.reference_number" class="text-danger">
-                                                        {{ errors.reference_number[0] }} </p>
+                                                        {{ errors.reference_number }} </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -137,22 +136,22 @@
                                 <div class="col-md-6">
                                     <fieldset class="border rounded-3 p-2 m-1">
                                         <legend class="float-none w-auto px-2">Payment</legend>
-                                        <input type="text" :value="numberFormat(purchase.payment.sub_total)"
+                                        <input type="text" :value="numberFormat(purchase.sub_total)"
                                             class="form-control form-control-sm" disabled placeholder="Sub Total">
                                         <br>
                                         <label for="">Discount</label>
-                                        <input type="number" step="0.5" v-model="purchase.payment.discount"
+                                        <input type="number" step="0.5" v-model="purchase.discount"
                                             class="form-control form-control-sm" placeholder="Discount">
 
-                                        <div class="row" v-for="(pay,loop) in purchase.payment.accounts" :key="loop">
+                                        <div class="row" v-for="(pay,loop) in purchase.accounts" :key="loop">
 
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="form-label small">Account</label>
                                                     <Select2 v-model="pay.account_pid" :options="accountDrop"
                                                         :settings="{ width: '100%' }" placeholder="Select Account" />
-                                                    <p class="text-danger " v-if="errors?.account_pid">{{
-                                                        errors?.account_pid[0]
+                                                    <p class="text-danger " v-if="errors[`account_pid${loop}`]">{{
+                                                        errors[`account_pid${loop}`]
                                                         }}
                                                     </p>
                                                 </div>
@@ -168,8 +167,8 @@
                                                             @click="removeAccount(loop)">
                                                             <i class="bi bi-patch-minus"></i> </button>
                                                     </div>
-                                                    <p class="text-danger " v-if="errors?.account_pid">{{
-                                                        errors?.account_pid[0] }} </p>
+                                                    <p class="text-danger " v-if="errors[`amount${loop}`]">{{
+                                                        errors[`amount${loop}`] }} </p>
                                                 </div>
                                             </div>
 
@@ -194,10 +193,11 @@
 
 <script setup>
 import store from "@/store";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import Select2 from 'vue3-select2-component';
-
 import { useHelper } from '@/composables/helper';
+import { formatError } from "@/composables/formatError";
+const {  transformValidationErrors } = formatError()
 const {  numberFormat } = useHelper()
 
 const purchase = ref({
@@ -216,14 +216,16 @@ const purchase = ref({
         rate: '' ,
         description: '' ,
     }],
-    payment:{
-        discount : 0 ,
-        sub_total : 0 ,
-        accounts : [{
+    accounts : [{
             account_pid : '' ,
             amount : '' ,
-        }]
-    }
+        }],
+        discount : 0 ,
+        sub_total : 0 ,
+    // payment:{
+        
+        
+    // }
 })
 
 const resetAttr = () => {
@@ -242,14 +244,17 @@ const resetAttr = () => {
             rate : '',
             description: '',
         }],
-        payment: {
-            discount: 0,
-            sub_total: 0,
-            accounts: [{
+        accounts: [{
                 account_pid: '',
                 amount: '',
-            }]
-        }
+            }],
+             discount : 0 ,
+        sub_total : 0 ,
+        // payment: {
+        //     discount: 0,
+        //     sub_total: 0,
+            
+        // }
     }
 }
 
@@ -276,7 +281,7 @@ const removeQualification = (i) => {
 const subTotal = () => {
     purchase.value.items.forEach((item)=>{
         if (item.quantity > 0 && item.rate > 0){
-                purchase.value.payment.sub_total += item.quantity * item.rate;
+                purchase.value.sub_total += item.quantity * item.rate;
             }
     })
     // purchase.value.payment.sub_total = purchase.value.items.rate.reduce((n, { obtainable }) => n + Number(obtainable), 0);
@@ -284,26 +289,26 @@ const subTotal = () => {
 
 
 const addAccount = () => {
-    purchase.value.payment.accounts.push({
+    purchase.value.accounts.push({
         account_pid: '',
         amount: '',
     })
 }
 
 const removeAccount = (i) => {
-    let len = purchase.value.payment.accounts.length;
+    let len = purchase.value.accounts.length;
     if (len === 1) {
         store.commit('notify', { message: 'One Account is required', type: 'warning' })
         return;
     }
-    purchase.value.payment.accounts.splice(i, 1);
+    purchase.value.accounts.splice(i, 1);
 }
 
 const addPurchase = () => {
     errors.value = []
     store.dispatch('postMethod', { url: '/add-purchase', param: purchase.value }).then((data) => {
         if (data?.status == 422) {
-            errors.value = data.data
+            errors.value = transformValidationErrors(data.data)
             // console.log(data.data)
         } else if (data?.status == 201) {
             resetAttr()
@@ -324,7 +329,6 @@ function dropDownAccount(pid) {
     })
 }
 
-dropDownAccount()
 
 
 const accountTypeDrop = ref({});
@@ -346,7 +350,6 @@ function dropDownSuppliers() {
         console.log(e);
     })
 }
-dropDownAccount()
 
 const storeDrop = ref({});
 function dropDownStore() {
@@ -367,6 +370,18 @@ function dropDownItems() {
     })
 }
 dropDownItems()
+
+
+onMounted(() => {
+      let tsk = localStorage.getItem('TVATI_EDIT_PRC') ? JSON.parse(localStorage.getItem('TVATI_EDIT_PRC')) : 'null'
+         if (tsk != 'null') {
+            purchase.value = tsk;
+            purchase.value.accounts = tsk?.payment?.payment_details
+            purchase.value.account_pid = tsk?.account_type_pid
+            dropDownAccount(tsk?.account_type_pid)
+         }
+   
+});
 // window.$myGlobalMethod();
 </script>
 

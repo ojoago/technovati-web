@@ -63,7 +63,7 @@ function logout() {
 
 // author log out 
 
-var TIMEOUT_PERIOD = 1200000; // log user out after 20 minutes of in activity
+// var TIMEOUT_PERIOD = 1200000; // log user out after 20 minutes of in activity
 var logoutTimer;
 
 // Function to reset the logout timer
@@ -71,7 +71,7 @@ function resetIdleTimer() {
     // Clear the existing timer
     clearTimeout(logoutTimer);
     // Set a new timer
-    logoutTimer = setTimeout(logout, TIMEOUT_PERIOD);
+    // logoutTimer = setTimeout(logout, TIMEOUT_PERIOD);
 }
 // Event listeners for user activity
 window.onload = resetIdleTimer;

@@ -321,7 +321,7 @@ function editStaff(staff) {
     }
     localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
     localStorage.setItem('TVATI_EDIT_STAFF', JSON.stringify(data, null, 2))
-    router.push({ path: 'staff', query: { staff: staff.pid } })
+    router.push({ path: 'onboarding', query: { staff: staff.pid } })
 }
 
 const disableStaff = (pid) =>{

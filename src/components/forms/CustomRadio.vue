@@ -1,46 +1,21 @@
 <template>
-    <div>
-
-        <div class="switch-field">
-            <!-- option one  -->
-            <div v-if="checked==1">
-                <input @input="$emit('update:modelValue', $event.target.value)" type="radio" :id="`radio${name}`"
-                    :name="`switch${name}`" :value="value1" checked  />
-                <label for="radio-one">{{ label1 }}</label>
-            </div>
-            <div v-else>
-                <input @input="$emit('update:modelValue', $event.target.value)" type="radio" :id="`radio${name}`"
-                    :name="`switch${name}`" :value="value1"  />
-                <label for="radio-one">{{ label1 }}</label>
-            </div>
-            <!-- option 1 end here  -->
-
-            <!-- option 2  -->
-            <div v-if="checked==0">
-                <input @input="$emit('update:modelValue', $event.target.value)" type="radio" :id="`radio${name}`"
-                    :name="`switch${name}`" :value="value2" checked  />
-                <label for="radio-two">{{ label2 }}</label>
-            </div>
-            <div v-else>
-                <input @input="$emit('update:modelValue', $event.target.value)" type="radio" :id="`radio${name}`"
+    <div class="switch-field">
+        <label>
+            <input @input="$emit('update:modelValue', $event.target.value)" v-model="model" type="radio" :id="`radio${name}`"
+                    :name="`switch${name}`" :value="value1"   />
+                    {{ label1 }}
+        </label>
+        <label >
+            <input @input="$emit('update:modelValue', $event.target.value)" v-model="model" type="radio" :id="`radio${name}`"
                     :name="`switch${name}`" :value="value2"  />
-                <label for="radio-two">{{ label2 }}</label>
-            </div>
-            <!-- option 2 end here  -->
-
-        </div>
-        <!-- <div class="switch-field">
-            <input v-model="entry.debit_amount" type="radio" id="radio-one" name="switch-one" value="cr" checked />
-            <label for="radio-one">Credit</label>
-            <input v-model="entry.debit_amount" type="radio" id="radio-two" name="switch-one" value="dr" />
-            <label for="radio-two">Debit</label>
-        </div> -->
+                    {{ label2 }}
+        </label>
 
     </div>
 </template>
 
 <script setup>
-import { defineProps, } from "vue";
+import { defineProps } from "vue";
 
 defineProps({
     name: {
@@ -68,33 +43,43 @@ defineProps({
     checked: {
         type: Number,
         default: 1
+    },
+    selected:{
+        type: [Number,String]
     }
+    
+
+    // readonly: {
+    //     type: Boolean,
+    //     default: false
+    // }
 
 });
-
-
+const model = defineModel()
 
 </script>
 
-<style scoped>
+<style  scoped>
+
+* {margin: 0; box-sizing: border-box;}
+body { font: 16px/1 sans-serif;}
+
 .switch-field {
     display: flex;
     /* margin-bottom: 36px; */
     overflow: hidden;
 }
 
-.switch-field input {
-    position: absolute !important;
-    clip: rect(0, 0, 0, 0);
-    height: 1px;
-    width: 1px;
-    border: 0;
-    overflow: hidden;
-}
+label:has([type=radio]) {
+  /* display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid #aaa;
+  padding: .5rem;
+  border-radius: 3rem;
+  transition: background-color 0.3s; */
 
-
-.switch-field label {
-    background-color: #e4e4e4;
+  background-color: #e4e4e4;
     color: rgba(0, 0, 0, 0.6);
     font-size: 14px;
     line-height: 1;
@@ -106,21 +91,28 @@ defineProps({
     transition: all 0.1s ease-in-out;
 }
 
-.switch-field label:hover {
-    cursor: pointer;
+label:has([type=radio]:not(:disabled)) {
+  cursor: pointer;
 }
 
-.switch-field input:checked+label {
+[type=radio] {
+  appearance: none;
+  width: .2rem;
+  height: .2rem;
+  flex: 0 0 auto;
+  border: inherit;
+  border-radius: inherit;
+}
+
+label:has([type=radio]:checked) {
+  border-color: #14bf8b;
+  background-color: #14bf8b;
+  color: #fff;
+}
+
+[type=radio]:checked {
+  border-color: transparent;
     background-color: #a5dc86;
-    box-shadow: none;
-}
 
-.switch-field label:first-of-type {
-    border-radius: 4px 0 0 4px;
 }
-
-.switch-field label:last-of-type {
-    border-radius: 0 4px 4px 0;
-}
-
 </style>

@@ -26,7 +26,7 @@
                                             <div class="accordion-body">
                                                 <div class="account-detail" v-for="(sub,i) in account.accounts"
                                                     @click="loadJournal(sub.pid, sub.account_name)" :key="i">
-                                                    <div>{{ sub.account_name }}</div>
+                                                    <div class="pointer">{{ sub.account_name }}</div>
                                                     <div>{{ sub.balance }}</div>
                                                 </div>
                                             </div>
@@ -36,8 +36,8 @@
                                             aria-labelledby="panelsStayOpen-headingOne">
                                             <div class="accordion-body">
                                                 <div class="account-detail" v-for="(sub,i) in account.accounts"
-                                                    @click="loadJournal(sub.pid)" :key="i">
-                                                    <div>{{ sub.account_name }}</div>
+                                                    @click="loadJournal(sub.pid,sub.account_name)" :key="i">
+                                                    <div class="pointer">{{ sub.account_name }}</div>
                                                     <div>{{ sub.balance }}</div>
                                                 </div>
                                             </div>
@@ -48,7 +48,6 @@
                             </template>
                         </div>
                         <div class="col-md-8">
-
                             <fieldset class="border rounded-3 p-2 m-1">
                                 <legend class="float-none w-auto px-2">{{ formatUpperCase(journal) }}</legend>
 
@@ -62,24 +61,17 @@
                                                 <th>Debit</th>
                                                 <th>Credit</th>
                                                 <th>Note</th>
-                                                <th> <i class="bi bi-gear-fill"></i> </th>
                                             </tr>
                                         </thead>
-                                        <tbody class="mb-2" v-if="journals.data">
+                                       <tbody class="mb-2" v-if="journals.data">
                                             <tr v-for="(data, loop) in journals.data" :key="loop">
                                                 <td>{{ loop + 1 }}</td>
-                                                <td>{{ data.date }}</td>
-                                                <td>{{ data.transaction_number }}</td>
-                                                <td>{{ data?.entry[0].debit_account }}</td>
-                                                <td>{{ data?.entry[0].credit_amount }}</td>
-                                                <td>{{ data.comments }}</td>
-
-                                                <td>
-                                                    <button type="button" @click="editEntry(data.pid)"
-                                                        class="btn btn-primary btn-sm">
-                                                        Edit
-                                                    </button>
-                                                </td>
+                                                <td>{{ data.journal?.dates }}</td>
+                                                <td>{{ data?.journal?.transaction_number }}</td>
+                                                <td>{{ numberFormat(data?.debit_amount) }}</td>
+                                                <td>{{ numberFormat(data?.credit_amount)}}</td>
+                                                <td>{{ data?.journal?.comments }}</td>
+                                               
                                             </tr>
                                         </tbody>
                                         <tfoot v-else class="text-center" style="width: 100%" width="100%">
@@ -112,7 +104,7 @@ import store from "@/store";
 import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
 import { useHelper } from '@/composables/helper';
-const { formatUpperCase } = useHelper()
+const { formatUpperCase,numberFormat } = useHelper()
 const accounts = ref({})
 loadAccount()
 function loadAccount() {
@@ -134,7 +126,11 @@ const journal = ref(null)
 const journals = ref({})
 const loadJournal = (pid,name) =>{
     journal.value = name;
-    store.dispatch('getMethod', { url: '/load-account-journal/'+pid }).then((data) => {
+    loadData('/load-account-journal/'+pid )
+}
+
+function loadData(url) {
+    store.dispatch('getMethod', { url: url }).then((data) => {
         if (data?.status == 200) {
             journals.value = data?.data
         } else {
@@ -143,6 +139,13 @@ const loadJournal = (pid,name) =>{
     }).catch(e => {
         console.log(e);
     })
+    
+}
+function nextPage(link) {
+    if (!link.url || link.active) {
+        return;
+    }
+    loadData(link.url)
 }
 
 </script>

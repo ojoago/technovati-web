@@ -7,7 +7,7 @@
                     Accounts
                 </div>
                 <div class="card-body">
-                    {{ journals.data }}
+                    
                     <div class="table-responsive">
                         <table class="table-hover table-stripped table-bordered table">
                             <thead>
@@ -24,17 +24,25 @@
                             <tbody class="mb-2" v-if="journals.data">
                                 <tr v-for="(data, loop) in journals.data" :key="loop">
                                     <td>{{ loop + 1 }}</td>
-                                    <td>{{ data.date }}</td>
+                                    <td>{{ data.dates }}</td>
                                     <td>{{ data.transaction_number }}</td>
-                                    <td>{{ data?.entry[0].debit_account }}</td>
-                                    <td>{{ data?.entry[0].credit_amount }}</td>
+                                    <td>{{ data?.debits }}</td>
+                                    <td>{{ data?.credits }}</td>
                                     <td>{{ data.comments }}</td>
-
-                                    <td>
-                                        <button type="button" @click="editEntry(data.pid)"
-                                            class="btn btn-primary btn-sm">
-                                            Edit
-                                        </button>
+                                     <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
+                                                data-bs-toggle="dropdown">
+                                                <i class="bi bi-tools"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item pointer bg-info"
+                                                        @click="entryDetail(data)">Details</a> </li>
+                                                <li><a class="dropdown-item pointer bg-warning"
+                                                        @click="editEntry(data)">Edit</a> </li>
+                                               
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -54,7 +62,44 @@
                 </div>
             </div>
         </div>
-
+          <o-modal :isOpen="toggleModal" modal-class="modal-lg" title="Journal Details"
+            @modal-close="closeModal">
+            <template #content>
+                
+                 Date: {{ entry.dates }}
+                 Journal Voucer:   {{ entry.transaction_number }}
+                                   
+                    <table class="table-hover table-stripped table-bordered table text-sm">
+                        <thead>
+                            <tr>
+                            <th>S/N</th>
+                            <th>Account Name</th>
+                            <th>Amount</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(en, loop) in entry.entries" :key="loop">
+                                <td>{{ loop+1 }}</td>
+                                <td>{{ en.credit ? 'Cr | '+ en.credit?.account_name : 'Dr | '+ en.debit?.account_name }}</td>
+                                <td>{{ en.credit_amount > 0 ? numberFormat(en.credit_amount) : numberFormat( en.debit_amount) }}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td> <b>Total</b></td>
+                                <td>  
+                                    Credit {{ entry.credits }}
+                                </td>
+                                <td>
+                                    Debit {{ entry.debits }}
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                     {{ entry.comments }} 
+            </template>
+            
+        </o-modal>
 
     </div>
 </template>
@@ -63,12 +108,16 @@
 import store from "@/store";
 import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
-
+import OModal from "@/components/OModal.vue";
+import { useHelper } from "@/composables/helper";
+import { useRouter } from 'vue-router';
+const router = useRouter()
+const {numberFormat} =useHelper()
 
 const journals = ref({})
 
-function loadAccount() {
-    store.dispatch('getMethod', { url: '/load-journals' }).then((data) => {
+function loadAccount(url = '/load-journals') {
+    store.dispatch('getMethod', { url: url }).then((data) => {
         if (data?.status == 200) {
             journals.value = data.data
         } else {
@@ -81,8 +130,28 @@ function loadAccount() {
 
 loadAccount()
 
-const editEntry = (pid) => {
-    alert(pid)
+const editEntry = (data) => {
+    localStorage.setItem('TVATI_EDIT_JVC', JSON.stringify(data, null, 2))
+    router.push({ path: 'journal-entry', query: { jvc: data.pid, action: 'edit' } })
+}
+
+const entry = ref({})
+const toggleModal = ref(false)
+const entryDetail = (data) => {
+    entry.value = data
+    toggleModal.value = true
+}
+const closeModal = () => {
+    toggleModal.value = false;
+   entry.value = {}
+};
+
+
+function nextPage(link) {
+    if (!link.url || link.active) {
+        return;
+    }
+    loadAccount(link.url)
 }
 </script>
 

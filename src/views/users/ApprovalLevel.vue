@@ -50,6 +50,7 @@
                                                 <th>Username</th>
                                                 <th>Full name</th>
                                                 <th>level</th>
+                                                 <th width ="5%" > <i class="bi bi-gear-fill"></i> </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -57,6 +58,7 @@
                                                 <td>{{ dp.username }}</td>
                                                 <td>{{ `${dp.lastname} ${dp.firstname} ${dp.othername}` }}</td>
                                                 <td>{{ dp.level }}</td>
+                                                <td> <i class="bi bi-trash pointer" title="revoke level" @click="revokeLevel(dp.pid)"></i></td>
                                                
                                             </tr>
                                         </tbody>
@@ -192,10 +194,19 @@ const toggleModal = ref(false);
         store.dispatch('postMethod', { url: '/assign-level', param: assign.value }).then((data) => {
             if (data?.status == 422) {
                 a_errors.value = data.data;
+            }else if(data?.status == 201 ){
+                loadAssignLevel()
             }
         })
     }
     
+    const revokeLevel  = (pid)  => {
+         store.dispatch('putMethod', { url: '/revoke-level/'+pid, prompt:'Are you sure, you want to revoke this right?' }).then((data) => {
+            if (data?.status == 201) {
+                loadAssignLevel()
+            }
+        })
+    }
 
 
     loadApprovalLevel()
