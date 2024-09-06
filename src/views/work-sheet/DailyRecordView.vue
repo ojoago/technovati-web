@@ -43,15 +43,13 @@
                                             <div class="col-md-6">
                                                 <div class="form-group mb-3">
                                                     
-                                                    <select class="form-control form-control-sm"
-                                                        v-model="work.device">
+                                                    <select class="form-control form-control-sm" v-model="work.device">
                                                             <option selected value="">Select Activity</option>
                                                             <option v-for="item in deviceDrop" :key="item.id"   >
                                                                 {{ item.text }}
                                                             </option>
                                                     </select>
-                                                    <p class="text-danger " v-if="errors?.device">{{ errors?.device[0]
-                                                        }}
+                                                    <p class="text-danger " v-if="errors?.device">{{ errors?.device[0]}}
                                                     </p>
                                                 </div>
                                             </div>

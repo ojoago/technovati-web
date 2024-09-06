@@ -50,7 +50,7 @@
                 </div>
 
                 <div class="col-md-4">
-                    <Chart :length="pieYearly.data.length" chart="ColumnChart" :data="pieYearly.data" :options="pieYearly.options" />
+                    <Chart :length="pieYearly.data.length" chart="PieChart" :data="pieYearly.data" :options="pieYearly.options" />
                 </div>
             </div>
                 

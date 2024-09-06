@@ -56,7 +56,7 @@
                                                 <button type="button" class="btn btn-danger btn-sm"
                                                     @click="removeitem(loop)"> <i class="bi bi-patch-minus"></i> </button>
                                             </div>
-                                            <p class="text-danger " v-if="errors[loop]">{{ errors[loop] }} </p>
+                                            <p class="text-danger " v-if="errors[`quantity${loop}`]">{{ errors[`quantity${loop}`] }} </p>
                                         </div>
                                     </fieldset>
 
@@ -119,7 +119,8 @@ const addItem = (item) => {
         if (request.value.items[index].quantity < item?.quantity?.quantity) {
             request.value.items[index].quantity++
         } else {
-            store.commit('notify', { message: `quantity remaining is : ${request.value.items[index].quantity}`, type: 'warninig' })
+           
+            store.commit('notify', { message: `Quantity remaining is : ${request.value.items[index].qnt}`, type: 'warning' })
         }
     }
 }
@@ -137,9 +138,7 @@ function requestMaterial() {
     errors.value = []
     store.dispatch('postMethod', { url: '/request-materials', param: request.value }).then((data) => {
         if (data?.status == 422) {
-            errors.value = data.data
             console.log(data.data);
-            
             errors.value = transformValidationErrors(data.data) 
         } else if (data?.status == 201) {
             resetAttr();

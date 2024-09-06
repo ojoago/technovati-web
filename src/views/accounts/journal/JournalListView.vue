@@ -62,6 +62,7 @@
                 </div>
             </div>
         </div>
+        
           <o-modal :isOpen="toggleModal" modal-class="modal-lg" title="Journal Details"
             @modal-close="closeModal">
             <template #content>

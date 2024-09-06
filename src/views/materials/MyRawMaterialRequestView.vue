@@ -52,7 +52,12 @@
                                 </tr>
                             </tbody>
                         </table>
-
+                        <div class="flex justify-center mt-4">
+                            <nav class="relative justify-center rounded-md shadow pagination">
+                                <pagination-links v-for="(link, i) of requests.links" :link="link" :key="i"
+                                    @next="nextPage(link)"></pagination-links>
+                            </nav>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -100,6 +105,8 @@
 import store from "@/store";
 import { ref } from "vue";
 import OModal from "@/components/OModal.vue";
+import PaginationLinks from "@/components/PaginationLinks.vue";
+
 import { useRouter } from 'vue-router';
 
 const router = useRouter()
@@ -120,8 +127,8 @@ function requestDetailPage(item) {
     router.push({ path: 'raw-material-request-details', query: { request: item.pid } })
 }
 loadRequest()
-function loadRequest() {
-    store.dispatch('getMethod', { url: '/load-my-raw-material-requests' }).then((data) => {
+function loadRequest(url = '/load-my-raw-material-requests') {
+    store.dispatch('getMethod', { url: url }).then((data) => {
         if (data?.status == 200) {
             requests.value = data.data;
         }
@@ -148,6 +155,15 @@ const cancelRequest = (pid) => {
     }).catch(e => {
         console.log(e);
     })
+}
+
+
+
+function nextPage(link) {
+    if (!link.url || link.active) {
+        return;
+    }
+    loadRequest(link.url)
 }
 
 
