@@ -143,13 +143,13 @@
                         data-bs-target="#en_mat_req" aria-expanded="true" arai-controls="en_mat_req">
                         <i class="bi bi-book"></i>
                         <div class="icon-link">
-                            <span class="link-name">Material Request</span>
+                            <span class="link-name">Item Request</span>
                         </div>
                     </a>
                     <ul id="en_mat_req" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
 
                         <li class="nav-item" title="New Request">
-                            <router-link to="/material-request" class="nav-link"><i class="bi bi-record"></i> <span
+                            <router-link to="/new-request" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">New Request </span> </router-link>
                         </li>
 
@@ -160,30 +160,7 @@
 
                     </ul>
                 </li>
-
-                <li>
-                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
-                        data-bs-target="#in_item_req" aria-expanded="true" arai-controls="in_item_req">
-                        <i class="bi bi-book"></i>
-                        <div class="icon-link">
-                            <span class="link-name">Item Request</span>
-                        </div>
-                    </a>
-                    <ul id="in_item_req" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-
-                        <li class="nav-item" title="New Request">
-                            <router-link to="/material-request" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">New Request </span> </router-link>
-                        </li>
-
-                        <li class="nav-item" title="My Request">
-                            <router-link to="/my-raw-material-request" class="nav-link"><i class="bi bi-record"></i>
-                                <span class="nav-name">My Request</span> </router-link>
-                        </li>
-
-                    </ul>
-                </li>
-
+          
             </div>
             <!-- engineering team end here -->
 

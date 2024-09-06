@@ -3,10 +3,9 @@
         <div class="container mt-2">
             <div class="row">
                 <div class="col-md-7">
-                    <div class="card">
-                        <div class="card-header">Company Raw Materials</div>
-                        <div class="card-body">
-                            <input type="text" class=" form-control form-control-sm" placeholder="search Item">
+                <fieldset class="border rounded-3 p-2 m-1">
+                    <!-- <legend class="float-none w-auto px-2 h5">Raw Materials</legend> -->
+                     <input type="text" class=" form-control form-control-sm" placeholder="search Item">
                             <div class="table-responsive">
                                 <table class="table-hover table-stripped table-bordered table">
                                     <thead>
@@ -38,8 +37,9 @@
                                 </table>
 
                             </div>
-                        </div>
-                    </div>
+
+                </fieldset>
+                    
                 </div>
                 <div class="col-md-5">
                     <div class="card">
@@ -119,7 +119,6 @@ const addItem = (item) => {
         if (request.value.items[index].quantity < item?.quantity?.quantity) {
             request.value.items[index].quantity++
         } else {
-           
             store.commit('notify', { message: `Quantity remaining is : ${request.value.items[index].qnt}`, type: 'warning' })
         }
     }

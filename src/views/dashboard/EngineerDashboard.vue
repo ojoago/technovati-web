@@ -42,10 +42,8 @@
             </div>
             <div class="row">
                 <div class="col-md-8">
-                    <GChart type="ColumnChart" v-if="monthlyColumn.data.length>1" :data="monthlyColumn.data"
-                        :options="monthlyColumn.options" />
-                    <span v-else>No Data loaded</span>
-                    <Chart :length="monthlyColumn.data.length" chart="ColumnChart" :data="monthlyColumn.data" :options="monthlyColumn.options" />
+                    
+                    <Chart :length="monthlyColumn.data.length" chart="LineChart" :data="monthlyColumn.data" :options="monthlyColumn.options" />
 
                 </div>
 
@@ -123,9 +121,9 @@ const staffAssembled = () => {
             let monthly = data?.data?.monthly
             console.log(monthly);
             
-            monthlyColumn.value.data.push(['Month','team','total'])
+            monthlyColumn.value.data.push(['Month','total'])
             monthly.forEach((el) => {
-                monthlyColumn.value.data.push([monthNames[el?.month] , el.team,el.total])
+                monthlyColumn.value.data.push([monthNames[el?.month] ,el.total])
             })
 
             let yearly = data?.data?.yearly

@@ -266,12 +266,12 @@ const routes = [
             // material request  
 
             {
-                path:'/material-request',name:'MaterialRequestView',component: () => import('@/views/materials/MaterialRequestView.vue')
+                path:'/new-request',name:'ItemRequestView',component: () => import('@/views/inventory/ItemRequestView.vue')
             },
             {
                 path:'/inventory-item-request',name:'InventoryItemRequestView',component: () => import('@/views/request/InventoryItemRequestView.vue')
             },
-
+          
             {
                 path:'/my-raw-material-request',name:'MyRawMaterialRequestView',component: () => import('@/views/materials/MyRawMaterialRequestView.vue')
             },

@@ -3,9 +3,8 @@
         <div class="container mt-2">
             <div class="row">
                 <div class="col-md-7">
-                    <div class="card">
-                        <div class="card-header">Finished Products</div>
-                        <div class="card-body">
+                     <fieldset class="border rounded-3 p-2 m-1">
+                        <legend class="float-none w-auto px-2 h5">Items</legend>
                             <select class="form-control" @change="stetStorePid($event)">
                                 <option disabled selected>Select Store</option>
                                 <option v-for="sec in stores" :key="sec.id" :value="sec.id">{{ sec.text }}</option>
@@ -15,7 +14,7 @@
                                 <table class="table-hover table-stripped table-bordered table">
                                     <thead>
                                         <tr>
-                                            <th>SN</th>
+                                            <th width="5%">SN</th>
                                             <th>Name</th>
                                             <!-- <th>Model</th> -->
                                             <th>Quantity</th>
@@ -40,12 +39,13 @@
                                 </table>
 
                             </div>
-                        </div>
-                    </div>
+                    </fieldset>
+                   
                 </div>
                 <div class="col-md-5">
                     <div class="card">
                         <div class="card-body">
+                            
                             <fieldset class="border rounded-3 p-2 m-1">
                                 <legend class="float-none w-auto px-2 h5">Request Items</legend>
                                 <form id="itemForm" v-if="request.items.length">
@@ -58,6 +58,7 @@
                                                 <input type="number" step="0.1" @change="compareQnt(item)" v-model="item.quantity" class="form-control" placeholder="e.g 15">
                                                 <button type="button" class="btn btn-danger btn-sm" @click="removeitem(loop)"> <i class="bi bi-patch-minus"></i> </button>
                                             </div>
+                                            <p class="text-danger " v-if="errors[`quantity${loop}`]">{{ errors[`quantity${loop}`] }} </p>
                                         </div>
                                     </fieldset>
 
@@ -66,12 +67,12 @@
                                             <label class="form-label">Comment</label>
                                             <textarea type="text" v-model="request.comment"
                                                 class="form-control form-control-sm" placeholder="e.g UIU"></textarea>
-                                            <p class="text-danger " v-if="errors?.comment">{{ errors?.comment[0] }} </p>
+                                            <p class="text-danger " v-if="errors?.comment">{{ errors?.comment }} </p>
                                         </div>
                                         <div class="col-md-12">
                                             <label class="form-label">Receiver</label>
                                             <Select2 v-model="request.receiver" :options="userDrop" :settings="{ width: '100%' }" />
-                                            <p class="text-danger " v-if="errors?.receiver">{{ errors?.receiver[0] }} </p>
+                                            <p class="text-danger " v-if="errors?.receiver">{{ errors?.receiver }} </p>
                                         </div>
                                     </div>
 
@@ -92,9 +93,12 @@
 </template>
 
 <script setup>
+import { formatError } from "@/composables/formatError";
 import store from "@/store";
 import { ref } from "vue";
 import Select2 from 'vue3-select2-component';
+
+const { transformValidationErrors } = formatError()
 
 const errors = ref({});
 const items = ref({});
@@ -124,7 +128,7 @@ const addItem = (item) => {
         if (request.value.items[index].quantity < item?.quantity) {
             request.value.items[index].quantity++
         } else {
-            store.commit('notify', { message: `quantity remaining is : ${request.value.items[index].quantity}`, type: 'warning' })
+            store.commit('notify', { message: `Quantity remaining is : ${request.value.items[index].quantity}`, type: 'warning' })
         }
     }
 }
@@ -132,7 +136,7 @@ const compareQnt = (item) => {
     if(item.quantity > item.qnt ) {
         var index = request.value.items.findIndex(x => x.pid == item.pid)
         request.value.items[index].quantity = item.qnt
-        store.commit('notify', { message: `quantity remaining is : ${item.qnt}`, type: 'warning' })
+        store.commit('notify', { message: `Quantity remaining is : ${item.qnt}`, type: 'warning' })
     } 
 }
 
@@ -146,11 +150,9 @@ function requestMaterial() {
     errors.value = []
     store.dispatch('postMethod', { url: '/request-items', param: request.value }).then((data) => {
         if (data?.status == 422) {
-            errors.value = data.data
+            errors.value = transformValidationErrors(data.data) 
         } else if (data?.status == 201) {
-            let form = document.querySelector('#itemForm');
-            request.value.items = [];
-            form.reset();
+            
             loadItem(store_pid.value)
         }
     })
