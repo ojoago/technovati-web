@@ -528,27 +528,7 @@
                     </ul>
                 </li>
                 <!-- end   -->
-                <!-- begin  -->
-                <li>
-                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#irequest"
-                        aria-expanded="true" arai-controls="irequest">
-                        <i class="bi bi-book"></i>
-                        <div class="icon-link">
-                            <span class="link-name">Store item request</span>
-                        </div>
-                    </a>
-                    <ul id="irequest" class=" sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="nav-item" >
-                            <router-link to="/item-request" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name"> New Request </span> </router-link>
-                        </li>
-                        <li class="nav-item" >
-                            <router-link to="/staff-list" class="nav-link"><i class="bi bi-record"></i> <span
-                                    class="nav-name">Staff List</span> </router-link>
-                        </li>
-                    </ul>
-                </li>
-                <!-- end   -->
+
                 <!-- begin  -->
                 <li>
                     <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#rmaterial"
@@ -573,6 +553,27 @@
                         <li class="nav-item" >
                             <router-link to="/consignments" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Consignments</span> </router-link>
+                        </li>
+                    </ul>
+                </li>
+                <!-- end   -->
+                     <!-- begin  -->
+                <li>
+                    <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#irequest"
+                        aria-expanded="true" arai-controls="irequest">
+                        <i class="bi bi-book"></i>
+                        <div class="icon-link">
+                            <span class="link-name">Store item request</span>
+                        </div>
+                    </a>
+                    <ul id="irequest" class=" sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <li class="nav-item" >
+                            <router-link to="/pending-item-request" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Pending </span> </router-link>
+                        </li>
+                        <li class="nav-item" >
+                            <router-link to="/processed-item-request" class="nav-link"><i class="bi bi-record"></i> <span
+                                    class="nav-name">Processed</span> </router-link>
                         </li>
                     </ul>
                 </li>
