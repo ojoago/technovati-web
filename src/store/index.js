@@ -296,7 +296,7 @@ const store = createStore({
             state.user.token = userData?.token;
             state.user.data = userData?.user;
             state.user.roles = userData?.roles;
-            state.user.approvalLevel = userData?.user?.approvalLevel;
+            state.user.approvalLevel = userData?.user?.approval_level;
             sessionStorage.setItem('USERDATA', JSON.stringify(userData?.user,null,2));
             localStorage.setItem('TVATI_USERDATA', JSON.stringify(userData?.user,null,2));
             localStorage.setItem('TVATI_USER_ROLES', JSON.stringify(userData?.roles,null,2));

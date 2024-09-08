@@ -207,6 +207,7 @@ const editAccount = (data) => {
     toggleModal.value = true
 
 }
+
 const errors = ref({});
 
 function createAccount() {

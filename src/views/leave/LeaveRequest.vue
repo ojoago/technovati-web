@@ -6,7 +6,6 @@
                     <h5 class="card-title">Staff Leave
                         <!-- <button class="btn btn-primary btn-sm" @click="openModal">New Leave</button> -->
                     </h5>
-
                     <fieldset class="border rounded-3 p-2 m-1">
                         <legend class="float-none w-auto px-2">Leave Request</legend>
                         <div class="table-responsive">
@@ -105,6 +104,8 @@ import PaginationLinks from "@/components/PaginationLinks.vue";
 import OModal from "@/components/OModal.vue";
 
 
+const approvalLeve = ref(0)
+approvalLeve.value = store.state.approvalLevel;
 const errors = ref({});
 
 

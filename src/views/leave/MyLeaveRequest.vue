@@ -179,7 +179,7 @@ function makeRequest() {
             errors.value = data.data
         } else if (data?.status == 201) {
             loadLeaves()
-            resetAttr()
+            closeModal()
         }
     }).catch(e => {
         console.log(e);

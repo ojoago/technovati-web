@@ -47,10 +47,10 @@
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li ><a class="dropdown-item pointer bg-info" @click="requestDetail(data)">Details</a> </li>
-                                            <div v-if="data.status < level || data.line_manager == manager">
+                                            <div v-if="data.status < level || (data.line_manager == manager && data?.status == 0)">
                                                 
-                                                <li ><a class="dropdown-item pointer bg-success" v-if="data?.status == 0" @click="approveRequest(data.pid)">Approve</a> </li>
-                                                <li ><a class="dropdown-item pointer bg-secondary" v-if="data?.status == 0" @click="rejectRequest(data.pid)">Reject</a> </li>
+                                                <li ><a class="dropdown-item pointer bg-success" @click="approveRejectRequest(data.pid,status[0])">Approve</a> </li>
+                                                <li ><a class="dropdown-item pointer bg-secondary" @click="approveRejectRequest(data.pid,status[1])">Reject</a> </li>
                                             </div>
                                         </ul>
                                     </div>
@@ -87,26 +87,27 @@ const level = ref(null);
 manager.value = store?.state?.user?.data?.pid;
 level.value = store?.state?.approvalLevel;
 
+const status = ref([1,5])
+
+if(level.value == 2){
+    status.value = [2,6]
+}else if(level.value == 3){
+    status.value = [3,7]
+}else if(level.value == 4){
+    status.value = [4,8]
+}
 const router = useRouter()
 let query = {}
 router.push({ query: query })
      
      
-const approveRequest = (pid) => {
-    store.dispatch('putMethod', { url: '/approve-travel-request/'+pid , prompt: 'Are you sure you want to approve this request?' }).then((data) => {
+const approveRejectRequest = (pid,status) => {
+    store.dispatch('putMethod', { url: `/update-travel-request-status/${pid}/${status}`  , prompt: 'Are you sure, you want to update the status of this request?' }).then((data) => {
         if (data?.status == 201) {
             loadRequest()
         }
     })
 }
-const rejectRequest = (pid) => {
-    store.dispatch('putMethod', { url: '/travel-request/'+pid , prompt: 'Are you sure you want to reject this request?' }).then((data) => {
-        if (data?.status == 201) {
-            loadRequest()
-        }
-    })
-}
-
 
 const requests = ref({})
 function loadRequest(url = '/load-staff-request') {

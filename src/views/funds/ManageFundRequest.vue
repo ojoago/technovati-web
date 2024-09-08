@@ -34,11 +34,11 @@
                                     </td>
                                     
                                     <td>
-                                        <button class="btn btn-sm btn-success" v-if="level == 2 && data.status == 1" @click="approveRequest(data)">Respond</button>
-                                        <div v-else-if="data.status < level || data.line_manager == manager">
+                                        <button class="btn btn-sm btn-success" v-if="level == 2 && data.status == 1" @click="respondToRequest(data)">Respond</button>
+                                        <div v-else-if="data.status < level || (data.line_manager == manager && data.status == 0)">
 
-                                            <button class="btn btn-sm btn-success"  @click="approveRequest(data.pid)">Approve</button>
-                                            <button class="btn btn-sm btn-secondary"  @click="approveRequest(data.pid)">Reject</button>
+                                            <button class="btn btn-sm btn-success"  @click="updateRequestStatus(data.pid,status[0])">Approve</button>
+                                            <button class="btn btn-sm btn-secondary"  @click="updateRequestStatus(data.pid,status[1])">Reject</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -55,6 +55,45 @@
             </div>
 
         </div>
+         <o-modal :isOpen="toggleModal" @submit="postResponse" modal-class="modal-sm" title="Request Leave"
+            @modal-close="closeModal">
+            <template #content>
+                <div>
+                    <form >
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="form-label">Amount Requested {{ response.requested }} </label>
+                                
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Approve Amount: <span class="text-danger">*</span> </label> <br>
+                                    <input type="number" step=".5" v-model="response.approved_amount"
+                                        class="form-control form-control-sm"
+                                        placeholder="e.g 5000">
+                                    <p class="text-danger " v-if="errors?.status">{{ errors?.status[0] }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Approve? <span class="text-danger">*</span> </label> <br>
+                                    <label for="yes">Yes</label> &nbsp;
+                                    <input v-model="response.status" type="radio" id="yes"  value="2">
+                                    &nbsp;
+                                    &nbsp;
+                                    &nbsp;
+                                    <label for="no">No</label>
+                                    &nbsp;
+                                    <input v-model="response.status" type="radio" id="no"  value="6">
+                                    <p class="text-danger " v-if="errors?.status">{{ errors?.status[0] }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </template>
+
+        </o-modal>
     </div>
 </template>
 
@@ -64,14 +103,48 @@ import store from "@/store";
 import PaginationLinks from "@/components/PaginationLinks.vue";
 // import { useRouter } from 'vue-router';
 // import BudgetComponent from '@/components/travel/BudgetComponent.vue'
+import OModal from "@/components/OModal.vue";
+const toggleModal = ref(false)
+const closeModal = () => {
+    toggleModal.value = false;
+    response.value = {}
+};
+
 const manager = ref(null);
 const level = ref(null);
 manager.value = store?.state?.user?.data?.pid;
 level.value = store?.state?.approvalLevel;
 
+const status = ref([1,5])
+
+if(level.value == 2){
+    status.value = [2,6]
+}else if(level.value == 3){
+    status.value = [3,7]
+}else if(level.value == 4){
+    status.value = [4,8]
+}
+ 
+
+const response = ref({})
+function respondToRequest(data) {
+    response.value = data;
+    toggleModal.value = true
+}
+function postResponse() {
+    store.dispatch('postMethod', { url: '/approve-fund-amount',param: response.value }).then((data) => {
+        if (data?.status == 422) {
+            requests.value = data.data
+        }else if(data?.status == 201){
+            requests.value = {}
+            closeModal()
+        }
+    })
+}
+
 const requests = ref({})
-function loadRequest() {
-    store.dispatch('getMethod', { url: '/load-staff-fund-request' }).then((data) => {
+function loadRequest(url = '/load-staff-fund-request') {
+    store.dispatch('getMethod', { url: url }).then((data) => {
         if (data?.status == 200) {
             requests.value = data.data
         }else{
@@ -82,17 +155,20 @@ function loadRequest() {
 loadRequest()
 
 
-function approveRequest(pid){
-     alert(pid)
+function updateRequestStatus(pid,status){
+    store.dispatch('putMethod', { url: `/update-fund-request-status/${pid}/${status}`  , prompt: 'Are you sure, you want to update the status of this request?' }).then((data) => {
+        if (data?.status == 201) {
+            loadRequest()
+        }
+    })
 }
 
 
 function nextPage(link) {
-    alert()
     if (!link.url || link.active) {
         return;
     }
-    alert(link.url)
+    loadRequest(link.url)
 }
 
 

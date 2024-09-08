@@ -262,7 +262,7 @@
                     <a>
                         <i class="bi bi-list-task"></i>
                         <span class="link-name">
-                            <router-link to="/staff-travel-request" class="nav-link"><span class="nav-name">Travel
+                            <router-link to="/manage-travel-request" class="nav-link"><span class="nav-name">Travel
                                     Request
                                 </span> </router-link>
                         </span>
@@ -273,7 +273,7 @@
                     <a>
                         <i class="bi bi-list-task"></i>
                         <span class="link-name">
-                            <router-link to="/staff-fund-request" class="nav-link"><span class="nav-name">Fund
+                            <router-link to="/manage-fund-request" class="nav-link"><span class="nav-name">Fund
                                     Request
                                 </span> </router-link>
                         </span>

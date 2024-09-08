@@ -182,7 +182,7 @@ const toggleModal = ref(false);
             if (data?.status == 422) {
                 errors.value = transformValidationErrors(data.data)
             } else if (data?.status == 201) {
-                resetAttr();
+                closeModal();
                 loadApprovalLevel()
             }
         })
@@ -195,6 +195,7 @@ const toggleModal = ref(false);
             if (data?.status == 422) {
                 a_errors.value = data.data;
             }else if(data?.status == 201 ){
+                closeModal();
                 loadAssignLevel()
             }
         })
@@ -203,6 +204,7 @@ const toggleModal = ref(false);
     const revokeLevel  = (pid)  => {
          store.dispatch('putMethod', { url: '/revoke-level/'+pid, prompt:'Are you sure, you want to revoke this right?' }).then((data) => {
             if (data?.status == 201) {
+                closeModal();
                 loadAssignLevel()
             }
         })

@@ -5,7 +5,6 @@
                 <div class="card-body">
                     <h5 class="card-title">Staff Leave
                     </h5>
-
                     <fieldset class="border rounded-3 p-2 m-1">
                         <legend class="float-none w-auto px-2">Leave Request</legend>
                         <div class="table-responsive">
@@ -39,7 +38,8 @@
                                         <td>{{ lv.hr_comment }}</td>
 
                                         <td>
-                                            <div class="dropdown" v-if="lv.status == 0 && !lv.expired">
+                                            <div class="dropdown" v-if="(lv.status == 0 && lv.lineManager == lineManager) || (lv.status == approvalLevel -1) && !lv.expired">
+                                                
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     @click="respond(lv.pid)">
                                                     <span>Response</span>
@@ -65,9 +65,10 @@
             @modal-close="closeModal">
             <template #content>
                 <div>
-                    <form id="rForm">
+                    <form >
                         <div class="row">
-                            <div class="col-md-12">
+                            
+                            <div class="col-md-12" v-if="approvalLevel<3 || approvalLevel == 'null' ">
                                 <div class="form-group">
                                     <label class="form-label">Comment <span class="text-danger">*</span> </label>
                                     <textarea type="text" cols="4" v-model="response.comment"
@@ -81,14 +82,14 @@
                                     <label class="form-label">Approve? <span class="text-danger">*</span> </label> <br>
                                     <label for="yes">Yes </label> 
                                     &nbsp;
-                                    <input v-model="response.status" type="radio" id="yes" name="status" value="1">
+                                    <input v-model="response.status" type="radio" id="yes" name="status" :value="status[0]">
                                     &nbsp;
                                     &nbsp;
                                     &nbsp;
                                     
                                     <label for="no">No </label>
                                     &nbsp;
-                                    <input v-model="response.status" type="radio" id="no" name="status" value="2">
+                                    <input v-model="response.status" type="radio" id="no" name="status" :value="status[1]">
                                     <p class="text-danger " v-if="errors?.status">{{ errors?.status[0] }}</p>
                                 </div>
                             </div>
@@ -108,10 +109,13 @@ import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
 import OModal from "@/components/OModal.vue";
 
+const lineManager = ref(null)
+lineManager.value = store?.state?.user?.data?.pid;
 
+const approvalLevel = ref(0)
+approvalLevel.value = store.state.approvalLevel;
 
 const errors = ref({});
-
 
 const assignModal = ref(false)
 
@@ -122,7 +126,19 @@ const response = ref({
     'comment' :'' ,
     'leave_pid' : '' , 
     'status' : '' , 
+    level : approvalLevel.value
 });
+
+const status = ref([1,5])
+
+if(approvalLevel.value == 2){
+    status.value = [2,6]
+}else if(approvalLevel.value == 3){
+    status.value = [3,7]
+}else if(approvalLevel.value == 4){
+    status.value = [4,8]
+}
+
 
 const resetAttr = () =>{
     response.value = {
@@ -139,7 +155,7 @@ const respond = (pid) =>{
 
 const respondToRequest = () => {
     errors.value = []
-    store.dispatch('postMethod', { url: '/hod-respond-to-request',param:response.value }).then((data) => {
+    store.dispatch('postMethod', { url: '/respond-to-leave-request',param:response.value }).then((data) => {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
@@ -151,20 +167,20 @@ const respondToRequest = () => {
  
 loadLeaves()
 
-function loadLeaves() {
-    store.dispatch('getMethod', { url: '/line-manager-view-leave-request'}).then((data) => {
+function loadLeaves(url = '/manage-leave-request') {
+    store.dispatch('getMethod', { url: url}).then((data) => {
         if (data?.status == 200) {
             leaves.value = data.data;
         }
     }) 
 }
 
+
 function nextPage(link) {
-    alert()
     if (!link.url || link.active) {
         return;
     }
-    alert(link.url)
+    loadLeaves(link.url)
 }
 
 
