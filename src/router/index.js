@@ -4,6 +4,8 @@ import AuthLayout from "../components/AuthLayout.vue";
 import store  from "../store";
 
 const routes = [
+            { path: '/:pathMatch(.*)*',name:'404', component: () => import('@/views/errors/_404.vue') },
+
     {
         path:'/',
         name:'Guest',
@@ -23,10 +25,10 @@ const routes = [
             {
                 path:'/reset-password/:hash',name:'ResetPassword',component: () => import('@/views/guest/ResetPassword.vue')
             },
-            // Catch-all route for unknown paths
-            { path: '/:pathMatch(.*)*',name:'404', component: () => import('@/views/errors/_404.vue') },
+           
          ]
     },
+
     {
         path:'/auth',
         name:'Auth',
@@ -377,6 +379,7 @@ const routes = [
             
          ]
     },
+     // Catch-all route for unknown paths
 ]
 
 const router = createRouter({

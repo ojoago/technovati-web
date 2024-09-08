@@ -34,7 +34,7 @@
 
 
 #outer {
-    height: 100vh;
+    height: 90vh;
 }
 
 .header_{
