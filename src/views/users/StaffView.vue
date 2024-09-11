@@ -117,17 +117,21 @@
 
     const currentTab = ()=>{
       let q = localStorage.getItem('TVATI_ONBOARD_TAB') ? JSON.parse(localStorage.getItem('TVATI_ONBOARD_TAB')) : 'null'
-
-        if(q != 'null'){
-            //    var someTabTriggerEl = document.querySelector('#'+q.tab);
-            // var tab = new bootstrap.Tab(someTabTriggerEl);
-            // tab.show();
-            router.push({ query: q })
+      if (!(typeof q === "string" && q.trim().length === 0 && q === null)) {
+         router.push({ query: q })
             let resultsTab = document.getElementById(q.tab);
             user_pid.value = q.id
             //show the results tab:
-            resultsTab.click();
-        }
+            if(resultsTab != null){
+              resultsTab.click();
+            }
+      }
+        // if(q != 'null'){
+        //     //    var someTabTriggerEl = document.querySelector('#'+q.tab);
+        //     // var tab = new bootstrap.Tab(someTabTriggerEl);
+        //     // tab.show();
+           
+        // }
        
     }   
     onMounted(() => {

@@ -161,6 +161,7 @@ const openVehicleModal = () => {
 const closeModal = () => {
     vehicleModal.value = false;
     tyreModal.value = false;
+    resetAttr()
     // oilModal.value = false;
     // fuelModal.value = false;
 };
@@ -175,6 +176,19 @@ const vehicle = ref({
     mileage : '' , 
     fuel_capacity : ''
 })
+
+const resetAttr = () =>{
+    vehicle.value = {
+        name:'' , 
+    brand: '' , 
+    plate_number: '' , 
+    engine_number: '' , 
+    color: '' ,
+    driver: '' , 
+    mileage : '' , 
+    fuel_capacity : ''
+    }
+}
 const errors = ref({});
 
 function addVehicle() {
@@ -184,6 +198,7 @@ function addVehicle() {
         if (data?.status == 422) {
             errors.value = data.data
         }else if(data?.status==201){
+            closeModal()
             loadVehicles()
         }
     })

@@ -21,12 +21,12 @@
                     </div>
                 </div>
                 <div class="card-body">
-
                     <div class="table-responsive">
                         <table class="table-hover table-stripped table-bordered table">
                             <thead>
                                 <tr>
                                     <th>SN</th>
+                                    <th>Store</th>
                                     <th>Name</th>
                                     <!-- <th>Unit</th> -->
                                     <th>Quantity</th>
@@ -37,6 +37,7 @@
                             <tbody>
                                 <tr v-for="(item, loop) in items?.data" :key="loop">
                                     <td>{{ loop + 1 }}</td>
+                                    <td>{{ item?.store?.name }}</td>
                                     <td>{{ item?.item?.name }}</td>
                                     <!-- <td></td> -->
                                     <td>{{ item?.quantity }} {{ item?.item?.unit }}</td>
@@ -105,7 +106,13 @@ const stoe_pid = ref(null)
  
 function loadItem(pid) {
     stoe_pid.value = pid;
-    store.dispatch('getMethod', { url: '/load-store-items/' + pid }).then((data) => {
+    loadUrl('/load-store-items/' + pid)
+}
+
+loadUrl()
+
+function loadUrl(url ='load-all-store-items'){
+     store.dispatch('getMethod', { url: url}).then((data) => {
         if (data?.status == 200) {
             items.value = data.data;
         }else{
@@ -177,15 +184,7 @@ function nextPage(link) {
     if (!link.url || link.active) {
         return;
     }
-     store.dispatch('getMethod', { url: link.url }).then((data) => {
-        if (data?.status == 200) {
-            items.value = data.data;
-        }else{
-            items.value = []
-        }
-    }).catch(e => {
-        console.log(e);
-    })
+    loadUrl(link.url)
 }
 
 </script>

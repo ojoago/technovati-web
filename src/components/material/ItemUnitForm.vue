@@ -33,6 +33,12 @@ const unit = ref({
     description: '',
 });
 
+const resetAttr = ()=>{
+    unit.value = {
+        name: '',
+        description: '',
+    }
+}
 
 function addItemUnit() {
     errors.value = []
@@ -40,8 +46,7 @@ function addItemUnit() {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-            let form = document.querySelector('#uForm');
-            form.reset()
+            resetAttr()
         }
     })
 }

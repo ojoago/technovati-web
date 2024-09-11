@@ -180,6 +180,7 @@ const routes = [
             {   path:'/travel-request-detail',name:'TravelRequestDetailView',component: () => import('@/views/travel/TravelRequestDetailView.vue')  },
             {   path:'/travel-request-detail-hr-view',name:'TravelRequestDetailHrView',component: () => import('@/views/travel/TravelRequestDetailHrView.vue')  },
             
+            {   path:'/fund-request-payment',name:'FundRequestPayment',component: () => import('@/views/funds/FundRequestPayment.vue')  },
             {   path:'/manage-fund-request',name:'ManageFundRequest',component: () => import('@/views/funds/ManageFundRequest.vue')  },
 
             // Receptionisht 

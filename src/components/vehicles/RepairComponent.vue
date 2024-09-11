@@ -133,7 +133,7 @@ function addRepair() {
             t_error.value = data.data
         } else if (data?.status == 201) {
             loadVehiclerePairs(repairs.value.vehicle_pid)
-            resetAttr();
+            closeModal();
         }
     }).catch(e => {
         console.log(e);

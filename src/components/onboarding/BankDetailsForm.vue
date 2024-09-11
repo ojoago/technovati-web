@@ -53,7 +53,7 @@
                         </div>
 
                     </div>
-                    <div class="col-md-4">
+                    <!---<div class="col-md-4">
 
                         <div class="form-group">
                             <label class="form-label">sort code </label>
@@ -61,7 +61,7 @@
                                 placeholder="e.g 301">
                             <p class="text-danger " v-if="b_errors?.sort_code">{{ b_errors?.sort_code[0] }}</p>
                         </div>
-                    </div>
+                    </div> -->
 
                 </div>
 

@@ -11,6 +11,7 @@ export function formatError() {
                     }else{
                         errors[key] = response[key][0]
                     }
+                    errors[key] = response[key][0]
                 }
             }
         }

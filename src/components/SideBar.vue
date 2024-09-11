@@ -258,6 +258,7 @@
                     </a>
                 </li>
 
+                <!--
                 <li>
                     <a>
                         <i class="bi bi-list-task"></i>
@@ -269,6 +270,7 @@
                     </a>
 
                 </li>
+
                 <li>
                     <a>
                         <i class="bi bi-list-task"></i>
@@ -279,7 +281,7 @@
                         </span>
                     </a>
 
-                </li>
+                </li> -->
 
                 <li>
                     <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#appraisal"
@@ -320,6 +322,16 @@
                 </li>
                 <!-- leave begin  -->
                 <li>
+                    <a>
+                        <i class="bi bi-bootstrap-reboot"></i>
+                        <span class="link-name">
+                            <router-link to="/leave" class="nav-link"><span class="nav-name">leave </span>
+                            </router-link>
+                        </span>
+                    </a>
+                </li>
+<!--
+                <li>
                     <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#leave"
                         aria-expanded="true" arai-controls="leave">
                         <i class="bi bi-bootstrap-reboot"></i>
@@ -338,6 +350,7 @@
                         </li>
                     </ul>
                 </li>
+            -->
                 <!-- leave end here  -->
                 <!-- attendance begin  -->
                 <li>
@@ -769,6 +782,17 @@
                     </ul>
                 </li>
 
+                    <li>
+                    <a>
+                        <i class="bi bi-list-task"></i>
+                        <span class="link-name">
+                            <router-link to="/fund-request-payment" class="nav-link"><span class="nav-name">Fund
+                                    Request
+                                </span> </router-link>
+                        </span>
+                    </a>
+
+                </li>
 
 
                 <li>
@@ -899,7 +923,7 @@
             </li>
 
             <!-- end extra role -->
-            <div v-if="roles.includes('hod') || approvalLevel">
+            <div v-if="roles.includes('hod') || approvalLevel != 'null'">
                 <li>
                     <a class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#manage"
                         aria-expanded="true" arai-controls="manage">

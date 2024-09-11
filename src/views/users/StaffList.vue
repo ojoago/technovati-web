@@ -155,7 +155,7 @@
                                     <div class="flex justify-center mt-4">
                                         <nav class="relative justify-center rounded-md shadow pagination">
                                             <pagination-links v-for="(link, i) of disabledList.links" :link="link"
-                                                :key="i" @next="nextPage(link)"></pagination-links>
+                                                :key="i" @next="nextDPage(link)"></pagination-links>
                                         </nav>
                                     </div>
                                 </div>
@@ -168,6 +168,7 @@
             </div>
 
         </div>
+
         <o-modal :isOpen="assignModal" :modal-class="xs" title="Assign Department" @modal-close="closeModal">
             <template #content>
                 <div>
@@ -279,6 +280,12 @@
         }
         loadStaff(link.url)
     }
+    function nextDPage(link) {
+        if (!link.url || link.active) {
+            return;
+        }
+        loadDisabledStaff(link.url)
+    }
 
     const users = ref({});
     loadStaff()
@@ -345,8 +352,8 @@ onMounted(()=>{
     })
 })
 const disabledList = ref({})
-function loadDisabledStaff() {
-    store.dispatch('getMethod', { url: '/load-staff/0' }).then((data) => {
+function loadDisabledStaff(url ='/load-staff/0') {
+    store.dispatch('getMethod', { url: url }).then((data) => {
         if (data?.status == 200) {
             disabledList.value = data.data;
         }

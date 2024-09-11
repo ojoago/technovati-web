@@ -168,7 +168,7 @@
                                         Account Status
                                     </td>
                                     <td>
-                                        {{ `${detail?.user?.status}` }}
+                                        {{ `${detail?.user?.sts}` }}
                                     </td>
                                 </tr>
 
@@ -297,7 +297,7 @@
                                         {{ detail?.bank?.bank }}
                                     </td>
                                 </tr>
-
+                                <!--
                                 <tr>
                                     <td>
                                         Sort Code
@@ -305,7 +305,7 @@
                                     <td>
                                         {{ detail?.bank?.sort_code }}
                                     </td>
-                                </tr>
+                                </tr> -->
 
 
                             </table>

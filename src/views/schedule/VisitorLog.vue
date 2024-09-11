@@ -143,6 +143,7 @@ const openModal = () => {
 }
 const closeModal = () => {
     toggleModal.value = false;
+    resetAttr()
 };
 const errors = ref({});
 const logs = ref({});
@@ -171,6 +172,22 @@ const editlog = (lg) => {
     }
     toggleModal.value = true
 }
+
+
+const resetAttr = () => {
+     log.value = {
+       names : '' , 
+   purpose : '' , 
+   gsm :'' , 
+   address : '', 
+   tag : '', 
+   time_in : '', 
+   time_out : '' ,
+   staff_pid : ''
+    }
+}
+
+
 const clockOut = (id) => {
     store.dispatch('getMethod', { url: '/sign-visitor-out/'+id }).then((data) => {
          if (data?.status == 200) {
@@ -188,16 +205,15 @@ const deleteLog = (id) => {
     })
 }
 
-function logVisitor() {
+function logVisitor(url = '/log-visitor') {
     errors.value = []
-    store.dispatch('postMethod', { url: '/log-visitor', param: log.value }).then((data) => {
+    store.dispatch('postMethod', { url: url, param: log.value }).then((data) => {
         console.log(data);
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
             loadLog()
-            let form = document.querySelector('#logForm')
-            form.reset()
+            closeModal()
         }
     })
 }
@@ -218,11 +234,11 @@ function dropdownUser() {
 dropdownUser()
 loadLog()
 function nextPage(link) {
-    alert()
+    
     if (!link.url || link.active) {
         return;
     }
-    alert(link.url)
+    logVisitor(link.url)
 }
 
 </script>

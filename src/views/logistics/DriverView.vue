@@ -203,6 +203,7 @@ loadDriverHistory()
 function loadDriverHistory() {
     store.dispatch('getMethod', { url: '/load-driver-histories' }).then((data) => {
         if (data?.status == 200) {
+            alert()
             history.value = data.data;
         }
     }).catch(e => {

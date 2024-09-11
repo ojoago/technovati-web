@@ -20,7 +20,7 @@
                                     <th>platform</th>
                                     <!--<th>browser</th> -->
                                     <th>ip</th>
-                                    <th>path</th>
+                                    <th>Image</th>
                                     <!-- 'lat', 
                                     'long' ,
                                     'precision' , -->

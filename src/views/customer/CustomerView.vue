@@ -251,10 +251,12 @@ const toggleMModal = ref(false)
 const closeModal = () => {
     toggleCModal.value = false;
     toggleMModal.value = false;
+    resetAttr()
+    resetCust()
 };
 
 const mModal = () => {
-    toggleMModal.value = false;
+    toggleMModal.value = true;
     dropdownAllow()
 }
 const errors = ref({});
@@ -321,7 +323,7 @@ function createCustomer() {
         if (data?.status == 422) {
             errors.value = data.data;
         } else if (data?.status == 201) {
-            resetCust();
+            closeModal();
             loadCustomer()
         }
     })
@@ -378,7 +380,7 @@ function createStoreManager() {
         if (data?.status == 422) {
             sub_error.value = data.data;
         } else if (data?.status == 201) {
-            resetAttr();
+            closeModal();
             loadManager()
         }
     })

@@ -34,14 +34,24 @@
                                     <td>{{ data?.customer?.name }}</td>
                                     <td>{{ data?.c_status }}</td>
 
-                                    <td>{{ data?.sub_total }}</td>
+                                    <td>{{ data?.total }}</td>
                                     <td>{{ data?.payment?.balance }}</td>
                                     <td>{{ data?.store?.name }}</td>
                                     <td>
-                                        <button type="button" @click="editEntry(data.pid)"
-                                            class="btn btn-primary btn-sm">
-                                            Edit
-                                        </button>
+                                        <div class="dropdown">
+                                            <button type="button"
+                                                class="btn btn-primary btn-sm dropdown-toggle"
+                                                data-bs-toggle="dropdown">
+                                                <i class="bi bi-tools"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item pointer bg-warning"
+                                                        @click="editEntry(data.pid)">Edit</a></li>
+                                                <li><a class="dropdown-item pointer bg-success"
+                                                        @click="reActivateStaff(user.pid)">Details</a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -74,8 +84,8 @@ import PaginationLinks from "@/components/PaginationLinks.vue";
 
 const sales = ref({})
 
-function loadSales() {
-    store.dispatch('getMethod', { url: '/load-sales' }).then((data) => {
+function loadSales(url ='/load-sales' ) {
+    store.dispatch('getMethod', { url: url }).then((data) => {
         if (data?.status == 200) {
             sales.value = data.data
         } else {
@@ -91,6 +101,14 @@ loadSales()
 const editEntry = (pid) => {
     alert(pid)
 }
+
+   function nextPage(link) {
+        if (!link.url || link.active) {
+            return;
+        }
+        loadSales(link.url)
+    }
+
 </script>
 
 <style scoped></style>

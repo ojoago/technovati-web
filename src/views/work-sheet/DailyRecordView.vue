@@ -150,6 +150,7 @@ function createActivity() {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
+            closeModal()
             dropdownDevice()
         }
     })

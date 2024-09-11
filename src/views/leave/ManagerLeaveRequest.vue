@@ -38,7 +38,8 @@
                                         <td>{{ lv.hr_comment }}</td>
 
                                         <td>
-                                            <div class="dropdown" v-if="(lv.status == 0 && lv.lineManager == lineManager) || (lv.status == approvalLevel -1) && !lv.expired">
+                                            
+                                            <div class="dropdown" v-if="(lv.status == 0 && lv.line_manager == lineManager) || (lv.status == approvalLevel -1) && !lv.expired">
                                                 
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     @click="respond(lv.pid)">

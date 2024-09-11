@@ -279,6 +279,7 @@ const removeQualification = (i) => {
 }
 
 const subTotal = () => {
+    purchase.value.sub_total = 0;
     purchase.value.items.forEach((item)=>{
         if (item.quantity > 0 && item.rate > 0){
                 purchase.value.sub_total += item.quantity * item.rate;

@@ -282,6 +282,7 @@ const openAlloModal = () => {
 const closeModal = () => {
     toggleModal.value = false;
     alloModal.value = false;
+    resetShift()
 };
 
 const errors = ref({});
@@ -358,7 +359,7 @@ function createShift() {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-            resetShift()
+            closeModal()
             loadShifts()
         }
     })
@@ -397,6 +398,7 @@ function allocateShift() {
             alo_errors.value = data.data
         } else if (data?.status == 201) {
             resetAllocate()
+            alloModal.value = false;
             loadShiftAllocation()
         }
     })

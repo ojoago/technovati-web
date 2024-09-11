@@ -158,6 +158,7 @@
     const closeModal = () => {
         teamModal.value = false;
         assignModal.value = false;
+        resetTeam()
     };
 
 const team = ref({
@@ -179,7 +180,7 @@ function addStaff() {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-            resetTeam();
+            closeModal();
             loadWorker()
         }
     })
@@ -200,7 +201,7 @@ function addTeam() {
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-            resetTeam()
+            closeModal()
             loadWorker()
         }
     })

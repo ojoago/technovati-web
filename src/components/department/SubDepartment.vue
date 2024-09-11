@@ -125,6 +125,8 @@ function createSubDepartment() {
         if (data?.status == 422) {
             sub_error.value = data.data
         } else if (data?.status == 201) {
+            toggleModal.value = false
+
             resetAttr()
         }
     })

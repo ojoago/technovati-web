@@ -319,7 +319,7 @@ function saveStaff() {
             errors.value = data.data;
         } else if (data?.status == 201) {
             resetAttr()
-            query = {}
+            query = { tab: 'personal-tab' }
             localStorage.setItem('TVATI_ONBOARD_TAB', JSON.stringify(query, null, 2))
             localStorage.setItem('TVATI_EDIT_STAFF', JSON.stringify(query, null, 2))
             switchTab()

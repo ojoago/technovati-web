@@ -75,6 +75,7 @@
                                                             class="form-control" placeholder="e.g 100">
 
                                                     </div>
+                                                    <p class="text-danger " v-if="errors[`items.${loop}.quantity`]">{{ errors[`items.${loop}.quantity`] }} </p>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -88,6 +89,7 @@
                                                                 class="bi bi-file-minus-fill"></i>
                                                         </button>
                                                     </div>
+                                                    <p class="text-danger " v-if="errors[`items.${loop}.rate`]">{{ errors[`items.${loop}.rate`] }} </p>
                                                 </div>
                                             </div>
 
@@ -106,7 +108,7 @@
                                             </select>
 
                                             <p class="text-danger " v-if="errors?.account_pid">{{
-                                                errors?.account_pid[0] }} </p>
+                                                errors?.account_pid }} </p>
                                         </div>
 
                                         <div class="col-md-12">
@@ -115,7 +117,7 @@
                                                 :settings="{ width: '100%' }" placeholder="Select Customer" />
 
                                             <p class="text-danger " v-if="errors?.customer_pid">{{
-                                                errors?.customer_pid[0] }} </p>
+                                                errors?.customer_pid }} </p>
                                         </div>
                                     </div>
 
@@ -137,6 +139,7 @@
                                                 <label for="">Bill to</label>
                                                 <textarea class="form-control form-control-sm" placeholder="Bill to"
                                                     v-model="sales.bill_to"></textarea>
+                                                <p class="text-danger " v-if="errors?.bill_to">{{ errors?.bill_to }} </p>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
@@ -144,6 +147,7 @@
                                                 <label for="">Ship to</label>
                                                 <textarea class="form-control form-control-sm" placeholder="Ship to"
                                                     v-model="sales.ship_to"></textarea>
+                                                <p class="text-danger " v-if="errors?.ship_to">{{ errors?.ship_to }} </p>
                                             </div>
                                         </div>
 
@@ -153,7 +157,7 @@
                                                 <input type="number" step="0.5" @change="sumPaid"
                                                     v-model="sales.discount" class="form-control form-control-sm"
                                                     placeholder="Discount">
-
+                                                <p class="text-danger " v-if="errors?.discount">{{ errors?.discount }} </p>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -169,55 +173,11 @@
                                                     </select>
                                                 </div>
                                                 <p v-if="errors.tax" class="text-danger">
-                                                    {{ errors.tax[0] }} </p>
+                                                    {{ errors.tax}} </p>
                                             </div>
                                         </div>
 
                                     </div>
-
-                                    <div class="row" v-for="(pay, loop) in sales.accounts" :key="loop">
-
-                                        <div class="col-md-5">
-                                            <div class="form-group">
-                                                <label class="form-label small">Account</label>
-                                                <Select2 v-model="pay.account_pid" :options="accountDrop"
-                                                    :settings="{ width: '100%' }" placeholder="Select Account" />
-                                                <p class="text-danger " v-if="errors?.account_pid">{{
-                                                    errors?.account_pid[0]
-                                                    }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="form-label small">Amount</label>
-                                                <input type="number" v-model="pay.amount" @change="sumPaid" step=".05"
-                                                    class="form-control form-control-sm" placeholder="Select Account" />
-
-                                                <p class="text-danger " v-if="errors?.account_pid">{{
-                                                    errors?.account_pid[0] }} </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label class="form-label small">Date</label>
-                                                <div class="input-group">
-                                                    <input type="date" v-model="pay.date" step=".05"
-                                                        class="form-control form-control-sm"
-                                                        placeholder="Select Account" />
-                                                    <button type="button" class="btn btn-danger btn-sm"
-                                                        @click="removeAccount(loop)">
-                                                        <i class="bi bi-patch-minus"></i> </button>
-                                                </div>
-                                                <p class="text-danger " v-if="errors?.account_pid">{{
-                                                    errors?.account_pid[0] }} </p>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <button type="button" class="btn btn-success btn-sm mt-2" @click="addAccount">
-                                        <i class="bi bi-plus"></i> </button>
-                                    <hr>
 
 
                                     <div class="row">
@@ -235,6 +195,8 @@
                                                 <label class=" small">Tax Value</label>
                                                 <input type="text" readonly v-model="sales.tax_value"
                                                     class="form-control form-control-sm" placeholder="Tax Value" />
+                                                <p class="text-danger " v-if="errors?.tax_value">{{errors?.tax_value }}</p>
+
                                             </div>
                                         </div>
                                     </div>
@@ -263,6 +225,48 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <hr>
+
+
+                                    
+                                    <div class="row" v-for="(pay, loop) in sales.accounts" :key="loop">
+
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label class="form-label small">Account</label>
+                                                <Select2 v-model="pay.account_pid" :options="accountDrop"
+                                                    :settings="{ width: '100%' }" placeholder="Select Account" />
+                                                <p class="text-danger " v-if="errors[`accounts.${loop}.account_pid`]">{{errors[`accounts.${loop}.account_pid`] }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="form-label small">Amount</label>
+                                                <input type="number" v-model="pay.amount" @change="sumPaid" step=".05"
+                                                    class="form-control form-control-sm" placeholder="e.g 200000" />
+                                                <p class="text-danger " v-if="errors[`accounts.${loop}.amount`]">{{errors[`accounts.${loop}.amount`] }}</p>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label small">Date</label>
+                                                <div class="input-group">
+                                                    <input type="date" v-model="pay.date" step=".05"
+                                                        class="form-control form-control-sm"
+                                                        placeholder="Select Account" />
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        @click="removeAccount(loop)">
+                                                        <i class="bi bi-patch-minus"></i> </button>
+                                                </div>
+                                                <p class="text-danger " v-if="errors[`accounts.${loop}.date`]">{{errors[`accounts.${loop}.date`] }}</p>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <button type="button" class="btn btn-success btn-sm mt-2" @click="addAccount">
+                                        <i class="bi bi-plus"></i> </button>
 
                                 </fieldset>
                                 <div class="text-center">
@@ -289,9 +293,10 @@ import store from "@/store";
 import { ref } from "vue";
 import Select2 from 'vue3-select2-component';
 // import { useRouter } from 'vue-router';
-
 import { useHelper } from '@/composables/helper';
+import { formatError } from "@/composables/formatError";
 const { numberFormat } = useHelper()
+const { transformValidationErrors } = formatError()
 // const router = useRouter()
 const errors = ref({});
 const items = ref({});
@@ -444,8 +449,7 @@ const addSales = () => {
     sales.value.store_pid = selectedStore.value
     store.dispatch('postMethod', { url: '/add-sales', param: sales.value }).then((data) => {
         if (data?.status == 422) {
-            errors.value = data.data
-            console.log(data.data)
+            errors.value = transformValidationErrors(data.data) 
         } else if (data?.status == 201) {
             resetAttr()
         }

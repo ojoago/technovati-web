@@ -264,7 +264,7 @@ const toggleModal = ref(false);
         if (data?.status == 422) {
             errors.value = data.data
         } else if (data?.status == 201) {
-            resetDept();
+            closeModal();
             loadDepartment()
         }
     })
@@ -315,7 +315,8 @@ function createDesignation(){
         if (data?.status == 422) {
             desig_error.value = data.data
         } else if (data?.status == 201) {
-            assign_sub.value = [];
+            assign_sub.value.name = '';
+            assign_sub.value.description = '';
             loadDesignation()
         }
     })

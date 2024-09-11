@@ -160,8 +160,8 @@ function createSchedule() {
     })
 }
 
-function loadSchedules() {
-    store.dispatch('getMethod', { url: '/load-schedules' }).then((data) => {
+function loadSchedules(url = '/load-schedules') {
+    store.dispatch('getMethod', { url: url }).then((data) => {
         if (data?.status == 200) {
             schedules.value = data.data;
         }
@@ -178,11 +178,10 @@ dropdownUser()
 
 loadSchedules()
 function nextPage(link) {
-    alert()
     if (!link.url || link.active) {
         return;
     }
-    alert(link.url)
+    loadSchedules(link.url)
 }
 </script>
 

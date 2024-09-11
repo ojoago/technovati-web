@@ -103,6 +103,7 @@ const { transformValidationErrors } = formatError()
 const errors = ref({});
 const items = ref({});
 const store_pid = ref({})
+
 const request = ref({
     receiver: '',
     comment: '',
@@ -110,6 +111,14 @@ const request = ref({
     items: [],
 });
 
+const resetAttr = ()=>{
+    request.value = {
+        receiver: '',
+        comment: '',
+        store_pid: store_pid,
+        items: [],
+    }
+}
 const stetStorePid = (event) => {
     store_pid.value = event.target.value;
     loadItem(event.target.value)
@@ -152,8 +161,8 @@ function requestMaterial() {
         if (data?.status == 422) {
             errors.value = transformValidationErrors(data.data) 
         } else if (data?.status == 201) {
-            
             loadItem(store_pid.value)
+            resetAttr()
         }
     })
 }
@@ -161,6 +170,8 @@ function loadItem(pid) {
     store.dispatch('getMethod', { url: '/load-cr-out-items/'+pid }).then((data) => {
         if (data?.status == 200) {
             items.value = data.data;
+        }else{
+            items.value = {}
         }
     })
 }

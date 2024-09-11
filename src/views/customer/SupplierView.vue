@@ -118,6 +118,7 @@ const router = useRouter()
 const toggleSModal = ref(false)
 const closeModal = () => {
     toggleSModal.value = false;
+    resetAttr()
 };
 const errors = ref({});
 const suppliers = ref({});
@@ -130,6 +131,17 @@ const supplier = ref({
     // balance : ''
 });
 
+
+
+const resetAttr = ()=> {
+        supplier.value = {
+        name : '' ,
+        rc : '' ,
+        email : '' ,
+        gsm : '' ,
+        address : '' ,
+    }
+}
 const editSupplier = (data)=> {
         supplier.value = {
         'name': data.name,
@@ -149,8 +161,7 @@ function createSupplier() {
         if (data?.status == 422) {
             errors.value = data.data;
         } else if (data?.status == 201) {
-            let form = document.querySelector('#sForm');
-            form.reset();
+            closeModal();
             loadSuppliers()
         }
     })

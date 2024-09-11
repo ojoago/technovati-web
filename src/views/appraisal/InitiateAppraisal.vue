@@ -315,6 +315,7 @@ function initiateAppraisal() {
             init_errors.value = data.data
         } else if (data?.status == 201) {
             resetMap(mapping.value.apparisal_pid);
+            cycleModal.value=false
         }
         // store.commit('setSpinner', false)
     })

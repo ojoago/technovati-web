@@ -7,7 +7,6 @@
                     Add Journal
                 </div>
                 <div class="card-body"> 
-                 {{ journal }}
                     <form>
                         <fieldset class="border rounded-3 p-1 m-1">
                             <legend class="float-none w-auto px-2  small">Entries</legend>
@@ -17,7 +16,7 @@
                                         <label class="form-label small">Date</label>
                                         <input v-model="journal.date" type="date" class="form-control form-control-sm"
                                             placeholder="e.g 2000000">
-                                        <p class="text-danger " v-if="errors?.date">{{ errors?.date[0] }} </p>
+                                        <p class="text-danger " v-if="errors?.date">{{ errors?.date }} </p>
                                     </div>
                                 </div>
                                 <div class="col-md-9">
@@ -26,7 +25,7 @@
                                         <input v-model="journal.comments" type="text"
                                             class="form-control form-control-sm"
                                             placeholder="e.g all entries for today">
-                                        <p class="text-danger " v-if="errors?.comments">{{ errors?.comments[0] }} </p>
+                                        <p class="text-danger " v-if="errors?.comments">{{ errors?.comments }} </p>
                                     </div>
                                 </div>
                             </div>
@@ -39,6 +38,7 @@
                                             <label class="form-label small">Account</label>
                                             <Select2 v-model="entry.account" :options="accountDrop"
                                                 :settings="{ width: '100%' }" placeholder="Select Account" />
+                                            <p class="text-danger " v-if="errors[`account${i}`]">{{ errors[`account${i}`] }} </p> 
                                         </div>
                                     </div>
 
@@ -47,7 +47,7 @@
                                             <label class="form-label small">Amount</label>
                                             <input v-model="entry.amount" step="0.5" type="number"
                                                 class="form-control form-control-sm" placeholder="e.g 2000000">
-                                            <!-- <p class="text-danger " v-if="errors?.customer_pid">{{ errors?.customer_pid[0] }} </p> -->
+                                            <p class="text-danger " v-if="errors[`amount${i}`]">{{ errors[`amount${i}`] }} </p> 
                                         </div>
                                     </div>
 
@@ -112,6 +112,9 @@ import { onMounted, ref } from "vue";
 import Select2 from 'vue3-select2-component';
 // import RadioButton from '@/components/forms/RadioButton.vue';
 import CustomRadio from '@/components/forms/CustomRadio.vue';
+import { formatError } from "@/composables/formatError";
+const {transformValidationErrors} = formatError()
+
 const journal = ref({
     date : '',
     comments : '' ,
@@ -193,7 +196,7 @@ function addJournal() {
     errors.value = []
     store.dispatch('postMethod', { url: '/add-journal', param: journal.value }).then((data) => {
         if (data?.status == 422) {
-            errors.value = data.data
+            errors.value = transformValidationErrors(data.data)
         } else if (data?.status == 201) {
             resetAttr()
         }
@@ -219,7 +222,27 @@ onMounted(() => {
       let tsk = localStorage.getItem('TVATI_EDIT_JVC') ? JSON.parse(localStorage.getItem('TVATI_EDIT_JVC')) : 'null'
          if (tsk != 'null') {
             journal.value = tsk;
-            
+            let entries = []
+            tsk.entries.forEach(el => {
+                console.log(el);
+                entries.push({
+                    account: el.credit_account == " " ? el.debit_account : el.credit_account ,
+                    amount: el.credit_account == " " ? el.debit_amount : el.credit_amount ,
+                    type: el.credit_account == " " ? 'dr' : 'cr' ,
+                    check:1,
+                    id:el.id,
+                })
+                
+            });
+            journal.value.entries = entries
+    // entries:[
+    //     {
+    //         account : '', 
+    //         amount: '', 
+    //         type : 'cr',
+    //         check:1,
+    //     }
+    // ]
          }
    
 });
