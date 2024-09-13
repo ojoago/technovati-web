@@ -31,7 +31,7 @@
                                     <td>{{ numberFormat(data?.paid) }}</td>
 
                                     <td>
-                                        <button type="button" @click="editEntry(data.pid)"
+                                        <button type="button" @click="editEntry(data)"
                                             class="btn btn-primary btn-sm">
                                             Edit
                                         </button>
@@ -64,12 +64,14 @@ import store from "@/store";
 import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
 import { useHelper } from '@/composables/helper';
+import { useRouter } from 'vue-router';
+const router = useRouter()
 const { numberFormat } = useHelper()
 
 const expense = ref({})
 
-function loadPurchase() {
-    store.dispatch('getMethod', { url: '/load-expense' }).then((data) => {
+function loadExpense(url = '/load-expense') {
+    store.dispatch('getMethod', { url: url }).then((data) => {
         if (data?.status == 200) {
             expense.value = data.data
         } else {
@@ -80,10 +82,19 @@ function loadPurchase() {
     })
 }
 
-loadPurchase()
+loadExpense()
 
-const editEntry = (pid) => {
-    alert(pid)
+
+function nextPage(link) {
+    if (!link.url || link.active) {
+        return;
+    }
+    loadExpense(link.url)
+}
+
+const editEntry = (data) => {
+    localStorage.setItem('TVATI_EDIT_ESP', JSON.stringify(data, null, 2))
+    router.push({ path: 'add-expense', query: { id: data.pid, action: 'edit' } })
 }
 </script>
 

@@ -7,7 +7,6 @@
                     Expense
                 </div>
                 <div class="card-body">
-                    {{ errors }}
                     <fieldset>
                         <form action="">
                             <div class="col-md-4">
@@ -168,7 +167,7 @@
 
 <script setup>
 import store from "@/store";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import Select2 from 'vue3-select2-component';
 
 import { useHelper } from '@/composables/helper';
@@ -313,6 +312,16 @@ function dropDownSuppliers() {
         console.log(e);
     })
 }
+
+onMounted(() => {
+      let tsk = localStorage.getItem('TVATI_EDIT_ESP') ? JSON.parse(localStorage.getItem('TVATI_EDIT_ESP')) : 'null'
+         if (tsk != 'null') {
+            dropDownAccount(tsk.account_type_pid)
+            dropDownPayment(tsk.payment_account)
+            expense.value = tsk;
+         }
+   
+});
 
 // load-expense
 </script>
