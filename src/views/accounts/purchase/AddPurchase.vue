@@ -4,7 +4,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    Purchase
+                    <h3>Add Purchase</h3>
                 </div>
                 <div class="card-body">
                     <fieldset>

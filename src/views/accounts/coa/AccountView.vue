@@ -4,7 +4,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    Sub Accounts
+                    <h3>Sub Accounts</h3>
                     <button class="btn btn-primary btn-sm" @click="openModal">New</button>
                 </div>
                 <div class="card-body">

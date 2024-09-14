@@ -66,7 +66,7 @@
                                                                     @click="staffDetail(user)">Detail</a></li>
 
                                                             <li><a class="dropdown-item pointer"
-                                                                    @click="updateRoles(user.id)">Update Roles</a></li>
+                                                                    @click="updateRoles(user.id,user.username)">Update Roles</a></li>
 
                                                             <li><a class="dropdown-item pointer bg-success"
                                                                     @click="updateStep(user.pid)">Update Salary Step</a>
@@ -106,6 +106,7 @@
                             </fieldset>
 
                         </div>
+
                         <div class="tab-pane fade" id="next" role="tabpanel" aria-labelledby="next-tab">
                             <fieldset class="border rounded-3 p-2 m-1">
                                 <legend class="float-none w-auto px-2">Disabled Staff</legend>
@@ -169,7 +170,7 @@
 
         </div>
 
-        <o-modal :isOpen="assignModal" :modal-class="xs" title="Assign Department" @modal-close="closeModal">
+        <o-modal :isOpen="assignModal" modal-class="modal-xs" title="Assign Department" @modal-close="closeModal">
             <template #content>
                 <div>
                     <assignDepartmentForm :user_pid="user_pid" />
@@ -180,7 +181,7 @@
             </template>
         </o-modal>
 
-        <o-modal :isOpen="roleModal" modal-class="modal-sm" @submit="updateStaffRole" title="Staff Role"
+        <o-modal :isOpen="roleModal" modal-class="modal-sm" @submit="updateStaffRole" :title="`Update ${name}  Roles`"
             @modal-close="closeModal">
             <template #content>
                 <div>
@@ -302,7 +303,7 @@
     
     const user_pid = ref(null)
     const assignModal = ref(false)
-    const xs = 'modal-xs'
+  
     const assignDepartment = (pid) => {
         user_pid.value = pid;
         assignModal.value = true
@@ -369,7 +370,9 @@ const resetLink = (pid) =>{
 const newRole = ref([])
 
 const roleModal = ref(false)
-const updateRoles = (id) => {
+const name = ref()
+const updateRoles = (id,username) => {
+    name.value = username
     roleModal.value = true
     newRole.value = []
     formValue.value.id = id;

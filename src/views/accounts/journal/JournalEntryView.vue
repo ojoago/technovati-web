@@ -4,7 +4,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    Add Journal
+                    <h3>Add Journal</h3>
                 </div>
                 <div class="card-body"> 
                     <form>
@@ -198,6 +198,7 @@ function addJournal() {
         if (data?.status == 422) {
             errors.value = transformValidationErrors(data.data)
         } else if (data?.status == 201) {
+            localStorage.setItem('TVATI_EDIT_JVC', JSON.stringify({}, null, 2))
             resetAttr()
         }
     }).catch(e => {

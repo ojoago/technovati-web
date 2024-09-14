@@ -3,7 +3,8 @@
         <div class="container mt-2">
            
                     <div class="card">
-                        <div class="card-header">Suppliers
+                        <div class="card-header">
+                            <h3>Suppliers</h3>
                             <button class="btn btn-sm btn-primary" @click="toggleSModal=true"> Add New</button>
                         </div>
                         <div class="card-body">

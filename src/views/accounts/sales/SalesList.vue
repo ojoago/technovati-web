@@ -4,9 +4,10 @@
 
             <div class="card">
                 <div class="card-header">
-                    Purchase List
+                    <h3>Sales List</h3>
                 </div>
                 <div class="card-body">
+                   
                     <!-- {{ sales.data }} -->
                     <div class="table-responsive">
                         <table class="table-hover table-stripped table-bordered table">
@@ -45,11 +46,8 @@
                                                 <i class="bi bi-tools"></i>
                                             </button>
                                             <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item pointer bg-warning"
-                                                        @click="editEntry(data.pid)">Edit</a></li>
-                                                <li><a class="dropdown-item pointer bg-success"
-                                                        @click="reActivateStaff(user.pid)">Details</a>
-                                                </li>
+                                                <li><a class="dropdown-item pointer bg-warning" v-if="!data.status" @click="editEntry(data)">Edit</a></li>
+                                                <li><a class="dropdown-item pointer bg-success" @click="reActivateStaff(data)">Details</a></li>
                                             </ul>
                                         </div>
                                     </td>
@@ -80,7 +78,8 @@
 import store from "@/store";
 import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
-
+import { useRouter } from 'vue-router';
+const router = useRouter()
 
 const sales = ref({})
 
@@ -98,8 +97,9 @@ function loadSales(url ='/load-sales' ) {
 
 loadSales()
 
-const editEntry = (pid) => {
-    alert(pid)
+const editEntry = (data) => {
+    localStorage.setItem('TVATI_EDIT_SLS', JSON.stringify(data, null, 2))
+    router.push({ path: 'add-sales', query: { id: data.pid, action: 'edit' } })
 }
 
    function nextPage(link) {

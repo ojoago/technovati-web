@@ -1,12 +1,11 @@
 <template>
     <div>
         <div class="container mt-2">
-
             <div class="card">
                 <div class="card-header">
                     <div class="row">
                         <div class="col-md-6">
-                            Finished Products
+                           <h3>Add Sales</h3>
                         </div>
                         <div class="col-md-6">
                             <select class="form-control" @change="loadItem($event.target.value)">
@@ -97,19 +96,6 @@
                                     </fieldset>
 
                                     <div class="row">
-
-                                        <div class="col-md-12">
-                                            <label class="form-label small">Record Sale In</label>
-                                            <select class="form-control" v-model="sales.account_pid"
-                                                @change="dropDownAccount($event.target.value)">
-                                                <option value="" selected>Select Type</option>
-                                                <option v-for="sec in accountTypeDrop" :key="sec.id" :value="sec.id">{{
-                                                    sec.text }} </option>
-                                            </select>
-
-                                            <p class="text-danger " v-if="errors?.account_pid">{{
-                                                errors?.account_pid }} </p>
-                                        </div>
 
                                         <div class="col-md-12">
                                             <label class="form-label">Customer</label>
@@ -207,28 +193,22 @@
                                             class="form-control form-control-sm" placeholder="Select Account" />
                                     </div>
 
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class=" small">Paid</label>
-                                                <input type="text" readonly v-model="sales.paid"
-                                                    class="form-control form-control-sm" placeholder="Amount Paid" />
-                                            </div>
-
-                                        </div>
-                                        <div class="col-md-6">
-
-                                            <div class="form-group">
-                                                <label class=" small">Balance</label>
-                                                <input type="text" readonly v-model="sales.balance"
-                                                    class="form-control form-control-sm" placeholder="Balance" />
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                     <hr>
 
+                                    <div class="col-md-12">
+                                            <label class="form-label small">Record Sale In</label>
+                                            <select class="form-control" v-model="sales.account_type_pid"
+                                                @change="dropDownAccount($event.target.value)">
+                                                <option value="" selected>Select Type</option>
+                                                <option v-for="sec in accountTypeDrop" :key="sec.id" :value="sec.id">{{
+                                                    sec.text }} </option>
+                                            </select>
 
-                                    
+                                            <p class="text-danger " v-if="errors?.account_pid">{{
+                                                errors?.account_pid }} </p>
+                                        </div>
+
                                     <div class="row" v-for="(pay, loop) in sales.accounts" :key="loop">
 
                                         <div class="col-md-5">
@@ -265,8 +245,28 @@
                                         </div>
 
                                     </div>
-                                    <button type="button" class="btn btn-success btn-sm mt-2" @click="addAccount">
+                                     <button type="button" class="btn btn-success btn-sm mt-2" @click="addAccount">
                                         <i class="bi bi-plus"></i> </button>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class=" small">Paid</label>
+                                                <input type="text" readonly v-model="sales.paid"
+                                                    class="form-control form-control-sm" placeholder="Amount Paid" />
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6">
+
+                                            <div class="form-group">
+                                                <label class=" small">Balance</label>
+                                                <input type="text" readonly v-model="sales.balance"
+                                                    class="form-control form-control-sm" placeholder="Balance" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
 
                                 </fieldset>
                                 <div class="text-center">
@@ -281,16 +281,13 @@
                     </form>
                 </div>
             </div>
-
-
-
         </div>
     </div>
 </template>
 
 <script setup>
 import store from "@/store";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import Select2 from 'vue3-select2-component';
 // import { useRouter } from 'vue-router';
 import { useHelper } from '@/composables/helper';
@@ -302,7 +299,7 @@ const errors = ref({});
 const items = ref({});
 
 const sales = ref({
-    account_pid: '',
+    account_type_pid: '',
     customer_pid: '',
     store_pid: '',
     sales_date: '',
@@ -328,7 +325,7 @@ const sales = ref({
 
 const resetAttr = () => {
     sales.value = {
-        account_pid: '',
+        account_type_pid: '',
         customer_pid: '',
         store_pid: '',
         sales_date: '',
@@ -354,10 +351,10 @@ const resetAttr = () => {
 }
 
 const addItem = (item) => {
-    var index = sales.value.items.findIndex(x => x.pid == item.pid)
+    var index = sales.value.items.findIndex(x => x.item_pid == item.pid)
     if (index === -1) {
         sales.value.items.push({
-            pid: item.pid,
+            item_pid: item.pid,
             quantity: 1,
             rate: '',
             qnt: item?.quantity,
@@ -395,6 +392,7 @@ const subTotal = () => {
 }
 
 const grand_total = ref(0)
+
 const sumPaid = () => {
     let s=0
     sales.value.accounts.forEach((item) => {
@@ -457,8 +455,11 @@ const addSales = () => {
         console.log(e);
     })
 }
+
 const selectedStore = ref(null)
+
 function loadItem(pid) {
+    resetAttr()
     selectedStore.value = pid 
     store.dispatch('getMethod', { url: '/load-cr-out-items/'+pid }).then((data) => {
         if (data?.status == 200) {
@@ -466,7 +467,7 @@ function loadItem(pid) {
         }else{
             items.value = []
         }
-        resetAttr()
+       
     }).catch(e => {
         console.log(e);
     })
@@ -524,6 +525,19 @@ function dropDownAccountType() {
     })
 }
 dropDownAccountType()
+
+
+onMounted(() => {
+      let tsk = localStorage.getItem('TVATI_EDIT_SLS') ? JSON.parse(localStorage.getItem('TVATI_EDIT_SLS')) : 'null'
+         if (tsk != 'null') {
+            loadItem(tsk.store_pid)
+            dropDownAccount(tsk.account_type_pid)
+            sales.value  = tsk;
+            sales.value.old_accounts  = tsk.accounts;
+            subTotal()
+         }
+   
+});
 
 </script>
 

@@ -4,7 +4,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    Accounts
+                    <h3>Journal List</h3>
                 </div>
                 <div class="card-body">
                     
