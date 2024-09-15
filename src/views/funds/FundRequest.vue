@@ -4,6 +4,7 @@
 
             <div class="card">
                 <div class="card-body">
+                    <h3 class="mx-4">Fund Request</h3>
                     <button class="btn btn-sm btn-primary m-2" @click="openModal">Request</button>
                     <div class="table-responsive">
                         <table class="table-hover table-stripped table-bordered table">

@@ -21,10 +21,10 @@
 
         <o-modal  :isOpen="toggleModal" modal-class="modal-sm" title="Take Attendance" @modal-close="closeModal">
             <template #content>
-                <button @click="initCamera" class="btn btn-sm btn-success">Retake</button>
+                <center><button @click="initCamera" v-if="!stopStream" class="btn btn-sm btn-success">Retake</button></center>
                 <div class="container text-center" v-if="startStream">
                     <video ref="video" width="250" v-if="stopStream" height="250" autoplay></video>
-                    <button @click="captureImage" v-if="stopStream" class="text-center btn btn-sm btn-success">CAPTURE</button>
+                    <center><button @click="captureImage" v-if="stopStream" class="text-center btn btn-sm btn-success">CAPTURE</button></center>
                     <canvas ref="canvas" width="250" height="250" style="display: none;"></canvas>
                     <img v-if="capturedImage" :src="capturedImage" alt="Captured Image" />
 
@@ -71,6 +71,7 @@ let stream = null;
 const attendance = ref({})
 const initCamera = async () => {
     try {
+        capturedImage.value = null
         startStream.value = true
         stopStream.value = true
         stream = await navigator.mediaDevices.getUserMedia({ video: true });

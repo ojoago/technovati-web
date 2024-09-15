@@ -6,7 +6,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            Appraisal Configurations
+                            <h3 class="m">Appraisal Configurations</h3>
 
                             <button class="btn btn-primary btn-sm" @click="configModal=true">Configure
                                 Appraisal</button>

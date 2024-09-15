@@ -3,7 +3,7 @@
         <div class="container-fluid mt-2">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Leave </h5>
+                    <h3 class="card-title">Leave Configuration</h3>
 
                     <!-- Default Tabs -->
                     <ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
@@ -25,7 +25,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <fieldset class="border rounded-3 p-2 m-1">
-                                        <legend class="float-none w-auto px-2">Create Leave</legend>
+                                        <legend class="float-none w-auto px-2">Add Leave</legend>
                                         <form id="lform">
                                             <div class="row">
                                                 <div class="col-md-12">
@@ -34,7 +34,7 @@
                                                                 class="text-danger">*</span></label>
                                                         <input type="text" v-model="leave.leave" class="form-control"
                                                             placeholder="e.g annual leave">
-                                                        <p class="text-danger " v-if="errors?.leave">{{ errors?.leave[0]
+                                                        <p class="text-danger " v-if="errors?.leave">{{ errors?.leave
                                                             }}</p>
                                                     </div>
                                                 </div>
@@ -43,7 +43,7 @@
                                                         <label class="form-label">Days</label>
                                                         <input type="number" v-model="leave.days" class="form-control"
                                                             placeholder="e.g 15 ">
-                                                        <p class="text-danger " v-if="errors?.days">{{ errors?.days[0]
+                                                        <p class="text-danger " v-if="errors?.days">{{ errors?.days
                                                             }}
                                                         </p>
                                                     </div>
@@ -55,7 +55,7 @@
                                                             class="form-control"
                                                             placeholder="e.g any description"></textarea>
                                                         <p class="text-danger " v-if="errors?.description">{{
-                                                            errors?.description[0] }}</p>
+                                                            errors?.description }}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -185,7 +185,7 @@
                                         <option v-for="(leave, i) in lvx" :key="i" :value="leave.id">{{ leave.text
                                             }} - {{ leave.days }} days</option>
                                     </select>
-                                    <p class="text-danger " v-if="errors?.leave_pid">{{ errors?.leave_pid[0] }}</p>
+                                    <p class="text-danger " v-if="errors?.leave_pid">{{ errors?.leave_pid }}</p>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -194,7 +194,7 @@
                                     <Select2 v-model="assign.designation_pid" :options="desigs"
                                         :settings="{ width: '100%' }" />
 
-                                    <p class="text-danger " v-if="errors?.from">{{ errors?.from[0] }}</p>
+                                    <p class="text-danger " v-if="errors?.from">{{ errors?.from }}</p>
                                 </div>
                             </div>
 
@@ -214,7 +214,8 @@ import { ref } from "vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
 import OModal from "@/components/OModal.vue";
 import Select2 from 'vue3-select2-component';
-
+import { formatError } from "@/composables/formatError";
+ const {transformValidationErrors} = formatError()
 
 const assignModal = ref(false)
 const closeModal = () => {
@@ -247,10 +248,10 @@ function createLeave() {
     errors.value = []
     store.dispatch('postMethod', {url:'/create-leave',param:leave.value}).then((data) => {
         if (data?.status == 422) {
-            errors.value = data.data
+            errors.value = transformValidationErrors(data.data)
         } else if (data?.status == 201) {
             resetAttr()
-          loadLeaves()
+            loadLeaves()
         }
     }) 
 }
@@ -270,7 +271,7 @@ function assignLeave() {
     errors.value = []
     store.dispatch('postMethod', {url:'/assign-leave',param:assign.value}).then((data) => {
         if (data?.status == 422) {
-            errors.value = data.data
+            errors.value = transformValidationErrors(data.data)
         } else if (data?.status == 201) {
             resetA()
             loadAssignLeave()

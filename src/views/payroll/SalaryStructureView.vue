@@ -1,6 +1,7 @@
 <template>
     <div>
         <div class="container mt-2">
+            <h3 class="mx-4">Salary Structures</h3>
             <div class="row">
                 <div class="col-md-4">
                     <div class="card">

@@ -1,6 +1,7 @@
 <template>
     <div>
         <div class="container mt-2">
+            <h3 class="mx-4">Salary Grades</h3>
             <div class="row">
                 <div class="col-md-5">
                     <div class="card">

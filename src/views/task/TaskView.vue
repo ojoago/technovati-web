@@ -4,7 +4,8 @@
 
             <div class="card">
 
-                <div class="card-header">Tasks
+                <div class="card-header">
+                    <h3>Tasks</h3>
                     <button class="btn btn-sm btn-primary" @click="addTask">Add Task</button>
                 </div>
                 <div class="card-body">

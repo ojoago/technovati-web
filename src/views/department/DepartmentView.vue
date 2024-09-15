@@ -3,7 +3,9 @@
         <div class="container mt-2">
             <div class="card">
                 <div class="card-body">
-                    <div class="card-header"></div>
+                    <div class="card-header">
+                        <h3>Departments</h3>
+                    </div>
                      <!-- Default Tabs -->
                       <ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
                         <li class="nav-item flex-fill" role="presentation">

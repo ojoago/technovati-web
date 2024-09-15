@@ -3,7 +3,7 @@
         <div class="container-fluid mt-2 mb-2">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Manage Shifts </h5>
+                    <h3 class="card-title">Manage Shifts </h3>
 
                     <!-- Default Tabs -->
                     <ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">

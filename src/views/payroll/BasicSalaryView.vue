@@ -2,7 +2,7 @@
     <div>
         <div class="container mt-2">
             <div class="card">
-                <div class="card-header">Basic Salary</div>
+                <div class="card-header"><h3 class="mx-4">Basic Salary</h3></div>
                 <div class="card-body">
 
                     <ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">

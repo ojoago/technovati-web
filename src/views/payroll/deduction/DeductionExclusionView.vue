@@ -2,7 +2,8 @@
     <div>
         <div class="container mt-2">
             <div class="card">
-                <div class="card-header">Deduction Exclusions
+                <div class="card-header">
+                    <h3 class="mx-4">Deduction Exclusions</h3>
                     <button class=" btn btn-sm btn-primary" @click="openModal">Add New</button>
                 </div>
                 <div class="card-body">

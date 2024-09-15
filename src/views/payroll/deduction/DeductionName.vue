@@ -3,7 +3,7 @@
         <div class="container mt-2">
             <div class="card">
                 <div class="card-header">
-                    Deduction Names
+                    <h3 class="mx-4">Deduction Names</h3>
                     <button class="btn btn btn-primary ml-2" @click="openModal">Add New</button>
                 </div>
                 <div class="card-body">

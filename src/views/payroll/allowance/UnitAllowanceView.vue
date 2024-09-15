@@ -2,7 +2,8 @@
     <div>
         <div class="container mt-2">
             <div class="card">
-                <div class="card-header">Unit Allowances
+                <div class="card-header">
+                    <h3 class="mx-4">Unit Allowances</h3>
                     <button @click="openModal" class="btn btn-sm btn-primary">Add New</button>
                 </div>
                 <div class="card-body">

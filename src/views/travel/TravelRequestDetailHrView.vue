@@ -136,7 +136,7 @@ const expenses = ref({})
 const budgets = ref({})
 onMounted(() => {
     let rqs = localStorage.getItem('TVATI_TRV_RQS_DETAIL') ? JSON.parse(localStorage.getItem('TVATI_TRV_RQS_DETAIL')) : 'null'
-    console.log(rqs);
+    // console.log(rqs);
     if (rqs != 'null') {
         expenses.value = rqs.expenses;
         budgets.value = rqs.budgets;

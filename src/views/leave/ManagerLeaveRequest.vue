@@ -3,8 +3,8 @@
         <div class="container-fluid mt-2">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Staff Leave
-                    </h5>
+                    <h3 class="card-title">Staff Leave
+                    </h3>
                     <fieldset class="border rounded-3 p-2 m-1">
                         <legend class="float-none w-auto px-2">Leave Request</legend>
                         <div class="table-responsive">

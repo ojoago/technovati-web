@@ -181,7 +181,7 @@
             </template>
         </o-modal>
 
-        <o-modal :isOpen="roleModal" modal-class="modal-sm" @submit="updateStaffRole" :title="`Update ${name}  Roles`"
+        <o-modal :isOpen="roleModal" modal-class="modal-sm" @submit="updateStaffRole" :title="`Update ${name}'s  Roles`"
             @modal-close="closeModal">
             <template #content>
                 <div>

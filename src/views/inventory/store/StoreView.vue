@@ -3,7 +3,8 @@
         <div class="container mt-2">
            
             <div class="card">
-                <div class="card-header">Company Stores
+                <div class="card-header">
+                    <h3>Company Stores</h3>
                     <button class="btn btn-primary btn-sm" @click="openModal=true">Add New</button>
                 </div>
                 <div class="card-body">

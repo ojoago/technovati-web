@@ -4,8 +4,8 @@
             
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Staff Travel Request
-                    </h5>
+                    <h3 class="card-title">Staff Travel Request
+                    </h3>
                     <div class="table-responsive">
                         <table class="table-hover table-stripped table-bordered table">
                             <thead>
@@ -47,7 +47,7 @@
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li ><a class="dropdown-item pointer bg-info" @click="requestDetail(data)">Details</a> </li>
-                                            <div v-if="data.status < level || (data.line_manager == manager && data?.status == 0)">
+                                            <div v-if="data.status+1 == level || (data.line_manager == manager && data?.status == 0)">
                                                 
                                                 <li ><a class="dropdown-item pointer bg-success" @click="approveRejectRequest(data.pid,status[0])">Approve</a> </li>
                                                 <li ><a class="dropdown-item pointer bg-secondary" @click="approveRejectRequest(data.pid,status[1])">Reject</a> </li>

@@ -3,7 +3,8 @@
         <div class="container mt-2">
             <div class="card">
                 <div class="card-header">
-                    Staff Attendance <button class="btn btn-sm btn-primary " @click="toggleModal = true">Filter</button>
+                    <h3 class="mx-4">Staff Attendance </h3>
+                    <button class="btn btn-sm btn-primary " @click="toggleModal = true">Filter</button>
                     <button class="btn btn-sm btn-secondary float-end" v-if="clea" @click="clearFilter"> <small
                             class="small">Clear Filter</small></button>
                 </div>

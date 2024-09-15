@@ -3,7 +3,9 @@
         <div class="container mt-2">
             <div class="card">
                 <div class="card-body">
-                    <div class="card-header"></div>
+                    <div class="card-header">
+                        <h3>Approval Level</h3>
+                    </div>
                     <button class="btn btn-sm btn-primary m-2" @click="toggleModal=true">Add New</button>
                     <div class="row">
                             <div class="col-md-4">
@@ -56,7 +58,7 @@
                                         <tbody>
                                             <tr v-for="(dp, loop) in assigned" :key="loop">
                                                 <td>{{ dp.username }}</td>
-                                                <td>{{ `${dp.lastname} ${dp.firstname} ${dp.othername}` }}</td>
+                                                <td>{{ `${dp.lastname} ${dp.firstname}` }}  {{ dp.othername }}</td>
                                                 <td>{{ dp.level }}</td>
                                                 <td> <i class="bi bi-trash pointer" title="revoke level" @click="revokeLevel(dp.pid)"></i></td>
                                                

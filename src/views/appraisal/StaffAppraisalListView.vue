@@ -2,7 +2,7 @@
     <div>
         <div class="container mt-2 mb-2">
             <div class="card">
-                <div class="card-header">Appraisal List</div>
+                <div class="card-header"><h3 class="mx-4">Appraisal List</h3></div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table-hover table-stripped table-bordered table">

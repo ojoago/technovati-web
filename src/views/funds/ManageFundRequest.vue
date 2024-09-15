@@ -4,7 +4,7 @@
 
             <div class="card">
                 <div class="card-body">
-                    <h3>Staff fund request</h3>
+                    <h3 class="mx-3">Staff fund Request</h3>
                     <div class="table-responsive">
                         <table class="table-hover table-stripped table-bordered table">
                             <thead>
@@ -35,7 +35,7 @@
                                     
                                     <td>
                                         <button class="btn btn-sm btn-success" v-if="level == 2 && data.status == 1" @click="respondToRequest(data)">Respond</button>
-                                        <div v-else-if="data.status < level || (data.line_manager == manager && data.status == 0)">
+                                        <div v-else-if="data.status+1 == level || (data.line_manager == manager && data.status == 0)">
 
                                             <button class="btn btn-sm btn-success"  @click="updateRequestStatus(data.pid,status[0])">Approve</button>
                                             <button class="btn btn-sm btn-secondary"  @click="updateRequestStatus(data.pid,status[1])">Reject</button>

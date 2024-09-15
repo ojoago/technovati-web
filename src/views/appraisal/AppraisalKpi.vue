@@ -1,12 +1,13 @@
 <template>
     <div>
         <div class="container mt-2">
+            <h3 class="mx-4">Appraisal KPIs</h3>
             <div class="row">
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-body">
                             <fieldset class="border rounded-3 p-2 m-1">
-                                <legend class="float-none w-auto px-2 h5">Create Appraisal KPIs</legend>
+                                <legend class="float-none w-auto px-2 h5">Add Appraisal KPIs</legend>
                                 <div class="col-md-12">
                                     <label class="form-label">Appraisal Type</label>
                                     <select class="form-control" @change="loadSectionDetails($event)">
