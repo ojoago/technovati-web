@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkTechnovati"]=self["webpackChunkTechnovati"]||[]).push([[5302],{5302:function(n,e,r){r.r(e),r.d(e,{default:function(){return l}});var t=r(3396);const c=(0,t._)("div",{class:"container"}," Payrool ",-1),a=[c];function u(n,e){return(0,t.wg)(),(0,t.iD)("div",null,a)}var i=r(89);const o={},s=(0,i.Z)(o,[["render",u]]);var l=s}}]);
+//# sourceMappingURL=5302.66577769.js.map
