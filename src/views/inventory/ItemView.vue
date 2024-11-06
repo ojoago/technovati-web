@@ -77,7 +77,7 @@
                             <p class="text-danger " v-if="errors?.name">{{ errors?.name[0] }} </p>
                         </div>
                         <div class="col-md-12">
-                            <label class="form-label">Item Name</label>
+                            <label class="form-label">Item Unit</label>
                             <select v-model="item.unit" class="form-control form-control-sm">
                                 <option value="" selected>Select Unit</option>
                                 <option v-for="(unit, i) in units" :key="i">{{ unit.text }}</option>

@@ -89,7 +89,7 @@
                                         </div>
                                         <div class="row">
 
-                                            <div class="col-md-6">
+                                            <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="form-label small">Supplier</label>
                                                     <Select2 v-model="purchase.supplier_pid" :options="supplierDrop"
@@ -99,16 +99,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="form-label small">Store</label>
-                                                    <Select2 v-model="purchase.store_pid" :options="storeDrop"
-                                                        :settings="{ width: '100%' }" placeholder="Select Store" />
-                                                    <p class="text-danger " v-if="errors?.store_pid">{{
-                                                        errors?.store_pid
-                                                        }} </p>
-                                                </div>
-                                            </div>
+                                           
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="form-label small">purchase date</label>
@@ -203,7 +194,7 @@ const {  numberFormat } = useHelper()
 const purchase = ref({
     account_pid: '' , 
     supplier_pid : '' ,
-    store_pid : '' ,
+    store_pid : 'finisedproducts' ,
     purchase_date : '' ,
     reference_number : '' ,
     purchase_no : '' ,

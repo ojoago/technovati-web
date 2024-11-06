@@ -238,7 +238,7 @@
                     </ul>
                 </li>
 
-                <li>
+               <!-- <li>
                     <a>
                         <i class="bi bi-house-fill"></i>
                         <span class="link-name">
@@ -247,7 +247,8 @@
                         </span>
                     </a>
 
-                </li>
+                </li> -->
+                
                 <li>
                     <a>
                         <i class="bi bi-kanban-fill"></i>
@@ -495,7 +496,7 @@
                         aria-expanded="true" arai-controls="inventory">
                         <i class="bi bi-book"></i>
                         <div class="icon-link">
-                            <span class="link-name">inventory</span>
+                            <span class="link-name">Mini Store</span>
                         </div>
                     </a>
                     <ul id="inventory" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
@@ -548,7 +549,7 @@
                         aria-expanded="true" arai-controls="rmaterial">
                         <i class="bi bi-book"></i>
                         <div class="icon-link">
-                            <span class="link-name">raw material</span>
+                            <span class="link-name">Main Store</span>
                         </div>
                     </a>
                     <ul id="rmaterial" class=" sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
@@ -566,6 +567,26 @@
                         <li class="nav-item" >
                             <router-link to="/consignments" class="nav-link"><i class="bi bi-record"></i> <span
                                     class="nav-name">Consignments</span> </router-link>
+                        </li>
+
+                         <li class="nav-item" >
+                                    <router-link to="/pending-raw-material-request" class="nav-link"><i
+                                            class="bi bi-record"></i> <span class="nav-name">Pending</span> </router-link>
+                                </li>
+
+                                <li class="nav-item" >
+                                    <router-link to="/processed-raw-material-request" class="nav-link"><i
+                                            class="bi bi-record"></i> <span class="nav-name">Processed</span> </router-link>
+                                </li>
+                            
+                         <li class="nav-item" >
+                            <router-link to="/pending-raw-material-request" class="nav-link"><i
+                                    class="bi bi-record"></i> <span class="nav-name">Pending</span> </router-link>
+                        </li>
+
+                        <li class="nav-item" >
+                            <router-link to="/processed-raw-material-request" class="nav-link"><i
+                                    class="bi bi-record"></i> <span class="nav-name">Processed</span> </router-link>
                         </li>
                     </ul>
                 </li>

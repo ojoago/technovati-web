@@ -7,16 +7,7 @@
                         <div class="col-md-6">
                            <h3>Add Sales</h3>
                         </div>
-                        <div class="col-md-6">
-                            <select class="form-control" @change="loadItem($event.target.value)">
-                                <option value="" selected>Select Store</option>
-                                <template v-for="sec in stores" :key="sec.id">
-                                    <option v-if="stores.length == 1" selected :value="sec.id">{{ sec.text }}
-                                    </option>
-                                    <option v-else :value="sec.id">{{ sec.text }} </option>
-                                </template>
-                            </select>
-                        </div>
+                        
                     </div>
                 </div>
                 <div class="card-body">
@@ -456,12 +447,14 @@ const addSales = () => {
     })
 }
 
-const selectedStore = ref(null)
+const selectedStore = ref('finisedproducts')
 
-function loadItem(pid) {
+loadItem()
+
+function loadItem() {
     resetAttr()
-    selectedStore.value = pid 
-    store.dispatch('getMethod', { url: '/load-cr-out-items/'+pid }).then((data) => {
+   
+    store.dispatch('getMethod', { url: '/load-cr-out-items'}).then((data) => {
         if (data?.status == 200) {
             items.value = data.data;
         }else{

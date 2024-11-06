@@ -1,7 +1,7 @@
 <template>
     <div>
         <fieldset class="border rounded-3 p-2 m-1">
-            <legend class="float-none w-auto px-2">Qualification</legend>
+            <legend class="float-none w-auto px-2">Skills</legend>
             <form>
                 <fieldset class="border rounded-3">
                     <template v-for="(inst, loop) in skills.skills" :key="loop">
